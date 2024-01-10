@@ -1,18 +1,50 @@
 <template>
+    <Navbar></Navbar>
 
-<Navbar></Navbar>
+    <RouterView></RouterView>
 
-<RouterView></RouterView>
-
-<Footer></Footer>
-
+    <Footer></Footer>
 </template>
 <script setup>
-import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import Navbar from '@components/Navbar.vue'
 import Footer from '@components/Footer.vue'
 </script>
 
-<style src="@styles/common.css" scoped></style>
-<style></style>
+<!-- Bootstrap Icon-->
+<style src="bootstrap-icons/font/bootstrap-icons.css"></style>
+<!-- Font-->
+<style src="@fortawesome/fontawesome-free/css/all.css"></style>
+<!-- Customized CSS -->
+<style src="@styles/style.css"></style>
+<!-- Customized Bootstrap -->
+<style lang="scss">
+$primary: #ffc107;
+$secondary: #d63384;
+$light: #EFFDF5;
+$dark: #0E2E50;
+
+$font-family-base: 'Heebo', sans-serif;
+
+$headings-font-family: 'Inter', sans-serif;
+
+$body-bg: $light;
+
+$body-color: #666565;
+
+$headings-color: $dark;
+
+$headings-font-weight: 700;
+
+$display-font-weight: 800;
+
+$enable-responsive-font-sizes: true;
+
+$border-radius: 5px;
+
+$link-decoration: none;
+
+$enable-negative-margins: true;
+
+@import "bootstrap/scss/bootstrap";
+</style>
