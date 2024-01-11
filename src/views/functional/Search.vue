@@ -106,7 +106,7 @@
     import workArray from '@/assets/data/workdata.js'
     const works = ref(workArray)
 </script>
-    
+
 <style>
     
 </style>

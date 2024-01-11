@@ -44,4 +44,96 @@
 
 </script>
     
-<style></style>
+<style scoped>
+/*** Navbar ***/
+.nav-bar {
+    position: relative;
+    padding: 0;
+    transition: .5s;
+    z-index: 9999;
+}
+
+.nav-bar.sticky-top {
+    position: sticky;
+    padding: 0;
+    z-index: 9999;
+}
+
+.navbar {
+    box-shadow: 0 0 30px rgba(0, 0, 0, .08);
+}
+
+.navbar .dropdown-toggle::after {
+    border: none;
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    vertical-align: middle;
+    margin-left: 5px;
+    transition: .5s;
+}
+
+.navbar .dropdown-toggle[aria-expanded=true]::after {
+    transform: rotate(-180deg);
+}
+
+.navbar-light .navbar-nav .nav-link {
+    margin-right: 30px;
+    padding: 25px;
+    color: #FFFFFF;
+    font-size: 15px;
+    text-transform: uppercase;
+    outline: none;
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link.active {
+    color: var(--secondary);
+}
+
+@media (max-width: 1099.98px) {
+    .nav-bar {
+        margin: 0;
+        padding: 0;
+    }
+
+    .navbar-light .navbar-nav .nav-link {
+        margin-right: 0;
+        padding: 10px 0;
+    }
+
+    .navbar-light .navbar-nav {
+        border-top: 1px solid #EEEEEE;
+    }
+}
+
+.navbar-light .navbar-brand {
+    height: 75px;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: var(--dark);
+    font-weight: 500;
+}
+
+@media (min-width: 1100px) {
+    .navbar .nav-item .dropdown-menu {
+        display: block;
+        top: 100%;
+        margin-top: 0;
+        transform: rotateX(-75deg);
+        transform-origin: 0% 0%;
+        opacity: 0;
+        visibility: hidden;
+        transition: .5s;
+
+    }
+
+    .navbar .nav-item:hover .dropdown-menu {
+        transform: rotateX(0deg);
+        visibility: visible;
+        transition: .5s;
+        opacity: 1;
+    }
+}
+</style>

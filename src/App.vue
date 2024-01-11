@@ -1,9 +1,11 @@
 <template>
-    <Navbar></Navbar>
+    <div class="container-fluid bg-white p-0">
+        <Navbar></Navbar>
 
-    <RouterView></RouterView>
+        <RouterView></RouterView>
 
-    <Footer></Footer>
+        <Footer></Footer>
+    </div>
 </template>
 <script setup>
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
@@ -17,7 +19,7 @@ import Footer from '@components/Footer.vue'
 <style src="@fortawesome/fontawesome-free/css/all.css"></style>
 <!-- Customized CSS -->
 <style src="@styles/style.css"></style>
-<!-- Customized Bootstrap -->
+<!-- Customized Bootstrap SCSS-->
 <style lang="scss">
 $primary: #ffc107;
 $secondary: #d63384;
@@ -28,7 +30,7 @@ $font-family-base: 'Heebo', sans-serif;
 
 $headings-font-family: 'Inter', sans-serif;
 
-$body-bg: $light;
+$body-bg: white;
 
 $body-color: #666565;
 

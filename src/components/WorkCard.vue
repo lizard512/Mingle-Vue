@@ -23,5 +23,7 @@
 <script setup lang='ts'>
 
 </script>
-    
+
+<!-- Customized CSS -->
+<style src="@styles/style.css"></style>
 <style></style>

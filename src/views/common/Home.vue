@@ -51,6 +51,9 @@
 
 </script>
   
+
+<!-- Customized CSS -->
+<style src="@styles/style.css" scoped></style>
 <style scoped>
 .d-block {
   object-fit: cover;
