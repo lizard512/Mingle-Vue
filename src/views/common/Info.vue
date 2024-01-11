@@ -20,29 +20,47 @@
         <br>
         <br>
         <span style="font-weight: bold;">意見箱</span>
-        <form action="https://formsubmit.co/363367bd126ea0fd2b58f2b247f113a5" method="post" enctype="multipart/form-data">
+        <form id="form" action="https://formsubmit.co/363367bd126ea0fd2b58f2b247f113a5" method="post" enctype="multipart/form-data">
             <label for="inputEmail">信箱</label>
             <div class="form-group" style="margin-bottom: 10px;">
-                <input type="email" name="email" class="form-control" id="email" placeholder="Enter email">
+                <input type="email"
+                       name="email"
+                       class="form-control"
+                       id="email"
+                       placeholder="email"
+                       v-model="email"
+                       ref="email">
             </div>
 
             <label for="formFile" class="form-label">圖片</label>
             <div class="mb-3">
-                <input class="form-control" type="file" id="formFile" name="file">
+                <input
+                    ref="image"
+                    class="form-control"
+                    type="file"
+                    accept="image/*"
+                    id="formFile"
+                    name="file" >
                 <img id="formImg" alt="form image" style="visibility: hidden;" />
             </div>
 
             <label for="inputMessage">意見</label>
             <div class="form-group">
-                <textarea class="form-control" name="message" id="exampleFormControlTextarea1" rows="10"
-                    style="resize:none;"></textarea>
+                <textarea class="form-control"
+                          name="message"
+                          id="exampleFormControlTextarea1"
+                          rows="10"
+                          style="resize:none;"
+                          placeholder="message"
+                          v-model="message"
+                          ref="message"></textarea>
             </div>
             <br>
             <input type="hidden" name="_captcha" value="false">
             <!-- <input type="hidden" name="_next" value="index.html"> -->
             <input type="hidden" name="_template" value="table">
             <div style="text-align: center;">
-                <button type="button" class="btn btn-light" style="border: 1px solid black;">取消</button>
+                <button type="button" class="btn btn-light" style="border: 1px solid black;" @click="resetInput">取消</button>
                 &nbsp;&nbsp;&nbsp;
                 <button type="submit" class="btn btn-warning">送出</button>
             </div>
@@ -51,7 +69,7 @@
     <!-- Content End -->
 </template>
     
-<script setup>
+<script>
 // formFile.onchange = function () {
 //     document.getElementById("formImg").style.display = "initial";
 //     document.getElementById("formImg").style.visibility = "visible";
@@ -60,6 +78,17 @@
 //         formImg.src = URL.createObjectURL(file)
 //     }
 // }
+
+
+export default {
+  methods: {
+    resetInput() {
+      this.$refs['email'].value = null;
+      this.$refs['message'].value = null;
+      this.$refs['image'].value = null;
+    },
+  },
+};
 
 // let cancel = document.getElementById("cancel");
 // cancel.onclick = function () {
