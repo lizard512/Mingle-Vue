@@ -40,8 +40,14 @@
                     type="file"
                     accept="image/*"
                     id="formFile"
-                    name="file" >
-                <img id="formImg" alt="form image" style="visibility: hidden;" />
+                    name="file"
+                    @change="fileUpdate">
+                <img
+                    id="formImg"
+                    alt="form image"
+                    style=""
+                    ref="imageUpdate"
+                    v-if="preview" :src="preview" width="300"/>
             </div>
 
             <label for="inputMessage">意見</label>
@@ -81,12 +87,28 @@
 
 
 export default {
+  data () {
+    return {
+      preview: ''
+    }
+  },
   methods: {
     resetInput() {
       this.$refs['email'].value = null;
       this.$refs['message'].value = null;
       this.$refs['image'].value = null;
     },
+    fileUpdate(e) {
+      console.log(e.target.files)
+      const files = e.target.files.item(0);
+      const reader = new FileReader()
+      reader.addEventListener('load', this.imageLoader)
+      reader.readAsDataURL(files)
+    },
+    imageLoader(e) {
+      this.preview = e.target.result;
+    }
+
   },
 };
 
