@@ -29,6 +29,7 @@
 							<a href="404.html" class="dropdown-item">打工日誌</a>
 						</div>
 					</div>
+					<RouterLink class="nav-item nav-link" to="/chatroom">聊天室</RouterLink>
 					<a href="404.html" class="nav-item nav-link">聯絡我們</a>
 					<a href="provider_form.html" class="nav-item nav-link">成為提供者</a>
 				</div>

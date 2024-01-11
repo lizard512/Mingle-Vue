@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@views/common/Home.vue";
 import Search from "@views/functional/Search.vue";
 import NotFound from "@views/common/NotFound.vue";
+import Chatroom from "@views/functional/Chatroom.vue";
 // 2. 定義路由
 const routes = [
   {
@@ -21,6 +22,11 @@ const routes = [
     name: "Notfound",
     component: NotFound,
   },
+  {
+    path: "/chatroom",
+    name: "Chatroom",
+    component: Chatroom
+  }
 ];
 // 3. 建立路由實體並匯出
 const router = createRouter({
