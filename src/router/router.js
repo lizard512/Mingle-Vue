@@ -5,6 +5,7 @@ import Home from "@views/common/Home.vue";
 import Search from "@views/functional/Search.vue";
 import NotFound from "@views/common/NotFound.vue";
 import Chatroom from "@views/functional/Chatroom.vue";
+import Order from "@views/common/Order.vue";
 // 2. 定義路由
 const routes = [
   {
@@ -25,7 +26,12 @@ const routes = [
   {
     path: "/chatroom",
     name: "Chatroom",
-    component: Chatroom
+    component: Chatroom,
+  },
+  {
+    path: "/order",
+    name: "Order",
+    component: Order,
   }
 ];
 // 3. 建立路由實體並匯出
