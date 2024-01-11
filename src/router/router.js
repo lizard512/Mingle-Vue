@@ -4,8 +4,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@views/common/Home.vue";
 import Search from "@views/common/Search.vue";
 import NotFound from "@views/common/NotFound.vue";
-import Chatroom from "@views/functional/Chatroom.vue";
-import Order from "@views/common/Order.vue";
 import Info from "@views/common/Info.vue";
 import Login from "@views/common/Login.vue";
 import HouseMaintain from "@views/common/HouseMaintain.vue";
