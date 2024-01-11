@@ -1,0 +1,97 @@
+<template>
+    <div id="container" class="container-fluid bg-white p-0">
+
+        <!-- index Start -->
+        <div class="row">
+            <!-- left Start -->
+            <div class="col-lg-3 md-left bg-primary" style="width: 20%;float: left;margin-left: 8px;font-size: large;">
+                <br><br>
+                <h4>我的帳戶</h4><br><br>
+                <div class="fa"> <a href="" style="color:red;">個人檔案</a></div><br><br>
+                <div class="fa"> <a href="" style="color:red;">住宿/打工預定</a></div><br><br>
+                <div class="fa"> <a href="" style="color:red;">旅行足跡</a></div><br><br>
+                <div class="fa"> <a href="" style="color:red;">心願清單</a></div><br><br>
+            </div>
+            <!-- right Start -->
+            <div class="col-lg-9 md-right">
+
+                <br><br>
+                <h4 class="">歡迎回來</h4>
+
+                <form class="" novalidate>
+                    <div class="row g-12">
+                        <div>
+                            <span class="">使用者帳號</span>
+                            <span class="" id="">${sheridan}</span>
+                        </div>
+                        <div>
+                            <img src="../../images/user-1.jpg" class="rounded float-end" alt="..." style="width: 200PX;">
+
+                            <label for=" Nickname " class=" form-label">暱稱
+                                <input type="text" class="" id="Nickname " placeholder="" value="" required>
+                            </label>
+                            <div class="invalid-feedback">
+                                name is required.
+                            </div>
+
+                            <div class="">
+                                <label for="email" class="form-label">Email
+                                    <input type="email" class="" id="email" placeholder="your@example.com">
+                                    <span class="" style="color: blue;">變更</span>
+                                </label>
+                                <div class="invalid-feedback">
+                                    Please enter email .
+                                </div>
+                            </div>
+                            <div class="">
+                                <label for="" class="form-label">手機號碼
+                                    <input type="number" class="" id="cellphone" placeholder="0912345678"><span class=""
+                                        style="color: blue;">變更</span></label>
+                                <div class="invalid-feedback">
+                                    Please enter cellphone.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="address2" class="form-label">性別 </label>
+                                <input type="radio" class="" name="gender" value="male">男
+                                <input type="radio" class="" name="gender" value="female">女
+                                <input type="radio" class="" name="gender" value="other">其他
+                            </div>
+                            <div>
+                            </div>
+
+                            <label for="" class="form-label"> 生日 </label>
+                            <select class="" id="" style="width: 6em;" required>
+                                <option value="">日</option>
+                                <option></option>
+                            </select>
+                            <select class="" id="" style="width: 6em;" required>
+                                <option value="">月</option>
+                                <option></option>
+                            </select>
+                            <select class="" id="" style="width: 6em;" required>
+                                <option value="">年</option>
+                                <option></option>
+                            </select>
+
+                        </div>
+
+                        <div class="login-btn">
+                            <a href="index.html"><button class="btn btn-lg btn-warning btn-block"
+                                    type="submit">儲存</button></a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- index End -->
+    </div>
+</template>
+    
+<script setup >
+
+</script>
+    
+<style scoped></style>
