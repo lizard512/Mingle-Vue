@@ -2,7 +2,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 // 1. 引用元件
 import Home from "@views/common/Home.vue";
-import Search from "@views/functional/Search.vue";
+import Search from "@views/common/Search.vue";
 import NotFound from "@views/common/NotFound.vue";
 import Chatroom from "@views/functional/Chatroom.vue";
 import Order from "@views/common/Order.vue";
@@ -12,8 +12,10 @@ import HouseMaintain from "@views/common/HouseMaintain.vue";
 import Register1 from "@views/common/Register1.vue";
 import Register2 from "@views/common/Register2.vue";
 import Register3 from "@views/common/Register3.vue";
-
-
+import Chatroom from "@views/user/Chatroom.vue";
+import Order from "@views/user/Order.vue";
+import Account from "@views/user/Account.vue";
+import Review from "@views/user/Review.vue";
 // 2. 定義路由
 const routes = [
   {
@@ -70,6 +72,15 @@ const routes = [
     path: "/register3",
     name: "Register3",
     component: Register3,
+  }, {
+    path: "/account",
+    name: "Account",
+    component: Account,
+  },
+  {
+    path: "/review",
+    name: "Review",
+    component: Review
   }
 ];
 // 3. 建立路由實體並匯出

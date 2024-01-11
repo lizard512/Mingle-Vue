@@ -14,9 +14,11 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       // asset
       '@assets': fileURLToPath(new URL('./src/assets', import.meta.url)),
+      '@fonts': fileURLToPath(new URL('./src/assets/fonts', import.meta.url)),
       '@images': fileURLToPath(new URL('./src/assets/images', import.meta.url)),
+      '@libs': fileURLToPath(new URL('./src/assets/libs', import.meta.url)),
       '@styles': fileURLToPath(new URL('./src/assets/styles', import.meta.url)),
-
+  
       '@components': fileURLToPath(new URL('./src/components', import.meta.url)),
       '@views': fileURLToPath(new URL('./src/views', import.meta.url)),
     }
