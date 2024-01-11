@@ -30,6 +30,12 @@
                         </div>
                     </div>
                     <a href="404.html" class="nav-item nav-link">聯絡我們</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">待整理功能</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <RouterLink class="dropdown-item" to="/chatroom">聊天室</RouterLink>
+                        </div>
+                    </div>
                     <a href="provider_form.html" class="nav-item nav-link">成為提供者</a>
                 </div>
                 <a href="order.html" class="btn btn-secondary px-3 d-lg-flex" style="margin-right: 30px;">成為幫助者</a>

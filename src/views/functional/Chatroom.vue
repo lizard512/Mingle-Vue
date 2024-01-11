@@ -121,9 +121,11 @@
                 </div>
                 <div class="input-group">
                     <input type="file" id="fileInput" style="display: none;">
-                    <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click();">🖇</button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click();"><i
+                            class="bi bi-file-earmark-arrow-up-fill"></i></button>
                     <input type="file" id="imageInput" accept="image/*" style="display: none;">
-                    <button class="btn btn-secondary" onclick="document.getElementById('imageInput').click();">🖼️</button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('imageInput').click();"><i
+                            class="bi bi-image"></i></button>
                     <textarea class="form-control" placeholder="在這裡輸入訊息..." rows="2"></textarea>
                     <button class="btn btn-primary">送出</button>
                 </div>
