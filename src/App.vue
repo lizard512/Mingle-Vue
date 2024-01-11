@@ -1,11 +1,9 @@
 <template>
-    <div class="container-fluid bg-white p-0">
-        <Navbar></Navbar>
+    <Navbar></Navbar>
 
-        <RouterView></RouterView>
+    <RouterView></RouterView>
 
-        <Footer></Footer>
-    </div>
+    <Footer></Footer>
 </template>
 
 <script setup>
