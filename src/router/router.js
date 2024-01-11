@@ -2,12 +2,20 @@
 import { createRouter, createWebHistory } from "vue-router";
 // 1. 引用元件
 import Home from "@views/common/Home.vue";
-import Search from "@views/functional/Search.vue";
+import Search from "@views/common/Search.vue";
 import NotFound from "@views/common/NotFound.vue";
 import Chatroom from "@views/functional/Chatroom.vue";
 import Order from "@views/common/Order.vue";
-import Account from "@views/common/Account.vue";
-import Review from "@views/common/Review.vue";
+import Info from "@views/common/Info.vue";
+import Login from "@views/common/Login.vue";
+import HouseMaintain from "@views/common/HouseMaintain.vue";
+import Register1 from "@views/common/Register1.vue";
+import Register2 from "@views/common/Register2.vue";
+import Register3 from "@views/common/Register3.vue";
+import Chatroom from "@views/user/Chatroom.vue";
+import Order from "@views/user/Order.vue";
+import Account from "@views/user/Account.vue";
+import Review from "@views/user/Review.vue";
 // 2. 定義路由
 const routes = [
   {
@@ -34,6 +42,36 @@ const routes = [
     path: "/order",
     name: "Order",
     component: Order,
+  },
+  {
+    path: "/info",
+    name: "Info",
+    component: Info,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/houseMaintain",
+    name: "HouseMaintain",
+    component: HouseMaintain,
+  },
+  {
+    path: "/register1",
+    name: "Register1",
+    component: Register1,
+  },
+  {
+    path: "/register2",
+    name: "Register2",
+    component: Register2,
+  },
+  {
+    path: "/register3",
+    name: "Register3",
+    component: Register3,
   }, {
     path: "/account",
     name: "Account",
