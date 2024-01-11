@@ -2,12 +2,12 @@
 import { createRouter, createWebHistory } from "vue-router";
 // 1. 引用元件
 import Home from "@views/common/Home.vue";
-import Search from "@views/functional/Search.vue";
+import Search from "@views/common/Search.vue";
 import NotFound from "@views/common/NotFound.vue";
-import Chatroom from "@views/functional/Chatroom.vue";
-import Order from "@views/common/Order.vue";
-import Account from "@views/common/Account.vue";
-import Review from "@views/common/Review.vue";
+import Chatroom from "@views/user/Chatroom.vue";
+import Order from "@views/user/Order.vue";
+import Account from "@views/user/Account.vue";
+import Review from "@views/user/Review.vue";
 // 2. 定義路由
 const routes = [
   {
