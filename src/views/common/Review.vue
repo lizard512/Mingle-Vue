@@ -37,7 +37,7 @@
                             <p class="card-text"><small>遛狗澆水買菜</small></p>
                             <p class="card-text h6 ">期間:</p>
                             <p class="card-text">
-                                <smal>2023-5週</smal l>
+                                <small>2023-5週</small>
                             </p>
                             <p class="card-text h6">房源:</p>
                             <p class="card-text"><small>超級雙人房</small></p>
