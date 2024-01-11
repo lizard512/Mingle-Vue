@@ -25,7 +25,8 @@
                             <span class="" id="">${sheridan}</span>
                         </div>
                         <div>
-                            <img src="../../images/user-1.jpg" class="rounded float-end" alt="..." style="width: 200PX;">
+                            <img src="../../assets/images/user-1.jpg" class="rounded float-end" alt="..."
+                                style="width: 200PX;">
 
                             <label for=" Nickname " class=" form-label">暱稱
                                 <input type="text" class="" id="Nickname " placeholder="" value="" required>
@@ -45,8 +46,8 @@
                             </div>
                             <div class="">
                                 <label for="" class="form-label">手機號碼
-                                    <input type="number" class="" id="cellphone" placeholder="0912345678"><span class=""
-                                        style="color: blue;">變更</span></label>
+                                    <input type="number" class="" id="cellphone" placeholder="0912345678"
+                                        maxlength="10"><span class="" style="color: blue;">變更</span></label>
                                 <div class="invalid-feedback">
                                     Please enter cellphone.
                                 </div>
