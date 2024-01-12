@@ -37,14 +37,15 @@
                         </div>
                     </div>
                     <template v-if="isLoggedIn">
-                        <div v-if="isLordVoldemort" class="nav-item dropdown">
+                        <div v-if="isLord" class="nav-item dropdown">
                             <a class=" btn btn-secondary px-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 href="/lord-center">房東中心</a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a class="dropdown-item" href="#"> 評價狀況</a>
+                                <a class="dropdown-item" href="#">評價狀況</a>
                                 <a class="dropdown-item" href="#">訂單狀況</a>
-                                <a class="dropdown-item" href="#">瀏覽量</a>
+                                <RouterLink class="dropdown-item" to="Analyze">瀏覽量</RouterLink>
                                 <a class="dropdown-item" href="#">房東評價</a>
+                                <RouterLink class="dropdown-item" to="#" @click="QuitLord()">我不當房東了</RouterLink>
                             </div>
                         </div>
                         <a v-else class="btn btn-secondary px-3" href="/form-lord" @click="BecomeLord()">成為提供者</a>
@@ -53,15 +54,15 @@
                                 href="/user-center">會員中心</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="/member-info" class="dropdown-item">會員資料</a>
-                                <a href="/logout" class="dropdown-item" @click="handleLogout()">登出</a>
+                                <RouterLink to="/" class="dropdown-item" @click="handleLogout()">登出</RouterLink>
                             </div>
                         </div>
 
                     </template>
                     <template v-else>
-                        <a class="btn btn-dark px-3" href="/register">成為幫助者</a>
+                        <RouterLink class="btn btn-dark px-3" to="/register1">成為幫助者</RouterLink>
                         <p class="m-3">已有帳戶? </p>
-                        <a class="btn btn-dark px-3" href="/login" @click="handleLogin()">登入</a>
+                        <RouterLink class="btn btn-dark px-3" to="/login" @click="handleLogin()">登入</RouterLink>
                     </template>
                 </div>
 
@@ -78,6 +79,7 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 const isLoggedIn = computed(() => store.state.isLoggedIn);
+const isLord = computed(() => store.state.isLord);
 
 function handleLogin() {
     store.commit('setLoggedIn', true);
@@ -85,11 +87,11 @@ function handleLogin() {
 function handleLogout() {
     store.commit('setLoggedIn', false);
 }
-
-import { ref } from 'vue';
-const isLordVoldemort = ref(false);
 function BecomeLord() {
-    isLordVoldemort.value = true;
+    store.commit('setLord', true);
+}
+function QuitLord() {
+    store.commit('setLord', false);
 }
 
 // // Sticky Navbar
