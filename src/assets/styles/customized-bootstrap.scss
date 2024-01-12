@@ -1,0 +1,45 @@
+// override !default variables
+
+$primary: #ffc107;
+$secondary: #d63384;
+$light: #EFFDF5;
+$dark: #0E2E50;
+
+$font-family-base: 'Heebo', sans-serif;
+
+$headings-font-family: 'Inter', sans-serif;
+
+$body-bg: white;
+
+$body-color: #666565;
+
+$headings-color: $dark;
+
+$headings-font-weight: 700;
+
+$display-font-weight: 800;
+
+$enable-responsive-font-sizes: true;
+
+$border-radius: 5px;
+
+$link-decoration: none;
+
+$enable-negative-margins: true;
+
+
+// Import the original Bootstrap scss
+@import "bootstrap/scss/bootstrap";
+
+// Custom height utilities
+.h-30 {
+        height: 30% !important;
+}
+
+.h-60 {
+        height: 60% !important;
+}
+
+.h-90 {
+        height: 90% !important;
+}

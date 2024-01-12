@@ -8,7 +8,7 @@
                     <h1 class="display-1 wow animate__animated animate__tada animate__infinite">404</h1>
                     <h1 class="mb-4">Page Not Found</h1>
                     <p class="mb-4">此頁面目前仍在施工中<br>造成不便，敬請見諒</p>
-                    <a class="btn btn-primary py-3 px-5" href="">返回首頁</a>
+                    <RouterLink class="btn btn-primary py-3 px-5" to="/">返回首頁</RouterLink>
                 </div>
             </div>
         </div>
