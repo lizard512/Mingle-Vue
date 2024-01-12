@@ -54,7 +54,7 @@
                                 href="/user-center">會員中心</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="/member-info" class="dropdown-item">會員資料</a>
-                                <RouterLink to="/" class="dropdown-item" @click="handleLogout()">登出</RouterLink>
+                                <RouterLink to="#" class="dropdown-item" @click="handleLogout()">登出</RouterLink>
                             </div>
                         </div>
 
