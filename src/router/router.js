@@ -14,6 +14,7 @@ import Chatroom from "@views/user/Chatroom.vue";
 import Order from "@views/user/Order.vue";
 import Account from "@views/user/Account.vue";
 import Review from "@views/user/Review.vue";
+import ThankYou from "@views/common/ThankYou.vue";
 // 2. 定義路由
 const routes = [
   {
@@ -79,6 +80,11 @@ const routes = [
     path: "/review",
     name: "Review",
     component: Review
+  },
+  {
+    path: "/thankyou",
+    name: "ThankYou",
+    component: ThankYou
   }
 ];
 // 3. 建立路由實體並匯出
