@@ -45,7 +45,7 @@
                                 <a class="dropdown-item" href="#">訂單狀況</a>
                                 <RouterLink class="dropdown-item" to="Analyze">瀏覽量</RouterLink>
                                 <a class="dropdown-item" href="#">房東評價</a>
-                                <RouterLink class="dropdown-item" to="#" @click="QuitLord()">我不當房東了</RouterLink>
+                                <RouterLink class="dropdown-item" to="#" @click="QuitLord()">我不當房東了！</RouterLink>
                             </div>
                         </div>
                         <a v-else class="btn btn-secondary px-3" href="/form-lord" @click="BecomeLord()">成為提供者</a>
