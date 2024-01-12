@@ -12,7 +12,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto">
+                <div class="navbar-nav ms-auto d-flex align-items-center">
                     <RouterLink class="nav-item nav-link active" to="/">首頁</RouterLink>
                     <RouterLink class="nav-item nav-link" to="/about">關於Mingle</RouterLink>
                     <div class="nav-item dropdown">
@@ -36,10 +36,36 @@
                             <RouterLink class="dropdown-item" to="/chatroom">聊天室</RouterLink>
                         </div>
                     </div>
-                    <a href="provider_form.html" class="nav-item nav-link">成為提供者</a>
+                    <template v-if="isLoggedIn">
+                        <div v-if="isLordVoldemort" class="nav-item dropdown">
+                            <a class=" btn btn-secondary px-3 dropdown-toggle" data-bs-toggle="dropdown"
+                                href="/lord-center">房東中心</a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                                <a class="dropdown-item" href="#"> 評價狀況</a>
+                                <a class="dropdown-item" href="#">訂單狀況</a>
+                                <a class="dropdown-item" href="#">瀏覽量</a>
+                                <a class="dropdown-item" href="#">房東評價</a>
+                            </div>
+                        </div>
+                        <a v-else class="btn btn-secondary px-3" href="/form-lord" @click="BecomeLord()">成為提供者</a>
+                        <div class="nav-item dropdown">
+                            <a class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
+                                href="/user-center">會員中心</a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                                <a href="/member-info" class="dropdown-item">會員資料</a>
+                                <a href="/logout" class="dropdown-item" @click="handleLogout()">登出</a>
+                            </div>
+                        </div>
+
+                    </template>
+                    <template v-else>
+                        <a class="btn btn-dark px-3" href="/register">成為幫助者</a>
+                        <p class="m-3">已有帳戶? </p>
+                        <a class="btn btn-dark px-3" href="/login" @click="handleLogin()">登入</a>
+                    </template>
                 </div>
-                <a href="order.html" class="btn btn-secondary px-3 d-lg-flex" style="margin-right: 30px;">成為幫助者</a>
-                <a href="login.html" class="btn btn-dark px-3 d-lg-flex">登入</a>
+
+
             </div>
         </nav>
     </div>
@@ -47,6 +73,24 @@
 </template>
     
 <script setup>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
+const isLoggedIn = computed(() => store.state.isLoggedIn);
+
+function handleLogin() {
+    store.commit('setLoggedIn', true);
+}
+function handleLogout() {
+    store.commit('setLoggedIn', false);
+}
+
+import { ref } from 'vue';
+const isLordVoldemort = ref(false);
+function BecomeLord() {
+    isLordVoldemort.value = true;
+}
 
 // // Sticky Navbar
 // $(window).scroll(function () {
