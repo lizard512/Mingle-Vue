@@ -23,13 +23,15 @@
                 <strong>AAA</strong>
             </div>
             <div class="chat-container border overflow-auto d-flex flex-column p-3">
-                <div class="px-3 py-2 m-1 rounded-3 flex-start align-self-start message received" v-for="item in 10">
-                    <p>Hello there!
-                    </p>
-                </div>
-                <div class="px-3 py-2 m-1 rounded-3 align-self-end message sent" v-for="item in 10">
-                    <p>Hi! How can I help you?</p>
-                </div>
+                <template v-for="item in 10">
+                    <div class="px-3 py-2 m-1 rounded-3 flex-start align-self-start message received">
+                        <p>Hello there!
+                        </p>
+                    </div>
+                    <div class="px-3 py-2 m-1 rounded-3 align-self-end message sent">
+                        <p>Hi! How can I help you?</p>
+                    </div>
+                </template>
             </div>
             <div class="input-group">
                 <input type="file" id="fileInput" style="display: none;">
