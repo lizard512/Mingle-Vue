@@ -83,7 +83,7 @@
 </template>
     
 <script setup >
-import ANavbar from './AccountLeftNavBar.vue';
+import ANavbar from '../../../components/AccountLeftNavBar.vue';
 </script>
     
 <style scoped>
