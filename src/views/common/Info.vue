@@ -46,7 +46,7 @@
                     id="formImg"
                     alt="form image"
                     style=""
-                    ref="imageUpdate"
+                    ref="preview"
                     v-if="preview" :src="preview" width="300"/>
             </div>
 
@@ -97,6 +97,7 @@ export default {
       this.$refs['email'].value = null;
       this.$refs['message'].value = null;
       this.$refs['image'].value = null;
+      this.preview = ''
     },
     fileUpdate(e) {
       console.log(e.target.files)
