@@ -35,18 +35,18 @@
             <label for="formFile" class="form-label">圖片</label>
             <div class="mb-3">
                 <input
-                    ref="image"
                     class="form-control"
                     type="file"
                     accept="image/*"
                     id="formFile"
                     name="file"
+                    ref="image"
                     @change="fileUpdate">
                 <img
                     id="formImg"
                     alt="form image"
                     style=""
-                    ref="imageUpdate"
+                    ref="preview"
                     v-if="preview" :src="preview" width="300"/>
             </div>
 
@@ -89,14 +89,20 @@
 export default {
   data () {
     return {
-      preview: ''
+      preview: '',
+      email: '',
+      message: '',
+      image: null
     }
   },
   methods: {
     resetInput() {
-      this.$refs['email'].value = null;
-      this.$refs['message'].value = null;
+      // this.$refs['email'].value = null;
+      // this.$refs['message'].value = null;
       this.$refs['image'].value = null;
+      this.message = ''
+      this.email = ''
+      this.preview = ''
     },
     fileUpdate(e) {
       console.log(e.target.files)
@@ -104,6 +110,7 @@ export default {
       const reader = new FileReader()
       reader.addEventListener('load', this.imageLoader)
       reader.readAsDataURL(files)
+
     },
     imageLoader(e) {
       this.preview = e.target.result;
