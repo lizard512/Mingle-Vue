@@ -6,7 +6,7 @@ import Search from "@views/common/Search.vue";
 import NotFound from "@views/common/NotFound.vue";
 import Chatroom from "@views/user/Chatroom.vue";
 import Order from "@views/user/Order.vue";
-import Account from "@views/user/Account.vue";
+import Account from "@views/user/Account/Account.vue";
 import Review from "@views/user/Review.vue";
 // 2. 定義路由
 const routes = [
@@ -35,7 +35,7 @@ const routes = [
     name: "Order",
     component: Order,
   }, {
-    path: "/account",
+    path: "/321",
     name: "Account",
     component: Account,
   },
