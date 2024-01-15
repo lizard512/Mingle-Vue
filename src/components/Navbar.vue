@@ -29,7 +29,7 @@
                             <RouterLink class="dropdown-item" to="#">打工日誌</RouterLink>
                         </div>
                     </div>
-                    <RouterLink class="nav-item nav-link" to="/info">聯絡我們</RouterLink>
+                    <RouterLink class="nav-item nav-link" to="/contact-Us">聯絡我們</RouterLink>
                     <div class="nav-item dropdown">
                         <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">待整理功能</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
