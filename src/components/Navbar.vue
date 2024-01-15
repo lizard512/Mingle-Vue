@@ -1,67 +1,69 @@
 <template>
     <!-- Navbar Start -->
-    <div class="container-fluid nav-bar">
+    <div class="container-fluid nav-bar" :class="{ 'sticky-top': isSticky }">
         <nav class="navbar bg-primary navbar-expand-xl navbar-light py-0 px-4">
-            <a href="index.html" class="navbar-brand d-flex align-items-center text-center">
+            <RouterLink to="/" class="navbar-brand d-flex align-items-center text-center">
                 <div class="icon p-2 me-2">
                     <img class="img-fluid" src="@images/icon-main.png" alt="Icon" style="width: 30px; height: 27px;">
                 </div>
                 <h1 class="m-0 link-secondary">Mingle 名狗</h1>
-            </a>
+            </RouterLink>
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto d-flex align-items-center">
                     <RouterLink class="nav-item nav-link active" to="/">首頁</RouterLink>
-                    <RouterLink class="nav-item nav-link" to="/about">關於Mingle</RouterLink>
+                    <RouterLink class="nav-item nav-link" to="#">關於Mingle</RouterLink>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">打工換宿資訊</a>
+                        <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">打工換宿資訊</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
                             <RouterLink class="dropdown-item" to="/search">瀏覽打工項目</RouterLink>
-                            <a href="404.html" class="dropdown-item">住宿地點一覽</a>
+                            <RouterLink class="dropdown-item" to="#">住宿地點一覽</RouterLink>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">論壇日誌</a>
+                        <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">論壇日誌</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <a href="forum.html" class="dropdown-item">討論 & 問答</a>
-                            <a href="404.html" class="dropdown-item">打工日誌</a>
+                            <RouterLink class="dropdown-item" to="#">討論 & 問答</RouterLink>
+                            <RouterLink class="dropdown-item" to="#">打工日誌</RouterLink>
                         </div>
                     </div>
-                    <a href="404.html" class="nav-item nav-link">聯絡我們</a>
+                    <RouterLink class="nav-item nav-link" to="/contact-Us">聯絡我們</RouterLink>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">待整理功能</a>
+                        <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">待整理功能</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
                             <RouterLink class="dropdown-item" to="/chatroom">聊天室</RouterLink>
                         </div>
                     </div>
                     <template v-if="isLoggedIn">
-                        <div v-if="isLordVoldemort" class="nav-item dropdown">
-                            <a class=" btn btn-secondary px-3 dropdown-toggle" data-bs-toggle="dropdown"
-                                href="/lord-center">房東中心</a>
+                        <div v-if="isLord" class="nav-item dropdown">
+                            <RouterLink class=" btn btn-secondary px-3 dropdown-toggle" data-bs-toggle="dropdown"
+                                to="/lord-center">房東中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a class="dropdown-item" href="#"> 評價狀況</a>
-                                <a class="dropdown-item" href="#">訂單狀況</a>
-                                <a class="dropdown-item" href="#">瀏覽量</a>
-                                <a class="dropdown-item" href="#">房東評價</a>
+                                <RouterLink class="dropdown-item" to="/houseMaintain">房源維護</RouterLink>
+                                <RouterLink class="dropdown-item" to="/order">訂單管理</RouterLink>
+                                <RouterLink class="dropdown-item" to="/analyze">後臺數據</RouterLink>
+                                <RouterLink class="dropdown-item" to="/review">房東評價</RouterLink>
+                                <RouterLink class="dropdown-item" to="#" @click="quitLord()">我不當房東了！</RouterLink>
                             </div>
                         </div>
-                        <a v-else class="btn btn-secondary px-3" href="/form-lord" @click="BecomeLord()">成為提供者</a>
+                        <RouterLink v-else class="btn btn-secondary px-3" to="/form-lord" @click="becomeLord()">成為提供者
+                        </RouterLink>
                         <div class="nav-item dropdown">
-                            <a class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
-                                href="/user-center">會員中心</a>
+                            <RouterLink class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
+                                to="/user-center">會員中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a href="/member-info" class="dropdown-item">會員資料</a>
-                                <a href="/logout" class="dropdown-item" @click="handleLogout()">登出</a>
+                                <RouterLink class="dropdown-item" to="/member-info">會員資料</RouterLink>
+                                <RouterLink to="#" class="dropdown-item" @click="handleLogout()">登出</RouterLink>
                             </div>
                         </div>
 
                     </template>
                     <template v-else>
-                        <a class="btn btn-dark px-3" href="/register">成為幫助者</a>
+                        <RouterLink class="btn btn-dark px-3" to="/register1">成為幫助者</RouterLink>
                         <p class="m-3">已有帳戶? </p>
-                        <a class="btn btn-dark px-3" href="/login" @click="handleLogin()">登入</a>
+                        <RouterLink class="btn btn-dark px-3" to="/login" @click="handleLogin()">登入</RouterLink>
                     </template>
                 </div>
 
@@ -78,6 +80,7 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 const isLoggedIn = computed(() => store.state.isLoggedIn);
+const isLord = computed(() => store.state.isLord);
 
 function handleLogin() {
     store.commit('setLoggedIn', true);
@@ -85,21 +88,29 @@ function handleLogin() {
 function handleLogout() {
     store.commit('setLoggedIn', false);
 }
-
-import { ref } from 'vue';
-const isLordVoldemort = ref(false);
-function BecomeLord() {
-    isLordVoldemort.value = true;
+function becomeLord() {
+    store.commit('setLord', true);
+}
+function quitLord() {
+    store.commit('setLord', false);
 }
 
 // // Sticky Navbar
-// $(window).scroll(function () {
-//     if ($(this).scrollTop() > 45) {
-//         $('.nav-bar').addClass('sticky-top');
-//     } else {
-//         $('.nav-bar').removeClass('sticky-top');
-//     }
-// });
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+
+const isSticky = ref(false);
+
+const checkSticky = () => {
+    isSticky.value = window.pageYOffset > 45;
+};
+
+onMounted(() => {
+    window.addEventListener('scroll', checkSticky);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', checkSticky);
+});
 </script>
     
 <style scoped>

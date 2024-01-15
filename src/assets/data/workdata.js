@@ -10,35 +10,35 @@ export default [
         name: "新北浩克漢堡",
         address: "新北市汐止區仁愛路157號",
         imagePath: "/src/assets/images/新北浩克漢堡.jpg",
-        category: "人力",
-        region: "東區"
+        category: "餐飲",
+        region: "北區"
     },
     {
         name: "台東貨櫃屋",
         address: "臺東縣臺東市新生路105號",
         imagePath: "/src/assets/images/台東貨櫃屋.jpg",
-        category: "人力",
+        category: "旅店",
         region: "東區"
     },
     {
         name: "花蓮農產市集",
-        address: "123 Street, New York, USA",
+        address: "花蓮縣花蓮市福建街460號",
         imagePath: "/src/assets/images/花蓮農產市集.jpg",
-        category: "人力",
+        category: "銷售",
         region: "東區"
     },
     {
         name: "台中實習辦公",
-        address: "123 Street, New York, USA",
+        address: "台中市北屯區文心路四段936號2樓",
         imagePath: "/src/assets/images/台中實習辦公.jpg",
-        category: "人力",
-        region: "東區"
+        category: "辦公",
+        region: "西區"
     },
     {
         name: "台東熱氣球活動",
-        address: "123 Street, New York, USA",
+        address: "台東縣鹿野鄉高台路42巷106號",
         imagePath: "/src/assets/images/台東熱氣球活動.jpg",
-        category: "人力",
+        category: "活動",
         region: "東區"
     }
 ];
