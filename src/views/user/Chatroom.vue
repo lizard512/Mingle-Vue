@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid row p-0 g-0 max-height main-container">
-        <!-- left => headline, pics message -->
+        <!-- left => headline, pics & messages -->
         <div class="col-md-4 overflow-auto mh-100">
             <div>
                 <h3 class="text-center my-4">Message</h3>
@@ -17,19 +17,21 @@
             </div>
 
         </div>
-        <!-- Right => chat-name, chat-box, input-group -->
+        <!-- Right => chat-name, chat-container, input-group -->
         <div class="col-md-8 mh-100">
             <div class="bg-light chat-name">
                 <strong>AAA</strong>
             </div>
-            <div class="chat-container border overflow-auto d-flex flex-column p-3">
-                <div class="px-3 py-2 m-1 rounded-3 flex-start align-self-start message received" v-for="item in 10">
-                    <p>Hello there!
-                    </p>
-                </div>
-                <div class="px-3 py-2 m-1 rounded-3 align-self-end message sent" v-for="item in 10">
-                    <p>Hi! How can I help you?</p>
-                </div>
+            <div class="chat-container border overflow-auto d-flex flex-column p-3" ref="chatContainer">
+                <template v-for="item in 10">
+                    <div class="px-3 py-2 m-1 rounded-3 flex-start align-self-start message received">
+                        <p>Hello there!
+                        </p>
+                    </div>
+                    <div class="px-3 py-2 m-1 rounded-3 align-self-end message sent">
+                        <p>Hi! How can I help you?</p>
+                    </div>
+                </template>
             </div>
             <div class="input-group">
                 <input type="file" id="fileInput" style="display: none;">
@@ -46,9 +48,19 @@
 </template>
     
 <script setup lang='ts'>
-
+import { ref, onMounted } from 'vue';
+const chatContainer = ref(null);
+function scrollToButtom() {
+    if (chatContainer.value) {
+        // console.log(chatContainer.value)
+        chatContainer.value.scroll(0, chatContainer.value.scrollHeight);
+    }
+}
+onMounted(() => {
+    scrollToButtom();
+})
 </script>
-    
+
 <style scoped>
 .main-container {
     height: 840px;

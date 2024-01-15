@@ -5,7 +5,7 @@
             <div class="container-xxl bg-white p-5 register-form">
                 <p class="title">設定登入帳號</p>
                 <div class="register-icon">
-                    <img src="../../assets/images/icon-progress1.png" width="100px">
+                    <img src="@images/icon-progress1.png" width="100px">
                 </div>
                 <br>
                 <p style="color: black;">請輸入Email或電話號碼</p>
