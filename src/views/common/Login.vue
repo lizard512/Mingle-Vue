@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row" id="app">
         <div class="col-lg-4 login-frame">
             <div class="container-xxl bg-white p-5 login-form">
                 <div class="login-icon">
@@ -7,19 +7,20 @@
                 </div>
                 <br>
                 <div class="accountDiv">
-                    <input id="account" type="email" class="account" name="account" placeholder="Email/電話號碼" required
+                    <input id="userid" v-model="userid" type="email" class="account" name="account" placeholder="Email/電話號碼" required
                         autofocus>
                 </div>
                 <br>
                 <br>
                 <div class="passwordDiv">
-                    <input id="password" type="password" class="password" name="password" placeholder="請輸入密碼" required>
+                    <input id="password" v-model="password" type="password" class="password" name="password" placeholder="請輸入密碼" required>
                 </div>
                 <br>
                 <div class="reminder">
                     <div class="checkboxDiv">
                         <label>
-                            <input id="checkbox" class="checkbox" type="checkbox" value="remember-me"> 顯示密碼
+                            <input id="checkbox" @change="checkPassword" class="checkbox" type="checkbox"
+                                value="remember-me"> 顯示密碼
                         </label>
                     </div>
                     <div class="forget-password">
@@ -29,13 +30,13 @@
                 <br>
                 <br>
                 <div class="login-btn">
-                    <a href="index.html"><button class="btn btn-lg btn-warning btn-block" type="submit">登入</button></a>
+                    <button class="btn btn-lg btn-warning btn-block" type="submit">登入</button>
                 </div>
                 <br>
                 <p class="or">或</p>
                 <div class="google-btn">
-                    <a href="index.html"><button class="btn btn-outline-dark" type="submit"><img src="../../assets/images/icon-google.png"
-                                width="25px">&nbsp;透過Google帳號登入</button></a>
+                    <button class="btn btn-outline-dark" type="submit"><img src="../../assets/images/icon-google.png"
+                            width="25px">&nbsp;透過Google帳號登入</button>
                 </div>
             </div>
         </div>
@@ -43,15 +44,82 @@
 </template>
     
 <script setup>
-// let checkbox = document.getElementById("checkbox");
-// checkbox.onchange = function(){
-//     let password = document.getElementById("password");
-//     if (checkbox.checked == true) {
-//         password.type = "text";
-//     }else{
-//         password.type = "password"
+import {createApp,ref} from 'vue';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+import axios from 'axios';
+
+function checkPassword() {
+    let password = document.getElementById("password");
+    if (checkbox.checked == true) {
+        password.type = "text";
+    } else {
+        password.type = "password"
+    }
+}
+
+
+// const app = createApp({
+//     data: function () {
+//         return { userid: "", password: "" }
+//     },
+//     methods: {
+//         login: function () {
+//             Swal.fire({
+//                 text: "Loading.......",
+//                 allowOutsideClick: false,
+//                 showConfirmButton: false
+//             });
+//             if (this.userid == "") {
+//                 this.userid = null;
+//             }
+//             if (this.password == "") {
+//                 this.password = null;
+//             }
+//             let request = {
+//                 userid: this.userid,
+//                 password: this.password,
+//             }
+//             console.log("correct response");
+//             axios.post(contextPath + "/secure/ajax/login", request).then(function (response) {
+//                 console.log(response);
+//                 if (response.data.success) {
+//                     console.log(response.data.message);
+//                     Swal.fire({
+//                         icon: "success",
+//                         text: "登入成功",
+//                         confirmButtonText: "確認"
+//                     }).then(function (result) {
+//                         if (result.isConfirmed) {
+//                             document.location.href = `${contextPath}/index`;
+//                         }
+//                     })
+//                 } else {
+//                     console.log(response.data.message);
+//                     Swal.fire({
+//                         icon: "error",
+//                         text: "登入失敗",
+//                         confirmButtonText: "確認"
+//                     }).then(function (result) {
+//                         if (result.isConfirmed) {
+//                             document.location.href = `${contextPath}/index`;
+//                         }
+//                     })
+//                 }
+//             }).catch(function (error) {
+//                 Swal.fire({
+//                     icon: "warning",
+//                     text: "登入失敗",
+//                     confirmButtonText: "確認"
+//                 })
+//             })
+//         }
 //     }
-// }
+// });
+// app.use("axios"); 
+// app.use("VueSweetalert2");
+// app.mount("#app");
+
 </script>
     
 <style scoped>
