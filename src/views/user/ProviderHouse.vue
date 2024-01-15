@@ -60,7 +60,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import {}
+
 import human from '@images/icon-人力.png'
 
 

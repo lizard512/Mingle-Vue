@@ -15,7 +15,8 @@ import Order from "@views/user/Order.vue";
 import Account from "@views/user/Account.vue";
 import Review from "@views/user/Review.vue";
 import ProviderHouse from "@views/user/ProviderHouse.vue";
-
+import Analyze from "@views/common/Analyze.vue";  
+import ThankYou from "@views/common/ThankYou.vue";
 // 2. 定義路由
 const routes = [
   {
@@ -86,7 +87,17 @@ const routes = [
     path: "/providerHouse",
     name: "ProviderHouse",
     component: ProviderHouse
-  }
+  },
+      {
+    path: "/analyze",
+    name: "Analyze",
+    component: Analyze
+  },
+  {
+    path: "/thankyou",
+    name: "ThankYou",
+    component: ThankYou
+  },
 ];
 // 3. 建立路由實體並匯出
 const router = createRouter({

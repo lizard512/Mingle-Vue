@@ -37,33 +37,6 @@ spinner();
 <!-- Customized CSS -->
 <style src="@styles/style.css"></style>
 <!-- Customized Bootstrap SCSS-->
-<style lang="scss">
-$primary: #ffc107;
-$secondary: #d63384;
-$light: #EFFDF5;
-$dark: #0E2E50;
+<style lang="scss" src="@styles/customized-bootstrap.scss">
 
-$font-family-base: 'Heebo', sans-serif;
-
-$headings-font-family: 'Inter', sans-serif;
-
-$body-bg: white;
-
-$body-color: #666565;
-
-$headings-color: $dark;
-
-$headings-font-weight: 700;
-
-$display-font-weight: 800;
-
-$enable-responsive-font-sizes: true;
-
-$border-radius: 5px;
-
-$link-decoration: none;
-
-$enable-negative-margins: true;
-
-@import "bootstrap/scss/bootstrap";
 </style>

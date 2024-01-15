@@ -33,6 +33,10 @@
                                         <li class="step0 text-muted text-end" id="step4"></li>
                                     </ul>
 
+
+
+
+
                                     <div class="d-flex justify-content-between">
                                         <div class="d-lg-flex align-items-center">
                                             <i class="fas fa-briefcase fa-3x me-lg-4 mb-3 mb-lg-0"></i>
@@ -76,37 +80,130 @@
             <!-- 預定打工 -->
             <div class="row g-5 justify-content-center">
 
+                <!--  right card start  -->
+
+                <!-- 打工預定 card -->
+
+                <div class="col-md-3 col-lg-4 order-md-last">
+
+                    <h4 class="justify-content-between align-items-center  text-center mb-3">
+                        您的預定
+                    </h4>
+
+
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">打工類型</h6>
+                                <small class="text-muted">work type</small>
+                            </div>
+                            <span class="text-muted">照護</span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">打工項目</h6>
+                                <small class="text-muted">work name</small>
+                            </div>
+                            <span class="text-muted">照顧老人</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">打工期間</h6>
+                                <small class="text-muted">work period</small>
+                            </div>
+                            <span class="text-muted">7天</span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">打工人數</h6>
+                                <small class="text-muted">order applicants</small>
+                            </div>
+                            <span class="text-muted">1人</span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">開始日期</h6>
+                                <small class="text-muted">order startDate</small>
+                            </div>
+                            <span class="text-muted">2023/11/20</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">結束日期</h6>
+                                <small class="text-muted">order endDate</small>
+                            </div>
+                            <span class="text-muted">2023/11/27</span>
+                        </li>
+                    </ul>
+
+                    <!-- 房源預定 Card -->
+                    <!-- <h4 class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-primary">住宿預定</span>
+                        </h4>
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 class="my-0">房型</h6>
+                                    <small class="text-muted">house type</small>
+                                </div>
+                                <span class="text-muted">雙人房</span>
+                            </li>
+                        </ul> -->
+
+                    <!-- 媒合費用 Card -->
+                    <h4 class=" justify-content-between align-items-center  text-center mb-3">
+                        媒合費用
+                    </h4>
+
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">打工人數</h6>
+                                <small class="text-muted">order applicants</small>
+                            </div>
+                            <span class="text-muted">2023/11/20</span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between bg-light">
+                            <div>
+                                <h6 class="my-0">媒合費用</h6>
+                                <small class="text-muted">service price</small>
+                            </div>
+                            <strong>$300<span>(TWD)</span></strong>
+                        </li>
+                    </ul>
+                </div>
+
+                <!--  right card end  -->
+
+
                 <!-- form start -->
-                <div class="col-11">
-                    <h4 class="mb-3" style="text-align: center;">預定工作 (Order work )</h4>
+                <div class="col-12 col-md-8  ">
+                    <h4 class="justify-content-between align-items-center  text-center mb-3">
+                        您的資料
+                    </h4>
 
                     <form class="needs-validation" novalidate>
 
                         <!-- 基本資料 -->
                         <div class="row g-3"
                             style="border: 1px solid wheat; padding: 20px; border-radius: 10px; margin: 10px;">
-                            <h6 class="mb-3">輸入訂購者個人資料 </h6>
+                            <h6 class="mb-3">請確認會員資料</h6>
 
-                            <!-- first name  自動帶入會員資料-->
+                            <!-- name  自動帶入會員資料-->
                             <div class="col-sm-6">
-                                <label for="firstName" class="form-label">會員 名 (First name) </label>
-                                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                                <label for="fullName" class="form-label">會員全名 (name) </label>
+                                <input type="text" class="form-control" id="fullName" placeholder="" value="" required>
                                 <div class="invalid-feedback">
-                                    務必填寫會員名。
-                                </div>
-                            </div>
-
-                            <!-- last name 自動帶入會員資料 -->
-                            <div class="col-sm-6">
-                                <label for="lastName" class="form-label">會員 姓氏 (Last name) </label>
-                                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                                <div class="invalid-feedback">
-                                    務必填寫會員姓氏。
+                                    務必填寫會員全名。
                                 </div>
                             </div>
 
                             <!-- email 自動帶入會員資料-->
-                            <div class="col-12">
+                            <div class="col-sm-6">
                                 <label for="email" class="form-label">信箱 (Email)</label>
                                 <input type="email" class="form-control" id="email" placeholder="you@example.com" value=""
                                     required>
@@ -115,24 +212,9 @@
                                 </div>
                             </div>
 
-                            <!-- phone 自動帶入會員資料-->
-                            <div class="col-md-5">
-                                <label for="country" class="form-label">通訊國籍 (Country)</label>
-                                <select class="form-select" id="country" required>
-                                    <option value="">Choose...</option>
-                                    <option>United States</option>
-                                    <option>Taiwan</option>
-                                    <option>Japanese</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    請選擇國家。
-                                </div>
-                            </div>
-
-                            <div class="col-6">
+                            <div class="col-md-4">
                                 <label for="phone" class="form-label">電話 (phone)</label>
-                                <input type="phone" class="form-control" id="phone" placeholder="09xx-xxx-xxx" value=""
-                                    required>
+                                <input type="phone" class="form-control" id="phone" placeholder="" value="" required>
                                 <div class="invalid-feedback">
                                     務必填寫連絡電話。
                                 </div>
@@ -140,7 +222,7 @@
 
 
                             <!-- address 自動帶入會員資料-->
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <label for="country" class="form-label">居住國家 (Country)　</label>
                                 <select class="form-select" id="country" required>
                                     <option value="">Choose...</option>
@@ -152,17 +234,6 @@
                             </div>
 
                             <div class="col-md-4">
-                                <label for="state" class="form-label">居住城市 (city)</label>
-                                <select class="form-select" id="state" required>
-                                    <option value="">Choose...</option>
-                                    <option>California</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    請選擇居住城市。
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
                                 <label for="zip" class="form-label">郵遞區號 (zip)</label>
                                 <input type="text" class="form-control" id="zip" placeholder="" required>
                                 <div class="invalid-feedback">
@@ -196,48 +267,31 @@
                         </div>
                         <!-- 基本資料 -->
 
+
+
                         <hr class="my-4">
 
-
-                        <!-- check box -->
+                        <!--打工項目 check box -->
                         <div class="row g-3"
                             style="border: 1px solid wheat; padding: 20px; border-radius: 10px; margin: 10px;">
                             <h6 class="mb-3">預定打工項目 </h6>
 
-                            <div class="col-md-4">
-                                <label for="work_type" class="form-label">打工類型 (work type)</label>
-                                <select class="form-select" id="work_type" required>
+                            <div class="col-md-6">
+                                <label for="work_numbers" class="form-label">人數 ( applicants) </label>
+                                <select class="form-select" id="work_numbers" required>
                                     <option value="">Choose...</option>
-                                    <option>人力</option>
-                                    <option>旅店</option>
-                                    <option>活動</option>
-                                    <option>銷售</option>
-                                    <option>辦公</option>
-                                    <option>餐飲</option>
-                                    <option>活動</option>
-                                    <option>其他</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
                                 </select>
                                 <div class="invalid-feedback">
-                                    請選擇打工類型。
+                                    請選擇打工人數。
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
-                                <label for="work_name" class="form-label">打工項目 (work name)</label>
-                                <select class="form-select" id="work_name" required>
-                                    <option value="">Choose...</option>
-                                    <option>照顧寵物</option>
-                                    <option>環境維護</option>
-                                    <option>老人看護</option>
-                                    <option>潛水教練</option>
-                                    <option>救生員</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    請選擇打工項目。
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="work_period" class="form-label">打工區間 (work period)</label>
                                 <select class="form-select" id="work_period" required>
                                     <option value="">Choose...</option>
@@ -255,28 +309,8 @@
                                 </div>
                             </div>
 
-                            <!-- 自動產出 -->
-                            <div class="col-md-12">
-                                <label for="work_address" class="form-label">打工地點 (address)</label>
-                                <input type="text" class="form-control" id="work_address" value="完整工作地址。" readonly>
-                            </div>
 
-                            <div class="col-md-4">
-                                <label for="work_numbers" class="form-label">人數 ( applicants) </label>
-                                <select class="form-select" id="work_numbers" required>
-                                    <option value="">Choose...</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    請選擇打工人數。
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="work_startDate" class="form-label"> 開始日期 (startDate) </label>
                                 <input type="date" class="form-control" id="work_startDate" name="work_startDate"
                                     value="2018-07-22" min="2023-11-20" max="2023-11-29" required />
@@ -285,7 +319,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="work_endDate" class="form-label"> 結束日期 (endDate) </label>
                                 <input type="date" class="form-control" id="work_endDate" name="work_endDate"
                                     value="2018-07-22" min="2023-11-20" max="2023-11-29" required />
@@ -293,13 +327,169 @@
                                     請選擇結束日期。
                                 </div>
                             </div>
+
+
+
+                            <!-- 自動產出 -->
+
+                            <div class="col-md-12">
+                                <label for="work_address" class="form-label">打工詳細資料</label>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum nulla, unde vel iusto
+                                    fugit perferendis commodi a asperiores tempora mollitia! Dicta sapiente, quod magni
+                                    nostrum rerum dignissimos placeat debitis, ipsam ad distinctio animi quae?
+                                    Necessitatibus delectus nobis perspiciatis tempore dolorum expedita, quidem aut illo
+                                    explicabo officia corrupti ad neque et non quisquam eligendi quis vero ea vitae qui
+                                    deserunt facilis ab! Iure harum a ab illo doloribus nesciunt corporis! Placeat ut
+                                    tempore quas necessitatibus eius asperiores, laborum, repudiandae ratione aperiam,
+                                    reprehenderit tenetur eaque. Fugiat et assumenda sunt maiores sit voluptates, natus,
+                                    quaerat iusto quidem officia, obcaecati aliquam quasi. Quibusdam, minus!</p>
+                            </div>
                         </div>
 
-                        <!-- check box -->
+                        <!--打工 check box -->
 
+
+                        <hr class="my-4">
+
+
+                        <!--住宿 check box -->
+                        <div class="row g-3"
+                            style="border: 1px solid wheat; padding: 20px; border-radius: 10px; margin: 10px;">
+                            <h6 class="mb-3">預定住宿項目 </h6>
+
+                            <div class="col-md-4">
+                                <label for="house_type" class="form-label">房型 (house type)</label>
+                                <select class="form-select" id="house_type" required>
+                                    <option value="">Choose...</option>
+                                    <option>雙人房</option>
+                                    <option>單人房</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    請選擇房源類型。
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="room_name" class="form-label">房間 (room name)</label>
+                                <select class="form-select" id="room_name" required>
+                                    <option value="">Choose...</option>
+                                    <option>親子房</option>
+                                    <option>301</option>
+                                    <option>405</option>
+                                    <option>505</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    請選擇房間。
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="room_numbers" class="form-label">間數 (number) </label>
+                                <select class="form-select" id="room_numbers" required>
+                                    <option value="">Choose...</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    請選擇間數。
+                                </div>
+                            </div>
+
+                            <!-- 自動產出 -->
+                            <div class="col-md-12">
+                                <label for="house_address" class="form-label">住宿地點詳細內容 (address)</label>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum nulla, unde vel iusto
+                                    fugit perferendis commodi a asperiores tempora mollitia! Dicta sapiente, quod magni
+                                    nostrum rerum dignissimos placeat debitis, ipsam ad distinctio animi quae?
+                                    Necessitatibus delectus nobis perspiciatis tempore dolorum expedita, quidem aut illo
+                                    explicabo officia corrupti ad neque et non quisquam eligendi quis vero ea vitae qui
+                                    deserunt facilis ab! Iure harum a ab illo doloribus nesciunt corporis! Placeat ut
+                                    tempore quas necessitatibus eius asperiores, laborum, repudiandae ratione aperiam,
+                                    reprehenderit tenetur eaque. Fugiat et assumenda sunt maiores sit voluptates, natus,
+                                    quaerat iusto quidem officia, obcaecati aliquam quasi. Quibusdam, minus!</p>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <!-- ====================================================================== -->
+
+                            <!-- name  住宿者資料-->
+                            <div class="col-sm-4">
+                                <label for="fullName" class="form-label">住宿者全名 (name) </label>
+                                <input type="text" class="form-control" id="fullName" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    務必填寫會員全名。
+                                </div>
+                            </div>
+
+                            <!-- email 住宿者資料-->
+                            <div class="col-sm-4">
+                                <label for="email" class="form-label">信箱 (Email)</label>
+                                <input type="email" class="form-control" id="email" placeholder="you@example.com" value=""
+                                    required>
+                                <div class="invalid-feedback">
+                                    務必填寫email。
+                                </div>
+                            </div>
+
+                            <!-- phone 住宿者資料-->
+                            <div class="col-md-4">
+                                <label for="phone" class="form-label">電話 (phone)</label>
+                                <input type="phone" class="form-control" id="phone" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    務必填寫連絡電話。
+                                </div>
+                            </div>
+
+                            <!-- ====================================================================== -->
+
+                            <!-- name  住宿者資料-->
+                            <div class="col-sm-4">
+                                <label for="fullName" class="form-label">住宿者全名 (name) </label>
+                                <input type="text" class="form-control" id="fullName" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    務必填寫會員全名。
+                                </div>
+                            </div>
+
+                            <!-- email 住宿者資料-->
+                            <div class="col-sm-4">
+                                <label for="email" class="form-label">信箱 (Email)</label>
+                                <input type="email" class="form-control" id="email" placeholder="you@example.com" value=""
+                                    required>
+                                <div class="invalid-feedback">
+                                    務必填寫email。
+                                </div>
+                            </div>
+
+                            <!-- phone 住宿者資料-->
+                            <div class="col-md-4">
+                                <label for="phone" class="form-label">電話 (phone)</label>
+                                <input type="phone" class="form-control" id="phone" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    務必填寫連絡電話。
+                                </div>
+                            </div>
+
+                            <!-- ====================================================================== -->
+
+
+                            <div class="col-md-12">
+                                <label for="house_need" class="form-label">其他住宿需求 (need)</label>
+                                <input type="textarea" class="form-control" id="house_need" value="其他需求...">
+                            </div>
+
+                        </div>
+
+                        <!--住宿 check box -->
+
+
+                        <hr class="my-4">
 
                         <!-- button start -->
-                        <hr class="my-4">
                         <button class="w-100 btn btn-primary btn-lg" type="submit"><a href="order2.html">下一步</a></button>
                         <!-- button end -->
                     </form>
@@ -309,6 +499,9 @@
 
             </div>
 
+
+
+
             <!-- 預定打工 -->
         </main>
         <!-- 第一個form -->
@@ -317,7 +510,10 @@
 </template>
     
 <script setup>
-(function () {
+import { onMounted } from 'vue';
+
+const validation = function () {
+
     'use strict'
 
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -335,9 +531,16 @@
                 form.classList.add('was-validated')
             }, false)
         })
-})()
+};
+
+onMounted(() => {
+    // 在DOM准备好时执行渲染
+    validation();
+})
 
 </script>
+
+
 
 <style scoped>
 .card-stepper {
