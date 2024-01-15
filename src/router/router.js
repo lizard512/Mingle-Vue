@@ -18,8 +18,8 @@ import Analyze from "@views/common/Analyze.vue";
 import ThankYou from "@views/common/ThankYou.vue";
 
 // 2. 定義路由
-// 如果頁面不需要Header或Footer，請導向頁面的routes加入：
-// meta: { hideNavbar: true }, 或 meta: { hideFooter: true }, 
+// 如果頁面不需要Header或Footer，請導向該頁面的routes加入：
+// meta: { hideNavbar: true }, 或 meta: { hideFooter: true },
 const routes = [
   {
     path: "/",
