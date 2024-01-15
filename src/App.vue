@@ -1,9 +1,9 @@
 <template>
-    <Navbar></Navbar>
+    <Navbar v-if="!$route.meta.hideNavbar"></Navbar>
 
     <RouterView></RouterView>
 
-    <Footer></Footer>
+    <Footer v-if="!$route.meta.hideFooter"></Footer>
 </template>
 
 <script setup>

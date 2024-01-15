@@ -1,6 +1,6 @@
 <template>
     <!-- Navbar Start -->
-    <div class="container-fluid nav-bar">
+    <div class="container-fluid nav-bar" :class="{ 'sticky-top': isSticky }">
         <nav class="navbar bg-primary navbar-expand-xl navbar-light py-0 px-4">
             <RouterLink to="/" class="navbar-brand d-flex align-items-center text-center">
                 <div class="icon p-2 me-2">
@@ -48,7 +48,8 @@
                                 <RouterLink class="dropdown-item" to="#" @click="quitLord()">我不當房東了！</RouterLink>
                             </div>
                         </div>
-                        <RouterLink v-else class="btn btn-secondary px-3" to="/form-lord" @click="becomeLord()">成為提供者</RouterLink>
+                        <RouterLink v-else class="btn btn-secondary px-3" to="/form-lord" @click="becomeLord()">成為提供者
+                        </RouterLink>
                         <div class="nav-item dropdown">
                             <RouterLink class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="/user-center">會員中心</RouterLink>
@@ -95,13 +96,21 @@ function quitLord() {
 }
 
 // // Sticky Navbar
-// $(window).scroll(function () {
-//     if ($(this).scrollTop() > 45) {
-//         $('.nav-bar').addClass('sticky-top');
-//     } else {
-//         $('.nav-bar').removeClass('sticky-top');
-//     }
-// });
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+
+const isSticky = ref(false);
+
+const checkSticky = () => {
+    isSticky.value = window.pageYOffset > 45;
+};
+
+onMounted(() => {
+    window.addEventListener('scroll', checkSticky);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', checkSticky);
+});
 </script>
     
 <style scoped>
