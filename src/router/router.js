@@ -14,6 +14,7 @@ import Chatroom from "@views/user/Chatroom.vue";
 import Order from "@views/user/Order.vue";
 import Account from "@views/user/Account.vue";
 import Review from "@views/user/Review.vue";
+import ProviderHouse from "@views/user/ProviderHouse.vue";
 import Analyze from "@views/common/Analyze.vue";  
 import ThankYou from "@views/common/ThankYou.vue";
 
@@ -87,6 +88,11 @@ const routes = [
     component: Review
   },
   {
+    path: "/providerHouse",
+    name: "ProviderHouse",
+    component: ProviderHouse
+  },
+      {
     path: "/analyze",
     name: "Analyze",
     component: Analyze

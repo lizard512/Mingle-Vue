@@ -1,4 +1,76 @@
 <template>
+    <!-- Content Start -->
+    <div class="container-fluid p-5">
+        <ul>
+            <li style="font-weight: bold; font-size: 30px; list-style-type:square;">參加打工換宿酌收服務費300元</li>
+        </ul>
+        <br>
+        <br>
+        <span style="font-weight: bold;">聯絡我們</span>
+        <div class="col-lg-3" style="background-color: black; border-radius: 20px; color: white;overflow: hidden; ">
+            <div class="contact-text" style="float: left;margin-left: 15px;margin-top: 10px;">
+                <p><a href="404.html">Mingle.org@gmail.com</a></p>
+                <p>週一~週五 14:00-22:00</p>
+            </div>
+            <div class="contact-icon" style="float: right;margin-top: 25px;margin-right: 30px;">
+                <a href="404.html"><img src="../../assets/images/icon-fb.png" style="width: 50px;"></a>
+                <a href="404.html"><img src="../../assets/images/icon-line.png" style="width: 50px;"></a>
+            </div>
+        </div>
+        <br>
+        <br>
+        <span style="font-weight: bold;">意見箱</span>
+        <form id="form" action="https://formsubmit.co/363367bd126ea0fd2b58f2b247f113a5" method="post" enctype="multipart/form-data">
+            <label for="inputEmail">信箱</label>
+            <div class="form-group" style="margin-bottom: 10px;">
+                <input type="email"
+                       name="email"
+                       class="form-control"
+                       id="email"
+                       placeholder="email"
+                       v-model="email"
+                       ref="email">
+            </div>
+
+            <label for="formFile" class="form-label">圖片</label>
+            <div class="mb-3">
+                <input
+                    class="form-control"
+                    type="file"
+                    accept="image/*"
+                    id="formFile"
+                    name="file"
+                    ref="image"
+                    @change="fileUpdate">
+                <img
+                    id="formImg"
+                    alt="form image"
+                    style=""
+                    v-if="preview" :src="preview" width="300"/>
+            </div>
+
+            <label for="inputMessage">意見</label>
+            <div class="form-group">
+                <textarea class="form-control"
+                          name="message"
+                          id="exampleFormControlTextarea1"
+                          rows="10"
+                          style="resize:none;"
+                          placeholder="message"
+                          v-model="message"
+                          ref="message"></textarea>
+            </div>
+            <br>
+            <input type="hidden" name="_captcha" value="false">
+            <!-- <input type="hidden" name="_next" value="index.html"> -->
+            <input type="hidden" name="_template" value="table">
+            <div style="text-align: center;">
+                <button type="button" class="btn btn-light" style="border: 1px solid black;" @click="resetInput">取消</button>
+                &nbsp;&nbsp;&nbsp;
+                <button type="submit" class="btn btn-warning">送出</button>
+            </div>
+        </form>
+    </div>
   <!-- Content Start -->
   <div class="container-fluid p-5">
     <ul>
