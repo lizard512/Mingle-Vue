@@ -14,7 +14,7 @@ import Order from "@views/user/Order.vue";
 import Account from "@views/user/Account/Account.vue";
 import Review from "@views/user/Review.vue";
 // landlord 房東身分
-import Analyze from "@views/landlord/Analyze.vue";  
+import Analyze from "@views/landlord/Analyze.vue";
 import HouseMaintain from "@views/landlord/HouseMaintain.vue";
 import ProviderHouse from "@views/landlord/ProviderHouse.vue";
 // admin 管理者身分
@@ -67,25 +67,7 @@ const routes = [
     component: HouseMaintain,
   },
   {
-<<<<<<< HEAD
-    path: "/register1",
-    name: "Register1",
-    component: Register1,
-  },
-  {
-    path: "/register2",
-    name: "Register2",
-    component: Register2,
-  },
-  {
-    path: "/register3",
-    name: "Register3",
-    component: Register3,
-  }, {
     path: "/321",
-=======
-    path: "/account",
->>>>>>> f368f1b6ec70b9d21413ac607913e515a5874564
     name: "Account",
     component: Account,
   },
