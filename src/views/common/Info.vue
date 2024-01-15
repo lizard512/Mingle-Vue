@@ -46,7 +46,6 @@
                     id="formImg"
                     alt="form image"
                     style=""
-                    ref="preview"
                     v-if="preview" :src="preview" width="300"/>
             </div>
 
