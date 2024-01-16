@@ -45,17 +45,17 @@
                                 <RouterLink class="dropdown-item" to="/order">訂單管理</RouterLink>
                                 <RouterLink class="dropdown-item" to="/analyze">後臺數據</RouterLink>
                                 <RouterLink class="dropdown-item" to="/review">房東評價</RouterLink>
-                                <RouterLink class="dropdown-item" to="#" @click="quitLord()">我不當房東了！</RouterLink>
+                                <RouterLink class="dropdown-item" to="#" @click="quitLord">我不當房東了！</RouterLink>
                             </div>
                         </div>
-                        <RouterLink v-else class="btn btn-secondary px-3" to="/form-lord" @click="becomeLord()">成為提供者
+                        <RouterLink v-else class="btn btn-secondary px-3" to="/form-lord" @click="becomeLord">成為提供者
                         </RouterLink>
                         <div class="nav-item dropdown">
                             <RouterLink class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="/user-center">會員中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" to="/321">會員資料</RouterLink>
-                                <RouterLink to="#" class="dropdown-item" @click="handleLogout()">登出</RouterLink>
+                                <RouterLink to="#" class="dropdown-item" @click="Logout">登出</RouterLink>
                             </div>
                         </div>
 
@@ -63,7 +63,7 @@
                     <template v-else>
                         <RouterLink class="btn btn-dark px-3" to="/register">成為幫助者</RouterLink>
                         <p class="m-3">已有帳戶? </p>
-                        <RouterLink class="btn btn-dark px-3" to="/login" @click="handleLogin()">登入</RouterLink>
+                        <RouterLink class="btn btn-dark px-3" to="/login" @click="Login">登入</RouterLink>
                     </template>
                 </div>
 
@@ -75,25 +75,39 @@
 </template>
     
 <script setup>
+import { useUserStore } from '@store/userStore-memory.js';
 import { computed } from 'vue';
-import { useStore } from 'vuex';
 
-const store = useStore();
-const isLoggedIn = computed(() => store.state.isLoggedIn);
-const isLord = computed(() => store.state.isLord);
+const userStore = useUserStore();
 
-function handleLogin() {
-    store.commit('setLoggedIn', true);
-}
-function handleLogout() {
-    store.commit('setLoggedIn', false);
-}
-function becomeLord() {
-    store.commit('setLord', true);
-}
-function quitLord() {
-    store.commit('setLord', false);
-}
+const isLoggedIn = computed(() => userStore.isLoggedIn);
+const isLord = computed(() => userStore.isLord);
+
+const Login = userStore.login;
+const Logout = userStore.logout;
+const becomeLord = userStore.becomeLord;
+const quitLord = userStore.quitLord;
+
+// import { computed } from 'vue';
+// import { useStore } from 'vuex';
+
+// const store = useStore();
+// const isLoggedIn = computed(() => store.state.isLoggedIn);
+// const isLord = computed(() => store.state.isLord);
+
+// function handleLogin() {
+//     store.commit('setLoggedIn', true);
+// }
+// function handleLogout() {
+//     store.commit('setLoggedIn', false);
+// }
+// function becomeLord() {
+//     store.commit('setLord', true);
+// }
+// function quitLord() {
+//     store.commit('setLord', false);
+// }
+
 
 // // Sticky Navbar
 import { ref, onMounted, onBeforeUnmount } from 'vue';
