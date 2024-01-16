@@ -4,7 +4,7 @@ import router from './router/router'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import { createPinia } from 'pinia'
-import { useUserStore } from '@store/userStore-memory.js';
+import { useUserStore } from '@store/userStore-session.js';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
