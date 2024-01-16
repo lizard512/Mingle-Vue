@@ -10,6 +10,7 @@ export default [
         path: '/order',
         name: "Order",
         component: Order,
+        meta: { requiresAuth: true },
         children: [
             {
                 path: '',

@@ -5,6 +5,8 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import { createPinia } from 'pinia'
 import { useUserStore } from '@store/userStore-memory.js';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 const pinia = createPinia()
 const app = createApp(App)
@@ -17,12 +19,22 @@ router.beforeEach(async (to) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!store.isLoggedIn) {
             // 如果用戶未登入，重新導向到登入頁面
+            await Swal.fire({
+                icon: 'warning',
+                text: '請先登入',
+                confirmButtonText: '好的'
+            });
             return { name: 'Login' }
         } else if (to.meta.permissions) {
             // 檢查用戶是否具有必要的權限
             for (let permission of to.meta.permissions) {
                 if (!store.permissions.includes(permission)) {
                     // 如果用戶缺少必要的權限，重新導向到首頁
+                    await Swal.fire({
+                        icon: 'warning',
+                        text: '你沒有足夠的權限訪問這個頁面',
+                        confirmButtonText: '噢不'
+                    });
                     return { name: 'Home' }
                 }
             }
