@@ -78,11 +78,10 @@ function checkPassword() {
 const data = {
     userid: "",
     password: "",
-    loading: false  // Add loading property to track loading state
+    loading: false  
 };
 
 const login = function () {
-    // Set loading to true when login starts
     data.loading = true;
 
     Swal.fire({
@@ -101,7 +100,7 @@ const login = function () {
         userid: data.userid,
         password: data.password,
     }
-    axios.post("http://localhost:8080/secure/ajax/login", request)
+    axios.post("http://localhost:8080/login.controller", request)
         .then(function (response) {
             console.log(response);
 
@@ -113,14 +112,17 @@ const login = function () {
                     confirmButtonText: "確認"
                 }).then(function (result) {
                     if (result.isConfirmed) {
-                        document.location.href = `${contextPath}/index`;
+                        const sessionId = generateSessionId(); // Replace with your session ID generation logic
+                        req.session.userId = loggedInUserId; // Store user ID in the session
+                        res.cookie('sessionId', sessionId, { httpOnly: true, secure: true, sameSite: 'None' });
+                        document.location.href = `http://localhost:7890/`;
                     }
                 });
             } else {
                 console.log(response.data.message);
                 Swal.fire({
                     icon: "error",
-                    text: "登入失敗：" + response.data.message, // Display the server-side error message
+                    text: "登入失敗：" + response.data.message, 
                     confirmButtonText: "確認"
                 });
             }
@@ -129,12 +131,11 @@ const login = function () {
             console.error(error);
             Swal.fire({
                 icon: "warning",
-                text: "登入失敗：伺服器錯誤",  // Display a generic server error message
+                text: "登入失敗：伺服器錯誤",  
                 confirmButtonText: "確認"
             });
         })
         .finally(function () {
-            // Set loading to false when the request is complete, whether it succeeded or failed
             data.loading = false;
         });
 };
