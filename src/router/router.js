@@ -11,10 +11,10 @@ import Search from "@views/common/Search.vue";
 // user 一般使用者
 import Chatroom from "@views/user/Chatroom.vue";
 import Order from "@views/user/Order.vue";
-import Account from "@views/user/Account.vue";
+import Account from "@views/user/Account/Account.vue";
 import Review from "@views/user/Review.vue";
 // landlord 房東身分
-import Analyze from "@views/landlord/Analyze.vue";  
+import Analyze from "@views/landlord/Analyze.vue";
 import HouseMaintain from "@views/landlord/HouseMaintain.vue";
 import ProviderHouse from "@views/landlord/ProviderHouse.vue";
 // admin 管理者身分
@@ -67,7 +67,7 @@ const routes = [
     component: HouseMaintain,
   },
   {
-    path: "/account",
+    path: "/321",
     name: "Account",
     component: Account,
   },
