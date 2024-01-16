@@ -7,13 +7,14 @@
                 </div>
                 <br>
                 <div class="accountDiv">
-                    <input id="userid" v-model="userid" type="email" class="account" name="account" placeholder="Email/電話號碼" required
-                        autofocus>
+                    <input id="userid" v-model="data.userid" type="email" class="account" name="account" placeholder="Email/電話號碼"
+                        required autofocus>
                 </div>
                 <br>
                 <br>
                 <div class="passwordDiv">
-                    <input id="password" v-model="password" type="password" class="password" name="password" placeholder="請輸入密碼" required>
+                    <input id="password" v-model="data.password" type="password" class="password" name="password"
+                        placeholder="請輸入密碼" required>
                 </div>
                 <br>
                 <div class="reminder">
@@ -30,7 +31,7 @@
                 <br>
                 <br>
                 <div class="login-btn">
-                    <button class="btn btn-lg btn-warning btn-block" type="submit">登入</button>
+                    <button @click="login" class="btn btn-lg btn-warning btn-block" type="submit">登入</button>
                 </div>
                 <br>
                 <p class="or">或</p>
@@ -44,8 +45,9 @@
 </template>
     
 <script setup>
-import {createApp,ref} from 'vue';
+import { createApp, ref } from 'vue';
 import VueSweetalert2 from 'vue-sweetalert2';
+import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import axios from 'axios';
 
@@ -58,67 +60,69 @@ function checkPassword() {
     }
 }
 
+const data = {
+    userid: "",
+    password: "",
+    loading: false  // Add loading property to track loading state
+};
 
-// const app = createApp({
-//     data: function () {
-//         return { userid: "", password: "" }
-//     },
-//     methods: {
-//         login: function () {
-//             Swal.fire({
-//                 text: "Loading.......",
-//                 allowOutsideClick: false,
-//                 showConfirmButton: false
-//             });
-//             if (this.userid == "") {
-//                 this.userid = null;
-//             }
-//             if (this.password == "") {
-//                 this.password = null;
-//             }
-//             let request = {
-//                 userid: this.userid,
-//                 password: this.password,
-//             }
-//             console.log("correct response");
-//             axios.post(contextPath + "/secure/ajax/login", request).then(function (response) {
-//                 console.log(response);
-//                 if (response.data.success) {
-//                     console.log(response.data.message);
-//                     Swal.fire({
-//                         icon: "success",
-//                         text: "登入成功",
-//                         confirmButtonText: "確認"
-//                     }).then(function (result) {
-//                         if (result.isConfirmed) {
-//                             document.location.href = `${contextPath}/index`;
-//                         }
-//                     })
-//                 } else {
-//                     console.log(response.data.message);
-//                     Swal.fire({
-//                         icon: "error",
-//                         text: "登入失敗",
-//                         confirmButtonText: "確認"
-//                     }).then(function (result) {
-//                         if (result.isConfirmed) {
-//                             document.location.href = `${contextPath}/index`;
-//                         }
-//                     })
-//                 }
-//             }).catch(function (error) {
-//                 Swal.fire({
-//                     icon: "warning",
-//                     text: "登入失敗",
-//                     confirmButtonText: "確認"
-//                 })
-//             })
-//         }
-//     }
-// });
-// app.use("axios"); 
-// app.use("VueSweetalert2");
-// app.mount("#app");
+const login = function () {
+    // Set loading to true when login starts
+    data.loading = true;
+
+    Swal.fire({
+        text: "Loading.......",
+        allowOutsideClick: false,
+        showConfirmButton: false
+    });
+
+    if (data.userid === "") {
+        data.userid = null;
+    }
+    if (data.password === "") {
+        data.password = null;
+    }
+    let request = {
+        userid: data.userid,
+        password: data.password, 
+    }
+    axios.post("http://localhost:8080/secure/ajax/login", request)
+        .then(function (response) {
+            console.log(response);
+
+            if (response.data.success) {
+                console.log(response.data.message);
+                Swal.fire({
+                    icon: "success",
+                    text: "登入成功",
+                    confirmButtonText: "確認"
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        document.location.href = `${contextPath}/index`;
+                    }
+                });
+            } else {
+                console.log(response.data.message);
+                Swal.fire({
+                    icon: "error",
+                    text: "登入失敗：" + response.data.message, // Display the server-side error message
+                    confirmButtonText: "確認"
+                });
+            }
+        })
+        .catch(function (error) {
+            console.error(error);
+            Swal.fire({
+                icon: "warning",
+                text: "登入失敗：伺服器錯誤",  // Display a generic server error message
+                confirmButtonText: "確認"
+            });
+        })
+        .finally(function () {
+            // Set loading to false when the request is complete, whether it succeeded or failed
+            data.loading = false;
+        });
+};
 
 </script>
     
