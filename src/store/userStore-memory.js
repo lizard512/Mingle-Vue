@@ -4,8 +4,9 @@ import { defineStore } from 'pinia';
 export const useUserStore = defineStore({
     id: 'user',
     state: () => ({
+        // 使用者登入狀態
         isLoggedIn: false,
-        isLord: false
+        permissions: [],
     }),
     actions: {
         login() {
@@ -14,11 +15,31 @@ export const useUserStore = defineStore({
         logout() {
             this.isLoggedIn = false;
         },
-        becomeLord() {
-            this.isLord = true;
+        addPermission(permission) {
+            // 添加用戶身分組
+            if (!this.permissions.includes(permission)) {
+                this.permissions.push(permission);
+            }
         },
-        quitLord() {
-            this.isLord = false;
-        }
+        removePermission(permission) {
+            const index = this.permissions.indexOf(permission);
+            // 移除用戶身分組
+            if (index !== -1) {
+                this.permissions.splice(index, 1);
+            }
+        },
+        becomeLandlord() {
+            this.addPermission('lord')
+        },
+        quitFromLandlord() {
+            this.removePermission('lord')
+        },
+        becomeAdmin() {
+            this.addPermission('admin')
+        },
+        quitFromAdmin() {
+            this.removePermission('admin')
+        },
+
     }
 });

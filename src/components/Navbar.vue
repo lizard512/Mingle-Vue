@@ -37,37 +37,39 @@
                         </div>
                     </div>
                     <template v-if="isLoggedIn">
-                        <div v-if="isLord" class="nav-item dropdown">
+                        <div v-if="isLandlord" class="nav-item dropdown">
                             <RouterLink class=" btn btn-secondary px-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="/lord-center">房東中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
+                                <RouterLink class="dropdown-item" to="/providerHouse">發布工作</RouterLink>
                                 <RouterLink class="dropdown-item" to="/houseMaintain">房源維護</RouterLink>
-                                <RouterLink class="dropdown-item" to="/order">訂單管理</RouterLink>
+                                <RouterLink class="dropdown-item" to="#">訂單管理</RouterLink>
                                 <RouterLink class="dropdown-item" to="/analyze">後臺數據</RouterLink>
                                 <RouterLink class="dropdown-item" to="/review">房東評價</RouterLink>
-                                <RouterLink class="dropdown-item" to="#" @click="quitLord">我不當房東了！</RouterLink>
+                                <RouterLink class="dropdown-item" to="#" @click="userStore.quitFromLandlord">我不當房東了！</RouterLink>
                             </div>
                         </div>
-                        <RouterLink v-else class="btn btn-secondary px-3" to="/form-lord" @click="becomeLord">成為提供者
+                        <RouterLink v-else class="btn btn-secondary px-3" to="/form-lord" @click="userStore.becomeLandlord">成為提供者
                         </RouterLink>
                         <div class="nav-item dropdown">
                             <RouterLink class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="/user-center">會員中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <RouterLink class="dropdown-item" to="/321">會員資料</RouterLink>
-                                <RouterLink to="#" class="dropdown-item" @click="Logout">登出</RouterLink>
+                                <RouterLink class="dropdown-item" to="/account">會員資料</RouterLink>
+                                <RouterLink class="dropdown-item" to="/order">打工訂單</RouterLink>
+                                <RouterLink to="#" class="dropdown-item" @click="userStore.logout">登出</RouterLink>
+                                <RouterLink v-if="isAdmin" class="dropdown-item" to="#" @click="userStore.quitFromAdmin">不當管理者了</RouterLink>
+                                <RouterLink v-else class="dropdown-item" to="#" @click="userStore.becomeAdmin">成為管理者</RouterLink>
                             </div>
                         </div>
 
                     </template>
                     <template v-else>
-                        <RouterLink class="btn btn-dark px-3" to="/register" @click="Login">成為幫助者</RouterLink>
+                        <RouterLink class="btn btn-dark px-3" to="/register">成為幫助者</RouterLink>
                         <p class="m-3">已有帳戶? </p>
-                        <RouterLink class="btn btn-dark px-3" to="/login" @click="Login">登入</RouterLink>
+                        <RouterLink class="btn btn-dark px-3" to="/login">登入</RouterLink>
                     </template>
                 </div>
-
-
             </div>
         </nav>
     </div>
@@ -81,12 +83,9 @@ import { computed } from 'vue';
 const userStore = useUserStore();
 
 const isLoggedIn = computed(() => userStore.isLoggedIn);
-const isLord = computed(() => userStore.isLord);
+const isLandlord = computed(() => userStore.permissions.includes('lord'));
+const isAdmin = computed(() => userStore.permissions.includes('admin'));
 
-const Login = userStore.login;
-const Logout = userStore.logout;
-const becomeLord = userStore.becomeLord;
-const quitLord = userStore.quitLord;
 
 // import { computed } from 'vue';
 // import { useStore } from 'vuex';

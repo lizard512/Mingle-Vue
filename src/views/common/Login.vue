@@ -7,8 +7,8 @@
                 </div>
                 <br>
                 <div class="accountDiv">
-                    <input id="userid" v-model="data.userid" type="email" class="account" name="account" placeholder="Email/電話號碼"
-                        required autofocus>
+                    <input id="userid" v-model="data.userid" type="email" class="account" name="account"
+                        placeholder="Email/電話號碼" required autofocus>
                 </div>
                 <br>
                 <br>
@@ -39,6 +39,11 @@
                     <button class="btn btn-outline-dark" type="submit"><img src="@images/icon-google.png"
                             width="25px">&nbsp;透過Google帳號登入</button>
                 </div>
+                <br>
+                <div class="login-btn">
+                    <button class="btn btn-lg btn-warning btn-block" type="submit"
+                        @click="loginTestUsingPinia">登入(Pinia測試)</button>
+                </div>
             </div>
         </div>
     </div>
@@ -46,6 +51,16 @@
 </template>
     
 <script setup>
+import { useUserStore } from '@store/userStore-memory.js';
+import { useRouter } from 'vue-router';
+const userStore = useUserStore();
+const router = useRouter();
+const loginTestUsingPinia = () => {
+    userStore.login();
+    router.push({ name: 'Home' });
+};
+
+
 import { createApp, ref } from 'vue';
 import VueSweetalert2 from 'vue-sweetalert2';
 import Swal from 'sweetalert2';
@@ -85,7 +100,7 @@ const login = function () {
     }
     let request = {
         userid: data.userid,
-        password: data.password, 
+        password: data.password,
     }
     axios.post("http://localhost:8080/secure/ajax/login", request)
         .then(function (response) {

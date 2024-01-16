@@ -26,12 +26,22 @@
         <br>
         <div class="register-btn">
             <button class="btn btn-lg btn-dark btn-block" type="submit">設定完成</button>
+            <button class="btn btn-lg btn-dark btn-block" type="submit" @click="registerTestUsingPinia">註冊(Pinia測試)</button>
         </div>
         <br>
     </div>
 </template>
     
 <script setup>
+import { useUserStore } from '@store/userStore-memory.js';
+import { useRouter } from 'vue-router';
+const userStore = useUserStore();
+const router = useRouter();
+const registerTestUsingPinia = () => {
+    userStore.login();
+    router.push({ name: 'Home' });
+};
+
 </script>
 
 
