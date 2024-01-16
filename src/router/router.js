@@ -16,6 +16,7 @@ import Review from "@views/user/Review.vue";
 // landlord 房東身分
 import Analyze from "@views/landlord/Analyze.vue";
 import HouseMaintain from "@views/landlord/HouseMaintain.vue";
+import WorkMaintain from "@views/landlord/WorkMaintain.vue";
 import ProviderHouse from "@views/landlord/ProviderHouse.vue";
 // admin 管理者身分
 // 子路由
@@ -65,6 +66,11 @@ const routes = [
     path: "/houseMaintain",
     name: "HouseMaintain",
     component: HouseMaintain,
+  },
+  {
+    path: "/workMaintain",
+    name: "WorkMaintain",
+    component: WorkMaintain,
   },
   {
     path: "/321",
