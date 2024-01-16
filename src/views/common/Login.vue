@@ -3,7 +3,7 @@
         <div class="col-lg-4 login-frame">
             <div class="container-xxl bg-white p-5 login-form">
                 <div class="login-icon">
-                    <img src="../../assets/images/icon-main.png" width="50px">
+                    <img src="@images/icon-main.png" width="50px">
                 </div>
                 <br>
                 <div class="accountDiv">
@@ -36,16 +36,30 @@
                 <br>
                 <p class="or">或</p>
                 <div class="google-btn">
-                    <button class="btn btn-outline-dark" type="submit"><img src="../../assets/images/icon-google.png"
+                    <button class="btn btn-outline-dark" type="submit"><img src="@images/icon-google.png"
                             width="25px">&nbsp;透過Google帳號登入</button>
+                </div>
+                <br>
+                <div class="login-btn">
+                    <button class="btn btn-lg btn-warning btn-block" type="submit"
+                        @click="loginTestUsingPinia">登入(Pinia測試)</button>
                 </div>
             </div>
         </div>
     </div>
-    <h1>{{ data.userid }},{{ data.password }}</h1>
 </template>
     
 <script setup>
+import { useUserStore } from '@store/userStore-memory.js';
+import { useRouter } from 'vue-router';
+const userStore = useUserStore();
+const router = useRouter();
+const loginTestUsingPinia = () => {
+    userStore.login();
+    router.push({ name: 'Home' });
+};
+
+
 import { createApp, ref } from 'vue';
 import VueSweetalert2 from 'vue-sweetalert2';
 import Swal from 'sweetalert2';
@@ -84,7 +98,7 @@ const login = function () {
     }
     let request = {
         userid: data.userid,
-        password: data.password, 
+        password: data.password,
     }
     axios.post("http://localhost:8080/login.controller", request)
         .then(function (response) {

@@ -15,7 +15,6 @@ wow.init();
 // 內部元件
 import Navbar from '@components/Navbar.vue'
 import Footer from '@components/Footer.vue'
-
 </script>
 
 <!-- Animate.css -->
