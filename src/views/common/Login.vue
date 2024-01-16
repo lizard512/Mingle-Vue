@@ -7,13 +7,14 @@
                 </div>
                 <br>
                 <div class="accountDiv">
-                    <input id="userid" v-model="userid" type="email" class="account" name="account" placeholder="Email/電話號碼" required
-                        autofocus>
+                    <input id="userid" v-model="data.userid" type="email" class="account" name="account"
+                        placeholder="Email/電話號碼" required autofocus>
                 </div>
                 <br>
                 <br>
                 <div class="passwordDiv">
-                    <input id="password" v-model="password" type="password" class="password" name="password" placeholder="請輸入密碼" required>
+                    <input id="password" v-model="data.password" type="password" class="password" name="password"
+                        placeholder="請輸入密碼" required>
                 </div>
                 <br>
                 <div class="reminder">
@@ -41,10 +42,11 @@
             </div>
         </div>
     </div>
+    <h1>{{ data.userid }},{{ data.password }}</h1>
 </template>
     
 <script setup>
-import {createApp,ref} from 'vue';
+import { createApp, ref } from 'vue';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import axios from 'axios';
@@ -63,6 +65,15 @@ function checkPassword() {
 //     data: function () {
 //         return { userid: "", password: "" }
 //     },
+
+import { reactive } from 'vue';
+
+const data = reactive({
+    userid: '',
+    password: ''
+})
+
+
 //     methods: {
 //         login: function () {
 //             Swal.fire({
@@ -81,7 +92,9 @@ function checkPassword() {
 //                 password: this.password,
 //             }
 //             console.log("correct response");
-//             axios.post(contextPath + "/secure/ajax/login", request).then(function (response) {
+
+//             await axios.post(contextPath + "/secure/ajax/login", request).then(function (response) {
+
 //                 console.log(response);
 //                 if (response.data.success) {
 //                     console.log(response.data.message);
@@ -116,7 +129,7 @@ function checkPassword() {
 //         }
 //     }
 // });
-// app.use("axios"); 
+// app.use("axios");
 // app.use("VueSweetalert2");
 // app.mount("#app");
 
