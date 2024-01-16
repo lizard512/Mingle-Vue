@@ -30,12 +30,6 @@
                         </div>
                     </div>
                     <RouterLink class="nav-item nav-link" to="/contact-Us">聯絡我們</RouterLink>
-                    <div class="nav-item dropdown">
-                        <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">待整理功能</RouterLink>
-                        <div class="dropdown-menu rounded-0 m-0">
-                            <RouterLink class="dropdown-item" to="/chatroom">聊天室</RouterLink>
-                        </div>
-                    </div>
                     <template v-if="isLoggedIn">
                         <div v-if="isLandlord" class="nav-item dropdown">
                             <RouterLink class=" btn btn-secondary px-3 dropdown-toggle" data-bs-toggle="dropdown"
@@ -58,6 +52,7 @@
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" to="/account">會員資料</RouterLink>
                                 <RouterLink class="dropdown-item" to="/order">打工訂單</RouterLink>
+                                <RouterLink class="dropdown-item" to="/chatroom">聊天室</RouterLink>
                                 <RouterLink to="#" class="dropdown-item" @click="userStore.logout">登出</RouterLink>
                                 <RouterLink v-if="isAdmin" class="dropdown-item" to="#" @click="userStore.quitFromAdmin">不當管理者了</RouterLink>
                                 <RouterLink v-else class="dropdown-item" to="#" @click="userStore.becomeAdmin">成為管理者</RouterLink>
