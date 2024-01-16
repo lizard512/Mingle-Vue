@@ -43,6 +43,7 @@
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" to="/providerHouse">發布工作</RouterLink>
                                 <RouterLink class="dropdown-item" to="/houseMaintain">房源維護</RouterLink>
+                                <RouterLink class="dropdown-item" to="/WorkMaintain">工作管理</RouterLink>
                                 <RouterLink class="dropdown-item" to="#">訂單管理</RouterLink>
                                 <RouterLink class="dropdown-item" to="/analyze">後臺數據</RouterLink>
                                 <RouterLink class="dropdown-item" to="/review">房東評價</RouterLink>
