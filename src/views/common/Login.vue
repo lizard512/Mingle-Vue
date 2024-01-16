@@ -3,7 +3,7 @@
         <div class="col-lg-4 login-frame">
             <div class="container-xxl bg-white p-5 login-form">
                 <div class="login-icon">
-                    <img src="../../assets/images/icon-main.png" width="50px">
+                    <img src="@images/icon-main.png" width="50px">
                 </div>
                 <br>
                 <div class="accountDiv">
@@ -36,7 +36,7 @@
                 <br>
                 <p class="or">或</p>
                 <div class="google-btn">
-                    <button class="btn btn-outline-dark" type="submit"><img src="../../assets/images/icon-google.png"
+                    <button class="btn btn-outline-dark" type="submit"><img src="@images/icon-google.png"
                             width="25px">&nbsp;透過Google帳號登入</button>
                 </div>
             </div>
