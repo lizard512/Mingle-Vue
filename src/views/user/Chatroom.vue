@@ -48,8 +48,21 @@
 </template>
     
 <script setup lang='ts'>
+let global = globalThis;
 import { ref, onMounted } from 'vue';
+import SockJS from 'sockjs-client/dist/sockjs.min.js';
+import Stomp from 'stompjs';
 const chatContainer = ref(null);
+let socket = new SockJS('http://localhost:8080/ws');
+let stompClient = Stomp.over(socket);
+stompClient.connect({}, (frame) => {
+    console.log('Connected: ' + frame);
+
+    stompClient.subscribe('/user/topic/some-topic', (message) => {
+        // console.log('Received message: ' + message.body);
+        // 在這裡處理接收到的消息
+    });
+});
 function scrollToButtom() {
     if (chatContainer.value) {
         // console.log(chatContainer.value)
