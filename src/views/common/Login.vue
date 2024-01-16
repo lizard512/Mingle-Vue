@@ -7,13 +7,13 @@
                 </div>
                 <br>
                 <div class="accountDiv">
-                    <input id="userid" v-model="data.userid" type="email" class="account" name="account"
+                    <input id="userid" v-model="userid" type="email" class="account" name="account"
                         placeholder="Email/電話號碼" required autofocus>
                 </div>
                 <br>
                 <br>
                 <div class="passwordDiv">
-                    <input id="password" v-model="data.password" type="password" class="password" name="password"
+                    <input id="password" v-model="password" type="password" class="password" name="password"
                         placeholder="請輸入密碼" required>
                 </div>
                 <br>
@@ -61,7 +61,6 @@ const loginTestUsingPinia = () => {
 
 
 import { createApp, ref } from 'vue';
-import VueSweetalert2 from 'vue-sweetalert2';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import axios from 'axios';
@@ -75,15 +74,13 @@ function checkPassword() {
     }
 }
 
-const data = {
-    userid: "",
-    password: "",
-    loading: false  // Add loading property to track loading state
-};
+const userid = ref('');
+const password = ref('');
+let loading = false
 
 const login = function () {
     // Set loading to true when login starts
-    data.loading = true;
+    loading = true;
 
     Swal.fire({
         text: "Loading.......",
@@ -91,15 +88,15 @@ const login = function () {
         showConfirmButton: false
     });
 
-    if (data.userid === "") {
-        data.userid = null;
+    if (userid === "") {
+        userid = null;
     }
-    if (data.password === "") {
-        data.password = null;
+    if (password === "") {
+        password = null;
     }
     let request = {
-        userid: data.userid,
-        password: data.password,
+        userid: userid.value,
+        password: password.value,
     }
     axios.post("http://localhost:8080/secure/ajax/login", request)
         .then(function (response) {
@@ -135,7 +132,7 @@ const login = function () {
         })
         .finally(function () {
             // Set loading to false when the request is complete, whether it succeeded or failed
-            data.loading = false;
+            loading = false;
         });
 };
 
