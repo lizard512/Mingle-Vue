@@ -16,7 +16,7 @@
 }
 
 .title {
-    text-align: center;
+    
     color: black;
     font-size: 25px;
     margin-top: -30px;
@@ -24,7 +24,7 @@
 
 .register-icon {
     margin: auto;
-    text-align: center;
+    
 }
 
 input {
@@ -34,7 +34,7 @@ input {
 
 .register-btn {
     margin: auto;
-    text-align: center;
+    
 }
 
 .register-btn button {
@@ -50,11 +50,7 @@ input {
     border-radius: 50px;
 }
 
-.accountDiv {
-    text-align: center;
-}
-
 .google-btn {
     margin: auto;
-    text-align: center;
+    
 }

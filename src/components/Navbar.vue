@@ -1,7 +1,7 @@
 <template>
     <!-- Navbar Start -->
     <div class="container-fluid nav-bar" :class="{ 'sticky-top': isSticky }">
-        <nav class="navbar bg-primary navbar-expand-xl navbar-light py-0 px-4">
+        <nav class="navbar bg-primary navbar-expand-xxl navbar-light py-0 px-4">
             <RouterLink to="/" class="navbar-brand d-flex align-items-center text-center">
                 <div class="icon p-2 me-2">
                     <img class="img-fluid" src="@images/icon-main.png" alt="Icon" style="width: 30px; height: 27px;">
@@ -160,7 +160,7 @@ onBeforeUnmount(() => {
     color: var(--secondary);
 }
 
-@media (max-width: 1491.98px) {
+@media (max-width: 1591.98px) {
     .nav-bar {
         margin: 0;
         padding: 0;
@@ -181,7 +181,7 @@ onBeforeUnmount(() => {
     font-weight: 500;
 }
 
-@media (min-width: 1492px) {
+@media (min-width: 1592px) {
     .navbar .nav-item .dropdown-menu {
         display: block;
         top: 100%;
