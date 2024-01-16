@@ -47,7 +47,6 @@
             </div>
         </div>
     </div>
-    <h1>{{ data.userid }},{{ data.password }}</h1>
 </template>
     
 <script setup>
