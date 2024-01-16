@@ -54,7 +54,7 @@
                             <RouterLink class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="/user-center">會員中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <RouterLink class="dropdown-item" to="/member-info">會員資料</RouterLink>
+                                <RouterLink class="dropdown-item" to="/321">會員資料</RouterLink>
                                 <RouterLink to="#" class="dropdown-item" @click="handleLogout()">登出</RouterLink>
                             </div>
                         </div>

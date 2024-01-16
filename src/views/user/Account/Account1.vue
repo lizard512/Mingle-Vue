@@ -34,7 +34,7 @@
                     <br><br>
                     <div class="">
                         <label for="cellphone" class="form-label">手機號碼
-                            <input type="text" class="" id="cellphone" placeholder="0912345678" maxlength="10"><span
+                            <input type="phone" class="" id="cellphone" placeholder="0912345678" maxlength="10"><span
                                 class="changeinput">變更</span></label>
                         <div class="invalid-feedback">
                             Please enter cellphone.
