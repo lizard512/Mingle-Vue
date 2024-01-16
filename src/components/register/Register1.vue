@@ -31,4 +31,5 @@ function goToRegister2() {
 }
 </script>
 
-<style src="@styles/register.css" scoped></style>
+<style src="@styles/register.css" scoped>
+</style>

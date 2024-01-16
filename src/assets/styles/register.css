@@ -50,6 +50,17 @@ input {
     border-radius: 50px;
 }
 
+<<<<<<< HEAD
+.accountDiv {
+    text-align: center;
+}
+
+.account{
+    width: 100%;
+}
+
+=======
+>>>>>>> 54c2935a9193025f0cc1332c30c8819e5bc7b838
 .google-btn {
     margin: auto;
     
