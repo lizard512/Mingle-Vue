@@ -13,6 +13,7 @@ export default [
         children: [
             {
                 path: '',
+                name: 'RegisterDefault',
                 redirect: '/register/register1'
             },
             {

@@ -1,7 +1,7 @@
 <template>
     <!-- Navbar Start -->
     <div class="container-fluid nav-bar" :class="{ 'sticky-top': isSticky }">
-        <nav class="navbar bg-primary navbar-expand-xl navbar-light py-0 px-4">
+        <nav class="navbar bg-primary navbar-expand-xxl navbar-light py-0 px-4">
             <RouterLink to="/" class="navbar-brand d-flex align-items-center text-center">
                 <div class="icon p-2 me-2">
                     <img class="img-fluid" src="@images/icon-main.png" alt="Icon" style="width: 30px; height: 27px;">
@@ -30,32 +30,32 @@
                         </div>
                     </div>
                     <RouterLink class="nav-item nav-link" to="/contact-Us">聯絡我們</RouterLink>
-                    <div class="nav-item dropdown">
-                        <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">待整理功能</RouterLink>
-                        <div class="dropdown-menu rounded-0 m-0">
-                            <RouterLink class="dropdown-item" to="/chatroom">聊天室</RouterLink>
-                        </div>
-                    </div>
                     <template v-if="isLoggedIn">
-                        <div v-if="isLord" class="nav-item dropdown">
+                        <div v-if="isLandlord" class="nav-item dropdown">
                             <RouterLink class=" btn btn-secondary px-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="/lord-center">房東中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
+                                <RouterLink class="dropdown-item" to="/providerHouse">發布工作</RouterLink>
                                 <RouterLink class="dropdown-item" to="/houseMaintain">房源維護</RouterLink>
-                                <RouterLink class="dropdown-item" to="/order">訂單管理</RouterLink>
+                                <RouterLink class="dropdown-item" to="/WorkMaintain">工作管理</RouterLink>
+                                <RouterLink class="dropdown-item" to="#">訂單管理</RouterLink>
                                 <RouterLink class="dropdown-item" to="/analyze">後臺數據</RouterLink>
                                 <RouterLink class="dropdown-item" to="/review">房東評價</RouterLink>
-                                <RouterLink class="dropdown-item" to="#" @click="quitLord()">我不當房東了！</RouterLink>
+                                <RouterLink class="dropdown-item" to="#" @click="userStore.quitFromLandlord">我不當房東了！</RouterLink>
                             </div>
                         </div>
-                        <RouterLink v-else class="btn btn-secondary px-3" to="/form-lord" @click="becomeLord()">成為提供者
+                        <RouterLink v-else class="btn btn-secondary px-3" to="/form-lord" @click="userStore.becomeLandlord">成為提供者
                         </RouterLink>
                         <div class="nav-item dropdown">
                             <RouterLink class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="/user-center">會員中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <RouterLink class="dropdown-item" to="/member-info">會員資料</RouterLink>
-                                <RouterLink to="#" class="dropdown-item" @click="handleLogout()">登出</RouterLink>
+                                <RouterLink class="dropdown-item" to="/account">會員資料</RouterLink>
+                                <RouterLink class="dropdown-item" to="/order">打工訂單</RouterLink>
+                                <RouterLink class="dropdown-item" to="/chatroom">聊天室</RouterLink>
+                                <RouterLink to="#" class="dropdown-item" @click="userStore.logout">登出</RouterLink>
+                                <RouterLink v-if="isAdmin" class="dropdown-item" to="#" @click="userStore.quitFromAdmin">不當管理者了</RouterLink>
+                                <RouterLink v-else class="dropdown-item" to="#" @click="userStore.becomeAdmin">成為管理者</RouterLink>
                             </div>
                         </div>
 
@@ -63,11 +63,9 @@
                     <template v-else>
                         <RouterLink class="btn btn-dark px-3" to="/register">成為幫助者</RouterLink>
                         <p class="m-3">已有帳戶? </p>
-                        <RouterLink class="btn btn-dark px-3" to="/login" @click="handleLogin()">登入</RouterLink>
+                        <RouterLink class="btn btn-dark px-3" to="/login">登入</RouterLink>
                     </template>
                 </div>
-
-
             </div>
         </nav>
     </div>
@@ -75,25 +73,36 @@
 </template>
     
 <script setup>
+import { useUserStore } from '@store/userStore-memory.js';
 import { computed } from 'vue';
-import { useStore } from 'vuex';
 
-const store = useStore();
-const isLoggedIn = computed(() => store.state.isLoggedIn);
-const isLord = computed(() => store.state.isLord);
+const userStore = useUserStore();
 
-function handleLogin() {
-    store.commit('setLoggedIn', true);
-}
-function handleLogout() {
-    store.commit('setLoggedIn', false);
-}
-function becomeLord() {
-    store.commit('setLord', true);
-}
-function quitLord() {
-    store.commit('setLord', false);
-}
+const isLoggedIn = computed(() => userStore.isLoggedIn);
+const isLandlord = computed(() => userStore.permissions.includes('lord'));
+const isAdmin = computed(() => userStore.permissions.includes('admin'));
+
+
+// import { computed } from 'vue';
+// import { useStore } from 'vuex';
+
+// const store = useStore();
+// const isLoggedIn = computed(() => store.state.isLoggedIn);
+// const isLord = computed(() => store.state.isLord);
+
+// function handleLogin() {
+//     store.commit('setLoggedIn', true);
+// }
+// function handleLogout() {
+//     store.commit('setLoggedIn', false);
+// }
+// function becomeLord() {
+//     store.commit('setLord', true);
+// }
+// function quitLord() {
+//     store.commit('setLord', false);
+// }
+
 
 // // Sticky Navbar
 import { ref, onMounted, onBeforeUnmount } from 'vue';
@@ -160,7 +169,7 @@ onBeforeUnmount(() => {
     color: var(--secondary);
 }
 
-@media (max-width: 1491.98px) {
+@media (max-width: 1591.98px) {
     .nav-bar {
         margin: 0;
         padding: 0;
@@ -181,7 +190,7 @@ onBeforeUnmount(() => {
     font-weight: 500;
 }
 
-@media (min-width: 1492px) {
+@media (min-width: 1592px) {
     .navbar .nav-item .dropdown-menu {
         display: block;
         top: 100%;

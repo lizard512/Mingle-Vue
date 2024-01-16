@@ -15,17 +15,6 @@ wow.init();
 // 內部元件
 import Navbar from '@components/Navbar.vue'
 import Footer from '@components/Footer.vue'
-
-// Spinner
-var spinner = function () {
-    setTimeout(function () {
-        if ($('#spinner').length > 0) {
-            $('#spinner').removeClass('show');
-        }
-    }, 1);
-};
-spinner();
-
 </script>
 
 <!-- Animate.css -->

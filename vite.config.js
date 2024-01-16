@@ -22,6 +22,8 @@ export default defineConfig({
       '@components': fileURLToPath(new URL('./src/components', import.meta.url)),
       // router
       '@router': fileURLToPath(new URL('./src/router', import.meta.url)),
+      // store
+      '@store': fileURLToPath(new URL('./src/store', import.meta.url)),
       // views
       '@views': fileURLToPath(new URL('./src/views', import.meta.url)),
     }
