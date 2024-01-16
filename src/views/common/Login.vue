@@ -112,9 +112,7 @@ const login = function () {
                     confirmButtonText: "確認"
                 }).then(function (result) {
                     if (result.isConfirmed) {
-                        const sessionId = generateSessionId(); // Replace with your session ID generation logic
-                        req.session.userId = loggedInUserId; // Store user ID in the session
-                        res.cookie('sessionId', sessionId, { httpOnly: true, secure: true, sameSite: 'None' });
+                        document.cookie = `sessionToken=${response.data.sessionToken}; path=/`;
                         document.location.href = `http://localhost:7890/`;
                     }
                 });
