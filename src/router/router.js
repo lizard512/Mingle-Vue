@@ -22,6 +22,7 @@ import ProviderHouse from "@views/landlord/ProviderHouse.vue";
 // admin 管理者身分
 // 子路由
 import routerRegister from "./router-register.js";
+import routerOrder from "./router-order.js";
 
 
 // 2. 定義路由
@@ -110,6 +111,7 @@ const routes = [
 
   // 子路由
   ...routerRegister,
+  ...routerOrder,
 ];
 
 
