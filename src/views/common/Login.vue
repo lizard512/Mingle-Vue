@@ -7,8 +7,13 @@
                 </div>
                 <br>
                 <div class="accountDiv">
+<<<<<<< HEAD
                     <input id="userid" v-model="data.userid" type="email" class="account" name="account" placeholder="Email/電話號碼"
                         required autofocus>
+=======
+                    <input id="userid" v-model="data.userid" type="email" class="account" name="account"
+                        placeholder="Email/電話號碼" required autofocus>
+>>>>>>> 54c2935a9193025f0cc1332c30c8819e5bc7b838
                 </div>
                 <br>
                 <br>
@@ -42,6 +47,7 @@
             </div>
         </div>
     </div>
+    <h1>{{ data.userid }},{{ data.password }}</h1>
 </template>
     
 <script setup>
@@ -66,6 +72,7 @@ const data = {
     loading: false  // Add loading property to track loading state
 };
 
+<<<<<<< HEAD
 const login = function () {
     // Set loading to true when login starts
     data.loading = true;
@@ -123,6 +130,79 @@ const login = function () {
             data.loading = false;
         });
 };
+=======
+// const app = createApp({
+//     data: function () {
+//         return { userid: "", password: "" }
+//     },
+
+import { reactive } from 'vue';
+
+const data = reactive({
+    userid: '',
+    password: ''
+})
+
+
+//     methods: {
+//         login: function () {
+//             Swal.fire({
+//                 text: "Loading.......",
+//                 allowOutsideClick: false,
+//                 showConfirmButton: false
+//             });
+//             if (this.userid == "") {
+//                 this.userid = null;
+//             }
+//             if (this.password == "") {
+//                 this.password = null;
+//             }
+//             let request = {
+//                 userid: this.userid,
+//                 password: this.password,
+//             }
+//             console.log("correct response");
+
+//             await axios.post(contextPath + "/secure/ajax/login", request).then(function (response) {
+
+//                 console.log(response);
+//                 if (response.data.success) {
+//                     console.log(response.data.message);
+//                     Swal.fire({
+//                         icon: "success",
+//                         text: "登入成功",
+//                         confirmButtonText: "確認"
+//                     }).then(function (result) {
+//                         if (result.isConfirmed) {
+//                             document.location.href = `${contextPath}/index`;
+//                         }
+//                     })
+//                 } else {
+//                     console.log(response.data.message);
+//                     Swal.fire({
+//                         icon: "error",
+//                         text: "登入失敗",
+//                         confirmButtonText: "確認"
+//                     }).then(function (result) {
+//                         if (result.isConfirmed) {
+//                             document.location.href = `${contextPath}/index`;
+//                         }
+//                     })
+//                 }
+//             }).catch(function (error) {
+//                 Swal.fire({
+//                     icon: "warning",
+//                     text: "登入失敗",
+//                     confirmButtonText: "確認"
+//                 })
+//             })
+//         }
+//     }
+// });
+// app.use("axios");
+// app.use("VueSweetalert2");
+// app.mount("#app");
+>>>>>>> 54c2935a9193025f0cc1332c30c8819e5bc7b838
 
 </script>
     
