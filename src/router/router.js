@@ -27,8 +27,8 @@ import routerRegister from "./router-register.js";
 // 2. 定義路由
 // 如果頁面不需要Header或Footer，請在導向該頁面的routes加入：
 // meta: { hideNavbar: true }, 或 meta: { hideFooter: true },
-// 如果頁面需要登入才能檢視，請在導向該頁面的routes加入：
-// meta: { requiresAuth: true },
+// 如果頁面需要登入或權限才能檢視，請在導向該頁面的routes加入：
+// meta: { requiresAuth: true }, 或 permissions: ['xxx']}
 const routes = [
   // commmon 無須權限
   {
@@ -80,16 +80,13 @@ const routes = [
     path: "/houseMaintain",
     name: "HouseMaintain",
     component: HouseMaintain,
+    meta: { requiresAuth: true , permissions: ['lord']},
   },
   {
     path: "/workMaintain",
     name: "WorkMaintain",
     component: WorkMaintain,
-  },
-  {
-    path: "/account",
-    name: "Account",
-    component: Account,
+    meta: { requiresAuth: true , permissions: ['lord']},
   },
   {
     path: "/review",
