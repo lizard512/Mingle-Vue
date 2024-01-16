@@ -26,15 +26,11 @@
 
                                     <!-- 變動狀態標籤 -->
                                     <ul id="progressbar-2"
-                                        class="d-flex justify-content-between mx-0 mt-0 mb-5 px-0 pt-0 pb-2">
+                                        class=" mx-0 mt-0 mb-5 px-0 pt-0 pb-2">
                                         <li class="step0 active text-center" id="step1"></li>
                                         <li class="step0 text-muted  text-center" id="step2"></li>
                                         <li class="step0 text-muted  text-center" id="step3"></li>
-                                        <li class="step0 text-muted text-end" id="step4"></li>
                                     </ul>
-
-
-
 
 
                                     <div class="d-flex justify-content-between">
@@ -46,22 +42,15 @@
                                             </div>
                                         </div>
                                         <div class="d-lg-flex align-items-center">
-                                            <i class="fas fa-home fa-3x me-lg-4 mb-3 mb-lg-0"></i>
-                                            <div>
-                                                <p class="fw-bold mb-1">order</p>
-                                                <p class="fw-bold mb-0">house</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-lg-flex align-items-center">
                                             <i class="fas fa-clipboard-list fa-3x me-lg-4 mb-3 mb-lg-0"></i>
-                                            <div>
+                                            <div  class="me-lg-1">
                                                 <p class="fw-bold mb-1">order</p>
                                                 <p class="fw-bold mb-0">confirm</p>
                                             </div>
                                         </div>
                                         <div class="d-lg-flex align-items-center">
-                                            <i class="fas fa-envelope fa-3x me-lg-4 mb-3 mb-lg-0"></i>
-                                            <div>
+                                            <i class="fas fa-envelope fa-3x me-lg-5 mb-3 mb-lg-0"></i>
+                                            <div class="me-lg-5">
                                                 <p class="fw-bold mb-1">order</p>
                                                 <p class="fw-bold mb-0">finish</p>
                                             </div>
@@ -196,7 +185,8 @@
                             <!-- name  自動帶入會員資料-->
                             <div class="col-sm-6">
                                 <label for="fullName" class="form-label">會員全名 (name) </label>
-                                <input type="text" class="form-control" id="fullName" placeholder="" value="" required>
+                                <input type="text" class="form-control" id="fullName" placeholder="" value="" v-model="name"
+                                    required>
                                 <div class="invalid-feedback">
                                     務必填寫會員全名。
                                 </div>
@@ -206,7 +196,7 @@
                             <div class="col-sm-6">
                                 <label for="email" class="form-label">信箱 (Email)</label>
                                 <input type="email" class="form-control" id="email" placeholder="you@example.com" value=""
-                                    required>
+                                    v-model="email" required>
                                 <div class="invalid-feedback">
                                     務必填寫email。
                                 </div>
@@ -214,7 +204,8 @@
 
                             <div class="col-md-4">
                                 <label for="phone" class="form-label">電話 (phone)</label>
-                                <input type="phone" class="form-control" id="phone" placeholder="" value="" required>
+                                <input type="phone" class="form-control" id="phone" placeholder="" value="" v-model="phone"
+                                    required>
                                 <div class="invalid-feedback">
                                     務必填寫連絡電話。
                                 </div>
@@ -255,13 +246,14 @@
                             <h6 class="mb-3">您為誰預定呢? </h6>
                             <div class="my-3">
                                 <span class="form-check">
-                                    <input id="myself" name="orderby" type="radio" class="form-check-input" checked
-                                        required>
-                                    <label class="form-check-label" for="myself">我為自己預定</label>
+                                    <input id="orderby" name="orderby" type="radio" class="form-check-input" checked
+                                        v-model="orderby" value="myself" @change="orderbyChange" required>
+                                    <label class="form-check-label" for="myself" value="myself">我為自己預定</label>
                                 </span>
                                 <div class="form-check">
-                                    <input id="other" name="orderby" type="radio" class="form-check-input" required>
-                                    <label class="form-check-label" for="other">幫別人預定</label>
+                                    <input id="orderby" name="orderby" type="radio" class="form-check-input"
+                                        v-model="orderby" value="other" @change="orderbyChange" required>
+                                    <label class="form-check-label" for="other" value="other">幫別人預定</label>
                                 </div>
                             </div>
                         </div>
@@ -278,13 +270,14 @@
 
                             <div class="col-md-6">
                                 <label for="work_numbers" class="form-label">人數 ( applicants) </label>
-                                <select class="form-select" id="work_numbers" required>
+                                <select class="form-select" id="work_numbers" v-model="selectedAccomodator"
+                                    @change="updateAccomodatorData" required>
                                     <option value="">Choose...</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     請選擇打工人數。
@@ -293,16 +286,18 @@
 
                             <div class="col-md-6">
                                 <label for="work_period" class="form-label">打工區間 (work period)</label>
-                                <select class="form-select" id="work_period" required>
+                                <select class="form-select" id="work_period" v-model="selectedPeriod"
+                                    @change="updateDateRange" required>
+                                    <!-- 後續依照實際工作開放區間去抓資料庫資料 -->
                                     <option value="">Choose...</option>
-                                    <option>7天</option>
-                                    <option>14天</option>
-                                    <option>1個月</option>
-                                    <option>2個月</option>
-                                    <option>3個月</option>
-                                    <option>4個月</option>
-                                    <option>5個月</option>
-                                    <option>6個月</option>
+                                    <option value="7">7天</option>
+                                    <option value="14">14天</option>
+                                    <option value="30">1個月</option>
+                                    <option value="60">2個月</option>
+                                    <option value="90">3個月</option>
+                                    <option value="120">4個月</option>
+                                    <option value="150">5個月</option>
+                                    <option value="180">6個月</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     請選擇打工區間。
@@ -313,7 +308,7 @@
                             <div class="col-md-6">
                                 <label for="work_startDate" class="form-label"> 開始日期 (startDate) </label>
                                 <input type="date" class="form-control" id="work_startDate" name="work_startDate"
-                                    value="2018-07-22" min="2023-11-20" max="2023-11-29" required />
+                                    v-model="startDate" :min="minStartDate" :max="maxStartDate" value="" required />
                                 <div class="invalid-feedback">
                                     請選擇開始日期。
                                 </div>
@@ -322,10 +317,8 @@
                             <div class="col-md-6">
                                 <label for="work_endDate" class="form-label"> 結束日期 (endDate) </label>
                                 <input type="date" class="form-control" id="work_endDate" name="work_endDate"
-                                    value="2018-07-22" min="2023-11-20" max="2023-11-29" required />
-                                <div class="invalid-feedback">
-                                    請選擇結束日期。
-                                </div>
+                                    v-model="endDate" :min="startDate" :max="maxEndDate" value="" required disabled />
+
                             </div>
 
 
@@ -387,11 +380,11 @@
                                 <label for="room_numbers" class="form-label">間數 (number) </label>
                                 <select class="form-select" id="room_numbers" required>
                                     <option value="">Choose...</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     請選擇間數。
@@ -412,80 +405,94 @@
                                     quaerat iusto quidem officia, obcaecati aliquam quasi. Quibusdam, minus!</p>
                             </div>
 
+                            <!-- ====================================================================== -->
+
+                            <!-- name  會員資料-->
+                            <div class="row" v-if="orderby === 'myself'">
+                                <span id="accomodatorId">1. </span>
+                                <div class="col-md-4">
+                                    <label for="fullName" class="form-label">住宿者全名 (name) </label>
+                                    <input type="text" class="form-control" id="fullName" placeholder="" value=""
+                                        v-model="name" required>
+                                    <div class="invalid-feedback">
+                                        務必填寫會員全名。
+                                    </div>
+                                </div>
+
+                                <!-- email 會員資料-->
+                                <div class="col-md-4">
+                                    <label for="email" class="form-label">信箱 (Email)</label>
+                                    <input type="email" class="form-control" id="email" placeholder="you@example.com"
+                                        value="" v-model="email" required>
+                                    <div class="invalid-feedback">
+                                        務必填寫email。
+                                    </div>
+                                </div>
+
+                                <!-- phone 會員資料-->
+                                <div class="col-md-4">
+                                    <label for="phone" class="form-label">電話 (phone)</label>
+                                    <input type="phone" class="form-control" id="phone" placeholder="" value=""
+                                        v-model="phone" required>
+                                    <div class="invalid-feedback">
+                                        務必填寫連絡電話。
+                                    </div>
+                                </div>
+                            </div>
                             <hr class="my-4">
 
-                            <!-- ====================================================================== -->
-
-                            <!-- name  住宿者資料-->
-                            <div class="col-sm-4">
-                                <label for="fullName" class="form-label">住宿者全名 (name) </label>
-                                <input type="text" class="form-control" id="fullName" placeholder="" value="" required>
-                                <div class="invalid-feedback">
-                                    務必填寫會員全名。
-                                </div>
-                            </div>
-
-                            <!-- email 住宿者資料-->
-                            <div class="col-sm-4">
-                                <label for="email" class="form-label">信箱 (Email)</label>
-                                <input type="email" class="form-control" id="email" placeholder="you@example.com" value=""
-                                    required>
-                                <div class="invalid-feedback">
-                                    務必填寫email。
-                                </div>
-                            </div>
-
-                            <!-- phone 住宿者資料-->
-                            <div class="col-md-4">
-                                <label for="phone" class="form-label">電話 (phone)</label>
-                                <input type="phone" class="form-control" id="phone" placeholder="" value="" required>
-                                <div class="invalid-feedback">
-                                    務必填寫連絡電話。
-                                </div>
-                            </div>
 
                             <!-- ====================================================================== -->
+                            <div class="row" v-for="value in accomodatorData" :key="value">
 
-                            <!-- name  住宿者資料-->
-                            <div class="col-sm-4">
-                                <label for="fullName" class="form-label">住宿者全名 (name) </label>
-                                <input type="text" class="form-control" id="fullName" placeholder="" value="" required>
-                                <div class="invalid-feedback">
-                                    務必填寫會員全名。
+                                <span id="accomodatorId" v-if="orderby === 'myself'">{{ value.accomodatorId + 1 + "." }}
+                                </span>
+                                <span id="accomodatorId" v-if="orderby !== 'myself'">{{ value.accomodatorId + "." }} </span>
+
+                                <!-- name  住宿者資料-->
+                                <div class="col-md-4">
+                                    <label for="fullName" class="form-label">住宿者全名 (name) </label>
+                                    <input type="text" class="form-control" id="fullName" placeholder="" value="" required>
+                                    <div class="invalid-feedback">
+                                        務必填寫會員全名。
+                                    </div>
                                 </div>
+
+                                <!-- email 住宿者資料-->
+                                <div class="col-md-4">
+                                    <label for="email" class="form-label">信箱 (Email)</label>
+                                    <input type="email" class="form-control" id="email" placeholder="you@example.com"
+                                        value="" required>
+                                    <div class="invalid-feedback">
+                                        務必填寫email。
+                                    </div>
+                                </div>
+
+                                <!-- phone 住宿者資料-->
+                                <div class="col-md-4">
+                                    <label for="phone" class="form-label">電話 (phone)</label>
+                                    <input type="phone" class="form-control" id="phone" placeholder="" value="" required>
+                                    <div class="invalid-feedback">
+                                        務必填寫連絡電話。
+                                    </div>
+                                </div>
+                                <hr class="my-4">
                             </div>
 
-                            <!-- email 住宿者資料-->
-                            <div class="col-sm-4">
-                                <label for="email" class="form-label">信箱 (Email)</label>
-                                <input type="email" class="form-control" id="email" placeholder="you@example.com" value=""
-                                    required>
-                                <div class="invalid-feedback">
-                                    務必填寫email。
-                                </div>
-                            </div>
 
-                            <!-- phone 住宿者資料-->
-                            <div class="col-md-4">
-                                <label for="phone" class="form-label">電話 (phone)</label>
-                                <input type="phone" class="form-control" id="phone" placeholder="" value="" required>
-                                <div class="invalid-feedback">
-                                    務必填寫連絡電話。
-                                </div>
-                            </div>
 
                             <!-- ====================================================================== -->
 
 
                             <div class="col-md-12">
                                 <label for="house_need" class="form-label">其他住宿需求 (need)</label>
-                                <input type="textarea" class="form-control" id="house_need" value="其他需求...">
+                                <input type="textarea row-10" class="form-control" id="house_need" placeholder="其他住宿需求..."
+                                    value="">
                             </div>
 
                         </div>
 
                         <!--住宿 check box -->
-
 
                         <hr class="my-4">
 
@@ -501,7 +508,6 @@
 
 
 
-
             <!-- 預定打工 -->
         </main>
         <!-- 第一個form -->
@@ -510,8 +516,123 @@
 </template>
     
 <script setup>
-import { onMounted } from 'vue';
 
+import { onMounted, ref, watch } from 'vue';
+
+
+//============動態改變是否為自己訂購============
+
+const name = ref('');
+const email = ref('');
+const phone = ref('');
+
+const orderby = ref('myself');
+
+const orderbyChange = function () {
+    if (orderby.value === 'myself') {
+        name.value = name.value;
+        email.value = email.value;
+        phone.value = phone.value;
+        updateAccomodatorData();
+    } else {
+        name.value = '';
+        email.value = '';
+        phone.value = '';
+        updateAccomodatorData();
+    }
+}
+
+
+//============動態改變須填寫的住宿者資訊============
+
+const selectedAccomodator = ref('')
+const accomodatorData = ref([])
+
+const initializeAccomodatorData = function () {
+    accomodatorData.value = [];
+    if (orderby.value === 'myself') {
+        for (let i = 0; i < selectedAccomodator.value - 1; i++) {
+            accomodatorData.value.push({
+                accomodatorId: i + 1,
+                fullName: '',
+                email: '',
+                phone: '',
+            });
+        }
+
+    } else {
+        for (let i = 0; i < selectedAccomodator.value; i++) {
+            accomodatorData.value.push({
+                accomodatorId: i + 1,
+                fullName: '',
+                email: '',
+                phone: '',
+            });
+        }
+    }
+}
+
+// 監聽  selectedAccomodator 的變動
+watch(selectedAccomodator, () => {
+    initializeAccomodatorData();
+});
+
+// 更新住宿者資料
+function updateAccomodatorData() {
+    initializeAccomodatorData();
+}
+
+
+
+
+
+
+
+//============鎖定可選打工日期範圍============
+
+// 使用 ref 創建可響應的變數
+const selectedPeriod = ref('7');
+const startDate = ref(new Date());
+const endDate = ref(new Date());
+
+// 計算屬性
+const minStartDate = ref(new Date());
+const maxStartDate = ref('');
+const maxEndDate = ref('');
+
+// 監聽 selectedPeriod 的變動
+watch(selectedPeriod, (newValue) => {
+    updateDateRange(newValue);
+});
+
+watch(startDate, (newValue) => {
+    updateDateRange(selectedPeriod.value);
+});
+
+watch(endDate, (newValue) => {
+    updateDateRange(selectedPeriod.value);
+});
+
+// 更新日期範圍的函數
+function updateDateRange(period) {
+    const currentDate = new Date();
+    const newStartDate = new Date(startDate.value);
+    const newEndDate = new Date(startDate.value);
+
+    //結束打工日期
+    newEndDate.setDate(newStartDate.getDate() + parseInt(period));
+    //塞入值
+    startDate.value = newStartDate.toISOString().split('T')[0];
+    endDate.value = newEndDate.toISOString().split('T')[0];
+
+    //最小開始日期(選擇當天)
+    minStartDate.value = currentDate.toISOString().split('T')[0];
+}
+
+
+
+
+//============表單驗證============
 const validation = function () {
 
     'use strict'
@@ -536,25 +657,31 @@ const validation = function () {
 onMounted(() => {
     // 在DOM准备好时执行渲染
     validation();
+    updateDateRange(selectedPeriod.value);
+    updateAccomodatorData();
+    orderbyChange();
+
 })
 
 </script>
 
 
-
 <style scoped>
+
 .card-stepper {
-    z-index: 0
+    z-index: 0;
 }
 
 #progressbar-2 {
     color: #455A64;
+    display: flex;
+    justify-content: space-between;
 }
 
 #progressbar-2 li {
     list-style-type: none;
     font-size: 13px;
-    width: 33.33%;
+    width: 40%;
     float: left;
     position: relative;
 }
@@ -564,8 +691,11 @@ onMounted(() => {
     font-family: "Font Awesome 5 Free";
     color: #fff;
     width: 37px;
-    margin-left: 0px;
-    padding-left: 0px;
+    margin-left: auto;
+    padding-left: auto;
+    display:block;
+    text-align: center;
+    
 }
 
 /* 變動狀態標籤 */
@@ -574,27 +704,21 @@ onMounted(() => {
     font-family: "Font Awesome 5 Free";
     color: #fff;
     width: 37px;
-    margin-right: 0;
+    margin-left: auto;
+    padding-left: auto;
+    display:block;
     text-align: center;
 }
 
-/* 變動狀態標籤 */
+
 #progressbar-2 #step3:before {
     content: '\f111';
     font-family: "Font Awesome 5 Free";
     color: #fff;
     width: 37px;
-    margin-right: 0;
-    text-align: center;
-}
-
-/* 變動狀態標籤 */
-#progressbar-2 #step4:before {
-    content: '\f111';
-    font-family: "Font Awesome 5 Free";
-    color: #fff;
-    width: 37px;
-    margin-right: 0;
+    margin-left: auto;
+    padding-left: auto;
+    display:block;
     text-align: center;
 }
 
@@ -623,32 +747,21 @@ onMounted(() => {
 
 #progressbar-2 li:nth-child(1):after {
     left: 1%;
-    width: 100%;
-    background: #c5cae9 !important;
+    width: 98%;
 }
 
 #progressbar-2 li:nth-child(2):after {
     left: 1%;
-    width: 100%;
-
+    width: 98%;
 }
 
 
 #progressbar-2 li:nth-child(3):after {
     left: 1%;
-    width: 100%;
+    width: 98%;
 
 }
 
-#progressbar-2 li:nth-child(4) {
-    left: 0;
-    width: 37px;
-}
-
-#progressbar-2 li:nth-child(4):after {
-    left: 0;
-    width: 0;
-}
 
 #progressbar-2 li.active:before,
 #progressbar-2 li.active:after {

@@ -61,7 +61,7 @@
 
                     </template>
                     <template v-else>
-                        <RouterLink class="btn btn-dark px-3" to="/register1">成為幫助者</RouterLink>
+                        <RouterLink class="btn btn-dark px-3" to="/register">成為幫助者</RouterLink>
                         <p class="m-3">已有帳戶? </p>
                         <RouterLink class="btn btn-dark px-3" to="/login" @click="handleLogin()">登入</RouterLink>
                     </template>

@@ -1,17 +1,13 @@
 // 0. 引用函式庫
 import { createRouter, createWebHistory } from "vue-router";
 
-// 1. 引用元件
+// 1. 引用元件及子路由
 // commmon 無須權限
 import ContactUs from "@views/common/ContactUs.vue";
 import Home from "@views/common/Home.vue";
 import Login from "@views/common/Login.vue";
-import Register1 from "@views/common/Register1.vue";
-import Register2 from "@views/common/Register2.vue";
-import Register3 from "@views/common/Register3.vue";
 import NotFound from "@views/common/NotFound.vue";
 import Search from "@views/common/Search.vue";
-import ThankYou from "@views/common/ThankYou.vue";
 // user 一般使用者
 import Chatroom from "@views/user/Chatroom.vue";
 import Order from "@views/user/Order.vue";
@@ -22,7 +18,8 @@ import Analyze from "@views/landlord/Analyze.vue";
 import HouseMaintain from "@views/landlord/HouseMaintain.vue";
 import ProviderHouse from "@views/landlord/ProviderHouse.vue";
 // admin 管理者身分
-
+// 子路由
+import routerRegister from "./router-register.js";
 
 // 2. 定義路由
 // 如果頁面不需要Header或Footer，請在導向該頁面的routes加入：
@@ -70,20 +67,6 @@ const routes = [
     component: HouseMaintain,
   },
   {
-    path: "/register1",
-    name: "Register1",
-    component: Register1,
-  },
-  {
-    path: "/register2",
-    name: "Register2",
-    component: Register2,
-  },
-  {
-    path: "/register3",
-    name: "Register3",
-    component: Register3,
-  }, {
     path: "/account",
     name: "Account",
     component: Account,
@@ -98,16 +81,14 @@ const routes = [
     name: "ProviderHouse",
     component: ProviderHouse
   },
-      {
+  {
     path: "/analyze",
     name: "Analyze",
     component: Analyze
   },
-  {
-    path: "/thankyou",
-    name: "ThankYou",
-    component: ThankYou
-  },
+
+  // 子路由
+  ...routerRegister,
 ];
 
 
