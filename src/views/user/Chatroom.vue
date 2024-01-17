@@ -42,8 +42,8 @@
                 <input type="file" id="imageInput" accept="image/*" style="display: none;">
                 <button class="btn btn-secondary" onclick="document.getElementById('imageInput').click();">
                     <i class="bi bi-image"></i></button>
-                <textarea class="form-control" placeholder="在這裡輸入訊息..." rows="2"></textarea>
-                <button class="btn btn-primary" @click="scrollToButtom()">送出</button>
+                <input type="text" v-model="contents" class="form-control" placeholder="在這裡輸入訊息..." rows="2">
+                <button class="btn btn-primary" @click="sendMessage()">送出</button>
             </div>
         </div>
     </div>
@@ -56,19 +56,20 @@ import SockJS from 'sockjs-client/dist/sockjs.min.js';
 import Stomp from 'stompjs';
 import axios from 'axios';
 const path = 'http://localhost:8080'
-let socket = new SockJS(path + '/ws');
-let stompClient = Stomp.over(socket);
-let chatContainer = ref(null);
+const socket = new SockJS(path + '/ws');
+const stompClient = Stomp.over(socket);
+const chatContainer = ref(null);
 const messages = ref([]);
+const contents = ref('');
 const senderID = '1@gmail.com';
 const recieverID = '2@gmail.com';
 
-import { reactive } from 'vue';
-const data = {
-    senderID: "",
-    recieverID: "",
-    messages: "",
-}
+// import { reactive } from 'vue';
+// const data = {
+//     senderID: "",
+//     recieverID: "",
+//     messages: "",
+// }
 
 onMounted(async () => {
     initConnect();
@@ -76,20 +77,78 @@ onMounted(async () => {
     scrollToButtom();
 });
 function initConnect() {
-    stompClient.connect({}, (frame) => {
-        console.log('Connected: ' + frame);
-    });
+    stompClient.connect({}, onConnected, onError);
 }
+function onConnected() {
+    stompClient.subscribe(`/user/${senderID}/queue/messages`, onMessageReceived);
+    stompClient.subscribe(`/user/public`, onMessageReceived);
+
+    // register the connected user
+    // stompClient.send("/app/user.addUser",
+    //     {},
+    //     JSON.stringify({ senderID: senderID, fullName: fullname, status: 'ONLINE' })
+    // );
+    // document.querySelector('#connected-user-fullname').textContent = fullname;
+    // findAndDisplayConnectedUsers().then();
+}
+function sendMessage(event) {
+    const trimmedContents = contents.value.trim();
+    if (trimmedContents !== '' && stompClient) {
+        const chatMessage = {
+            senderID: senderID,
+            recieverID: recieverID,
+            contents: trimmedContents,
+            createdTime: new Date()
+        };
+        stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
+        // displayMessage(senderID, trimmedContents);
+
+        // const messageDiv = document.createElement('div');
+        // messageDiv.classList.add('px-3', 'py-2', 'm-1', 'rounded-3', 'align-self-end', 'message', 'sent');
+        // messageDiv.innerHTML = `<p>${trimmedContents}</p>`;
+        // chatContainer.value.appendChild(messageDiv);
+        // contents.value = '';
+
+        scrollToButtom();
+    }
+}
+
+
+async function onMessageReceived(payload) {
+    // await findAndDisplayConnectedUsers();
+    // console.log('Message received', payload);
+    // const message = JSON.parse(payload.body);
+    // if (selectedUserId && selectedUserId === message.senderId) {
+    //     displayMessage(message.senderId, message.content);
+    //     chatArea.scrollTop = chatArea.scrollHeight;
+    // }
+
+    // if (selectedUserId) {
+    //     document.querySelector(`#${selectedUserId}`).classList.add('active');
+    // } else {
+    //     messageForm.classList.add('hidden');
+    // }
+
+    // const notifiedUser = document.querySelector(`#${message.senderId}`);
+    // if (notifiedUser && !notifiedUser.classList.contains('active')) {
+    //     const nbrMsg = notifiedUser.querySelector('.nbr-msg');
+    //     nbrMsg.classList.remove('hidden');
+    //     nbrMsg.textContent = '';
+    // }
+}
+
 async function findAllMessages() {
     await axios.get(`${path}/messages/${senderID}/${recieverID}`)
         .then(function (response) {
-            console.log(response.data)
+            // console.log(response.data)
             messages.value = response.data;
-            // console.log(messages);
         })
         .catch(function (error) {
 
         });
+}
+function onError() {
+
 }
 
 function scrollToButtom() {
