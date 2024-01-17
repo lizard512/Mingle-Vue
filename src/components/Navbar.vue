@@ -82,7 +82,6 @@ const isLoggedIn = computed(() => userStore.isLoggedIn);
 const isLandlord = computed(() => userStore.permissions.includes('lord'));
 const isAdmin = computed(() => userStore.permissions.includes('admin'));
 
-
 // import { computed } from 'vue';
 // import { useStore } from 'vuex';
 

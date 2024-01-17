@@ -9,6 +9,7 @@ import Home from "@views/common/Home.vue";
 import Login from "@views/common/Login.vue";
 import NotFound from "@views/common/NotFound.vue";
 import Search from "@views/common/Search.vue";
+import ThankYou from "@components/ThankYou.vue";
 // user 一般使用者
 import Chatroom from "@views/user/Chatroom.vue";
 import Order from "@views/user/Order.vue";
@@ -56,6 +57,11 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+  },
+  {
+    path: "/thankyou",
+    name: "ThankYou",
+    component: ThankYou,
   },
   // user 一般使用者
   {
