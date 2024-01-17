@@ -49,7 +49,7 @@
     </div>
 </template>
     
-<script setup lang='ts'>
+<script setup>
 let global = globalThis;
 import { ref, onMounted } from 'vue';
 import SockJS from 'sockjs-client/dist/sockjs.min.js';
@@ -70,9 +70,9 @@ const data = {
     messages: "",
 }
 
-onMounted(() => {
+onMounted(async () => {
     initConnect();
-    findAllMessages();
+    await findAllMessages();
     scrollToButtom();
 });
 function initConnect() {
@@ -80,8 +80,8 @@ function initConnect() {
         console.log('Connected: ' + frame);
     });
 }
-function findAllMessages() {
-    axios.get(`${path}/messages/${senderID}/${recieverID}`)
+async function findAllMessages() {
+    await axios.get(`${path}/messages/${senderID}/${recieverID}`)
         .then(function (response) {
             console.log(response.data)
             messages.value = response.data;
