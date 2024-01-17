@@ -74,8 +74,8 @@ function checkPassword() {
     }
 }
 
-const userid = ref('');
-const password = ref('');
+let userid = ref('');
+let password = ref('');
 let loading = false
 
 const login = function () {
