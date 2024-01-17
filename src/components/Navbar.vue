@@ -41,10 +41,12 @@
                                 <RouterLink class="dropdown-item" to="#">訂單管理</RouterLink>
                                 <RouterLink class="dropdown-item" to="/analyze">後臺數據</RouterLink>
                                 <RouterLink class="dropdown-item" to="/review">房東評價</RouterLink>
-                                <RouterLink class="dropdown-item" to="#" @click="userStore.quitFromLandlord">我不當房東了！</RouterLink>
+                                <RouterLink class="dropdown-item" to="#" @click="userStore.quitFromLandlord">我不當房東了！
+                                </RouterLink>
                             </div>
                         </div>
-                        <RouterLink v-else class="btn btn-secondary px-3" to="/form-lord" @click="userStore.becomeLandlord">成為提供者
+                        <RouterLink v-else class="btn btn-secondary px-3" to="/form-lord" @click="userStore.becomeLandlord">
+                            成為提供者
                         </RouterLink>
                         <div class="nav-item dropdown">
                             <RouterLink class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
@@ -53,9 +55,11 @@
                                 <RouterLink class="dropdown-item" to="/account">會員資料</RouterLink>
                                 <RouterLink class="dropdown-item" to="/order">打工訂單</RouterLink>
                                 <RouterLink class="dropdown-item" to="/chatroom">聊天室</RouterLink>
-                                <RouterLink to="#" class="dropdown-item" @click="userStore.logout">登出</RouterLink>
-                                <RouterLink v-if="isAdmin" class="dropdown-item" to="#" @click="userStore.quitFromAdmin">不當管理者了</RouterLink>
-                                <RouterLink v-else class="dropdown-item" to="#" @click="userStore.becomeAdmin">成為管理者</RouterLink>
+                                <RouterLink to="#" class="dropdown-item" @click="resetStore()">登出</RouterLink>
+                                <RouterLink v-if="isAdmin" class="dropdown-item" to="#" @click="userStore.quitFromAdmin">
+                                    不當管理者了</RouterLink>
+                                <RouterLink v-else class="dropdown-item" to="#" @click="userStore.becomeAdmin">成為管理者
+                                </RouterLink>
                             </div>
                         </div>
 
@@ -73,14 +77,18 @@
 </template>
     
 <script setup>
-import { useUserStore } from '@store/userStore-session.js';
+import { useUserStore } from '@store/userStore-localStorage.js';
 import { computed } from 'vue';
-
 const userStore = useUserStore();
-
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 const isLandlord = computed(() => userStore.permissions.includes('lord'));
 const isAdmin = computed(() => userStore.permissions.includes('admin'));
+// 清除使用者localStorage中的userStore
+function resetStore() {
+    userStore.$reset()
+    localStorage.removeItem('user')
+}
+
 
 // import { computed } from 'vue';
 // import { useStore } from 'vuex';
@@ -208,5 +216,4 @@ onBeforeUnmount(() => {
         transition: .5s;
         opacity: 1;
     }
-}
-</style>
+}</style>

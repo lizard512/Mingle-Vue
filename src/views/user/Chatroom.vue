@@ -22,14 +22,16 @@
             <div class="bg-light chat-name">
                 <strong>AAA</strong>
             </div>
+
             <div class="chat-container border overflow-auto d-flex flex-column p-3" ref="chatContainer">
-                <template v-for="item in 10">
-                    <div class="px-3 py-2 m-1 rounded-3 flex-start align-self-start message received">
-                        <p>Hello there!
+                <template v-for="item in messages">
+                    <div v-if="senderID !== item.senderID"
+                        class="px-3 py-2 m-1 rounded-3 flex-start align-self-start message received">
+                        <p>{{ item.contents }}
                         </p>
                     </div>
-                    <div class="px-3 py-2 m-1 rounded-3 align-self-end message sent">
-                        <p>Hi! How can I help you?</p>
+                    <div v-if="senderID === item.senderID" class="px-3 py-2 m-1 rounded-3 align-self-end message sent">
+                        <p>{{ item.contents }}</p>
                     </div>
                 </template>
             </div>
@@ -41,37 +43,61 @@
                 <button class="btn btn-secondary" onclick="document.getElementById('imageInput').click();">
                     <i class="bi bi-image"></i></button>
                 <textarea class="form-control" placeholder="在這裡輸入訊息..." rows="2"></textarea>
-                <button class="btn btn-primary">送出</button>
+                <button class="btn btn-primary" @click="scrollToButtom()">送出</button>
             </div>
         </div>
     </div>
 </template>
     
-<script setup lang='ts'>
+<script setup>
 let global = globalThis;
 import { ref, onMounted } from 'vue';
 import SockJS from 'sockjs-client/dist/sockjs.min.js';
 import Stomp from 'stompjs';
-const chatContainer = ref(null);
-let socket = new SockJS('http://localhost:8080/ws');
+import axios from 'axios';
+const path = 'http://localhost:8080'
+let socket = new SockJS(path + '/ws');
 let stompClient = Stomp.over(socket);
-stompClient.connect({}, (frame) => {
-    console.log('Connected: ' + frame);
+let chatContainer = ref(null);
+const messages = ref([]);
+const senderID = '1@gmail.com';
+const recieverID = '2@gmail.com';
 
-    stompClient.subscribe('/user/topic/some-topic', (message) => {
-        // console.log('Received message: ' + message.body);
-        // 在這裡處理接收到的消息
-    });
+import { reactive } from 'vue';
+const data = {
+    senderID: "",
+    recieverID: "",
+    messages: "",
+}
+
+onMounted(async () => {
+    initConnect();
+    await findAllMessages();
+    scrollToButtom();
 });
+function initConnect() {
+    stompClient.connect({}, (frame) => {
+        console.log('Connected: ' + frame);
+    });
+}
+async function findAllMessages() {
+    await axios.get(`${path}/messages/${senderID}/${recieverID}`)
+        .then(function (response) {
+            console.log(response.data)
+            messages.value = response.data;
+            // console.log(messages);
+        })
+        .catch(function (error) {
+
+        });
+}
+
 function scrollToButtom() {
     if (chatContainer.value) {
         // console.log(chatContainer.value)
         chatContainer.value.scroll(0, chatContainer.value.scrollHeight);
     }
 }
-onMounted(() => {
-    scrollToButtom();
-})
 </script>
 
 <style scoped>
