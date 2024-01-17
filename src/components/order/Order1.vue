@@ -22,7 +22,7 @@
                                             <h5 class="mb-0">訂單編號 <span
                                                     class="text-primary font-weight-bold">ID1234567</span></h5>
                                         </div>
-      
+
                                     </div>
 
                                     <!-- 變動狀態標籤 -->
@@ -59,7 +59,7 @@
 
 
 
-                                    
+
                                 </div>
 
                             </div>
@@ -87,10 +87,10 @@
                             style="border: 1px solid wheat; padding: 20px; border-radius: 10px; margin: 10px;">
                             <h6 class="mb-3">請確認會員資料</h6>
                             <!-- name  自動帶入會員資料-->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <label for="fullName" class="form-label" @click="handleClick">會員全名 (name) </label>
-                        
-                                <input type="text" class="form-control" id="fullName" placeholder="" v-model="name"
+
+                                <input type="text" class="form-control" id="fullName" placeholder="" v-model="details.name"
                                     required>
                                 <div class="invalid-feedback">
                                     務必填寫會員全名。
@@ -98,10 +98,10 @@
                             </div>
 
                             <!-- email 自動帶入會員資料-->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <label for="email" class="form-label">信箱 (Email)</label>
                                 <input type="email" class="form-control" id="email" placeholder="you@example.com" value=""
-                                    v-model="email" required>
+                                    v-model="details.email" required>
                                 <div class="invalid-feedback">
                                     務必填寫email。
                                 </div>
@@ -109,42 +109,14 @@
 
                             <div class="col-md-4">
                                 <label for="phone" class="form-label">電話 (phone)</label>
-                                <input type="phone" class="form-control" id="phone" placeholder="" value="" v-model="phone"
-                                    required>
+                                <input type="phone" class="form-control" id="phone" placeholder="" value=""
+                                    v-model="details.phone" required>
                                 <div class="invalid-feedback">
                                     務必填寫連絡電話。
                                 </div>
                             </div>
 
 
-                            <!-- address 自動帶入會員資料-->
-                            <div class="col-md-4">
-                                <label for="country" class="form-label">居住國家 (Country)　</label>
-                                <select class="form-select" id="country" required>
-                                    <option value="">Choose...</option>
-                                    <option>United States</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    請選擇居住國家。
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <label for="zip" class="form-label">郵遞區號 (zip)</label>
-                                <input type="text" class="form-control" id="zip" placeholder="" required>
-                                <div class="invalid-feedback">
-                                    請輸入郵遞區號。
-                                </div>
-                            </div>
-
-
-                            <div class="col-12">
-                                <label for="address" class="form-label">通訊地址 (Address) </label>
-                                <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-                                <div class="invalid-feedback">
-                                    請輸入完整地址。
-                                </div>
-                            </div>
 
                             <hr class="my-4">
 
@@ -173,7 +145,7 @@
                             style="border: 1px solid wheat; padding: 20px; border-radius: 10px; margin: 10px;">
                             <h6 class="mb-3">預定打工項目 </h6>
 
-                            
+
                             <!-- 自動產出 -->
 
                             <div class="col-md-12">
@@ -317,9 +289,9 @@
                             <div class="row" v-if="orderby === 'myself'">
                                 <span id="accomodatorId">1. </span>
                                 <div class="col-md-4">
-                                    <label for="fullName" class="form-label">住宿者全名 (name) </label>
+                                    <label for="fullName" class="form-label">會員全名 (name) </label>
                                     <input type="text" class="form-control" id="fullName" placeholder="" value=""
-                                        v-model="name" required>
+                                        v-model="details.name" required>
                                     <div class="invalid-feedback">
                                         務必填寫會員全名。
                                     </div>
@@ -329,7 +301,7 @@
                                 <div class="col-md-4">
                                     <label for="email" class="form-label">信箱 (Email)</label>
                                     <input type="email" class="form-control" id="email" placeholder="you@example.com"
-                                        value="" v-model="email" required>
+                                        value="" v-model="details.email" required>
                                     <div class="invalid-feedback">
                                         務必填寫email。
                                     </div>
@@ -339,7 +311,7 @@
                                 <div class="col-md-4">
                                     <label for="phone" class="form-label">電話 (phone)</label>
                                     <input type="phone" class="form-control" id="phone" placeholder="" value=""
-                                        v-model="phone" required>
+                                        v-model="details.phone" required>
                                     <div class="invalid-feedback">
                                         務必填寫連絡電話。
                                     </div>
@@ -358,7 +330,7 @@
                                 <!-- name  住宿者資料-->
                                 <div class="col-md-4">
                                     <label for="fullName" class="form-label">住宿者全名 (name) </label>
-                                    <input type="text" class="form-control" id="fullName" placeholder="" value="" required>
+                                    <input type="text" class="form-control" id="fullName" placeholder="" value="" v-model="fullName" required>
                                     <div class="invalid-feedback">
                                         務必填寫會員全名。
                                     </div>
@@ -368,7 +340,7 @@
                                 <div class="col-md-4">
                                     <label for="email" class="form-label">信箱 (Email)</label>
                                     <input type="email" class="form-control" id="email" placeholder="you@example.com"
-                                        value="" required>
+                                        value="" v-model="email"  required>
                                     <div class="invalid-feedback">
                                         務必填寫email。
                                     </div>
@@ -377,7 +349,7 @@
                                 <!-- phone 住宿者資料-->
                                 <div class="col-md-4">
                                     <label for="phone" class="form-label">電話 (phone)</label>
-                                    <input type="phone" class="form-control" id="phone" placeholder="" value="" required>
+                                    <input type="phone" class="form-control" id="phone" placeholder="" value="" v-model="phone"  required>
                                     <div class="invalid-feedback">
                                         務必填寫連絡電話。
                                     </div>
@@ -404,7 +376,7 @@
                         <hr class="my-4">
 
                         <!-- button start -->
-                        <button class="w-100 btn btn-secondary btn-lg" type="submit" 
+                        <button class="w-100 btn btn-secondary btn-lg" type="submit"
                             @click="validateAndGoToOrder2">下一步</button>
                         <!-- button end -->
                     </form>
@@ -425,23 +397,9 @@
     
 <script setup>
 
-import { inject, onMounted, ref, watch } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-
-//============路由控制============
-
-
-const router = useRouter()
-
-function goToOrder2(nameValue)  {
-    router.push({
-        name : 'Order2',
-        params: {
-            name: nameValue
-        }
-    })
-
-}
+import { onMounted, ref, watch, reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import { useOrderStore } from '@store/orderStore-memory.js';
 
 
 //============動態改變是否為自己訂購============
@@ -454,9 +412,9 @@ const orderby = ref('myself');
 
 const orderbyChange = function () {
     if (orderby.value === 'myself') {
-        name.value = name.value;
-        email.value = email.value;
-        phone.value = phone.value;
+        name.value = details.name;
+        email.value = details.email;
+        phone.value = details.phone;
         updateAccomodatorData();
     } else {
         name.value = '';
@@ -559,7 +517,7 @@ function updateDateRange(period) {
 //============表單驗證============
 
 const validateForm = () => {
-    
+
     const form = document.querySelector('.needs-validation');
     return form.checkValidity();
 
@@ -572,7 +530,7 @@ const validateAndGoToOrder2 = () => {
     // 使用 Bootstrap 驗證的結果
     const form = document.querySelector('.needs-validation');
     if (isFormValid && form.checkValidity()) {
-        goToOrder2(name.value);
+        goToOrder2();
     }
 };
 
@@ -595,18 +553,79 @@ const validation = () => {
         });
 };
 
+//============搜尋會員資料============
+
+import VueCookies from 'vue-cookies';
+import axios from 'axios';
+
+const details = reactive({})
+const getuserid =
+    () => {
+        const sessionToken = VueCookies.get('sessionToken');
+        const userid = String(sessionToken).substring(32, sessionToken.length);
+        return userid
+    }
+
+const API_URL = 'http://localhost:8080/order/' + getuserid();
+
+const loadDetail = async () => {
+    const response = await axios.get(API_URL);
+    Object.assign(details, response.data);
+    console.log(details);
+}
 
 
-onMounted(() => {
-    // 在DOM准备好时执行渲染
-    validation();
-    updateDateRange(selectedPeriod.value);
-    updateAccomodatorData();
-    orderbyChange();
-})
+onMounted(async () => {
+    try {
+        // 在DOM准备好时执行渲染
+        validation();
+        updateDateRange(selectedPeriod.value);
+        updateAccomodatorData();
+        orderbyChange();
+        await loadDetail();
+    } catch (error) {
+        console.error('An error occurred in onMounted:', error);
+    }
+});
 
 
 
+
+
+//============路由控制============
+
+
+const router = useRouter()
+
+
+const orderStore = useOrderStore();
+
+
+
+async function goToOrder2() {
+    try {
+        const dataForOrder2 = {
+            username: details.name,
+            useremail: details.email,
+            userphone: details.phone,
+            selectedAccomodator: selectedAccomodator.value,
+            selectedPeriod: selectedPeriod.value,
+            startDate: startDate.value,
+            endDate: endDate.value,
+            accomodatorData: accomodatorData.value,
+        };
+
+        // 使用 Pinia store 设置数据
+        orderStore.setOrderData(dataForOrder2);
+
+        // 使用路由导航到 Order2 组件
+        await router.push({
+            name: 'Order2',
+        });
+    } catch (error) {
+        console.error('An error occurred in goToOrder2:', error);
+    }
+}
 
 </script>
 

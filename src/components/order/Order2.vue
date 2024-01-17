@@ -86,7 +86,7 @@
                             <li class="list-group-item d-flex justify-content-between lh-sm">
                                 <div>
                                     <h6 class="my-0">打工類型</h6>
-                                    <small class="text-muted">work type</small>
+                                    <small class="text-muted"> </small>
                                 </div>
                                 <span class="text-muted">照護</span>
                             </li>
@@ -94,9 +94,9 @@
                             <li class="list-group-item d-flex justify-content-between lh-sm">
                                 <div>
                                     <h6 class="my-0">打工項目</h6>
-                                    <small class="text-muted">work name</small>
+                                    <small class="text-muted">ddd</small>
                                 </div>
-                                <span class="text-muted">{{ route.params.name }}</span>
+                                <span class="text-muted">照護</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between lh-sm">
                                 <div>
@@ -180,6 +180,8 @@
                             </li>
                         </ul>
 
+
+
                         <!-- button start -->
                         <hr class="my-4">
                         <button class="w-50 btn change btn-primary btn-lg" type="submit" @click="goToOrder1()">修改資料</button>
@@ -202,15 +204,37 @@
 </template>
     
 <script setup>
-import { useRouter, useRoute } from 'vue-router';
 
+import { onMounted, reactive } from 'vue';
 
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 
 //============路由控制============
 
-const route = useRoute()
-const router = useRouter()
+import { useOrderStore } from '@store/orderStore-memory.js';
+
+const orderStore = useOrderStore();
+
+const loaddata = () => {
+    // 从 Pinia store 获取数据
+    const dataForOrder2 = orderStore.orderData;
+    console.log('Received dataForOrder2:', dataForOrder2);
+
+
+}
+
+
+onMounted(() => {
+
+    loaddata();
+
+
+});
+
+
 
 const goToOrder3 = function () {
     router.push(
@@ -219,7 +243,7 @@ const goToOrder3 = function () {
 
 const goToOrder1 = function () {
     router.push(
-        '/order/order1'
+        '/order/order1',
     )
 }
 

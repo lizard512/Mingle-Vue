@@ -20,18 +20,14 @@ export default [
             {
                 path: 'order1',
                 name: 'Order1',
-                component: Order1,
-                meta: {
-                    keepAlive: true
-                }
+                component: Order1
+
             },
             {
-                path: '/order2/:name', 
+                path: 'order2', 
                 name: 'Order2',
-                component: Order2,
-                meta: {
-                    keepAlive: true
-                }
+                component: Order2
+
 
             },
             {
