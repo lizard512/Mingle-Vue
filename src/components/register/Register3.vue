@@ -33,7 +33,7 @@
 </template>
     
 <script setup>
-import { useUserStore } from '@store/userStore-memory.js';
+import { useUserStore } from '@store/userStore-session.js';
 import { useRouter } from 'vue-router';
 const userStore = useUserStore();
 const router = useRouter();

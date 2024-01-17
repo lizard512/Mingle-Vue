@@ -50,7 +50,7 @@
 </template>
     
 <script setup>
-import { useUserStore } from '@store/userStore-memory.js';
+import { useUserStore } from '@store/userStore-session.js';
 import { useRouter } from 'vue-router';
 const userStore = useUserStore();
 const router = useRouter();
@@ -74,8 +74,8 @@ function checkPassword() {
     }
 }
 
-const userid = ref('');
-const password = ref('');
+let userid = ref('');
+let password = ref('');
 let loading = false
 
 const login = function () {
