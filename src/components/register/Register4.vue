@@ -39,7 +39,7 @@ let userid = ref('');
 let password = ref('');
 let loading = false;
 
-const register = function () {
+const register = async function () {
     // Set loading to true when login starts
     loading = true;
 
@@ -59,10 +59,10 @@ const register = function () {
         userid: userid.value,
         password: password.value,
     }
-    axios.post("http://localhost:8080/register.controller", request)
-        .then(function (response) {
+    await axios.post("http://localhost:8080/register.controller", request)
+        .then( function (response) {
             console.log(response);
-            if (request.userid.value == null || request.password.value == null) {
+            if (request.userid.valueOf == null || request.password.valueOf == null) {
                 console.log(response.data.message);
                 Swal.fire({
                     icon: "error",
