@@ -173,8 +173,10 @@
 
 
                             <hr class="my-4">
-
-                            <h4 class="mb-3 ">需求人數 : {{ workdetail.numbers }} 人</h4>
+                            <h4 class="mb-3">日期與人數 </h4>
+                            <p>打工日期: {{ String(workdetail.startDate).substring(0,10)}} ~ {{ String(workdetail.endDate).substring(0,10) }}</p>
+                            <p>上限人數: {{ workdetail.numbers }}</p>
+                          
                             <h6 class="mb-3">請選擇報名人數、日期 </h6>
 
                             <div class="col-md-3">
@@ -190,8 +192,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
-                                <label for="work_period" class="form-label">打工區間 (work period)</label>
+                            <div class="col-md-3" :class="{ 'has-error': haserror }">
+                                <label for="work_period" class="form-label" >打工區間 (work period)</label>
                                 <select class="form-select" id="work_period" v-model="selectedPeriod"
                                     @change="updateDateRange" required>
                                     <!-- 後續依照實際工作開放區間去抓資料庫資料 -->
@@ -205,7 +207,7 @@
                                     <option value="150">5個月</option>
                                     <option value="180">6個月</option>
                                 </select>
-                                <div class="invalid-feedback">
+                                <div class="invalid-feedback" v-if="haserror">
                                     請選擇打工區間。
                                 </div>
                             </div>
@@ -215,7 +217,7 @@
                                 <label for="work_startDate" class="form-label"> 開始日期 (startDate) </label>
                                 <input type="date" class="form-control" id="work_startDate" name="work_startDate"
                                     v-model="startDate" :min="minStartDate" :max="maxStartDate" value="" required />
-                                <div class="invalid-feedback">
+                                <div class="invalid-feedback" >
                                     請選擇開始日期。
                                 </div>
                             </div>
@@ -226,6 +228,7 @@
                                     v-model="endDate" value="" required disabled />
 
                             </div>
+                            <div id="error-message" class="text-secondary text-center"></div>
 
 
 
@@ -477,8 +480,9 @@ function updateAccomodatorData() {
 // 使用 ref 創建可響應的變數
 const selectedPeriod = ref('7');
 const orderDate = ref('');
-const startDate = ref(new Date());
-const endDate = ref(new Date());
+const startDate = ref('');
+const endDate = ref('');
+const haserror = ref(false);
 
 // 計算屬性
 const minStartDate = ref('');
@@ -497,21 +501,82 @@ watch(endDate, (newValue) => {
     updateDateRange(selectedPeriod.value);
 });
 
+
+
 // 更新日期範圍的函數
 function updateDateRange(period) {
-    const currentDate = new Date();
+    const minDate = new Date(workdetail.startDate);
     const newStartDate = new Date(startDate.value);
     const newEndDate = new Date(startDate.value);
+    const maxDate = new Date(workdetail.endDate);
+
+    //塞入新選的值
+    startDate.value = newStartDate.toISOString().split('T')[0];
+
 
     //結束打工日期
     newEndDate.setDate(newStartDate.getDate() + parseInt(period));
-    //塞入值
-    startDate.value = newStartDate.toISOString().split('T')[0];
-    endDate.value = newEndDate.toISOString().split('T')[0];
 
-    //最小開始日期(選擇當天)
-    minStartDate.value = currentDate.toISOString().split('T')[0];
+
+    // 生成可選日期範圍
+    const selectableDates = generateDateRange(minDate, maxDate);
+
+    console.log(selectableDates)
+    console.log(newEndDate)
+
+    // 檢查新的結束日期是否在可選日期範圍內
+    if (selectableDates.includes(newEndDate.toISOString().split('T')[0])) {
+
+        // 檢查日期差異是否足夠
+        const periodDates = generateDateRange(newStartDate, newEndDate);
+        console.log(periodDates)
+        console.log(periodDates.length)
+
+        if (periodDates.length >= parseInt(period)) {
+            endDate.value = newEndDate.toISOString().split('T')[0];
+            var errorMessageElement = document.getElementById('error-message');
+            errorMessageElement.innerText = '';
+            haserror.value=false;
+        } else {
+            // 取得錯誤訊息的 HTML 元素
+            var errorMessageElement = document.getElementById('error-message');
+            // 設置錯誤訊息
+            errorMessageElement.innerText = '日期範圍不足，請重新選擇日期範圍。';
+            haserror.value=true;
+        }
+    } else {
+        endDate.value = maxDate.toISOString().split('T')[0];
+        // 取得錯誤訊息的 HTML 元素
+        var errorMessageElement = document.getElementById('error-message');
+        // 設置錯誤訊息
+        errorMessageElement.innerText = `新的結束日期${ newEndDate.toISOString().split('T')[0]}不在可選日期範圍內，請重新選擇。`;
+        haserror.value=true;
+    }
+
+    // 最小開始日期(選擇當天)
+    minStartDate.value = minDate.toISOString().split('T')[0];
+    maxStartDate.value = maxDate.toISOString().split('T')[0];
 }
+
+
+
+
+// 生成日期範圍的函數
+function generateDateRange(startDate, endDate) {
+    const dates = [];
+    let currentDate = new Date(startDate);
+
+    while (currentDate <= endDate) {
+        dates.push(currentDate.toISOString().split('T')[0]);
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dates;
+}
+
+
+
+
 
 
 
@@ -595,6 +660,8 @@ const loadworkDetail = async () => {
     Object.assign(workdetail, response.data);
     console.log(workdetail);
     orderDate.value = new Date().toISOString().split('T')[0];
+    startDate.value = new Date(workdetail.startDate)
+    endDate.value = new Date(workdetail.endDate)
 }
 
 
@@ -606,10 +673,10 @@ onMounted(async () => {
     try {
         // 在DOM准备好时执行渲染
         validation();
-        updateDateRange(selectedPeriod.value);
         updateAccomodatorData();
         await loaduserDetail();
         await loadworkDetail();
+        updateDateRange(selectedPeriod.value);
     } catch (error) {
         console.error('An error occurred in onMounted:', error);
     }
@@ -668,6 +735,13 @@ async function goToOrder2() {
 
 
 <style scoped>
+
+.has-error {
+  border: 1px solid red;  /* 或者其他你希望的樣式 */
+  background-color: #FDD; /* 背景顏色也可以更改成你想要的 */
+}
+
+
 .card-stepper {
     z-index: 0;
 }
