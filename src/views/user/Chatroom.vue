@@ -42,8 +42,9 @@
                 <input type="file" id="imageInput" accept="image/*" style="display: none;">
                 <button class="btn btn-secondary" onclick="document.getElementById('imageInput').click();">
                     <i class="bi bi-image"></i></button>
-                <input type="text" v-model="contents" class="form-control" placeholder="在這裡輸入訊息..." rows="2">
-                <button class="btn btn-primary" @click="sendMessage()">送出</button>
+                <input type="text" v-model="contents" ref="inputField" @keydown.enter="sendMessage" class="form-control"
+                    placeholder="在這裡輸入訊息..." rows="2">
+                <button class="btn btn-primary" @click="sendMessage">送出</button>
             </div>
         </div>
     </div>
@@ -51,36 +52,49 @@
     
 <script setup>
 let global = globalThis;
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 import SockJS from 'sockjs-client/dist/sockjs.min.js';
 import Stomp from 'stompjs';
 import axios from 'axios';
+import VueCookies from 'vue-cookies';
 const path = 'http://localhost:8080'
 const socket = new SockJS(path + '/ws');
 const stompClient = Stomp.over(socket);
 const chatContainer = ref(null);
+const inputField = ref(null);
 const messages = ref([]);
 const contents = ref('');
-const senderID = '1@gmail.com';
-const recieverID = '2@gmail.com';
+const senderID = ref('');
+const recieverID = ref('');
+const selectedUserId = ref('');
+const getuserid =
+    () => {
+        const sessionToken = VueCookies.get('sessionToken');
+        const userid = String(sessionToken).substring(32, sessionToken.length);
+        return userid
+    }
 
-// import { reactive } from 'vue';
-// const data = {
-//     senderID: "",
-//     recieverID: "",
-//     messages: "",
-// }
 
 onMounted(async () => {
+    await initAssign();
     initConnect();
     await findAllMessages();
     scrollToButtom();
 });
+// 初始賦值，之後改寫
+async function initAssign() {
+    let other = prompt('請輸入對方帳號')
+    senderID.value = getuserid();
+    recieverID.value = other;
+    // senderID.value = '1@gmail.com';
+    // recieverID.value = '2@gmail.com';
+}
+
 function initConnect() {
     stompClient.connect({}, onConnected, onError);
 }
 function onConnected() {
-    stompClient.subscribe(`/user/${senderID}/queue/messages`, onMessageReceived);
+    stompClient.subscribe(`/user/${senderID.value}/queue/messages`, onMessageReceived);
     stompClient.subscribe(`/user/public`, onMessageReceived);
 
     // register the connected user
@@ -91,37 +105,41 @@ function onConnected() {
     // document.querySelector('#connected-user-fullname').textContent = fullname;
     // findAndDisplayConnectedUsers().then();
 }
+function onError() {
+
+}
 function sendMessage(event) {
     const trimmedContents = contents.value.trim();
     if (trimmedContents !== '' && stompClient) {
         const chatMessage = {
-            senderID: senderID,
-            recieverID: recieverID,
+            senderID: senderID.value,
+            recieverID: recieverID.value,
             contents: trimmedContents,
             createdTime: new Date()
         };
+        console.log(chatMessage);
         stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
         // displayMessage(senderID, trimmedContents);
-
-        // const messageDiv = document.createElement('div');
-        // messageDiv.classList.add('px-3', 'py-2', 'm-1', 'rounded-3', 'align-self-end', 'message', 'sent');
-        // messageDiv.innerHTML = `<p>${trimmedContents}</p>`;
-        // chatContainer.value.appendChild(messageDiv);
-        // contents.value = '';
-
-        scrollToButtom();
+        setTimeout(async () => {
+            await findAllMessages();
+            scrollToButtom();
+            contents.value = '';
+        }, 100);
     }
+    // 將焦點設置回輸入框
+    inputField.value.focus();
 }
-
-
 async function onMessageReceived(payload) {
     // await findAndDisplayConnectedUsers();
-    // console.log('Message received', payload);
-    // const message = JSON.parse(payload.body);
-    // if (selectedUserId && selectedUserId === message.senderId) {
-    //     displayMessage(message.senderId, message.content);
-    //     chatArea.scrollTop = chatArea.scrollHeight;
-    // }
+    console.log('Message received', payload);
+    const message = JSON.parse(payload.body);
+    if (recieverID.value && recieverID.value === message.senderID) {
+        setTimeout(async () => {
+            await findAllMessages();
+            scrollToButtom();
+            contents.value = '';
+        }, 100);
+    }
 
     // if (selectedUserId) {
     //     document.querySelector(`#${selectedUserId}`).classList.add('active');
@@ -138,17 +156,13 @@ async function onMessageReceived(payload) {
 }
 
 async function findAllMessages() {
-    await axios.get(`${path}/messages/${senderID}/${recieverID}`)
+    await axios.get(`${path}/messages/${senderID.value}/${recieverID.value}`)
         .then(function (response) {
-            // console.log(response.data)
             messages.value = response.data;
         })
         .catch(function (error) {
 
         });
-}
-function onError() {
-
 }
 
 function scrollToButtom() {
@@ -186,7 +200,7 @@ function scrollToButtom() {
 }
 
 .input-group {
-    height: 1%;
+    height: 7%;
 }
 
 .form-control {
