@@ -115,6 +115,7 @@ const login = function () {
                 }).then(function (result) {
                     if (result.isConfirmed) {
                         document.cookie = `sessionToken=${response.data.sessionToken}; path=/`;
+                        userStore.login();
                         document.location.href = `http://localhost:7890/`;
                     }
                 });
