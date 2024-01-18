@@ -25,6 +25,12 @@
                                                     class="text-primary font-weight-bold">ID1234567</span></h5>
                                         </div>
 
+                                        <div class="text-end">
+                                            <p class="mb-0">訂購日期:
+                                            <p>{{ dataForOrder2.startDate }}</p>
+                                            </p>
+                                        </div>
+
                                     </div>
 
                                     <!-- 變動狀態標籤 -->
@@ -75,20 +81,24 @@
             <div class="row g-5 justify-content-center">
                 <form>
 
-                    <!--  right card start  -->
+                    <!--  card start  -->
 
-                    <!-- 打工預定 card -->
                     <div class="col-12 order-md-last">
+
+
+                        <!-- 打工預定 card start-->
+
                         <h4 class="d-flex justify-content-between align-items-center mb-3">
                             <span class="text-primary">打工預定</span>
                         </h4>
+
                         <ul class="list-group mb-3">
                             <li class="list-group-item d-flex justify-content-between lh-sm">
                                 <div>
                                     <h6 class="my-0">打工類型</h6>
                                     <small class="text-muted"> </small>
                                 </div>
-                                <span class="text-muted" >{{ dataForOrder2.username }}</span>
+                                <span class="text-muted">{{ dataForOrder2.username }}</span>
                             </li>
 
                             <li class="list-group-item d-flex justify-content-between lh-sm">
@@ -129,11 +139,16 @@
                                 <span class="text-muted">2023/11/27</span>
                             </li>
                         </ul>
+                        <!-- 打工預定 card end-->
 
-                        <!-- 房源預定 Card -->
+
+
+
+                        <!-- 房源預定 Card start -->
                         <h4 class="d-flex justify-content-between align-items-center mb-3">
                             <span class="text-primary">住宿預定</span>
                         </h4>
+
                         <ul class="list-group mb-3">
                             <li class="list-group-item d-flex justify-content-between lh-sm">
                                 <div>
@@ -157,8 +172,9 @@
                                 <span class="text-muted">1人</span>
                             </li>
                         </ul>
+                        <!-- 房源預定 Card end -->
 
-                        <!-- 媒合費用 Card -->
+                        <!-- 媒合費用 Card start-->
                         <h4 class="d-flex justify-content-between align-items-center mb-3">
                             <span class="text-primary">總計費用</span>
                         </h4>
@@ -179,6 +195,7 @@
                                 <strong>$300<span>(TWD)</span></strong>
                             </li>
                         </ul>
+                        <!-- 媒合費用 Card end-->
 
 
 

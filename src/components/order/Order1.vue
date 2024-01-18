@@ -19,8 +19,9 @@
 
                                     <div class="d-flex justify-content-between align-items-center mb-5">
                                         <div>
-                                            <h5 class="mb-0">訂單編號 <span
+                                            <h5 class="mb-0">訂單編號: <span
                                                     class="text-primary font-weight-bold">ID1234567</span></h5>
+                                            <p class="mb-0 text-muted" rderDate="orderDate">訂購日期:{{ orderDate }} </p>
                                         </div>
 
                                     </div>
@@ -76,9 +77,9 @@
 
                 <!-- form start -->
                 <div class="col-12 col-md-12  ">
-                    <h4 class="justify-content-between align-items-center  text-center mb-3">
+                    <h3 class="justify-content-between align-items-center  text-center mb-3 text-secondary">
                         您的資料
-                    </h4>
+                    </h3>
 
                     <form class="needs-validation" novalidate>
 
@@ -90,8 +91,8 @@
                             <div class="col-sm-4">
                                 <label for="fullName" class="form-label" @click="handleClick">會員全名 (name) </label>
 
-                                <input type="text" class="form-control" id="fullName" placeholder="" v-model="details.name"
-                                    required>
+                                <input type="text" class="form-control" id="fullName" placeholder=""
+                                    v-model="userdetails.name" required>
                                 <div class="invalid-feedback">
                                     務必填寫會員全名。
                                 </div>
@@ -101,7 +102,7 @@
                             <div class="col-sm-4">
                                 <label for="email" class="form-label">信箱 (Email)</label>
                                 <input type="email" class="form-control" id="email" placeholder="you@example.com" value=""
-                                    v-model="details.email" required>
+                                    v-model="userdetails.email" required>
                                 <div class="invalid-feedback">
                                     務必填寫email。
                                 </div>
@@ -110,7 +111,7 @@
                             <div class="col-md-4">
                                 <label for="phone" class="form-label">電話 (phone)</label>
                                 <input type="phone" class="form-control" id="phone" placeholder="" value=""
-                                    v-model="details.phone" required>
+                                    v-model="userdetails.phone" required>
                                 <div class="invalid-feedback">
                                     務必填寫連絡電話。
                                 </div>
@@ -136,42 +137,53 @@
                         </div>
                         <!-- 基本資料 -->
 
-
-
-                        <hr class="my-4">
+                        <br>
+                        <br>
+                        <h3 class="justify-content-between align-items-center  text-center mb-3  text-secondary">
+                            預定打工
+                        </h3>
 
                         <!--打工項目 check box -->
                         <div class="row g-3"
                             style="border: 1px solid wheat; padding: 20px; border-radius: 10px; margin: 10px;">
-                            <h6 class="mb-3">預定打工項目 </h6>
-
 
                             <!-- 自動產出 -->
 
+                            <h4 class="mb-3">打工項目: {{ workdetail.worktype }} - {{ workdetail.name }} </h4>
                             <div class="col-md-12">
-                                <label for="work_address" class="form-label">打工詳細資料</label>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum nulla, unde vel iusto
-                                    fugit perferendis commodi a asperiores tempora mollitia! Dicta sapiente, quod magni
-                                    nostrum rerum dignissimos placeat debitis, ipsam ad distinctio animi quae?
-                                    Necessitatibus delectus nobis perspiciatis tempore dolorum expedita, quidem aut illo
-                                    explicabo officia corrupti ad neque et non quisquam eligendi quis vero ea vitae qui
-                                    deserunt facilis ab! Iure harum a ab illo doloribus nesciunt corporis! Placeat ut
-                                    tempore quas necessitatibus eius asperiores, laborum, repudiandae ratione aperiam,
-                                    reprehenderit tenetur eaque. Fugiat et assumenda sunt maiores sit voluptates, natus,
-                                    quaerat iusto quidem officia, obcaecati aliquam quasi. Quibusdam, minus!</p>
+                                <p>工作地址 ： </p>
+                                <p>{{ workdetail.address }} </p>
+                                <p>工作內容 : </p>
+                                <p> {{ workdetail.description }} </p>
+
                             </div>
 
+                            <hr class="my-4">
+
+
+                            <h4 class="mb-3">打工條件 </h4>
+                            <p>休假時間: {{ workdetail.vacation }}</p>
+                            <p>年齡限制: {{ workdetail.ageRestriction }}</p>
+                            <p>性別限制: {{ workdetail.genderRestriction }}</p>
+                            <p>學歷限制: {{ workdetail.educationRestriction }}</p>
+                            <p>經驗限制: {{ workdetail.experienceRestriction }}</p>
+                            <p>語言限制: {{ workdetail.languageRestriction }}</p>
+                            <p>證照限制: {{ workdetail.licenseRestriction }}</p>
+
+
+
+                            <hr class="my-4">
+
+                            <h4 class="mb-3 ">需求人數 : {{ workdetail.numbers }} 人</h4>
+                            <h6 class="mb-3">請選擇報名人數、日期 </h6>
 
                             <div class="col-md-3">
-                                <label for="work_numbers" class="form-label">人數 ( applicants) </label>
+                                <label for="work_numbers" class="form-label">報名人數 ( applicants) </label>
                                 <select class="form-select" id="work_numbers" v-model="selectedAccomodator"
                                     @change="updateAccomodatorData" required>
                                     <option value="">Choose...</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
+                                    <option v-for="number in workdetail.numbers" :key="number" :value="number">{{ number }}
+                                    </option>
                                 </select>
                                 <div class="invalid-feedback">
                                     請選擇打工人數。
@@ -211,9 +223,11 @@
                             <div class="col-md-3">
                                 <label for="work_endDate" class="form-label"> 結束日期 (endDate) </label>
                                 <input type="date" class="form-control" id="work_endDate" name="work_endDate"
-                                    v-model="endDate" :min="startDate" :max="maxEndDate" value="" required disabled />
+                                    v-model="endDate" value="" required disabled />
 
                             </div>
+
+
 
                         </div>
 
@@ -413,11 +427,8 @@ import { useOrderStore } from '@store/orderStore-memory.js';
 const orderby = ref('myself');
 
 const orderbyselfemail = ref('');
- const orderbyselfname = ref('');
- const orderbyselfphone =   ref('');
- const AccomodatorfullName = ref('');
- const Accomodatoremail = ref('');
- const Accomodatorphone = ref('');
+const orderbyselfname = ref('');
+const orderbyselfphone = ref('');
 
 //============動態改變須填寫的住宿者資訊============
 
@@ -440,7 +451,7 @@ const initializeAccomodatorData = function () {
         for (let i = 0; i < selectedAccomodator.value; i++) {
             accomodatorData.value.push({
                 accomodatorId: i + 1,
-                AccomodatorfullName:'',
+                AccomodatorfullName: '',
                 Accomodatoremail: '',
                 Accomodatorphone: '',
             });
@@ -465,13 +476,13 @@ function updateAccomodatorData() {
 
 // 使用 ref 創建可響應的變數
 const selectedPeriod = ref('7');
+const orderDate = ref('');
 const startDate = ref(new Date());
 const endDate = ref(new Date());
 
 // 計算屬性
-const minStartDate = ref(new Date());
+const minStartDate = ref('');
 const maxStartDate = ref('');
-const maxEndDate = ref('');
 
 // 監聽 selectedPeriod 的變動
 watch(selectedPeriod, (newValue) => {
@@ -544,12 +555,12 @@ const validation = () => {
         });
 };
 
-//============搜尋會員資料============
+//============查詢會員資料============
 
 import VueCookies from 'vue-cookies';
 import axios from 'axios';
 
-const details = reactive({})
+const userdetails = reactive({})
 const getuserid =
     () => {
         const sessionToken = VueCookies.get('sessionToken');
@@ -557,17 +568,39 @@ const getuserid =
         return userid
     }
 
-const API_URL = 'http://localhost:8080/order/' + getuserid();
+const User_API_URL = 'http://localhost:8080/order/' + getuserid();
 
-const loadDetail = async () => {
-    const response = await axios.get(API_URL);
-    Object.assign(details, response.data);
-    console.log(details);
-    orderbyselfname.value = details.name
-    orderbyselfemail.value = details.email
-    orderbyselfphone.value = details.phone
+const loaduserDetail = async () => {
+    const response = await axios.get(User_API_URL);
+    Object.assign(userdetails, response.data);
+    console.log(userdetails);
+    orderbyselfname.value = userdetails.name
+    orderbyselfemail.value = userdetails.email
+    orderbyselfphone.value = userdetails.phone
 }
 
+
+
+//============查詢工作資料============
+
+
+const workdetail = reactive({})
+
+
+
+const Work_API_URL = 'http://localhost:8080/order/' + 2;
+
+const loadworkDetail = async () => {
+    const response = await axios.post(Work_API_URL);
+    Object.assign(workdetail, response.data);
+    console.log(workdetail);
+    orderDate.value = new Date().toISOString().split('T')[0];
+}
+
+
+
+
+//============初始============
 
 onMounted(async () => {
     try {
@@ -575,7 +608,8 @@ onMounted(async () => {
         validation();
         updateDateRange(selectedPeriod.value);
         updateAccomodatorData();
-        await loadDetail();
+        await loaduserDetail();
+        await loadworkDetail();
     } catch (error) {
         console.error('An error occurred in onMounted:', error);
     }
@@ -604,9 +638,9 @@ async function goToOrder2() {
     try {
 
         const dataForOrder2 = {
-            username: details.name,
-            useremail: details.email,
-            userphone: details.phone,
+            username: userdetails.name,
+            useremail: userdetails.email,
+            userphone: userdetails.phone,
             selectedAccomodator: selectedAccomodator.value,
             selectedPeriod: selectedPeriod.value,
             startDate: startDate.value,
