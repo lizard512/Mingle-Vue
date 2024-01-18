@@ -124,12 +124,12 @@
                             <div class="my-3">
                                 <span class="form-check">
                                     <input id="orderby" name="orderby" type="radio" class="form-check-input" checked
-                                        v-model="orderby" value="myself" @change="orderbyChange" required>
+                                        v-model="orderby" value="myself" @change="updateAccomodatorData" required>
                                     <label class="form-check-label" for="myself" value="myself">我為自己預定</label>
                                 </span>
                                 <div class="form-check">
                                     <input id="orderby" name="orderby" type="radio" class="form-check-input"
-                                        v-model="orderby" value="other" @change="orderbyChange" required>
+                                        v-model="orderby" value="other" @change="updateAccomodatorData" required>
                                     <label class="form-check-label" for="other" value="other">幫別人預定</label>
                                 </div>
                             </div>
@@ -291,7 +291,7 @@
                                 <div class="col-md-4">
                                     <label for="fullName" class="form-label">會員全名 (name) </label>
                                     <input type="text" class="form-control" id="fullName" placeholder="" value=""
-                                        v-model="details.name" required>
+                                        v-model="orderbyselfname" required>
                                     <div class="invalid-feedback">
                                         務必填寫會員全名。
                                     </div>
@@ -301,7 +301,7 @@
                                 <div class="col-md-4">
                                     <label for="email" class="form-label">信箱 (Email)</label>
                                     <input type="email" class="form-control" id="email" placeholder="you@example.com"
-                                        value="" v-model="details.email" required>
+                                        value="" v-model="orderbyselfemail" required>
                                     <div class="invalid-feedback">
                                         務必填寫email。
                                     </div>
@@ -311,7 +311,7 @@
                                 <div class="col-md-4">
                                     <label for="phone" class="form-label">電話 (phone)</label>
                                     <input type="phone" class="form-control" id="phone" placeholder="" value=""
-                                        v-model="details.phone" required>
+                                        v-model="orderbyselfphone" required>
                                     <div class="invalid-feedback">
                                         務必填寫連絡電話。
                                     </div>
@@ -330,7 +330,8 @@
                                 <!-- name  住宿者資料-->
                                 <div class="col-md-4">
                                     <label for="fullName" class="form-label">住宿者全名 (name) </label>
-                                    <input type="text" class="form-control" id="fullName" placeholder="" value="" v-model="fullName" required>
+                                    <input type="text" class="form-control" id="fullName" placeholder="" value=""
+                                        v-model="value.AccomodatorfullName" required>
                                     <div class="invalid-feedback">
                                         務必填寫會員全名。
                                     </div>
@@ -340,7 +341,7 @@
                                 <div class="col-md-4">
                                     <label for="email" class="form-label">信箱 (Email)</label>
                                     <input type="email" class="form-control" id="email" placeholder="you@example.com"
-                                        value="" v-model="email"  required>
+                                        value="" v-model="value.Accomodatoremail" required>
                                     <div class="invalid-feedback">
                                         務必填寫email。
                                     </div>
@@ -349,7 +350,8 @@
                                 <!-- phone 住宿者資料-->
                                 <div class="col-md-4">
                                     <label for="phone" class="form-label">電話 (phone)</label>
-                                    <input type="phone" class="form-control" id="phone" placeholder="" value="" v-model="phone"  required>
+                                    <input type="phone" class="form-control" id="phone" placeholder="" value=""
+                                        v-model="value.Accomodatorphone" required>
                                     <div class="invalid-feedback">
                                         務必填寫連絡電話。
                                     </div>
@@ -402,28 +404,20 @@ import { useRouter } from 'vue-router';
 import { useOrderStore } from '@store/orderStore-memory.js';
 
 
+
+
+
 //============動態改變是否為自己訂購============
 
-const name = ref('');
-const email = ref('');
-const phone = ref('');
 
 const orderby = ref('myself');
 
-const orderbyChange = function () {
-    if (orderby.value === 'myself') {
-        name.value = details.name;
-        email.value = details.email;
-        phone.value = details.phone;
-        updateAccomodatorData();
-    } else {
-        name.value = '';
-        email.value = '';
-        phone.value = '';
-        updateAccomodatorData();
-    }
-}
-
+const orderbyselfemail = ref('');
+ const orderbyselfname = ref('');
+ const orderbyselfphone =   ref('');
+ const AccomodatorfullName = ref('');
+ const Accomodatoremail = ref('');
+ const Accomodatorphone = ref('');
 
 //============動態改變須填寫的住宿者資訊============
 
@@ -436,9 +430,9 @@ const initializeAccomodatorData = function () {
         for (let i = 0; i < selectedAccomodator.value - 1; i++) {
             accomodatorData.value.push({
                 accomodatorId: i + 1,
-                fullName: '',
-                email: '',
-                phone: '',
+                AccomodatorfullName: '',
+                Accomodatoremail: '',
+                Accomodatorphone: '',
             });
         }
 
@@ -446,9 +440,9 @@ const initializeAccomodatorData = function () {
         for (let i = 0; i < selectedAccomodator.value; i++) {
             accomodatorData.value.push({
                 accomodatorId: i + 1,
-                fullName: '',
-                email: '',
-                phone: '',
+                AccomodatorfullName:'',
+                Accomodatoremail: '',
+                Accomodatorphone: '',
             });
         }
     }
@@ -463,9 +457,6 @@ watch(selectedAccomodator, () => {
 function updateAccomodatorData() {
     initializeAccomodatorData();
 }
-
-
-
 
 
 
@@ -572,6 +563,9 @@ const loadDetail = async () => {
     const response = await axios.get(API_URL);
     Object.assign(details, response.data);
     console.log(details);
+    orderbyselfname.value = details.name
+    orderbyselfemail.value = details.email
+    orderbyselfphone.value = details.phone
 }
 
 
@@ -581,12 +575,12 @@ onMounted(async () => {
         validation();
         updateDateRange(selectedPeriod.value);
         updateAccomodatorData();
-        orderbyChange();
         await loadDetail();
     } catch (error) {
         console.error('An error occurred in onMounted:', error);
     }
 });
+
 
 
 
@@ -601,9 +595,14 @@ const router = useRouter()
 const orderStore = useOrderStore();
 
 
+watch(accomodatorData, (newValue) => {
+    accomodatorData.value = newValue
+});
+
 
 async function goToOrder2() {
     try {
+
         const dataForOrder2 = {
             username: details.name,
             useremail: details.email,
@@ -612,7 +611,11 @@ async function goToOrder2() {
             selectedPeriod: selectedPeriod.value,
             startDate: startDate.value,
             endDate: endDate.value,
+            orderby: orderby.value,
             accomodatorData: accomodatorData.value,
+            orderbyselfname: orderbyselfname.value,
+            orderbyselfemail: orderbyselfemail.value,
+            orderbyselfphone: orderbyselfphone.value
         };
 
         // 使用 Pinia store 设置数据

@@ -88,7 +88,7 @@
                                     <h6 class="my-0">打工類型</h6>
                                     <small class="text-muted"> </small>
                                 </div>
-                                <span class="text-muted">照護</span>
+                                <span class="text-muted" >{{ dataForOrder2.username }}</span>
                             </li>
 
                             <li class="list-group-item d-flex justify-content-between lh-sm">
@@ -205,12 +205,13 @@
     
 <script setup>
 
-import { onMounted, reactive } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
+const dataForOrder2 = ref([]);
 
 //============路由控制============
 
@@ -220,7 +221,7 @@ const orderStore = useOrderStore();
 
 const loaddata = () => {
     // 从 Pinia store 获取数据
-    const dataForOrder2 = orderStore.orderData;
+    dataForOrder2.value = orderStore.orderData;
     console.log('Received dataForOrder2:', dataForOrder2);
 
 
