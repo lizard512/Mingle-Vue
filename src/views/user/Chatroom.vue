@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid row p-0 g-0 max-height main-container">
+    <div class="container-fluid row p-0 g-0 max-height chat-main-container">
         <!-- left => headline, pics & messages -->
         <div class="col-md-4 overflow-auto mh-100">
             <div>
@@ -26,11 +26,12 @@
             <div class="chat-container border overflow-auto d-flex flex-column p-3" ref="chatContainer">
                 <template v-for="item in messages">
                     <div v-if="senderID !== item.senderID"
-                        class="px-3 py-2 m-1 rounded-3 flex-start align-self-start message received">
+                        class="px-3 py-2 m-1 rounded-3 flex-start align-self-start chat-message chat-received">
                         <p>{{ item.contents }}
                         </p>
                     </div>
-                    <div v-if="senderID === item.senderID" class="px-3 py-2 m-1 rounded-3 align-self-end message sent">
+                    <div v-if="senderID === item.senderID"
+                        class="px-3 py-2 m-1 rounded-3 align-self-end chat-message chat-sent">
                         <p>{{ item.contents }}</p>
                     </div>
                 </template>
@@ -52,14 +53,18 @@
     
 <script setup>
 let global = globalThis;
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, onMounted } from 'vue';
+
+// Stomp & Sockjs-client
 import SockJS from 'sockjs-client/dist/sockjs.min.js';
 import Stomp from 'stompjs';
-import axios from 'axios';
-import VueCookies from 'vue-cookies';
-const path = 'http://localhost:8080'
 const socket = new SockJS(path + '/ws');
 const stompClient = Stomp.over(socket);
+const path = 'http://localhost:8080'
+
+import axios from 'axios';
+import VueCookies from 'vue-cookies';
+import Swal from 'sweetalert2'
 const chatContainer = ref(null);
 const inputField = ref(null);
 const messages = ref([]);
@@ -67,19 +72,14 @@ const contents = ref('');
 const senderID = ref('');
 const recieverID = ref('');
 const selectedUserId = ref('');
-const getuserid =
-    () => {
-        const sessionToken = VueCookies.get('sessionToken');
-        const userid = String(sessionToken).substring(32, sessionToken.length);
-        return userid
-    }
 
 
 onMounted(async () => {
     await initAssign();
     initConnect();
     await findAllMessages();
-    scrollToButtom();
+    messageEnd();
+    inputField.value.focus();
 });
 // 初始賦值，之後改寫
 async function initAssign() {
@@ -89,6 +89,12 @@ async function initAssign() {
     // senderID.value = '1@gmail.com';
     // recieverID.value = '2@gmail.com';
 }
+const getuserid =
+    () => {
+        const sessionToken = VueCookies.get('sessionToken');
+        const userid = String(sessionToken).substring(32, sessionToken.length);
+        return userid
+    }
 
 function initConnect() {
     stompClient.connect({}, onConnected, onError);
@@ -96,6 +102,8 @@ function initConnect() {
 function onConnected() {
     stompClient.subscribe(`/user/${senderID.value}/queue/messages`, onMessageReceived);
     stompClient.subscribe(`/user/public`, onMessageReceived);
+    console.log('stompClient', stompClient);
+    console.log('socket', socket);
 
     // register the connected user
     // stompClient.send("/app/user.addUser",
@@ -106,8 +114,24 @@ function onConnected() {
     // findAndDisplayConnectedUsers().then();
 }
 function onError() {
+    Swal.fire({
+        icon: 'error',
+        text: 'BOOOOOOMMMMMM! 連線壞掉囉',
+        confirmButtonText: 'Alright....'
+    }).then(function (response) {
 
+    })
 }
+// 滾動到最底、清空對話欄位、焦點設置回欄位
+function messageEnd() {
+    if (chatContainer.value) {
+        // console.log(chatContainer.value)
+        chatContainer.value.scroll(0, chatContainer.value.scrollHeight);
+    }
+    contents.value = ''
+    inputField.value.focus();
+}
+
 function sendMessage(event) {
     const trimmedContents = contents.value.trim();
     if (trimmedContents !== '' && stompClient) {
@@ -117,42 +141,31 @@ function sendMessage(event) {
             contents: trimmedContents,
             createdTime: new Date()
         };
-        console.log(chatMessage);
         stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
         // displayMessage(senderID, trimmedContents);
-        setTimeout(async () => {
-            await findAllMessages();
-            scrollToButtom();
-            contents.value = '';
-        }, 100);
+        displayMessage(trimmedContents);
     }
-    // 將焦點設置回輸入框
-    inputField.value.focus();
+    messageEnd();
 }
 async function onMessageReceived(payload) {
     // await findAndDisplayConnectedUsers();
     console.log('Message received', payload);
     const message = JSON.parse(payload.body);
+    displayMessage(message);
+    messageEnd();
+}
+// 收發訊息渲染
+function displayMessage(message) {
+    const messageDiv = document.createElement('div');
     if (recieverID.value && recieverID.value === message.senderID) {
-        setTimeout(async () => {
-            await findAllMessages();
-            scrollToButtom();
-            contents.value = '';
-        }, 100);
+        messageDiv.classList.add('px-3', 'py-2', 'm-1', 'rounded-3', 'align-self-start', 'chat-message', 'chat-received');
+        messageDiv.innerHTML = `<p>${message.contents}</p>`;
+        chatContainer.value.appendChild(messageDiv);
+    } else {
+        messageDiv.classList.add('px-3', 'py-2', 'm-1', 'rounded-3', 'align-self-end', 'chat-message', 'chat-sent');
+        messageDiv.innerHTML = `<p>${message}</p>`;
+        chatContainer.value.appendChild(messageDiv);
     }
-
-    // if (selectedUserId) {
-    //     document.querySelector(`#${selectedUserId}`).classList.add('active');
-    // } else {
-    //     messageForm.classList.add('hidden');
-    // }
-
-    // const notifiedUser = document.querySelector(`#${message.senderId}`);
-    // if (notifiedUser && !notifiedUser.classList.contains('active')) {
-    //     const nbrMsg = notifiedUser.querySelector('.nbr-msg');
-    //     nbrMsg.classList.remove('hidden');
-    //     nbrMsg.textContent = '';
-    // }
 }
 
 async function findAllMessages() {
@@ -165,16 +178,10 @@ async function findAllMessages() {
         });
 }
 
-function scrollToButtom() {
-    if (chatContainer.value) {
-        // console.log(chatContainer.value)
-        chatContainer.value.scroll(0, chatContainer.value.scrollHeight);
-    }
-}
 </script>
 
 <style scoped>
-.main-container {
+.chat-main-container {
     height: 840px;
 }
 
@@ -187,17 +194,7 @@ function scrollToButtom() {
     height: 88%;
 }
 
-.message {
-    max-width: 50%;
-}
 
-.received {
-    background-color: #f0f0f0;
-}
-
-.sent {
-    background-color: #dcf8c6;
-}
 
 .input-group {
     height: 7%;
@@ -205,5 +202,18 @@ function scrollToButtom() {
 
 .form-control {
     resize: none;
+}
+</style>
+<style>
+.chat-message {
+    max-width: 50%;
+}
+
+.chat-received {
+    background-color: #f0f0f0;
+}
+
+.chat-sent {
+    background-color: #dcf8c6;
 }
 </style>
