@@ -14,6 +14,7 @@ pinia.use(piniaPluginPersistedstate)
 const app = createApp(App)
 app.use(pinia).use(router).use(ElementPlus).mount('#app');
 
+
 // 路由守衛閃亮登場
 router.beforeEach(async (to) => {
     const store = useUserStore();
