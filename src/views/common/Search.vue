@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
                     <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
-                        <li class="nav-item me-2">
+                        <!-- <li class="nav-item me-2">
                             <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">熱門項目</a>
                         </li>
                         <li class="nav-item me-2">
@@ -55,7 +55,26 @@
                         </li>
                         <li class="nav-item me-0">
                             <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">即將截止</a>
-                        </li>
+                        </li> -->
+                        <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
+                            <li class="nav-item me-2">
+                                <a class="btn btn-outline-primary active" data-bs-toggle="pill"
+                                    @click="getWorks('http://localhost:8080/api/work/getHotWorks')">熱門項目</a>
+                            </li>
+                            <li class="nav-item me-2">
+                                <a class="btn btn-outline-primary" data-bs-toggle="pill"
+                                    @click="getWorks('http://localhost:8080/api/work/getLatestWorks')">最新上架</a>
+                            </li>
+                            <li class="nav-item me-2">
+                                <a class="btn btn-outline-primary" data-bs-toggle="pill"
+                                    @click="getWorks('http://localhost:8080/api/work/getDeadlineWorks')">即將截止</a>
+                            </li>
+                            <li class="nav-item me-2">
+                                <a class="btn btn-outline-primary" data-bs-toggle="pill"
+                                    @click="getWorksByRemainingSpots">剩餘名額 <i class="fa fa-arrow-down"
+                                        :class="{ 'rotate': isArrowUp }"></i></a>
+                            </li>
+                        </ul>
                     </ul>
                 </div>
             </div>
@@ -77,22 +96,23 @@
                                 <div class="p-4 pb-0">
                                     <a class="d-block h5 mb-2" href="">{{ work.name }}</a>
                                     <p><i class="fa fa-map-marker text-primary me-2"></i>{{ work.address }}</p>
-                                    <p>{{ work.description}}</p>
+                                    <p>{{ work.description }}</p>
                                 </div>
                                 <div class="d-flex border-top">
                                     <small class="flex-fill text-center border-end py-2"><i
-                                            class="fa fa-calendar text-primary me-2"></i>{{ formatDate(work.startDate) }} ~ {{ formatDate(work.endDate) }}</small>
+                                            class="fa fa-calendar text-primary me-2"></i>{{ formatDate(work.startDate) }} ~
+                                        {{ formatDate(work.endDate) }}</small>
                                     <small class="flex-fill text-center border-end py-2"><i
                                             class="fa fa-user text-primary me-2"></i>剩下 {{ work.maxAttendance }} 個名額</small>
-                                    <small class="flex-fill text-center py-2"><i
-                                            class="fa fa-star text-primary me-2"></i>{{ work.views }} 次瀏覽</small>
+                                    <small class="flex-fill text-center py-2"><i class="fa fa-star text-primary me-2"></i>{{
+                                        work.views }} 次瀏覽</small>
                                 </div>
                             </div>
                         </div>
 
 
                         <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
-                            <a class="btn btn-secondary py-3 px-5" href="">瀏覽更多打工機會 </a>
+                            <a class="btn btn-secondary py-3 px-5" href="#">瀏覽更多打工機會 </a>
                         </div>
                     </div>
                 </div>
@@ -108,13 +128,41 @@ import axios from 'axios';
 
 const works = ref([]);
 
-axios.get('http://localhost:8080/api/work/getAllWorks')
+// 剩餘名額排序按鈕用的 clickCount
+let clickCount = 0;
+// 追蹤剩餘名額排序按紐的箭頭是否應該向上
+let isArrowUp = ref(false);
+
+
+axios.get("http://localhost:8080/api/work/getAllWorks")
     .then(response => {
         works.value = response.data;
     })
     .catch(error => {
         console.error(error);
     });
+
+
+// 依照呼叫的url，列出不同排序的工作
+const getWorks = (url) => {
+    axios.get(url)
+        .then(response => {
+            works.value = response.data;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+// 依照剩餘名額排序工作
+const getWorksByRemainingSpots = () => {
+    isArrowUp.value = !isArrowUp.value; // 每次點擊時，將 isArrowUp 的值反轉
+    if (isArrowUp.value) {
+        getWorks('http://localhost:8080/api/work/getWorksByRemainingSpotsAsc');
+    } else {
+        getWorks('http://localhost:8080/api/work/getWorksByRemainingSpotsDesc');
+    }
+}
 
 // 格式化日期為"YYYY/MM/DD"
 const formatDate = (dateString) => {
@@ -124,4 +172,12 @@ const formatDate = (dateString) => {
 
 </script>
 
-<style></style>
+<style scoped>
+.fa-arrow-down {
+    transition: transform 0.5s;
+}
+
+.rotate {
+    transform: rotate(180deg);
+}
+</style>
