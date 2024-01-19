@@ -12,7 +12,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto d-flex align-items-center">
+                <div class="navbar-nav ms-auto d-flex">
                     <RouterLink class="nav-item nav-link active" to="/">首頁</RouterLink>
                     <RouterLink class="nav-item nav-link" to="#">關於Mingle</RouterLink>
                     <div class="nav-item dropdown">
@@ -32,7 +32,7 @@
                     <RouterLink class="nav-item nav-link" to="/contact-Us">聯絡我們</RouterLink>
                     <template v-if="isLoggedIn">
                         <div v-if="isLandlord" class="nav-item dropdown">
-                            <RouterLink class=" btn btn-secondary px-3 dropdown-toggle" data-bs-toggle="dropdown"
+                            <RouterLink class=" btn btn-secondary px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="/lord-center">房東中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" to="/providerHouse">發布工作</RouterLink>
@@ -128,7 +128,7 @@ onBeforeUnmount(() => {
     window.removeEventListener('scroll', checkSticky);
 });
 </script>
-    
+
 <style scoped>
 /*** Navbar ***/
 .nav-bar {
@@ -156,12 +156,13 @@ onBeforeUnmount(() => {
     vertical-align: middle;
     margin-left: 5px;
     transition: .5s;
+    margin: ;
 }
 
 .navbar .dropdown-toggle[aria-expanded=true]::after {
     transform: rotate(-180deg);
+    
 }
-
 .navbar-light .navbar-nav .nav-link {
     margin-right: 30px;
     padding: 25px;

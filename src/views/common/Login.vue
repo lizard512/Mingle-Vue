@@ -117,7 +117,6 @@ const login = function () {
                         document.cookie = `sessionToken=${response.data.sessionToken}; path=/`;
                         userStore.login();
                         router.push({ name: 'Home' });
-                        document.location.href = `http://localhost:7890/`;
                     }
                 });
             } else {
