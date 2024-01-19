@@ -83,7 +83,7 @@
                                     <small class="flex-fill text-center border-end py-2"><i
                                             class="fa fa-calendar text-primary me-2"></i>{{ formatDate(work.startDate) }} ~ {{ formatDate(work.endDate) }}</small>
                                     <small class="flex-fill text-center border-end py-2"><i
-                                            class="fa fa-user text-primary me-2"></i>剩下 {{ work.numbers }} 個名額</small>
+                                            class="fa fa-user text-primary me-2"></i>剩下 {{ work.maxAttendance }} 個名額</small>
                                     <small class="flex-fill text-center py-2"><i
                                             class="fa fa-star text-primary me-2"></i>{{ work.views }} 次瀏覽</small>
                                 </div>
@@ -108,7 +108,7 @@ import axios from 'axios';
 
 const works = ref([]);
 
-axios.get('http://localhost:8080/works')
+axios.get('http://localhost:8080/api/work/getAllWorks')
     .then(response => {
         works.value = response.data;
     })
