@@ -17,6 +17,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+// import { GmapMap, GmapMarker } from 'vue2-google-maps';
 
 const mapCenter = ref({ lat: 0, lng: 0 });
 const formattedAddresses = ref([]);
@@ -26,10 +27,10 @@ const getCoordinates = async (address) => {
     const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
       params: {
         address: address,
-        key: 'YOUR_GOOGLE_MAPS_API_KEY', // Replace with your actual API key
+        key: 'AIzaSyChYl423JJyZHyoVgPhUWBgi7bLCH3pGNA', // Replace with your actual API key
       },
     });
-
+    console.log(response);
     if (response.data.results && response.data.results.length > 0) {
       const location = response.data.results[0].geometry?.location;
 
@@ -53,8 +54,7 @@ const getCoordinates = async (address) => {
 onMounted(async () => {
   try {
     // Example backend API endpoint to fetch formatted addresses
-    const backendResponse = await axios.get('/api/getFormattedAddresses');
-
+    const backendResponse = await axios.get('http://localhost:8080/api/work/formattedAddresses');
     // Assuming the backend response contains an array of formatted addresses
     formattedAddresses.value = backendResponse.data;
   } catch (error) {
