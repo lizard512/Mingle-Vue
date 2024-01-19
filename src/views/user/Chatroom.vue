@@ -122,8 +122,8 @@ function onError() {
 
     })
 }
+// 滾動到最底、清空對話欄位、焦點設置回欄位
 function messageEnd() {
-    // 滾動到最底、清空對話欄位、焦點設置回欄位
     if (chatContainer.value) {
         // console.log(chatContainer.value)
         chatContainer.value.scroll(0, chatContainer.value.scrollHeight);
@@ -143,10 +143,7 @@ function sendMessage(event) {
         };
         stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
         // displayMessage(senderID, trimmedContents);
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('px-3', 'py-2', 'm-1', 'rounded-3', 'align-self-end', 'message', 'sent');
-        messageDiv.innerHTML = `<p>${trimmedContents}</p>`;
-        chatContainer.value.appendChild(messageDiv);
+        displayMessage(trimmedContents);
     }
     messageEnd();
 }
@@ -154,17 +151,21 @@ async function onMessageReceived(payload) {
     // await findAndDisplayConnectedUsers();
     console.log('Message received', payload);
     const message = JSON.parse(payload.body);
-    if (recieverID.value && recieverID.value === message.senderID) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('px-3', 'py-2', 'm-1', 'rounded-3', 'align-self-start', 'message', 'received');
-        messageDiv.innerHTML = `<p>${message.contents}</p>`;
-        chatContainer.value.appendChild(messageDiv);
-    }
+    displayMessage(message);
     messageEnd();
 }
-
-function displayMessage() {
-
+// 收發訊息渲染
+function displayMessage(message) {
+    const messageDiv = document.createElement('div');
+    if (recieverID.value && recieverID.value === message.senderID) {
+        messageDiv.classList.add('px-3', 'py-2', 'm-1', 'rounded-3', 'align-self-start', 'chat-message', 'chat-received');
+        messageDiv.innerHTML = `<p>${message.contents}</p>`;
+        chatContainer.value.appendChild(messageDiv);
+    } else {
+        messageDiv.classList.add('px-3', 'py-2', 'm-1', 'rounded-3', 'align-self-end', 'chat-message', 'chat-sent');
+        messageDiv.innerHTML = `<p>${message}</p>`;
+        chatContainer.value.appendChild(messageDiv);
+    }
 }
 
 async function findAllMessages() {
@@ -179,7 +180,7 @@ async function findAllMessages() {
 
 </script>
 
-<style >
+<style scoped>
 .chat-main-container {
     height: 840px;
 }
@@ -193,6 +194,17 @@ async function findAllMessages() {
     height: 88%;
 }
 
+
+
+.input-group {
+    height: 7%;
+}
+
+.form-control {
+    resize: none;
+}
+</style>
+<style>
 .chat-message {
     max-width: 50%;
 }
@@ -203,13 +215,5 @@ async function findAllMessages() {
 
 .chat-sent {
     background-color: #dcf8c6;
-}
-
-.input-group {
-    height: 7%;
-}
-
-.form-control {
-    resize: none;
 }
 </style>
