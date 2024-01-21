@@ -77,6 +77,7 @@ const selectedUserId = ref('');
 onMounted(async () => {
     await initAssign();
     initConnect();
+    // await findAllChat();
     await findAllMessages();
     messageEnd();
     inputField.value.focus();
@@ -125,13 +126,11 @@ function onError() {
 // 滾動到最底、清空對話欄位、焦點設置回欄位
 function messageEnd() {
     if (chatContainer.value) {
-        // console.log(chatContainer.value)
         chatContainer.value.scroll(0, chatContainer.value.scrollHeight);
     }
     contents.value = ''
     inputField.value.focus();
 }
-
 function sendMessage(event) {
     const trimmedContents = contents.value.trim();
     if (trimmedContents !== '' && stompClient) {
@@ -142,7 +141,6 @@ function sendMessage(event) {
             createdTime: new Date()
         };
         stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
-        // displayMessage(senderID, trimmedContents);
         displayMessage(trimmedContents);
     }
     messageEnd();
@@ -167,7 +165,7 @@ function displayMessage(message) {
         chatContainer.value.appendChild(messageDiv);
     }
 }
-
+// 訊息渲染
 async function findAllMessages() {
     await axios.get(`${path}/messages/${senderID.value}/${recieverID.value}`)
         .then(function (response) {
@@ -177,7 +175,13 @@ async function findAllMessages() {
 
         });
 }
-
+// incomplete
+async function findAllChat() {
+    await axios.get(`${path}/messages/${senderID.value}/preview`)
+        .then(function (response) {
+            console.log(response)
+        })
+}
 </script>
 
 <style scoped>
