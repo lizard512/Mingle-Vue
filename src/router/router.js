@@ -8,7 +8,7 @@ import ContactUs from "@views/common/ContactUs.vue";
 import Home from "@views/common/Home.vue";
 import Login from "@views/common/Login.vue";
 import NotFound from "@views/common/NotFound.vue";
-import Search from "@views/common/Search.vue";
+import WorkSearch from "@views/common/WorkSearch.vue";
 import ThankYou from "@components/ThankYou.vue";
 import Map from "@components/Map.vue";
 // user 一般使用者
@@ -40,9 +40,10 @@ const routes = [
     component: Home,
   },
   {
-    path: "/search",
-    name: "Search",
-    component: Search,
+    path: "/work-search",
+    name: "WorkSearch",
+    component: WorkSearch,
+    meta: { hideFooter: true },
   },
   {
     path: "/:pathMatch(.*)*",

@@ -26,9 +26,4 @@ import Footer from '@components/Footer.vue'
 <!-- Customized CSS -->
 <style src="@styles/style.css"></style>
 <!-- Customized Bootstrap SCSS-->
-<style lang="scss" src="@styles/customized-bootstrap.scss">
-
-
-
-
-</style>
+<style lang="scss" src="@styles/customized-bootstrap.scss"></style>
