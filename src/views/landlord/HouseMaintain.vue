@@ -58,8 +58,8 @@
                     <th scope="col">2023-12-28 14:43:36</th>
                     <th scope="col">2023-12-28 14:43:36</th>
                     <th scope="col">
-                        <button type="button" class="btn btn-light">修改</button>
-                        <button type="button" class="btn btn-danger">刪除</button>
+                        <b-button type="button" class="btn btn-light update" v-b-modal.modal-1>修改</b-button>
+                        <button type="button" class="btn btn-danger delete">刪除</button>
                     </th>
                 </tr>
                 <tr>
@@ -89,8 +89,8 @@
                     <th scope="col">2023-12-28 14:49:03</th>
                     <th scope="col">2023-12-28 14:49:03</th>
                     <th scope="col">
-                        <button type="button" class="btn btn-light">修改</button>
-                        <button type="button" class="btn btn-danger">刪除</button>
+                        <button type="button" class="btn btn-light update">修改</button>
+                        <button type="button" class="btn btn-danger delete">刪除</button>
                     </th>
                 </tr>
                 <tr>
@@ -120,8 +120,8 @@
                     <th scope="col">2023-12-28 14:56:25</th>
                     <th scope="col">2023-12-28 14:56:25</th>
                     <th scope="col">
-                        <button type="button" class="btn btn-light">修改</button>
-                        <button type="button" class="btn btn-danger">刪除</button>
+                        <button type="button" class="btn btn-light update">修改</button>
+                        <button type="button" class="btn btn-danger delete">刪除</button>
                     </th>
                 </tr>
                 <tr>
@@ -151,8 +151,8 @@
                     <th scope="col">2023-12-28 14:56:25</th>
                     <th scope="col">2023-12-28 14:56:25</th>
                     <th scope="col">
-                        <button type="button" class="btn btn-light">修改</button>
-                        <button type="button" class="btn btn-danger">刪除</button>
+                        <button type="button" class="btn btn-light update">修改</button>
+                        <button type="button" class="btn btn-danger delete">刪除</button>
                     </th>
                 </tr>
                 <tr>
@@ -182,16 +182,19 @@
                     <th scope="col">2023-12-28 14:56:25</th>
                     <th scope="col">2023-12-28 14:56:25</th>
                     <th scope="col">
-                        <button type="button" class="btn btn-light">修改</button>
-                        <button type="button" class="btn btn-danger">刪除</button>
+                        <button type="button" class="btn btn-light update">修改</button>
+                        <button type="button" class="btn btn-danger delete">刪除</button>
                     </th>
                 </tr>
             </tbody>
         </table>
     </div>
     <br>
+    <b-modal id="modal-1" title="BootstrapVue">
+        <p class="my-4">Hello from modal!</p>
+    </b-modal>
 </template>
-    
+
 <script setup>
 
 </script>

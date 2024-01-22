@@ -12,13 +12,13 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto d-flex">
+                <div class="navbar-nav ms-auto d-flex align-items-center">
                     <RouterLink class="nav-item nav-link active" to="/">首頁</RouterLink>
                     <RouterLink class="nav-item nav-link" to="#">關於Mingle</RouterLink>
                     <div class="nav-item dropdown">
                         <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">打工換宿資訊</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <RouterLink class="dropdown-item" to="/search">瀏覽打工項目</RouterLink>
+                            <RouterLink class="dropdown-item" to="/work-search">瀏覽打工項目</RouterLink>
                             <RouterLink class="dropdown-item" to="#">住宿地點一覽</RouterLink>
                         </div>
                     </div>
@@ -35,7 +35,8 @@
                             <RouterLink class=" btn btn-secondary px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="/lord-center">房東中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <RouterLink class="dropdown-item" to="/providerHouse">發布工作</RouterLink>
+                                <RouterLink class="dropdown-item" to="/providerWork">建立工作</RouterLink>
+                                <RouterLink class="dropdown-item" to="/providerHouse">建立發源</RouterLink>
                                 <RouterLink class="dropdown-item" to="/houseMaintain">房源維護</RouterLink>
                                 <RouterLink class="dropdown-item" to="/WorkMaintain">工作管理</RouterLink>
                                 <RouterLink class="dropdown-item" to="#">訂單管理</RouterLink>
@@ -156,12 +157,10 @@ onBeforeUnmount(() => {
     vertical-align: middle;
     margin-left: 5px;
     transition: .5s;
-    margin: ;
 }
 
 .navbar .dropdown-toggle[aria-expanded=true]::after {
     transform: rotate(-180deg);
-    
 }
 .navbar-light .navbar-nav .nav-link {
     margin-right: 30px;
