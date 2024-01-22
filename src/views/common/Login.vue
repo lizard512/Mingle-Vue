@@ -103,7 +103,7 @@ const login = function () {
         userid: userid.value,
         password: password.value,
     }
-    axios.post("http://localhost:8080/login.controller", request)
+    axios.post("http://192.168.74.123:8080/login.controller", request)
         .then(function (response) {
             console.log(response);
 
@@ -116,6 +116,7 @@ const login = function () {
                 }).then(function (result) {
                     if (result.isConfirmed) {
                         document.cookie = `sessionToken=${response.data.sessionToken}; path=/`;
+                        localStorage.setItem('sessionToken',response.data.sessionToken)
                         userStore.login();
                         router.push({ name: 'Home' });
                     }
