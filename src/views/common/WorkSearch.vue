@@ -74,7 +74,7 @@
                                 </li>
                                 <li class="nav-item me-2">
                                     <a class="btn btn-outline-primary" data-bs-toggle="pill"
-                                        @click="getWorksByRemainingSpots">剩餘名額 <i class="fa fa-arrow-down"
+                                        @click="getWorksByRemainingSpots">參與人數 <i class="fa fa-arrow-down"
                                             :class="{ 'rotate': isArrowUp }"></i></a>
                                 </li>
                             </ul>
@@ -138,7 +138,7 @@ let sort = 'hot'; // 排序方式
 const pageSize = 4; // 每頁的數量
 let isEnd = ref(false);
 // 追蹤剩餘名額排序按紐的箭頭是否應該向上
-let isArrowUp = ref(false);
+let isArrowUp = ref(true);
 
 
 
@@ -200,9 +200,9 @@ const getWorksByRemainingSpots = () => {
     isEnd.value = false; // 重設結束標記
 
     if (isArrowUp.value) {
-        sort = 'spotsAsc';
+        sort = 'attendanceAsc';
     } else {
-        sort = 'spotsDesc';
+        sort = 'attendanceDesc';
     }
 
     loadWork(); // 重新載入工作列表
