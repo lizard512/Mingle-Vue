@@ -6,13 +6,14 @@
                 <h3 class="text-center my-4">Message</h3>
             </div>
             <div>
-                <div class="ms-5 mb-5 me-4" v-for="item in 15">
-                    <img class="rounded-circle float-start me-4" src="https://picsum.photos/50/50">
-                    <strong>AAA</strong>
-                    <small>Wed</small>
-                    <p class="text-truncate">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Obcaecati aliquid
-                        harum
-                    </p>
+                <div class="ms-5 me-4 list-group" v-for="item in roomList"
+                    @click="selectRoom(item.senderid, item.recieverid)">
+                    <button type="button" class="list-group-item list-group-item-action">
+                        <img class="rounded-circle float-start me-4" src="https://picsum.photos/50/50">
+                        <strong>{{ item.recievername }}</strong>
+                        <small>{{ item.date }}</small>
+                        <p class="text-truncate">{{ item.contents }}</p>
+                    </button>
                 </div>
             </div>
 
@@ -20,7 +21,7 @@
         <!-- Right => chat-name, chat-container, input-group -->
         <div class="col-md-8 mh-100">
             <div class="bg-light chat-name">
-                <strong>AAA</strong>
+                <strong>{{ selectedUserID }}</strong>
             </div>
 
             <div class="chat-container border overflow-auto d-flex flex-column p-3" ref="chatContainer">
@@ -65,30 +66,26 @@ const path = 'http://localhost:8080'
 import axios from 'axios';
 import VueCookies from 'vue-cookies';
 import Swal from 'sweetalert2'
+const roomList = ref(null);
 const chatContainer = ref(null);
 const inputField = ref(null);
 const messages = ref([]);
 const contents = ref('');
 const senderID = ref('');
-const recieverID = ref('');
-const selectedUserId = ref('');
+const selectedUserID = ref('');
 
 
 onMounted(async () => {
     await initAssign();
     initConnect();
-    // await findAllChat();
-    await findAllMessages();
+    await findAllChat();
+    // await findAllMessages();
     messageEnd();
     inputField.value.focus();
 });
 // 初始賦值，之後改寫
 async function initAssign() {
-    let other = prompt('請輸入對方帳號')
     senderID.value = getuserid();
-    recieverID.value = other;
-    // senderID.value = '1@gmail.com';
-    // recieverID.value = '2@gmail.com';
 }
 const getuserid =
     () => {
@@ -131,31 +128,42 @@ function messageEnd() {
     contents.value = ''
     inputField.value.focus();
 }
-function sendMessage(event) {
+async function sendMessage(event) {
     const trimmedContents = contents.value.trim();
     if (trimmedContents !== '' && stompClient) {
         const chatMessage = {
             senderID: senderID.value,
-            recieverID: recieverID.value,
+            recieverID: selectedUserID.value,
             contents: trimmedContents,
             createdTime: new Date()
         };
         stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
-        displayMessage(trimmedContents);
+        setTimeout(async () => {
+            await findAllMessages();
+            messageEnd();
+            findAllChat();
+        }, 100);
+        // displayMessage(trimmedContents);
     }
-    messageEnd();
+    // await findAllMessages();
+    // messageEnd();
 }
 async function onMessageReceived(payload) {
     // await findAndDisplayConnectedUsers();
     console.log('Message received', payload);
     const message = JSON.parse(payload.body);
-    displayMessage(message);
-    messageEnd();
+    // displayMessage(message);
+    setTimeout(async () => {
+        await findAllMessages();
+        messageEnd();
+        findAllChat();
+    }, 100);
+    // messageEnd();
 }
-// 收發訊息渲染
+// 收發訊息渲染 (先不用)
 function displayMessage(message) {
     const messageDiv = document.createElement('div');
-    if (recieverID.value && recieverID.value === message.senderID) {
+    if (selectedUserID.value && selectedUserID.value === message.senderID) {
         messageDiv.classList.add('px-3', 'py-2', 'm-1', 'rounded-3', 'align-self-start', 'chat-message', 'chat-received');
         messageDiv.innerHTML = `<p>${message.contents}</p>`;
         chatContainer.value.appendChild(messageDiv);
@@ -164,10 +172,11 @@ function displayMessage(message) {
         messageDiv.innerHTML = `<p>${message}</p>`;
         chatContainer.value.appendChild(messageDiv);
     }
+    // console.log(chatContainer.value)
 }
 // 訊息渲染
 async function findAllMessages() {
-    await axios.get(`${path}/messages/${senderID.value}/${recieverID.value}`)
+    await axios.get(`${path}/messages/${senderID.value}/${selectedUserID.value}`)
         .then(function (response) {
             messages.value = response.data;
         })
@@ -175,13 +184,49 @@ async function findAllMessages() {
 
         });
 }
-// incomplete
+// 聊天室渲染
 async function findAllChat() {
     await axios.get(`${path}/messages/${senderID.value}/preview`)
         .then(function (response) {
-            console.log(response)
+            response.data.forEach(function (item) {
+
+                if (item.recieverid == senderID.value) {
+                    item.recievername = item.sendername;
+                }
+
+                item.createdTime = new Date(item.createdTime);
+                const year = item.createdTime.getFullYear();
+                const month = item.createdTime.getMonth() + 1;
+                const date = item.createdTime.getDate();
+                item.date = `${year}/${month}/${date}`;
+
+                const hour = item.createdTime.getHours();
+                const minutes = item.createdTime.getMinutes();
+                item.time = `${hour}:${minutes}`;
+            });
+            roomList.value = response.data;
         })
+        .catch(function (error) {
+
+        });
 }
+
+// 選聊天室
+async function selectRoom(userid, recieverid) {
+    await assignSelectedUser(userid, recieverid);
+    await findAllMessages();
+    messageEnd();
+}
+
+// 更改selectedID
+async function assignSelectedUser(userid, recieverid) {
+    if (senderID.value == userid) {
+        selectedUserID.value = recieverid;
+    } else {
+        selectedUserID.value = userid;
+    }
+}
+
 </script>
 
 <style scoped>
