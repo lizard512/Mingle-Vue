@@ -8,7 +8,7 @@ import ContactUs from "@views/common/ContactUs.vue";
 import Home from "@views/common/Home.vue";
 import Login from "@views/common/Login.vue";
 import NotFound from "@views/common/NotFound.vue";
-import Search from "@views/common/Search.vue";
+import WorkSearch from "@views/common/WorkSearch.vue";
 import ThankYou from "@components/ThankYou.vue";
 import Map from "@components/Map.vue";
 // user 一般使用者
@@ -21,6 +21,7 @@ import Analyze from "@views/landlord/Analyze.vue";
 import HouseMaintain from "@views/landlord/HouseMaintain.vue";
 import WorkMaintain from "@views/landlord/WorkMaintain.vue";
 import ProviderHouse from "@views/landlord/ProviderHouse.vue";
+import ProviderWork from "@/views/landlord/ProviderWork.vue";
 // admin 管理者身分
 // 子路由
 import routerRegister from "./router-register.js";
@@ -40,9 +41,10 @@ const routes = [
     component: Home,
   },
   {
-    path: "/search",
-    name: "Search",
-    component: Search,
+    path: "/work-search",
+    name: "WorkSearch",
+    component: WorkSearch,
+    meta: { hideFooter: true },
   },
   {
     path: "/:pathMatch(.*)*",
@@ -111,6 +113,12 @@ const routes = [
     path: "/providerHouse",
     name: "ProviderHouse",
     component: ProviderHouse,
+    meta: {hideFooter: true, requiresAuth: true , permissions: ['lord']},
+  },
+  {
+    path: "/providerWork",
+    name: "ProviderWork",
+    component: ProviderWork,
     meta: {hideFooter: true, requiresAuth: true , permissions: ['lord']},
   },
   {
