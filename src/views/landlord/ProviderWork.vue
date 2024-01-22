@@ -163,19 +163,30 @@
       <div v-show="currentPage === 4" class="page4">
         <div style="width: 40rem; font-size: large" class="animate__animated animate__fadeInDown">
           <h1>太酷了！讓使用者更容易找到你！</h1>
-            <el-upload
-              :file-list="fl"
+          <el-upload
+              v-model:file-list="fl"
               list-type="picture-card"
               :auto-upload="true"
-              :on-success="handleSuccess"
               :on-preview="handlePictureCardPreview"
               :on-remove="handleRemove"
+              :data="getToken()"
+              accept=".jpg,.jpeg,.webp,.png"
+              :limit="6"
+              :multiple="true"
+              :on-change="handleChange"
+
               action="http://192.168.74.123:8080/photoUploadControl"
-              ><el-icon><Plus /></el-icon>
-            </el-upload>
+          >
+            <el-icon>
+              <Plus/>
+            </el-icon>
+          </el-upload>
+          <div class="el-upload__tip" slot="tip">只能上傳jpg/jpeg/webp/png格式的圖片</div>
         </div>
-        <el-dialog v-model="dialogVisible">
-          <img :src="dialogImager" alt="Preview Image">
+
+        <el-dialog v-model="dialogVisible"
+        width="30%">
+          <img width="100%" :src="dialogImager">
         </el-dialog>
       </div>
     </form>
@@ -200,36 +211,64 @@
 
 <script lang="ts" setup>
 import {ref} from 'vue'
+import {Plus} from '@element-plus/icons-vue'
+import {ElMessage, UploadProps, UploadUserFile} from "element-plus";
+import Swal from "sweetalert2";
 
 const age = ['不拘', '青壯年', '壯年', '老年']
 const gender = ['男', '女', '不限制']
 const education = ['國小', '國中', '高中職', '學士', '碩士', '博士']
 let maxValue = 100 / 4;
 let barValue = 0;
-let currentPage = ref(4);
+let currentPage = ref(1);
 
-import { Plus } from '@element-plus/icons-vue'
-import {UploadFile, UploadProps, UploadUserFile} from "element-plus";
-import { useQuery } from "vue-query";
 
-const fl = ref<UploadUserFile[]>([
-
-])
+const fl = ref<UploadUserFile[]>([])
 
 const dialogImager = ref('')
 const dialogVisible = ref(false)
 
-// const handleSuccess: UploadProps['onSuccess'] = (response, fl) =>
-//     console.log(fl)
-//     dialogImager.value = URL.createObjectURL(fl)
+const handleChange: UploadProps['onChange'] = (file, fl) => {
+  const size = file.size < 200000 ;
+  console.log(size)
+  if (!size) {
+    ElMessage({
+      showClose: true,
+      message: 'This is a message.',
+    })
+
+    Swal.mixin({
+      toast:true,
+      position: "top-right",
+      customClass: {
+        container: 'my-swal'
+      },
+      showConfirmButton:false,
+      timer: 3000,
+      timerProgressBar:true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    }).fire({
+      icon: "error",
+      title: "檔案大小不能超過50MB!"
+    })
+    console.log(size)
+    fl.splice(-1,1);
+  }
+  return size
+}
+
 const handleRemove: UploadProps['onRemove'] = (uploadFile, fl) => {
-  console.log(uploadFile,fl)
+  console.log(uploadFile, fl)
 }
 
 const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
-  dialogImager.value = uploadFile.url
+  dialogImager.value = uploadFile.url!
   dialogVisible.value = true
 }
+
 function next() {
   if (currentPage.value <= 4) {
     currentPage.value++;
@@ -243,9 +282,22 @@ function prev() {
     barValue -= maxValue;
   }
 }
+
+function getToken() {
+  console.log(localStorage.getItem('sessionToken'))
+  return {"sessionToken":localStorage.getItem("sessionToken")}
+}
+
 </script>
 
 <style scoped>
+.my-swal {
+  z-index: 100000000000 !important;
+}
+
+.swal2-container > div {
+  margin: 80px;
+}
 .container {
   margin: auto;
   height: 70vh;
@@ -320,16 +372,6 @@ function prev() {
 .col {
   flex: 1;
   margin-bottom: 0.7em;
-}
-
-.btn > img {
-  justify-content: left;
-}
-
-img {
-  height: 2rem;
-  width: 2rem;
-  margin-right: 10px;
 }
 
 h1 {

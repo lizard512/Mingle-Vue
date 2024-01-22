@@ -81,12 +81,12 @@
                         您的資料
                     </h3>
 
-                    <form class="needs-validation" novalidate>
+                    <form   class="needs-validation" novalidate>
 
                         <!-- 基本資料 -->
                         <div class="row g-3"
                             style="border: 1px solid wheat; padding: 20px; border-radius: 10px; margin: 10px;">
-                            <h6 class="mb-3">請確認會員資料</h6>
+                            <h6 class="mb-3 text-secondary">請確認會員資料</h6>
                             <!-- name  自動帶入會員資料-->
                             <div class="col-sm-4">
                                 <label for="fullName" class="form-label" @click="handleClick">會員全名 (name) </label>
@@ -151,10 +151,10 @@
 
                             <h4 class="mb-3">打工項目: {{ workdetail.worktype }} - {{ workdetail.name }} </h4>
                             <div class="col-md-12">
-                                <p>工作地址 ： </p>
-                                <p>{{ workdetail.address }} </p>
-                                <p>工作內容 : </p>
-                                <p> {{ workdetail.description }} </p>
+                                <div>工作地址 ： </div>
+                                <div>{{ workdetail.address }} </div>
+                                <div>工作內容 : </div>
+                                <div>{{ workdetail.description }} </div>
 
                             </div>
 
@@ -162,24 +162,27 @@
 
 
                             <h4 class="mb-3">打工條件 </h4>
-                            <p>休假時間: {{ workdetail.vacation }}</p>
-                            <p>年齡限制: {{ workdetail.ageRestriction }}</p>
-                            <p>性別限制: {{ workdetail.genderRestriction }}</p>
-                            <p>學歷限制: {{ workdetail.educationRestriction }}</p>
-                            <p>經驗限制: {{ workdetail.experienceRestriction }}</p>
-                            <p>語言限制: {{ workdetail.languageRestriction }}</p>
-                            <p>證照限制: {{ workdetail.licenseRestriction }}</p>
+                            <div>休假時間：{{ workdetail.vacation }}</div>
+                            <div>年齡限制：{{ workdetail.ageRestriction }}</div>
+                            <div>性別限制：{{ workdetail.genderRestriction }}</div>
+                            <div>學歷限制：{{ workdetail.educationRestriction }}</div>
+                            <div>經驗限制：{{ workdetail.experienceRestriction }}</div>
+                            <div>語言限制：{{ workdetail.languageRestriction }}</div>
+                            <div>證照限制：{{ workdetail.licenseRestriction }}</div>
 
 
 
                             <hr class="my-4">
                             <h4 class="mb-3">日期與人數 </h4>
-                            <p>打工日期: {{ String(workdetail.startDate).substring(0, 10) }} ~ {{
-                                String(workdetail.endDate).substring(0, 10) }}</p>
-                            <p>最低工作區間: {{ workdetail.minPeriod }}天</p>
-                            <p>上限人數: {{ workdetail.maxAttendance }}人</p>
+                            <div>打工日期：</div>
+                            <div>{{ String(workdetail.startDate).substring(0, 10) }} ~ {{
+                                String(workdetail.endDate).substring(0, 10) }}</div>
+                            <div>最低工作區間：</div>
+                            <div>{{ workdetail.minPeriod }}天</div>
+                            <div>上限人數：</div>
+                            <div>{{ workdetail.maxAttendance }}人</div>
 
-                            <h6 class="mb-3">請選擇報名人數、日期 </h6>
+                            <h6 class="mb-3 text-secondary">請選擇報名人數、日期 </h6>
 
                             <div class="col-md-3">
                                 <label for="work_numbers" class="form-label">報名人數 ( applicants) </label>
@@ -234,70 +237,55 @@
                         <!--打工 check box -->
 
 
-                        <hr class="my-4">
+
+                        <br>
+                        <br>
+                        <h3 class="justify-content-between align-items-center  text-center mb-3  text-secondary">
+                            預定住宿
+                        </h3>
 
 
                         <!--住宿 check box -->
                         <div class="row g-3"
                             style="border: 1px solid wheat; padding: 20px; border-radius: 10px; margin: 10px;">
-                            <h6 class="mb-3">預定住宿項目 </h6>
 
-                            <div class="col-md-4">
-                                <label for="house_type" class="form-label">房型 (house type)</label>
-                                <select class="form-select" id="house_type" required>
-                                    <option value="">Choose...</option>
-                                    <option>雙人房</option>
-                                    <option>單人房</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    請選擇房源類型。
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <label for="room_name" class="form-label">房間 (room name)</label>
-                                <select class="form-select" id="room_name" required>
-                                    <option value="">Choose...</option>
-                                    <option>親子房</option>
-                                    <option>301</option>
-                                    <option>405</option>
-                                    <option>505</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    請選擇房間。
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <label for="room_numbers" class="form-label">間數 (number) </label>
-                                <select class="form-select" id="room_numbers" required>
-                                    <option value="">Choose...</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    請選擇間數。
-                                </div>
-                            </div>
-
-                            <!-- 自動產出 -->
-                            <div class="col-md-12">
-                                <label for="house_address" class="form-label">住宿地點詳細內容 (address)</label>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum nulla, unde vel iusto
-                                    fugit perferendis commodi a asperiores tempora mollitia! Dicta sapiente, quod magni
-                                    nostrum rerum dignissimos placeat debitis, ipsam ad distinctio animi quae?
-                                    Necessitatibus delectus nobis perspiciatis tempore dolorum expedita, quidem aut illo
-                                    explicabo officia corrupti ad neque et non quisquam eligendi quis vero ea vitae qui
-                                    deserunt facilis ab! Iure harum a ab illo doloribus nesciunt corporis! Placeat ut
-                                    tempore quas necessitatibus eius asperiores, laborum, repudiandae ratione aperiam,
-                                    reprehenderit tenetur eaque. Fugiat et assumenda sunt maiores sit voluptates, natus,
-                                    quaerat iusto quidem officia, obcaecati aliquam quasi. Quibusdam, minus!</p>
-                            </div>
+                            <table class="table" >
+                                <thead class="table-secondary ">
+                                    <tr>
+                                        <th scope="col">房型介紹 (house)</th>
+                                        <th scope="col">容納人數 (beds) </th>
+                                        <th scope="col">選擇間數 (room) </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="house_type in workdetail.houses" :key="house_type.houseid">
+                                        <td>
+                                            <h6>房號：{{ house_type.houseid }}</h6>
+                                            <h6>{{ house_type.houseType }}-{{ house_type.name }}</h6>
+                                            <div>地址:{{ house_type.postCode }}{{ house_type.city }}-{{ house_type.address }}
+                                            </div>
+                                            <div>描述:{{ house_type.description }}</div>
+                                        </td>
+                                        <td class=" align-middle">{{ house_type.beds }}</td>
+                                        <td class=" align-middle"> <select class="form-select" id="room_numbers"
+                                                v-model="selectedRooms[house_type.houseid]"  >
+                                                <option value=0>0</option>
+                                                <option v-for="room in house_type.beds" :key="room" :value="room">
+                                                    {{ room }}</option>
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                請選擇間數。
+                                            </div>
+                                            <div v-if="totalRooms() > selectedAccomodator " class="text-danger"  >所選房間間數大於報名人數，請重新選擇</div>
+                                            <div v-if="totalRooms() == 0 " class="text-danger"  >請選擇房間間數</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
                             <!-- ====================================================================== -->
+
+                            <h6 class="mb-3 text-secondary">請填寫住宿者資訊</h6>
 
                             <!-- name  會員資料-->
                             <div class="row" v-if="orderby === 'myself'">
@@ -379,11 +367,11 @@
 
 
                             <div class="col-md-12">
-                                <label for="house_need" class="form-label">其他住宿需求 (need)</label>
+                                <label for="house_need" class="form-label" >其他住宿需求 (need)</label>
                                 <p><small>住宿方無法保證達成您的特殊要求－但將盡力為您安排。訂單完成後，您依然可隨時提出特殊要求！</small></p>
                                 <input type="textarea row-10" class="form-control" id="house_need" placeholder="其他住宿需求..."
-                                    value="">
-                            </div>
+                                    value=""  novalidate>
+                            </div >
 
                         </div>
 
@@ -486,6 +474,7 @@ const haserror = ref(false);
 const rangeStart = new Date();
 const rangeEnd = new Date();
 const maxPeriod = ref(0);
+const selectedRooms = ref([]);
 
 // 計算屬性
 const minStartDate = ref('');
@@ -593,8 +582,11 @@ const validateAndGoToOrder2 = () => {
     const isFormValid = validateForm();
     // 使用 Bootstrap 驗證的結果
     const form = document.querySelector('.needs-validation');
+    
     if (isFormValid && form.checkValidity()) {
-        goToOrder2();
+   
+            goToOrder2();
+        
     }
 };
 
@@ -649,7 +641,7 @@ const workdetail = reactive({})
 
 
 
-const Work_API_URL = 'http://localhost:8080/order/' + 3;
+const Work_API_URL = 'http://localhost:8080/order/' + 2;
 
 const loadworkDetail = async () => {
     const response = await axios.post(Work_API_URL);
@@ -667,9 +659,14 @@ const loadworkDetail = async () => {
     rangeEnd.value = new Date(workdetail.endDate)
     maxPeriod.value = generateDateRange(rangeStart.value, rangeEnd.value)
 
-
 }
 
+
+const totalRooms = function() {
+      return Object.values(selectedRooms.value).reduce((total, room) => {
+        return total + parseInt(room);
+      }, 0);
+    };
 
 
 
@@ -682,7 +679,11 @@ onMounted(async () => {
         updateAccomodatorData();
         await loaduserDetail();
         await loadworkDetail();
+        workdetail.houses.forEach((house_type) => { //初始化房間選取數量
+            selectedRooms.value[house_type.houseid] = 0;
+        });
         updateDateRange(selectedPeriod.value);
+
     } catch (error) {
         console.error('An error occurred in onMounted:', error);
     }
@@ -733,7 +734,9 @@ async function goToOrder2() {
             orderbyselfemail: orderbyselfemail.value,
             orderbyselfphone: orderbyselfphone.value,
             //工作類型
-            workid: workdetail.workid
+            workid: workdetail.workid,
+            //房間間數
+            selectedRooms: selectedRooms.value
 
         };
 
@@ -860,4 +863,17 @@ async function goToOrder2() {
 #progressbar-2 li.active:after {
     background: #ffc107;
 }
+
+
+input:not([required]):valid {
+    background-image: none;
+    border: 1px solid gray;
+}
+
+select:not([required]):valid {
+    background-image: none;
+    border: 1px solid gray;
+}
+
+
 </style>

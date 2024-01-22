@@ -116,6 +116,7 @@ const login = function () {
                 }).then(function (result) {
                     if (result.isConfirmed) {
                         document.cookie = `sessionToken=${response.data.sessionToken}; path=/`;
+                        localStorage.setItem('sessionToken',response.data.sessionToken)
                         userStore.login();
                         router.push({ name: 'Home' });
                     }

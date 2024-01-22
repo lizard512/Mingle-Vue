@@ -37,7 +37,7 @@
         <!-- Search End -->
 
         <!-- List Start -->
-        <div class="container-xxl py-5">
+        <div class="container-fuild py-5">
             <div class="container">
                 <div class="row g-0 gx-5 align-items-end">
                     <div class="col-lg-6">
@@ -62,19 +62,19 @@
                             <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
                                 <li class="nav-item me-2">
                                     <a class="btn btn-outline-primary active" data-bs-toggle="pill"
-                                        @click="getWorks('/getHotWorks')">熱門項目</a>
+                                        @click="getWorks('hot')">熱門項目</a>
                                 </li>
                                 <li class="nav-item me-2">
                                     <a class="btn btn-outline-primary" data-bs-toggle="pill"
-                                        @click="getWorks('/getLatestWorks')">最新上架</a>
+                                        @click="getWorks('latest')">最新上架</a>
                                 </li>
                                 <li class="nav-item me-2">
                                     <a class="btn btn-outline-primary" data-bs-toggle="pill"
-                                        @click="getWorks('/getDeadlineWorks')">即將截止</a>
+                                        @click="getWorks('deadline')">即將截止</a>
                                 </li>
                                 <li class="nav-item me-2">
                                     <a class="btn btn-outline-primary" data-bs-toggle="pill"
-                                        @click="getWorksByRemainingSpots">剩餘名額 <i class="fa fa-arrow-down"
+                                        @click="getWorksByRemainingSpots">參與人數 <i class="fa fa-arrow-down"
                                             :class="{ 'rotate': isArrowUp }"></i></a>
                                 </li>
                             </ul>
@@ -102,19 +102,20 @@
                                 </div>
                                 <div class="d-flex border-top">
                                     <small class="flex-fill text-center border-end py-2"><i
-                                            class="fa fa-calendar text-primary me-2"></i>{{ formatDate(work.startDate) }} ~
+                                            class="fa fa-calendar text-primary me-2"></i>{{ formatDate(work.startDate)
+                                            }} ~
                                         {{ formatDate(work.endDate) }}</small>
                                 </div>
                                 <div class="d-flex border-top">
                                     <small class="flex-fill text-center border-end py-2"><i
-                                            class="fa fa-user text-primary me-2"></i>剩下 {{ work.maxAttendance }} 個名額</small>
+                                            class="fa fa-user text-primary me-2"></i>{{ work.attendance }} /
+                                        {{ work.maxAttendance }} 人已報名</small>
                                     <small class="flex-fill text-center py-2"><i
                                             class="fa fa-solid fa-eye text-primary me-2"></i>{{
                                                 work.views }} 次瀏覽</small>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 text-center py-3 px-5" v-if="isLoading">正在加載...</div>
                     </div>
                 </div>
             </div>
@@ -129,20 +130,20 @@ import axios from 'axios';
 
 // 接收從後端傳來的工作資料
 let works = ref([]);
-// 定義基礎api URL
-const baseAPIURL = "http://localhost:8080/api/work";
-// 分頁用資料
-let page = ref(0);
-let isLoading = ref(false);
+// API URL
+const baseAPIURL = "http://localhost:8080/api/work/getWorks";
+// 預設載入的分頁資料
+let currentPage = ref(0);
+let sort = 'hot'; // 排序方式
+const pageSize = 4; // 每頁的數量
 let isEnd = ref(false);
-const size = 1; // 每頁的數量
 // 追蹤剩餘名額排序按紐的箭頭是否應該向上
-let isArrowUp = ref(false);
+let isArrowUp = ref(true);
 
 
 
 onMounted(async () => {
-    await loadMore();
+    await loadWork();
     window.addEventListener('scroll', handleScroll);
     // document.body.classList.add('no-scroll');
 });
@@ -152,47 +153,59 @@ onUnmounted(() => {
     // document.body.classList.remove('no-scroll');
 });
 
-const loadMore = async () => {
-    if (isLoading.value || isEnd.value) return;
-    isLoading.value = true;
+// 初始化頁面時，載入第一頁的工作資料(預設為熱門排序)
+const loadWork = async () => {
+    if (isEnd.value) return;
     try {
-        const response = await axios.get(`${baseAPIURL}/getWorks?page=${page.value}&size=${size}`);
+        const response = await axios.get(baseAPIURL, {
+            params: {
+                page: currentPage.value,
+                size: pageSize,
+                sort: sort,
+            }
+        });
         works.value = [...works.value, ...response.data.content];
+        // 如果已經無法獲取更多的工作，停止發送請求
         if (response.data.last) isEnd.value = true;
-        else page.value++;
+        // 否則，準備獲取下一頁的工作
+        else currentPage.value++;
     } catch (error) {
         console.error(error);
     } finally {
-        isLoading.value = false;
     }
 };
 
 const handleScroll = () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        loadMore();
+        loadWork();
     }
 };
 
 
-// 依照按鈕功能，更改工作排序
-const getWorks = (path) => {
-    axios.get(baseAPIURL + path)
-        .then(response => {
-            works.value = response.data;
-        })
-        .catch(error => {
-            console.error(error);
-        });
+// 依照熱門、最新、屆期更改工作排序
+const getWorks = (sortParam) => {
+    sort = sortParam; // 更新排序方式
+    works.value = []; // 清空工作列表
+    currentPage.value = 0; // 重設頁數
+    isEnd.value = false; // 重設結束標記
+    loadWork(); // 重新載入工作列表
 }
 
 // 依照剩餘名額排序工作
 const getWorksByRemainingSpots = () => {
     isArrowUp.value = !isArrowUp.value; // 每次點擊時，將 isArrowUp 的值反轉
+
+    works.value = []; // 清空工作列表
+    currentPage.value = 0; // 重設頁數
+    isEnd.value = false; // 重設結束標記
+
     if (isArrowUp.value) {
-        getWorks('/getWorksByRemainingSpotsAsc');
+        sort = 'attendanceAsc';
     } else {
-        getWorks('/getWorksByRemainingSpotsDesc');
+        sort = 'attendanceDesc';
     }
+
+    loadWork(); // 重新載入工作列表
 }
 
 // 格式化日期為"YYYY/MM/DD"
@@ -211,7 +224,7 @@ const formatDate = (dateString) => {
     height: calc(100vh - 50px - 100px);
 } */
 
-    .fa-arrow-down {
+.fa-arrow-down {
     transition: transform 0.5s;
 }
 
