@@ -860,4 +860,8 @@ async function goToOrder2() {
 #progressbar-2 li.active:after {
     background: #ffc107;
 }
+
+input:not([required]):valid {
+    background-image: none;
+}
 </style>
