@@ -83,7 +83,7 @@
                 </div>
                 <div>
                     <div class="row g-4">
-                        <div class="col-lg-2 col-md-6" v-for="work in works" :key="work.workid">
+                        <div class="col-lg-3 col-md-6" v-for="work in works" :key="work.workid">
                             <div class="list-item rounded overflow-hidden">
                                 <div class="position-relative overflow-hidden">
                                     <a href=""><img class="img-fluid" src="@images/台東熱氣球活動.jpg" :src="work.photo"

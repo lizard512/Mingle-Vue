@@ -22,6 +22,7 @@
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.3",
     "chart.js": "^4.4.1",
+    "element-plus": "^2.5.2",
     "google-maps-api-loader": "^1.1.1",
     "jquery": "^3.7.1",
     "pinia": "^2.1.7",
@@ -35,7 +36,6 @@
     "vue-query": "^1.26.0",
     "vue-router": "^4.2.5",
     "vue-sweetalert2": "^5.0.5",
-    "vue2-google-maps": "^0.10.7",
     "vue3-google-map": "^0.19.0",
     "vuex": "^4.0.2",
     "wowjs": "^1.1.3"
