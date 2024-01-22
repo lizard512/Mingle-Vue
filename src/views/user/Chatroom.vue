@@ -55,7 +55,7 @@ import { ref, onMounted } from 'vue';
 import SockJS from 'sockjs-client/dist/sockjs.min.js';
 import Stomp from 'stompjs';
 import axios from 'axios';
-const path = 'http://localhost:8080'
+const path = 'http://192.168.24.140:8080'
 let socket = new SockJS(path + '/ws');
 let stompClient = Stomp.over(socket);
 let chatContainer = ref(null);
@@ -80,8 +80,8 @@ function initConnect() {
         console.log('Connected: ' + frame);
     });
 }
-function findAllMessages() {
-    axios.get(`${path}/messages/${senderID}/${recieverID}`)
+async function findAllMessages() {
+    await axios.get(`${path}/messages/${senderID}/${recieverID}`)
         .then(function (response) {
             console.log(response.data)
             messages.value = response.data;
@@ -90,11 +90,16 @@ function findAllMessages() {
         .catch(function (error) {
 
         });
+
+// await fetch(`${path}/messages/${senderID}/${recieverID}`).then((response) => response.text())
+//       .then((body) => {
+//         console.log(body);
+//       });
 }
 
 function scrollToButtom() {
     if (chatContainer.value) {
-        // console.log(chatContainer.value)
+        // console.log(chatContainer.value.)
         chatContainer.value.scroll(0, chatContainer.value.scrollHeight);
     }
 }
