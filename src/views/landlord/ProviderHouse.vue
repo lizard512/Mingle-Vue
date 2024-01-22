@@ -183,7 +183,7 @@ function prev() {
 }
 </script>
 
-<style>
+<style scoped>
 .container {
   margin: auto;
   height: 70vh;

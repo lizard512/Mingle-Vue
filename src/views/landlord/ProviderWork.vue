@@ -112,80 +112,124 @@
       <div v-show="currentPage === 3" class="page3">
         <div style="font-size: large" class="animate__animated animate__fadeInDown">
           <h1>太棒了！告訴我們詳細資訊吧！</h1>
-          <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="floatingInput" placeholder="">
-            <label for="floatingInput">工時 :</label>
+          <div class="row g-2">
+            <div class="form-floating col">
+              <input type="text" class="form-control" id="floatingInput" placeholder="workHour">
+              <label for="floatingInput">工時 :</label>
+            </div>
+            <div class="form-floating col">
+              <input type="text" class="form-control" id="floatingInput" placeholder="minDay">
+              <label for="floatingInput">可接受最小天數 :</label>
+            </div>
           </div>
-          <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="floatingInput" placeholder="">
-            <label for="floatingInput">可接受最小天數 :</label>
+          <div class="row g-2">
+            <div class="col-md">
+              <div class="form-floating">
+                <select class="form-select" id="floatingSelectGrid" aria-label="accessAge">
+                  <option selected>請選擇</option>
+                  <option v-for="item in age" value="{{item}}">
+                    {{ item }}
+                  </option>
+                </select>
+                <label for="floatingSelectGrid">年齡限制</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                <select class="form-select" id="floatingSelectGrid" aria-label="gender">
+                  <option selected>請選擇</option>
+                  <option v-for="item in gender" value="{{item}}">
+                    {{ item }}
+                  </option>
+                </select>
+                <label for="floatingSelectGrid">性別限制</label>
+              </div>
+            </div>
           </div>
-          <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="floatingInput" placeholder="">
-            <label for="floatingInput"></label>
+
+          <div class="row-cols-1 g-2">
+            <div class="form-floating" style="margin-top: 12px">
+              <select class="form-select col" id="floatingSelectGrid" aria-label="education">
+                <option selected>請選擇</option>
+                <option v-for="item in education" value="{{item}}">
+                  {{ item }}
+                </option>
+              </select>
+              <label for="floatingSelectGrid">教育程度</label>
+            </div>
           </div>
         </div>
       </div>
       <div v-show="currentPage === 4" class="page4">
         <div style="width: 40rem; font-size: large" class="animate__animated animate__fadeInDown">
           <h1>太酷了！讓使用者更容易找到你！</h1>
-          <div class="row-cols-2">年齡限制：
-          <select class="form-select-sm col" aria-label="accessAge">
-            <option selected>請選擇</option>
-            <option v-for="item in age" value="{{item}}">
-              {{ item }}
-            </option>
-          </select>
-          </div>
-
-          <div class="row-cols-2">性別限制：
-          <select class="form-select-sm col" aria-label="gender">
-            <option selected>請選擇</option>
-            <option v-for="item in gender" value="{{item}}">
-              {{ item }}
-            </option>
-          </select>
-          </div>
-          <div class="row-cols-2">教育程度：
-          <select class="form-select-sm col" aria-label="education">
-            <option selected>請選擇</option>
-            <option v-for="item in education" value="{{item}}">
-              {{ item }}
-            </option>
-          </select>
+            <el-upload
+              :file-list="fl"
+              list-type="picture-card"
+              :auto-upload="true"
+              :on-success="handleSuccess"
+              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove"
+              action="http://192.168.74.123:8080/photoUploadControl"
+              ><el-icon><Plus /></el-icon>
+            </el-upload>
         </div>
+        <el-dialog v-model="dialogVisible">
+          <img :src="dialogImager" alt="Preview Image">
+        </el-dialog>
       </div>
-      </div>
-
     </form>
   </div>
 
-    <div class="animate__animated animate__bounceInUp row justify-content-between progress-bar-container fixed-bottom">
-      <div class="progress">
-        <div class="progress-bar" role="progressbar" v-bind:style="{width: barValue + '%'}"
-             style=" background-color: #ffb4aa"
-             aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-        </div>
+  <div class="animate__animated animate__bounceInUp row justify-content-between progress-bar-container fixed-bottom">
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" v-bind:style="{width: barValue + '%'}"
+           style=" background-color: #ffb4aa"
+           aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
       </div>
-      <button type="button" class="btn btn-outline-primary prev col-1 " @click="prev" :disabled="currentPage <= 1">Prev
-        Step
-      </button>
-      <button type="button" class="btn btn-outline-primary next col-1 " @click="next" :disabled="currentPage > 4">Next
-        Step
-      </button>
     </div>
+    <button type="button" class="btn btn-outline-primary prev col-1 " @click="prev" :disabled="currentPage <= 1">Prev
+      Step
+    </button>
+    <button type="button" class="btn btn-outline-primary next col-1 " @click="next" :disabled="currentPage > 4">Next
+      Step
+    </button>
+  </div>
 
 </template>
 
 <script lang="ts" setup>
 import {ref} from 'vue'
-const age = ['不拘','青壯年','壯年','老年']
-const gender = ['男','女','不限制']
-const education = ['國小','國中','高中職','學士','碩士','博士']
+
+const age = ['不拘', '青壯年', '壯年', '老年']
+const gender = ['男', '女', '不限制']
+const education = ['國小', '國中', '高中職', '學士', '碩士', '博士']
 let maxValue = 100 / 4;
 let barValue = 0;
 let currentPage = ref(4);
 
+import { Plus } from '@element-plus/icons-vue'
+import {UploadFile, UploadProps, UploadUserFile} from "element-plus";
+import { useQuery } from "vue-query";
+
+const fl = ref<UploadUserFile[]>([
+
+])
+
+const dialogImager = ref('')
+const dialogVisible = ref(false)
+
+// const handleSuccess: UploadProps['onSuccess'] = (response, fl) =>
+//     console.log(fl)
+//     dialogImager.value = URL.createObjectURL(fl)
+const handleRemove: UploadProps['onRemove'] = (uploadFile, fl) => {
+  console.log(uploadFile,fl)
+}
+
+const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
+  dialogImager.value = uploadFile.url
+  dialogVisible.value = true
+}
 function next() {
   if (currentPage.value <= 4) {
     currentPage.value++;
@@ -201,7 +245,7 @@ function prev() {
 }
 </script>
 
-<style>
+<style scoped>
 .container {
   margin: auto;
   height: 70vh;

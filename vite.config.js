@@ -10,13 +10,13 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 export default defineConfig({
   // base: '/mingle-vue/',
   plugins: [
-    vue(),
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),
     Components({
       resolvers: [ElementPlusResolver()],
     }),
+    vue(),
   ],
   resolve: {
     alias: {
