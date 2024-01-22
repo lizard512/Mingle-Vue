@@ -27,7 +27,7 @@
     "pinia-plugin-persistedstate": "^3.2.1",
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
-    "vue": "^3.3.11",
+    "vue": "^3.4.15",
     "vue-axios": "^3.5.2",
     "vue-cookies": "^1.8.3",
     "vue-router": "^4.2.5",
@@ -40,6 +40,8 @@
     "@types/sockjs-client": "^1.5.4",
     "@vitejs/plugin-vue": "^4.5.2",
     "sass": "^1.69.7",
+    "unplugin-auto-import": "^0.17.3",
+    "unplugin-vue-components": "^0.26.0",
     "vite": "^5.0.11"
   }
 }

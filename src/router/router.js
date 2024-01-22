@@ -21,6 +21,7 @@ import Analyze from "@views/landlord/Analyze.vue";
 import HouseMaintain from "@views/landlord/HouseMaintain.vue";
 import WorkMaintain from "@views/landlord/WorkMaintain.vue";
 import ProviderHouse from "@views/landlord/ProviderHouse.vue";
+import ProviderWork from "@/views/landlord/ProviderWork.vue";
 // admin 管理者身分
 // 子路由
 import routerRegister from "./router-register.js";
@@ -112,6 +113,12 @@ const routes = [
     path: "/providerHouse",
     name: "ProviderHouse",
     component: ProviderHouse,
+    meta: {hideFooter: true, requiresAuth: true , permissions: ['lord']},
+  },
+  {
+    path: "/providerWork",
+    name: "ProviderWork",
+    component: ProviderWork,
     meta: {hideFooter: true, requiresAuth: true , permissions: ['lord']},
   },
   {
