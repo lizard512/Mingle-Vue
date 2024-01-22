@@ -7,8 +7,8 @@
                 </div>
                 <br>
                 <div class="accountDiv">
-                    <input id="userid" v-model="userid" type="email" class="account" name="account"
-                        placeholder="Email/電話號碼" required autofocus>
+                    <input id="userid" v-model="userid" type="email" class="account" name="account" placeholder="Email/電話號碼"
+                        required autofocus>
                 </div>
                 <br>
                 <br>
@@ -36,8 +36,8 @@
                 <br>
                 <p class="or">或</p>
                 <div class="google-btn">
-                    <button class="btn btn-outline-dark" type="submit"><img src="@images/icon-google.png"
-                            width="25px">&nbsp;透過Google帳號登入</button>
+                    <button @click="gotGoogleLoginPage" class="btn btn-outline-dark" type="submit"><img
+                            src="@images/icon-google.png" width="25px">&nbsp;透過Google帳號登入</button>
                 </div>
                 <br>
                 <div class="login-btn">
@@ -75,9 +75,13 @@ function checkPassword() {
     }
 }
 
+function gotGoogleLoginPage() {
+    window.location.href = "http://localhost:8080/google-login";
+}
+
 let userid = ref('');
 let password = ref('');
-let loading = false
+let loading = false;
 
 const login = function () {
     // Set loading to true when login starts
@@ -112,14 +116,15 @@ const login = function () {
                 }).then(function (result) {
                     if (result.isConfirmed) {
                         document.cookie = `sessionToken=${response.data.sessionToken}; path=/`;
-                        document.location.href = `http://localhost:7890/`;
+                        userStore.login();
+                        router.push({ name: 'Home' });
                     }
                 });
             } else {
                 console.log(response.data.message);
                 Swal.fire({
                     icon: "error",
-                    text: "登入失敗：" + response.data.message, 
+                    text: "登入失敗：" + response.data.message,
                     confirmButtonText: "確認"
                 });
             }
@@ -128,7 +133,7 @@ const login = function () {
             console.error(error);
             Swal.fire({
                 icon: "warning",
-                text: "登入失敗：伺服器錯誤",  
+                text: "登入失敗：伺服器錯誤",
                 confirmButtonText: "確認"
             });
         })

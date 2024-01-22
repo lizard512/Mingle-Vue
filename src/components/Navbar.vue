@@ -32,7 +32,7 @@
                     <RouterLink class="nav-item nav-link" to="/contact-Us">聯絡我們</RouterLink>
                     <template v-if="isLoggedIn">
                         <div v-if="isLandlord" class="nav-item dropdown">
-                            <RouterLink class=" btn btn-secondary px-3 dropdown-toggle" data-bs-toggle="dropdown"
+                            <RouterLink class=" btn btn-secondary px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="/lord-center">房東中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" to="/providerWork">建立工作</RouterLink>
@@ -66,7 +66,7 @@
 
                     </template>
                     <template v-else>
-                        <RouterLink class="btn btn-dark px-3" to="/register">成為幫助者</RouterLink>
+                        <RouterLink class="btn btn-dark px-3" to="/register/register4">成為幫助者</RouterLink>
                         <p class="m-3">已有帳戶? </p>
                         <RouterLink class="btn btn-dark px-3" to="/login">登入</RouterLink>
                     </template>
@@ -129,7 +129,7 @@ onBeforeUnmount(() => {
     window.removeEventListener('scroll', checkSticky);
 });
 </script>
-    
+
 <style scoped>
 /*** Navbar ***/
 .nav-bar {
@@ -162,7 +162,6 @@ onBeforeUnmount(() => {
 .navbar .dropdown-toggle[aria-expanded=true]::after {
     transform: rotate(-180deg);
 }
-
 .navbar-light .navbar-nav .nav-link {
     margin-right: 30px;
     padding: 25px;

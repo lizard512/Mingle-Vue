@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid row p-0 g-0 max-height main-container">
+    <div class="container-fluid row p-0 g-0 max-height chat-main-container">
         <!-- left => headline, pics & messages -->
         <div class="col-md-4 overflow-auto mh-100">
             <div>
@@ -26,11 +26,12 @@
             <div class="chat-container border overflow-auto d-flex flex-column p-3" ref="chatContainer">
                 <template v-for="item in messages">
                     <div v-if="senderID !== item.senderID"
-                        class="px-3 py-2 m-1 rounded-3 flex-start align-self-start message received">
+                        class="px-3 py-2 m-1 rounded-3 flex-start align-self-start chat-message chat-received">
                         <p>{{ item.contents }}
                         </p>
                     </div>
-                    <div v-if="senderID === item.senderID" class="px-3 py-2 m-1 rounded-3 align-self-end message sent">
+                    <div v-if="senderID === item.senderID"
+                        class="px-3 py-2 m-1 rounded-3 align-self-end chat-message chat-sent">
                         <p>{{ item.contents }}</p>
                     </div>
                 </template>
@@ -42,71 +43,149 @@
                 <input type="file" id="imageInput" accept="image/*" style="display: none;">
                 <button class="btn btn-secondary" onclick="document.getElementById('imageInput').click();">
                     <i class="bi bi-image"></i></button>
-                <textarea class="form-control" placeholder="在這裡輸入訊息..." rows="2"></textarea>
-                <button class="btn btn-primary" @click="scrollToButtom()">送出</button>
+                <input type="text" v-model="contents" ref="inputField" @keydown.enter="sendMessage" class="form-control"
+                    placeholder="在這裡輸入訊息..." rows="2">
+                <button class="btn btn-primary" @click="sendMessage">送出</button>
             </div>
         </div>
     </div>
 </template>
     
-<script setup lang='ts'>
+<script setup>
 let global = globalThis;
 import { ref, onMounted } from 'vue';
+
+// Stomp & Sockjs-client
 import SockJS from 'sockjs-client/dist/sockjs.min.js';
 import Stomp from 'stompjs';
+const socket = new SockJS(path + '/ws');
+const stompClient = Stomp.over(socket);
+const path = 'http://localhost:8080'
+
 import axios from 'axios';
-const path = 'http://192.168.24.140:8080'
-let socket = new SockJS(path + '/ws');
-let stompClient = Stomp.over(socket);
-let chatContainer = ref(null);
+import VueCookies from 'vue-cookies';
+import Swal from 'sweetalert2'
+const chatContainer = ref(null);
+const inputField = ref(null);
 const messages = ref([]);
-const senderID = '1@gmail.com';
-const recieverID = '2@gmail.com';
+const contents = ref('');
+const senderID = ref('');
+const recieverID = ref('');
+const selectedUserId = ref('');
 
-import { reactive } from 'vue';
-const data = {
-    senderID: "",
-    recieverID: "",
-    messages: "",
-}
 
-onMounted(() => {
+onMounted(async () => {
+    await initAssign();
     initConnect();
-    findAllMessages();
-    scrollToButtom();
+    // await findAllChat();
+    await findAllMessages();
+    messageEnd();
+    inputField.value.focus();
 });
-function initConnect() {
-    stompClient.connect({}, (frame) => {
-        console.log('Connected: ' + frame);
-    });
+// 初始賦值，之後改寫
+async function initAssign() {
+    let other = prompt('請輸入對方帳號')
+    senderID.value = getuserid();
+    recieverID.value = other;
+    // senderID.value = '1@gmail.com';
+    // recieverID.value = '2@gmail.com';
 }
+const getuserid =
+    () => {
+        const sessionToken = VueCookies.get('sessionToken');
+        const userid = String(sessionToken).substring(32, sessionToken.length);
+        return userid
+    }
+
+function initConnect() {
+    stompClient.connect({}, onConnected, onError);
+}
+function onConnected() {
+    stompClient.subscribe(`/user/${senderID.value}/queue/messages`, onMessageReceived);
+    stompClient.subscribe(`/user/public`, onMessageReceived);
+    console.log('stompClient', stompClient);
+    console.log('socket', socket);
+
+    // register the connected user
+    // stompClient.send("/app/user.addUser",
+    //     {},
+    //     JSON.stringify({ senderID: senderID, fullName: fullname, status: 'ONLINE' })
+    // );
+    // document.querySelector('#connected-user-fullname').textContent = fullname;
+    // findAndDisplayConnectedUsers().then();
+}
+function onError() {
+    Swal.fire({
+        icon: 'error',
+        text: 'BOOOOOOMMMMMM! 連線壞掉囉',
+        confirmButtonText: 'Alright....'
+    }).then(function (response) {
+
+    })
+}
+// 滾動到最底、清空對話欄位、焦點設置回欄位
+function messageEnd() {
+    if (chatContainer.value) {
+        chatContainer.value.scroll(0, chatContainer.value.scrollHeight);
+    }
+    contents.value = ''
+    inputField.value.focus();
+}
+function sendMessage(event) {
+    const trimmedContents = contents.value.trim();
+    if (trimmedContents !== '' && stompClient) {
+        const chatMessage = {
+            senderID: senderID.value,
+            recieverID: recieverID.value,
+            contents: trimmedContents,
+            createdTime: new Date()
+        };
+        stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
+        displayMessage(trimmedContents);
+    }
+    messageEnd();
+}
+async function onMessageReceived(payload) {
+    // await findAndDisplayConnectedUsers();
+    console.log('Message received', payload);
+    const message = JSON.parse(payload.body);
+    displayMessage(message);
+    messageEnd();
+}
+// 收發訊息渲染
+function displayMessage(message) {
+    const messageDiv = document.createElement('div');
+    if (recieverID.value && recieverID.value === message.senderID) {
+        messageDiv.classList.add('px-3', 'py-2', 'm-1', 'rounded-3', 'align-self-start', 'chat-message', 'chat-received');
+        messageDiv.innerHTML = `<p>${message.contents}</p>`;
+        chatContainer.value.appendChild(messageDiv);
+    } else {
+        messageDiv.classList.add('px-3', 'py-2', 'm-1', 'rounded-3', 'align-self-end', 'chat-message', 'chat-sent');
+        messageDiv.innerHTML = `<p>${message}</p>`;
+        chatContainer.value.appendChild(messageDiv);
+    }
+}
+// 訊息渲染
 async function findAllMessages() {
-    await axios.get(`${path}/messages/${senderID}/${recieverID}`)
+    await axios.get(`${path}/messages/${senderID.value}/${recieverID.value}`)
         .then(function (response) {
-            console.log(response.data)
             messages.value = response.data;
-            // console.log(messages);
         })
         .catch(function (error) {
 
         });
-
-// await fetch(`${path}/messages/${senderID}/${recieverID}`).then((response) => response.text())
-//       .then((body) => {
-//         console.log(body);
-//       });
 }
-
-function scrollToButtom() {
-    if (chatContainer.value) {
-        // console.log(chatContainer.value.)
-        chatContainer.value.scroll(0, chatContainer.value.scrollHeight);
-    }
+// incomplete
+async function findAllChat() {
+    await axios.get(`${path}/messages/${senderID.value}/preview`)
+        .then(function (response) {
+            console.log(response)
+        })
 }
 </script>
 
 <style scoped>
-.main-container {
+.chat-main-container {
     height: 840px;
 }
 
@@ -119,23 +198,26 @@ function scrollToButtom() {
     height: 88%;
 }
 
-.message {
-    max-width: 50%;
-}
 
-.received {
-    background-color: #f0f0f0;
-}
-
-.sent {
-    background-color: #dcf8c6;
-}
 
 .input-group {
-    height: 1%;
+    height: 7%;
 }
 
 .form-control {
     resize: none;
+}
+</style>
+<style>
+.chat-message {
+    max-width: 50%;
+}
+
+.chat-received {
+    background-color: #f0f0f0;
+}
+
+.chat-sent {
+    background-color: #dcf8c6;
 }
 </style>

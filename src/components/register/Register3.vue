@@ -70,4 +70,9 @@ const registerTestUsingPinia = () => {
     overflow: hidden;
     width: 100%;
 }
+
+p{
+    text-align: left;
+}
+
 </style>

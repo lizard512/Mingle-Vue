@@ -1,5 +1,5 @@
 <template>
-    <div class="col-lg-9 md-right container">
+    <div class="col-9 md-right container">
         <br><br>
         <h2 class="container" style="background-color: #bb810d;text-align: center;">心願清單</h2>
         <div class="card  mb-3" style="max-width: 100%;">

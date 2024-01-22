@@ -17,7 +17,7 @@
         <br>
         <hr>
         <div class="google-btn">
-            <button class="btn btn-outline-dark" type="submit"><img src="@images/icon-google.png"
+            <button @click="gotGoogleLoginPage" class="btn btn-outline-dark" type="submit"><img src="@images/icon-google.png"
                     width="25px">&nbsp;透過Google帳號登入</button>
         </div>
     </div>
@@ -28,6 +28,9 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 function goToRegister2() {
     router.push('/register/register2')
+}
+function gotGoogleLoginPage(){
+    window.location.href = "http://localhost:8080/google-login";
 }
 </script>
 

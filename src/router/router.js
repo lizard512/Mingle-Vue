@@ -10,6 +10,7 @@ import Login from "@views/common/Login.vue";
 import NotFound from "@views/common/NotFound.vue";
 import Search from "@views/common/Search.vue";
 import ThankYou from "@components/ThankYou.vue";
+import Map from "@components/Map.vue";
 // user 一般使用者
 import Chatroom from "@views/user/Chatroom.vue";
 import Order from "@views/user/Order.vue";
@@ -63,6 +64,11 @@ const routes = [
     path: "/thankyou",
     name: "ThankYou",
     component: ThankYou,
+  },
+  {
+    path: "/map",
+    name: "Map",
+    component: Map,
   },
   // user 一般使用者
   {
