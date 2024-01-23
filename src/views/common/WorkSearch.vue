@@ -1,7 +1,7 @@
 <template>
-    <!-- Search Start -->
-    <div id="work-search">
-        <div class="container-fluid bg-primary mb-5" style="padding: 35px;">
+    <div id="work-search" class="h-100">
+        <!--Search Header Start-->
+        <div class="container-fluid bg-light p-4" :class="{ 'sticky-header': isSticky }">
             <div class="container">
                 <div class="row g-2">
                     <div class="col-md-10">
@@ -34,31 +34,22 @@
                 </div>
             </div>
         </div>
-        <!-- Search End -->
+        <!--Search Header End-->
 
-        <!-- List Start -->
+        <!--Work List Start-->
         <div class="container-fuild py-5">
             <div class="container">
-                <div class="row g-0 gx-5 align-items-end">
+                <div class="row g-0 align-items-end">
                     <div class="col-lg-6">
-                        <div class="text-start mx-auto mb-5 wow animate__animated animate__slideInLeft"
+                        <div class="text-start mx-auto mb-5 wow animate__animated animate__slideInLeft header-container"
                             data-wow-delay="0.1s">
-                            <h1 class="mb-3">打工機會</h1>
+                            <h1 class="me-3">打工機會</h1>
                             <p>快來查看正在徵求幫助者的項目！</p>
                         </div>
                     </div>
                     <div class="col-lg-6 text-start text-lg-end wow animate__animated animate__slideInRight"
                         data-wow-delay="0.1s">
-                        <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
-                            <!-- <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">熱門項目</a>
-                        </li>
-                        <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-2">最新開放</a>
-                        </li>
-                        <li class="nav-item me-0">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">即將截止</a>
-                        </li> -->
+                        <ul class="nav nav-pills d-inline-flex justify-content-end">
                             <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
                                 <li class="nav-item me-2">
                                     <a class="btn btn-outline-primary active" data-bs-toggle="pill"
@@ -74,20 +65,23 @@
                                 </li>
                                 <li class="nav-item me-2">
                                     <a class="btn btn-outline-primary" data-bs-toggle="pill"
-                                        @click="getWorksByRemainingSpots">參與人數 <i class="fa fa-arrow-down"
+                                        @click="getWorksByAttendance">參與人數 <i class="fa fa-arrow-down"
                                             :class="{ 'rotate': isArrowUp }"></i></a>
                                 </li>
                             </ul>
                         </ul>
                     </div>
                 </div>
+                <!--Work Card Start-->
                 <div>
                     <div class="row g-4">
-                        <div class="col-lg-3 col-md-6" v-for="work in works" :key="work.workid">
+
+                        <div class="col-lg-3 col-md-6 animate__animated animate__fadeIn work-card" v-for="work in works"
+                            :key="work.workid">
                             <div class="list-item rounded overflow-hidden">
                                 <div class="position-relative overflow-hidden">
-                                    <a href=""><img class="img-fluid" src="@images/台東熱氣球活動.jpg" :src="work.photo"
-                                            :alt="work.name"></a>
+                                    <img class="img-fluid" src="@images/台東熱氣球活動.jpg" :src="work.photo"
+                                        @error="work.photo = '@images/grey.jpg'" :alt="work.name">
                                     <div
                                         class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
                                         {{ work.worktype }}</div>
@@ -97,8 +91,9 @@
                                 </div>
                                 <div class="p-4 pb-0">
                                     <a class="d-block h5 mb-2" href="">{{ work.name }}</a>
-                                    <p><i class="fa fa-map-marker text-primary me-2"></i>{{ work.address }}</p>
-                                    <p>{{ work.description }}</p>
+                                    <p class="work-address"><i class="fa fa-map-marker text-primary me-2"></i>{{
+                                        work.address }}</p>
+                                    <!-- <p>{{ work.description }}</p> -->
                                 </div>
                                 <div class="d-flex border-top">
                                     <small class="flex-fill text-center border-end py-2"><i
@@ -115,12 +110,21 @@
                                                 work.views }} 次瀏覽</small>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
+                <!--Work Card End-->
             </div>
         </div>
-        <!-- List End -->
+        <!-- Work List End -->
+        <!-- Sticky Footer Start-->
+        <footer class="sticky-footer mt-auto py-3 bg-light">
+            <div class="container">
+                <span class="text-body-secondary">Place sticky footer content here.</span>
+            </div>
+        </footer>
+        <!-- Sticky Footer End-->
     </div>
 </template>
     
@@ -128,35 +132,46 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 
-// 接收從後端傳來的工作資料
+// 接收工作資料
 let works = ref([]);
-// API URL
-const baseAPIURL = "http://localhost:8080/api/work/getWorks";
-// 預設載入的分頁資料
+const baseAPIURL = "http://localhost:8080/api/work/getWorks"; 
+
+// 工作資料載入用的預設參數
 let currentPage = ref(0);
 let sort = 'hot'; // 排序方式
-const pageSize = 4; // 每頁的數量
-let isEnd = ref(false);
-// 追蹤剩餘名額排序按紐的箭頭是否應該向上
+const pageSize = 8; // 每頁的數量
+const isLoading = ref(false);
+let isEnd = ref(false);// 排序按紐的箭頭方向
 let isArrowUp = ref(true);
 
+const isSticky = ref(false);
+
+const checkSticky = () => {
+    isSticky.value = window.scrollY > 45;
+};
 
 
 onMounted(async () => {
     await loadWork();
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', infiniteScroll);
+    window.addEventListener('scroll', checkSticky);
     // document.body.classList.add('no-scroll');
 });
 
 onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll);
+    window.removeEventListener('scroll', infiniteScroll);
+    window.removeEventListener('scroll', checkSticky);
     // document.body.classList.remove('no-scroll');
 });
 
 // 初始化頁面時，載入第一頁的工作資料(預設為熱門排序)
 const loadWork = async () => {
-    if (isEnd.value) return;
+    if (isEnd.value || isLoading.value) return;
+    isLoading.value = true;
     try {
+        // 模擬載入時間
+        // await new Promise(resolve => setTimeout(resolve, 1000));
+
         const response = await axios.get(baseAPIURL, {
             params: {
                 page: currentPage.value,
@@ -172,10 +187,12 @@ const loadWork = async () => {
     } catch (error) {
         console.error(error);
     } finally {
+        isLoading.value = false;
     }
 };
 
-const handleScroll = () => {
+const infiniteScroll = () => {
+    if (isLoading.value) return;
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
         loadWork();
     }
@@ -188,12 +205,16 @@ const getWorks = (sortParam) => {
     works.value = []; // 清空工作列表
     currentPage.value = 0; // 重設頁數
     isEnd.value = false; // 重設結束標記
-    loadWork(); // 重新載入工作列表
+
+    // // 將頁面滾動到最上方
+    // window.scrollTo(0, 0);
+
+    loadWork();
 }
 
-// 依照剩餘名額排序工作
-const getWorksByRemainingSpots = () => {
-    isArrowUp.value = !isArrowUp.value; // 每次點擊時，將 isArrowUp 的值反轉
+// 依照參加人數排序工作
+const getWorksByAttendance = () => {
+    isArrowUp.value = !isArrowUp.value;
 
     works.value = []; // 清空工作列表
     currentPage.value = 0; // 重設頁數
@@ -215,13 +236,11 @@ const formatDate = (dateString) => {
 }
 
 
-
 </script>
 
 <style scoped>
 /* #work-search {
-    overflow: auto;
-    height: calc(100vh - 50px - 100px);
+    height: calc(100vh - 45px);
 } */
 
 .fa-arrow-down {
@@ -231,6 +250,34 @@ const formatDate = (dateString) => {
 .rotate {
     transform: rotate(180deg);
 }
+
+.animate__animated.animate__Fadin {
+    --animate-duration: 0.5s;
+}
+
+.header-container {
+    display: flex;
+    align-items: baseline;
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.sticky-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 1000;
+}
+
+
+/* .work-address {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+} */
 </style>
 <!-- <style>
 .no-scroll {

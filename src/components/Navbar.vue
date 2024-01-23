@@ -113,12 +113,18 @@ function resetStore() {
 
 
 // // Sticky Navbar
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount} from 'vue';
+import router from '@router/router'
 
 const isSticky = ref(false);
 
 const checkSticky = () => {
-    isSticky.value = window.pageYOffset > 45;
+    // 如果當前的路由是 WorkSearch，則不懸浮 NAVBAR
+    if (router.currentRoute.value.name === 'WorkSearch') {
+        isSticky.value = false;
+    } else {
+        isSticky.value = window.scrollY > 45;
+    }
 };
 
 onMounted(() => {
