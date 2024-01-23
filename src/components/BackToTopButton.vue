@@ -7,7 +7,7 @@
 
 </script>
     
-<style>
+<style scoped>
 .back-to-top{
     position: fixed;
     right: 30px;

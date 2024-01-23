@@ -1,7 +1,7 @@
 <template>
     <div id="work-search" class="h-100">
         <!--Search Header Start-->
-        <div class="container-fluid bg-prim bg-light p-4" :class="{ 'sticky-header': isSticky }">
+        <div class="container-fluid bg-light p-4" :class="{ 'sticky-header': isSticky }">
             <div class="container">
                 <div class="row g-2">
                     <div class="col-md-10">
@@ -139,7 +139,7 @@ const baseAPIURL = "http://localhost:8080/api/work/getWorks";
 // 工作資料載入用的預設參數
 let currentPage = ref(0);
 let sort = 'hot'; // 排序方式
-const pageSize = 4; // 每頁的數量
+const pageSize = 8; // 每頁的數量
 const isLoading = ref(false);
 let isEnd = ref(false);// 排序按紐的箭頭方向
 let isArrowUp = ref(true);
