@@ -77,14 +77,68 @@
             <div class="row g-5 justify-content-center">
                 <form>
 
-                    <!--  card start  -->
 
                     <div class="row">
 
+                        <!-- 會員資料確認 card start -->
+                        <div class="mb-4 col-md-4">
+                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-primary">訂單確認</span>
+                            </h4>
+
+                            <ul class="list-group col-12 ">
+                                <li class="list-group-item d-flex justify-content-between lh-sm">
+                                    <div>
+                                        <h6 class="my-0">訂單編號</h6>
+                                        <small class="text-muted"> order id</small>
+                                    </div>
+                                    <span class="primary">ID1234567</span>
+                                </li>
+
+                                <li class="list-group-item d-flex justify-content-between lh-sm">
+                                    <div>
+                                        <h6 class="my-0">訂購日期</h6>
+                                        <small class="text-muted">order date</small>
+                                    </div>
+                                    <span class="primary">{{ dataForOrder2.orderDate }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between lh-sm">
+                                    <div>
+                                        <h6 class="my-0">會員全名</h6>
+                                        <small class="text-muted">full name</small>
+                                    </div>
+                                    <span class="primary">{{ dataForOrder2.username }}</span>
+                                </li>
+
+                                <li class="list-group-item d-flex justify-content-between lh-sm">
+                                    <div>
+                                        <h6 class="my-0">會員信箱</h6>
+                                        <small class="text-muted">email</small>
+                                    </div>
+                                    <span class="primary">{{ dataForOrder2.useremail }}</span>
+                                </li>
+
+                                <li class="list-group-item d-flex justify-content-between lh-sm">
+                                    <div>
+                                        <h6 class="my-0">會員電話</h6>
+                                        <small class="text-muted">phone</small>
+                                    </div>
+                                    <span class="primary">{{ dataForOrder2.userphone }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between lh-sm">
+                                    <div>
+                                        <h6 class="my-0">自身是否前往</h6>
+                                        <small class="text-muted">orderby</small>
+                                    </div>
+                                    <span class="primary">{{ dataForOrder2.orderby ? '是' : '否' }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 會員資料確認 card end-->
 
                         <!-- 打工預定 card start-->
                         <div class="mb-4 col-md-4">
-                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="d-flex justify-content-between align-items-center mb-3 ">
                                 <span class="text-primary">打工預定</span>
                             </h4>
 
@@ -94,7 +148,7 @@
                                         <h6 class="my-0">打工類型</h6>
                                         <small class="text-muted"> work type</small>
                                     </div>
-                                    <span class="primary">{{ workdetail.worktype }}</span>
+                                    <span class="primary">{{ dataForOrder2.worktype }}</span>
                                 </li>
 
                                 <li class="list-group-item d-flex justify-content-between lh-sm">
@@ -102,7 +156,7 @@
                                         <h6 class="my-0">打工項目</h6>
                                         <small class="text-muted">work name</small>
                                     </div>
-                                    <span class="primary">{{ workdetail.name }}</span>
+                                    <span class="primary">{{ dataForOrder2.workname }}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between lh-sm">
                                     <div>
@@ -139,40 +193,108 @@
                         </div>
 
 
+                        <!-- 團報資料確認 card start -->
+                        <div class="mb-4 col-md-4">
+                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-primary">報名人員資料</span>
+                            </h4>
+                            <div>
+                                <ul class="list-group col-12 ">
+
+                                    <li class="list-group-item d-flex justify-content-between lh-sm"
+                                        v-show="orderby == 'myself'">
+                                        <div>
+                                            <h6 class="my-0">住宿者資訊</h6>
+                                            <small class="text-muted">accomodator info</small>
+                                        </div>
+                                        <div class="margin-left col-md-6 col-8"> <!-- 將這個 div 加入 ml-auto 類別 -->
+                                            <div class="primary">{{ dataForOrder2.orderbyselfname }}</div>
+                                            <div class="primary">{{ dataForOrder2.orderbyselfemail }}</div>
+                                            <div class="primary">{{ dataForOrder2.orderbyselfphone }}</div>
+                                        </div>
+                                    </li>
+
+
+                                    <li class="list-group-item d-flex justify-content-between lh-sm"
+                                        v-for="value in dataForOrder2.accomodatorData" :key="value">
+                                        <div>
+                                            <h6 class="my-0">住宿者資訊</h6>
+                                            <small class="text-muted">accomodator info</small>
+                                        </div>
+                                        <div class="margin-left col-md-6 col-8"> <!-- 將這個 div 加入 ml-auto 類別 -->
+                                            <div class="primary">{{ value.AccomodatorfullName }}</div>
+                                            <div class="primary">{{ value.Accomodatoremail }}</div>
+                                            <div class="primary">{{ value.Accomodatorphone }}</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- 團報資料確認 card end-->
+
+
+
+
+                    </div>
+
+                    <hr class="my-4">
+
+
+                    <!--  card start  -->
+
+                    <div class="row">
 
                         <!-- 房源預定 Card start -->
-                        <div class="mb-4 col-md-4">
+                        <div class="mb-12 col-md-12">
                             <h4 class="d-flex justify-content-between align-items-center mb-3">
                                 <span class="text-primary">住宿預定</span>
                             </h4>
 
-                            <ul class="list-group col-12 ">
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <h6 class="my-0">房型</h6>
-                                        <small class="text-muted">house type</small>
-                                    </div>
-                                    <span class="text-muted">雙人房</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <h6 class="my-0">房間</h6>
-                                        <small class="text-muted">house name</small>
-                                    </div>
-                                    <span class="text-muted">301</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <h6 class="my-0">人數</h6>
-                                        <small class="text-muted">numbers</small>
-                                    </div>
-                                    <span class="text-muted">{{ dataForOrder2.selectedAccomodator }}人</span>
-                                </li>
-                            </ul>
-                            <!-- 房源預定 Card end -->
+
+                            <div class="row">
+                                <div class="mb-4 col-md-4 " v-for="(value, key) in roomDetail" :key="key" v-show="value > 0">
+                                    <ul class="list-group col-12">
+                                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                                            <div>
+                                                <h6 class="my-0">房號</h6>
+                                                <small class="text-muted">houseID</small>
+                                            </div>
+                                            <span class="text-muted" >{{ key }}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                                            <div>
+                                                <h6 class="my-0">房間</h6>
+                                                <small class="text-muted">house name</small>
+                                            </div>
+                                            <span class="text-muted margin-left">可怕屋</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                                            <div>
+                                                <h6 class="my-0">容納人數</h6>
+                                                <small class="text-muted">house capacity</small>
+                                            </div>
+                                            <span class="text-muted margin-left">2人</span>
+                                        </li>
+
+                                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                                            <div>
+                                                <h6 class="my-0">間數</h6>
+                                                <small class="text-muted margin-left">room number</small>
+                                            </div>
+                                            <span class="text-muted margin-left">{{ value }} 間</span>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <!-- 房源預定 Card end -->
+                            </div>
                         </div>
 
-                        <div class="mb-4 col-md-4">
+                        <hr class="my-4">
+
+
+
+                        <div class="mb-12 col-md-12">
 
                             <!-- 媒合費用 Card start-->
                             <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -202,7 +324,7 @@
                         <!-- button start -->
                         <hr class="my-4 col-md-12">
                         <button class="w-50 btn change btn-primary btn-lg" type="submit" @click="goToOrder1()">修改資料</button>
-                        <button class="w-50 btn btn-secondary btn-lg" type="submit" @click="goToOrder3()">下一步</button>
+                        <button class="w-50 btn btn-secondary btn-lg" type="submit" @click="goToOrder3()">確認報名</button>
                         <!-- button end -->
 
 
@@ -232,9 +354,12 @@ const router = useRouter();
 
 const dataForOrder2 = ref([]);
 
+const roomDetail = ref([]);
+
 //============路由控制============
 
 import { useOrderStore } from '@store/orderStore-memory.js';
+
 
 const orderStore = useOrderStore();
 
@@ -242,31 +367,35 @@ const loaddata = () => {
     // 从 Pinia store 获取数据
     dataForOrder2.value = orderStore.orderData;
     console.log('Received dataForOrder2:', dataForOrder2);
-    workid.value = dataForOrder2.value.workid
-    console.log(workid.value)
-
-
+    roomDetail.value = dataForOrder2.value.selectedRooms
+    console.log(roomDetail.value)
+    // 使用 for...in 遍历对象的属性
+    for (const key in roomDetail.value) {
+        // key 是属性名，selectedRooms[key] 是对应的值
+        console.log(`属性名: ${key}, 值: ${roomDetail.value[key]}`);
+    }
 }
 
 
-//============查詢工作資料============
+//============查詢房屋資料============
 
 
-const workdetail = reactive({})
-const workid = ref('');
+const houseid = ref({});
 
 
-const loadworkDetail = async () => {
-    const Work_API_URL = 'http://localhost:8080/order/' + workid.value;
-    const response = await axios.post(Work_API_URL);
-    Object.assign(workdetail, response.data);
-    console.log('Received workdetail:', workdetail);
-}
+
+
+// const loadworkDetail = async () => {
+//     const Work_API_URL = 'http://localhost:8080/order/' + workid.value;
+//     const response = await axios.post(Work_API_URL);
+//     Object.assign(workdetail, response.data);
+//     console.log('Received workdetail:', workdetail);
+// }
 
 
 onMounted(async () => {
     loaddata();
-    await loadworkDetail();
+    // await loadworkDetail();
 });
 
 

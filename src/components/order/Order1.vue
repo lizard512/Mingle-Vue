@@ -81,7 +81,7 @@
                         您的資料
                     </h3>
 
-                    <form   class="needs-validation" novalidate>
+                    <form class="needs-validation" novalidate>
 
                         <!-- 基本資料 -->
                         <div class="row g-3"
@@ -207,9 +207,7 @@
                                         v-show="period >= workdetail.minPeriod">{{ period }}
                                     </option>
                                 </select>
-                                <div class="invalid-feedback" v-if="haserror">
-                                    請選擇打工區間。
-                                </div>
+
                             </div>
 
 
@@ -249,7 +247,7 @@
                         <div class="row g-3"
                             style="border: 1px solid wheat; padding: 20px; border-radius: 10px; margin: 10px;">
 
-                            <table class="table" >
+                            <table class="table">
                                 <thead class="table-secondary ">
                                     <tr>
                                         <th scope="col">房型介紹 (house)</th>
@@ -266,19 +264,23 @@
                                             </div>
                                             <div>描述:{{ house_type.description }}</div>
                                         </td>
-                                        <td class=" align-middle">{{ house_type.beds }}</td>
-                                        <td class=" align-middle"> <select class="form-select" id="room_numbers"
-                                                v-model="selectedRooms[house_type.houseid]"  >
-                                                <option value=0>0</option>
+                                        <td class=" align-middle col-2">{{ house_type.beds }}</td>
+                                        <td class=" align-middle  col-2"> <select class="form-select" id="room_numbers"
+                                                v-model="selectedRooms[house_type.houseid]"
+                                                :class="{ 'is-invalid': isInvalid(), 'is-valid': isValid() }">
+                                                <option value="0">0</option>
                                                 <option v-for="room in house_type.beds" :key="room" :value="room">
                                                     {{ room }}</option>
                                             </select>
-                                            <div class="invalid-feedback">
+                                            <div v-if="totalRooms() > selectedAccomodator" class="text-danger">
+                                                所選房間間數大於報名人數，請重新選擇
+                                            </div>
+                                            <div v-if="totalRooms() == 0" class="text-danger">
                                                 請選擇間數。
                                             </div>
-                                            <div v-if="totalRooms() > selectedAccomodator " class="text-danger"  >所選房間間數大於報名人數，請重新選擇</div>
-                                            <div v-if="totalRooms() == 0 " class="text-danger"  >請選擇房間間數</div>
                                         </td>
+       
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -367,17 +369,19 @@
 
 
                             <div class="col-md-12">
-                                <label for="house_need" class="form-label" >其他住宿需求 (need)</label>
+                                <label for="house_need" class="form-label">其他住宿需求 (need)</label>
                                 <p><small>住宿方無法保證達成您的特殊要求－但將盡力為您安排。訂單完成後，您依然可隨時提出特殊要求！</small></p>
                                 <input type="textarea row-10" class="form-control" id="house_need" placeholder="其他住宿需求..."
-                                    value=""  novalidate>
-                            </div >
+                                    value="" novalidate>
+                            </div>
 
                         </div>
 
                         <!--住宿 check box -->
 
                         <hr class="my-4">
+
+                        <h4 id="error-response" class="text-secondary text-center"></h4>
 
                         <!-- button start -->
                         <button class="w-100 btn btn-secondary btn-lg" type="submit"
@@ -577,41 +581,74 @@ const validateForm = () => {
 
 };
 
-const validateAndGoToOrder2 = () => {
+const validateAndGoToOrder2 = (event) => {
+
+    // 阻止表单的默认提交行为
+    event.preventDefault();
+
     // 資料驗證結果
     const isFormValid = validateForm();
     // 使用 Bootstrap 驗證的結果
     const form = document.querySelector('.needs-validation');
-    
-    if (isFormValid && form.checkValidity()) {
-   
-            goToOrder2();
-        
+
+    // 自定义验证逻辑，这里假设存在带有 text-danger 类的元素
+    const customValidationFailed = document.querySelector('.text-danger');
+    const customValidationFailed2 = document.querySelector('.has-error');
+
+
+    if (isFormValid && form.checkValidity() && !customValidationFailed && !customValidationFailed2) {
+        // 停留在本页面
+
+        goToOrder2();
+
+    } else {
+        console.log(totalRooms())
+
+        // 取得錯誤訊息的 HTML 元素
+        var error = document.getElementById('error-response');
+        // 設置錯誤訊息
+        error.innerText = '請解決上方所有紅色問題訊息。';
+        // 停留在原本的页面
+        return;
+
     }
 };
 
-const validation = () => {
-    // 'use strict'
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.querySelectorAll('.needs-validation')
-    // Loop over them and prevent submission
-    Array.prototype.slice.call(forms)
-        .forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
 
-                form.classList.add('was-validated')
-            }, false)
-        });
+const validation = () => {
+    // Fetch all the buttons inside forms with the 'needs-validation' class
+    var buttons = document.querySelectorAll('.needs-validation button[type="submit"]');
+
+    // Loop over the buttons and prevent submission
+    buttons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+            // Find the associated form
+            var form = button.closest('.needs-validation');
+
+            if (form && !form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            if (form) {
+                form.classList.add('was-validated');
+            }
+        }, false);
+    });
 };
+
+
+const isInvalid = () => totalRooms() > selectedAccomodator.value || totalRooms() == 0;
+
+const isValid = () => totalRooms() <= selectedAccomodator.value && totalRooms() > 0;
+
+
 
 //============查詢會員資料============
 
 import VueCookies from 'vue-cookies';
 import axios from 'axios';
+import Order2 from '@/components/order/Order2.vue'
 
 const userdetails = reactive({})
 const getuserid =
@@ -641,7 +678,7 @@ const workdetail = reactive({})
 
 
 
-const Work_API_URL = 'http://localhost:8080/order/' + 2;
+const Work_API_URL = 'http://localhost:8080/order/' + 3;
 
 const loadworkDetail = async () => {
     const response = await axios.post(Work_API_URL);
@@ -658,15 +695,16 @@ const loadworkDetail = async () => {
     rangeStart.value = new Date(workdetail.startDate)
     rangeEnd.value = new Date(workdetail.endDate)
     maxPeriod.value = generateDateRange(rangeStart.value, rangeEnd.value)
+    console.log(workdetail)
 
 }
 
 
-const totalRooms = function() {
-      return Object.values(selectedRooms.value).reduce((total, room) => {
+const totalRooms = function () {
+    return Object.values(selectedRooms.value).reduce((total, room) => {
         return total + parseInt(room);
-      }, 0);
-    };
+    }, 0);
+};
 
 
 
@@ -735,8 +773,13 @@ async function goToOrder2() {
             orderbyselfphone: orderbyselfphone.value,
             //工作類型
             workid: workdetail.workid,
+            worktype: workdetail.worktype,
+            workname: workdetail.name,
             //房間間數
-            selectedRooms: selectedRooms.value
+            totalRooms: totalRooms(),
+            //每間房間數
+            selectedRooms: selectedRooms.value,
+
 
         };
 
@@ -756,6 +799,16 @@ async function goToOrder2() {
 
 
 <style scoped>
+.is-invalid {
+    border-color: red !important;
+    display: inline-block;
+    /* 顯示紅色驚嘆號 */
+    font-size: 1.2em;
+    /* 設定字型大小，根據需要調整 */
+    margin-left: 5px;
+    /* 設定圖示和元素之間的間距，根據需要調整 */
+}
+
 .has-error {
     border: 1px solid red;
     /* 或者其他你希望的樣式 */
@@ -867,13 +920,6 @@ async function goToOrder2() {
 
 input:not([required]):valid {
     background-image: none;
-    border: 1px solid gray;
+    border: 1px solid #E0E0E0;
 }
-
-select:not([required]):valid {
-    background-image: none;
-    border: 1px solid gray;
-}
-
-
 </style>
