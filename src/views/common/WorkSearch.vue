@@ -1,29 +1,22 @@
 <template>
-    <!-- Search Start -->
-    <div id="work-search">
-        <div class="container-fluid bg-primary mb-5" style="padding: 35px;">
+    <div class="work-search">
+
+        <!-- <div class="container-fluid bg-light py-4" :class="{ 'sticky-header': isSticky }">
             <div class="container">
-                <div class="row g-2">
+                <div class="row g-4">
                     <div class="col-md-10">
-                        <div class="row g-2">
+                        <div class="row g-4">
                             <div class="col-md-4">
                                 <input type="text" class="form-control border-0 py-3" placeholder="用關鍵字查詢">
                             </div>
                             <div class="col-md-4">
                                 <select class="form-select border-0 py-3">
-                                    <option selected>換宿地區</option>
-                                    <option value="1">東區</option>
-                                    <option value="2">北區</option>
-                                    <option value="3">西區</option>
-                                    <option value="4">南區</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>打工類型</option>
-                                    <option value="1">類型1</option>
-                                    <option value="2">類型2</option>
-                                    <option value="3">類型3</option>
+                                    <option selected>打工地區</option>
+                                    <option value="1">北部區域</option>
+                                    <option value="2">西部區域</option>
+                                    <option value="3">南部區域</option>
+                                    <option value="4">東部區域</option>
+                                    <option value="5">福建省</option>
                                 </select>
                             </div>
                         </div>
@@ -33,131 +26,155 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Search End -->
+        </div> -->
 
-        <!-- List Start -->
-        <div class="container-fuild py-5">
-            <div class="container">
-                <div class="row g-0 gx-5 align-items-end">
-                    <div class="col-lg-6">
-                        <div class="text-start mx-auto mb-5 wow animate__animated animate__slideInLeft"
-                            data-wow-delay="0.1s">
-                            <h1 class="mb-3">打工機會</h1>
-                            <p>快來查看正在徵求幫助者的項目！</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 text-start text-lg-end wow animate__animated animate__slideInRight"
+
+
+        <div class="container-fluid">
+            <!--Search Header Start-->
+            <div class="row g-4 align-items-center py-3 bg-light " :class="{ 'sticky-header': isSticky }">
+                <div class="col-lg-4">
+                    <div class="text-start mx-auto wow animate__animated animate__slideInLeft inline-flex"
                         data-wow-delay="0.1s">
-                        <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
-                            <!-- <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">熱門項目</a>
-                        </li>
-                        <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-2">最新開放</a>
-                        </li>
-                        <li class="nav-item me-0">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">即將截止</a>
-                        </li> -->
-                            <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
-                                <li class="nav-item me-2">
-                                    <a class="btn btn-outline-primary active" data-bs-toggle="pill"
-                                        @click="getWorks('hot')">熱門項目</a>
-                                </li>
-                                <li class="nav-item me-2">
-                                    <a class="btn btn-outline-primary" data-bs-toggle="pill"
-                                        @click="getWorks('latest')">最新上架</a>
-                                </li>
-                                <li class="nav-item me-2">
-                                    <a class="btn btn-outline-primary" data-bs-toggle="pill"
-                                        @click="getWorks('deadline')">即將截止</a>
-                                </li>
-                                <li class="nav-item me-2">
-                                    <a class="btn btn-outline-primary" data-bs-toggle="pill"
-                                        @click="getWorksByRemainingSpots">剩餘名額 <i class="fa fa-arrow-down"
-                                            :class="{ 'rotate': isArrowUp }"></i></a>
-                                </li>
-                            </ul>
-                        </ul>
+                        <h1 class="me-3">打工機會</h1>
+                        <p>快來查看正在徵求幫助者的項目！</p>
                     </div>
                 </div>
-                <div>
-                    <div class="row g-4">
-                        <div class="col-lg-3 col-md-6" v-for="work in works" :key="work.workid">
-                            <div class="list-item rounded overflow-hidden">
-                                <div class="position-relative overflow-hidden">
-                                    <a href=""><img class="img-fluid" src="@images/台東熱氣球活動.jpg" :src="work.photo"
-                                            :alt="work.name"></a>
-                                    <div
-                                        class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                                        {{ work.worktype }}</div>
-                                    <div
-                                        class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
-                                        {{ work.city }}</div>
-                                </div>
-                                <div class="p-4 pb-0">
-                                    <a class="d-block h5 mb-2" href="">{{ work.name }}</a>
-                                    <p><i class="fa fa-map-marker text-primary me-2"></i>{{ work.address }}</p>
-                                    <p>{{ work.description }}</p>
-                                </div>
-                                <div class="d-flex border-top">
-                                    <small class="flex-fill text-center border-end py-2"><i
-                                            class="fa fa-calendar text-primary me-2"></i>{{ formatDate(work.startDate)
-                                            }} ~
-                                        {{ formatDate(work.endDate) }}</small>
-                                </div>
-                                <div class="d-flex border-top">
-                                    <small class="flex-fill text-center border-end py-2"><i
-                                            class="fa fa-user text-primary me-2"></i>{{ work.attendance }} /
-                                        {{ work.maxAttendance }} 人已報名</small>
-                                    <small class="flex-fill text-center py-2"><i
-                                            class="fa fa-solid fa-eye text-primary me-2"></i>{{
-                                                work.views }} 次瀏覽</small>
-                                </div>
+                <div class="col-lg-4 mx-auto">
+                    <ul class="nav d-inline-flex justify-content-end ">
+                        <li class="nav-item me-2" v-for="workType in workTypes" :key="workType.workType">
+                            <a class="btn btn-outline-dark" :class="{ 'active': selectedWorkType === workType.workType }"
+                                @click="toggleWorkType(workType.workType)">
+                                {{ workType.workType }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 text-end wow animate__animated animate__slideInRight" data-wow-delay="0.1s">
+                    <ul class="nav nav-pills d-inline-flex justify-content-end">
+                        <li class="nav-item me-2">
+                            <a class="btn btn-outline-primary active" data-bs-toggle="pill"
+                                @click="getWorks('hot')">熱門項目</a>
+                        </li>
+                        <li class="nav-item me-2">
+                            <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="getWorks('latest')">最新上架</a>
+                        </li>
+                        <li class="nav-item me-2">
+                            <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="getWorks('deadline')">即將截止</a>
+                        </li>
+                        <li class="nav-item me-2">
+                            <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="getWorksByAttendance">參與人數
+                                <i class="fa fa-arrow-down" :class="{ 'rotate': isArrowUp }"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--Search Header End-->
+            <!--Work Card Start-->
+            <div class="container-fluid px-5 pt-3">
+                <div class="row g-4">
+                    <div class="col-lg-2 col-md-6 animate__animated animate__fadeIn work-card" v-for="work in works"
+                        :key="work.workid">
+                        <div class="list-item rounded overflow-hidden">
+                            <div class="position-relative overflow-hidden">
+                                <img class="img-fluid" src="@images/台東熱氣球活動.jpg" :src="work.photo"
+                                    @error="work.photo = '@images/grey.jpg'" :alt="work.name">
+                                <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+                                    {{ work.worktype }}</div>
+                                <div
+                                    class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
+                                    {{ work.city }}</div>
+                            </div>
+                            <div class="p-4 pb-0">
+                                <a class="d-block h5 mb-2" href="">{{ work.name }}</a>
+                                <p class="work-address"><i class="fa fa-map-marker text-primary me-2"></i>{{
+                                    work.address }}</p>
+                                <!-- <p>{{ work.description }}</p> -->
+                            </div>
+                            <div class="d-flex border-top">
+                                <small class="flex-fill text-center border-end py-2"><i
+                                        class="fa fa-calendar text-primary me-2"></i>{{ formatDate(work.startDate)
+                                        }} ~
+                                    {{ formatDate(work.endDate) }}</small>
+                            </div>
+                            <div class="d-flex border-top">
+                                <small class="flex-fill text-center border-end py-2"><i
+                                        class="fa fa-user text-primary me-2"></i>{{ work.attendance }} /
+                                    {{ work.maxAttendance }} 人已報名</small>
+                                <small class="flex-fill text-center py-2"><i
+                                        class="fa fa-solid fa-eye text-primary me-2"></i>{{
+                                            work.views }} 次瀏覽</small>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
+            <!--Work Card End-->
+            <div class="the-end text-center m-5" v-if="isEnd">已經到底啦~~</div>
         </div>
-        <!-- List End -->
+        <!-- Sticky Footer Start-->
+        <footer class="sticky-footer mt-auto py-3 bg-light">
+            <div class="container">
+                <span class="mx-2"><i class="fa fa-map-marker-alt me-2"></i>台北市大安區復興南路一段390號2樓</span>
+                <span class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</span>
+                <span class="mx-2"><i class="fa fa-envelope me-2"></i>Mingle.org@gmail.com</span>
+            </div>
+        </footer>
+        <!-- Sticky Footer End-->
     </div>
 </template>
     
 <script setup>
+// 引用函示庫
 import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 
-// 接收從後端傳來的工作資料
+// 接收資料
 let works = ref([]);
-// API URL
-const baseAPIURL = "http://localhost:8080/api/work/getWorks";
-// 預設載入的分頁資料
+const workTypes = ref([]);
+const baseURL = "http://localhost:8080";
+
+// 工作資料載入用的預設參數
 let currentPage = ref(0);
 let sort = 'hot'; // 排序方式
-const pageSize = 4; // 每頁的數量
+const pageSize = 6; // 每次載入的數量
+const isLoading = ref(false); //避免重複載入
 let isEnd = ref(false);
-// 追蹤剩餘名額排序按紐的箭頭是否應該向上
-let isArrowUp = ref(false);
+let isArrowUp = ref(true);// 排序按紐的箭頭方向
+const isSticky = ref(false); // Sticky Header
+let selectedWorkType = ref(null); // 選擇的工作類型
 
 
-
+// 生命週期
 onMounted(async () => {
     await loadWork();
-    window.addEventListener('scroll', handleScroll);
+    await loadWorkType();
+    window.addEventListener('scroll', infiniteScroll);
+    window.addEventListener('scroll', checkSticky);
     // document.body.classList.add('no-scroll');
 });
 
 onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll);
+    window.removeEventListener('scroll', infiniteScroll);
+    window.removeEventListener('scroll', checkSticky);
     // document.body.classList.remove('no-scroll');
 });
 
-// 初始化頁面時，載入第一頁的工作資料(預設為熱門排序)
+// 載入工作分類
+const loadWorkType = async () => {
+    const response = await axios.get(baseURL + '/api/worktype/getWorktypes');
+    workTypes.value = response.data;
+}
+
+// 載入第一頁的工作資料(預設為熱門排序)
 const loadWork = async () => {
-    if (isEnd.value) return;
+    if (isEnd.value || isLoading.value) return;
+    isLoading.value = true;
     try {
-        const response = await axios.get(baseAPIURL, {
+        // 模擬載入時間
+        // await new Promise(resolve => setTimeout(resolve, 1000));
+        const response = await axios.get(baseURL + "/api/work/getWorks", {
             params: {
                 page: currentPage.value,
                 size: pageSize,
@@ -172,15 +189,21 @@ const loadWork = async () => {
     } catch (error) {
         console.error(error);
     } finally {
+        isLoading.value = false;
     }
 };
 
-const handleScroll = () => {
+const infiniteScroll = () => {
+    if (isLoading.value) return;
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
         loadWork();
     }
 };
 
+
+const toggleWorkType = (workType) => {
+    selectedWorkType.value = selectedWorkType.value === workType ? null : workType;
+};
 
 // 依照熱門、最新、屆期更改工作排序
 const getWorks = (sortParam) => {
@@ -188,21 +211,25 @@ const getWorks = (sortParam) => {
     works.value = []; // 清空工作列表
     currentPage.value = 0; // 重設頁數
     isEnd.value = false; // 重設結束標記
-    loadWork(); // 重新載入工作列表
+
+    // // 將頁面滾動到最上方
+    // window.scrollTo(0, 0);
+
+    loadWork();
 }
 
-// 依照剩餘名額排序工作
-const getWorksByRemainingSpots = () => {
-    isArrowUp.value = !isArrowUp.value; // 每次點擊時，將 isArrowUp 的值反轉
+// 依照參加人數排序工作
+const getWorksByAttendance = () => {
+    isArrowUp.value = !isArrowUp.value;
 
     works.value = []; // 清空工作列表
     currentPage.value = 0; // 重設頁數
     isEnd.value = false; // 重設結束標記
 
     if (isArrowUp.value) {
-        sort = 'spotsAsc';
+        sort = 'attendanceAsc';
     } else {
-        sort = 'spotsDesc';
+        sort = 'attendanceDesc';
     }
 
     loadWork(); // 重新載入工作列表
@@ -214,15 +241,17 @@ const formatDate = (dateString) => {
     return `${date.getFullYear()}/${("0" + (date.getMonth() + 1)).slice(-2)}/${("0" + date.getDate()).slice(-2)}`;
 }
 
+const checkSticky = () => {
+    isSticky.value = window.scrollY > 45;
+};
 
 
 </script>
 
 <style scoped>
-/* #work-search {
-    overflow: auto;
-    height: calc(100vh - 50px - 100px);
-} */
+.work-search {
+    height: 100vh;
+}
 
 .fa-arrow-down {
     transition: transform 0.5s;
@@ -231,6 +260,39 @@ const formatDate = (dateString) => {
 .rotate {
     transform: rotate(180deg);
 }
+
+.animate__animated.animate__Fadin {
+    --animate-duration: 0.5s;
+}
+
+.inline-flex {
+    display: flex;
+    align-items: baseline;
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.sticky-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 1000;
+}
+
+.the-end {
+    height: 100px
+}
+
+/* .work-address {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+} */
 </style>
 <!-- <style>
 .no-scroll {

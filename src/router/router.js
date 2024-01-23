@@ -27,10 +27,9 @@ import ProviderWork from "@/views/landlord/ProviderWork.vue";
 import routerRegister from "./router-register.js";
 import routerOrder from "./router-order.js";
 
-
 // 2. 定義路由
-// 如果頁面不需要Header或Footer，請在導向該頁面的routes加入：
-// meta: { hideNavbar: true }, 或 meta: { hideFooter: true },
+// 如果頁面不需要某些元件，請在導向該頁面的routes加入對應的meta屬性
+// 例如：meta: { hideNavbar: true }, 或 meta: { hideFooter: true },
 // 如果頁面需要登入或權限才能檢視，請在導向該頁面的routes加入：
 // meta: { requiresAuth: true }, 或 permissions: ['xxx']}
 const routes = [
@@ -82,7 +81,7 @@ const routes = [
     path: "/chatroom",
     name: "Chatroom",
     component: Chatroom,
-    meta: { hideFooter: true, requiresAuth: true },
+    meta: { hideFooter: true, hideBTTB:true, requiresAuth: true },
   },
   {
     path: "/order",
@@ -113,13 +112,13 @@ const routes = [
     path: "/providerHouse",
     name: "ProviderHouse",
     component: ProviderHouse,
-    meta: {hideFooter: true, requiresAuth: true , permissions: ['lord']},
+    meta: {hideFooter: true, hideBTTB:true, requiresAuth: true , permissions: ['lord']},
   },
   {
     path: "/providerWork",
     name: "ProviderWork",
     component: ProviderWork,
-    meta: {hideFooter: true, requiresAuth: true , permissions: ['lord']},
+    meta: {hideFooter: true, hideBTTB:true, requiresAuth: true , permissions: ['lord']},
   },
   {
     path: "/analyze",

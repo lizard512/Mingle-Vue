@@ -58,7 +58,7 @@
                     <th scope="col">2023-12-28 14:43:36</th>
                     <th scope="col">2023-12-28 14:43:36</th>
                     <th scope="col">
-                        <b-button type="button" class="btn btn-light update" v-b-modal.modal-1>修改</b-button>
+                        <button type="button" class="btn btn-light update">修改</button>
                         <button type="button" class="btn btn-danger delete">刪除</button>
                     </th>
                 </tr>
@@ -190,13 +190,9 @@
         </table>
     </div>
     <br>
-    <b-modal id="modal-1" title="BootstrapVue">
-        <p class="my-4">Hello from modal!</p>
-    </b-modal>
 </template>
 
 <script setup>
-
 </script>
     
 <style scoped>
@@ -207,7 +203,7 @@
     overflow: scroll;
 }
 
-.table tr:nth-child(odd) {
-    background-color: #FFD966;
+.table tr:nth-child(even) {
+    --bs-table-bg: #FFD966;
 }
 </style>
