@@ -1,14 +1,26 @@
 <template>
     <div class="container-fluid row p-0 g-0 max-height chat-main-container">
         <!-- left => headline, pics & messages -->
-        <div class="col-md-4 overflow-auto mh-100">
-            <div>
-                <h3 class="text-center my-4">Message</h3>
+        <div class="col-md-4 overflow-auto mh-100 bg-light">
+            <h1 class="text-center my-2">Message</h1>
+            <div class="mb-4 d-flex justify-content-center">
+                <div class="form-floating mb-3 w-75">
+                    <input class="form-control" list="datalistOptions" placeholder="Type to search..." @change="switchUser">
+                    <datalist id="datalistOptions">
+                        <option :value="item.name" v-for="item in otherUser"></option>
+
+                        <!-- <option value="New York"></option>
+                        <option value="Seattle"></option>
+                        <option value="Los Angeles"></option>
+                        <option value="Chicago"></option> -->
+                    </datalist>
+                    <label for="floatingInput">請輸入用戶名稱</label>
+                </div>
             </div>
             <div>
-                <div class="ms-5 me-4 list-group" v-for="item in roomList"
+                <div class="ms-4 me-4 list-group" v-for="item in roomList"
                     @click="selectRoom(item.senderid, item.recieverid, item.sendername, item.recievername)">
-                    <button type="button" class="list-group-item list-group-item-action list-group-item-light">
+                    <a href="#" class="list-group-item list-group-item-action list-group-item-light">
                         <img class="mt-1 ms-1 me-4 rounded-circle float-start" src="https://picsum.photos/50/50">
                         <div class="mt-1 d-flex justify-content-between align-items-center">
                             <div>
@@ -19,14 +31,14 @@
                             </div>
                         </div>
                         <p class="text-truncate">{{ item.contents }}</p>
-                    </button>
+                    </a>
                 </div>
             </div>
 
         </div>
         <!-- Right => chat-name, chat-container, input-group -->
         <div class="col-md-8 mh-100">
-            <div class="p-2 bg-light chat-name">
+            <div class="p-2 bg-light border chat-name">
                 <strong class="ms-2 animate__animated animate__fadeIn"> <i class="me-1 fa-solid fa-house-chimney-user"></i>
                     {{
                         selectedUserName }}</strong>
@@ -86,27 +98,26 @@ const selectedUserID = ref('');     // 對方使用者id，點擊聊天列表更
 const selectedUserName = ref('');   // 對方使用者姓名，點擊聊天列表更新。
 const inputField = ref(null);       // 訊息輸入欄位，enter可觸發。
 const beginChat = ref(true);        // 初始畫面，提醒點擊。
+const otherUser = ref([]);          // 其他使用者資料，搜尋用。
 
 // 賦值→連線→渲染(左側)聊天列表→
 onMounted(async () => {
     await initAssign();
     initConnect();
+    await initsearch();
     await findAllChat();
     // await findAllMessages();
     messageEnd();
 });
-
 // 初始賦值(確定使用者)
 async function initAssign() {
     const sessionToken = VueCookies.get('sessionToken');
     senderID.value = String(sessionToken).substring(32, sessionToken.length);
 }
-
 // stompjs連線
 function initConnect() {
     stompClient.connect({}, onConnected, onError);
 }
-
 // 訂閱
 function onConnected() {
     stompClient.subscribe(`/user/${senderID.value}/queue/messages`, onMessageReceived);
@@ -133,7 +144,28 @@ function onError() {
 
     })
 }
+// 搜尋列初始化
+async function initsearch() {
+    await axios.get(`${path}/messages/${senderID.value}/findAllUser`)
+        .then(function (response) {
+            console.log(response.data)
+            otherUser.value = response.data;
+        })
+        .catch(function (error) {
 
+        });
+}
+// 切換使用者
+async function switchUser(event) {
+    console.log(event);
+    // const selectedUserName = event.target.value;
+    // const selectedUser = otherUser.value.find(item => item.name === selectedUserName);
+
+    // if (selectedUser) {
+    // 在這裡使用 selectedUser 資料，例如將其傳遞到其他方法或執行相應的邏輯
+    // console.log('Selected User:', selectedUser);
+    // }
+}
 // 滾動到最底、清空對話欄位、焦點設置回欄位
 function messageEnd() {
     if (chatContainer.value) {
@@ -165,7 +197,6 @@ async function sendMessage(event) {
 }
 // 收
 async function onMessageReceived(payload) {
-    // await findAndDisplayConnectedUsers();
     console.log('Message received', payload);
     const message = JSON.parse(payload.body);
     // displayMessage(message);
