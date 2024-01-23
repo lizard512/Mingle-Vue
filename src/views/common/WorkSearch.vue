@@ -1,7 +1,7 @@
 <template>
-    <div id="work-search">
+    <div id="work-search" class="h-100">
         <!--Search Header Start-->
-        <div class="container-fluid bg-prim bg-light" style="padding: 35px;">
+        <div class="container-fluid bg-prim bg-light p-4" :class="{ 'sticky-header': isSticky }">
             <div class="container">
                 <div class="row g-2">
                     <div class="col-md-10">
@@ -119,7 +119,7 @@
         </div>
         <!-- Work List End -->
         <!-- Sticky Footer Start-->
-        <footer class="sticky-footer mt-auto py-3 bg-body-tertiary">
+        <footer class="sticky-footer mt-auto py-3 bg-light">
             <div class="container">
                 <span class="text-body-secondary">Place sticky footer content here.</span>
             </div>
@@ -134,25 +134,33 @@ import axios from 'axios';
 
 // 接收工作資料
 let works = ref([]);
-// API URL
-const baseAPIURL = "http://localhost:8080/api/work/getWorks";
-// 工作資料載入的預設參數
+const baseAPIURL = "http://localhost:8080/api/work/getWorks"; 
+
+// 工作資料載入用的預設參數
 let currentPage = ref(0);
 let sort = 'hot'; // 排序方式
 const pageSize = 4; // 每頁的數量
 const isLoading = ref(false);
-let isEnd = ref(false);
-// 排序按紐的箭頭方向
+let isEnd = ref(false);// 排序按紐的箭頭方向
 let isArrowUp = ref(true);
+
+const isSticky = ref(false);
+
+const checkSticky = () => {
+    isSticky.value = window.scrollY > 45;
+};
+
 
 onMounted(async () => {
     await loadWork();
     window.addEventListener('scroll', infiniteScroll);
+    window.addEventListener('scroll', checkSticky);
     // document.body.classList.add('no-scroll');
 });
 
 onUnmounted(() => {
     window.removeEventListener('scroll', infiniteScroll);
+    window.removeEventListener('scroll', checkSticky);
     // document.body.classList.remove('no-scroll');
 });
 
@@ -232,8 +240,7 @@ const formatDate = (dateString) => {
 
 <style scoped>
 /* #work-search {
-    overflow: auto;
-    height: calc(100vh - 50px - 100px);
+    height: calc(100vh - 45px);
 } */
 
 .fa-arrow-down {
@@ -253,10 +260,16 @@ const formatDate = (dateString) => {
     align-items: baseline;
 }
 
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
 .sticky-footer {
     position: sticky;
     bottom: 0;
-    z-index: 9999;
+    z-index: 1000;
 }
 
 
