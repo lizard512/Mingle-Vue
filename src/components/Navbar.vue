@@ -113,7 +113,8 @@ function resetStore() {
 
 
 // // Sticky Navbar
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount} from 'vue';
+import router from '@router/router'
 
 const isSticky = ref(false);
 
