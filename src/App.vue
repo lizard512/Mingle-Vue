@@ -5,7 +5,7 @@
 
     <Footer v-if="!$route.meta.hideFooter"></Footer>
 
-    <BackToTopButton></BackToTopButton>
+    <BackToTopButton v-if="!$route.meta.hideBTTB"></BackToTopButton>
 </template>
 
 <script setup>
