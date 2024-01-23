@@ -118,7 +118,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 const isSticky = ref(false);
 
 const checkSticky = () => {
-    isSticky.value = window.pageYOffset > 45;
+    isSticky.value = window.scrollY > 45;
 };
 
 onMounted(() => {
