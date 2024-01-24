@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-lg-3 mx-auto">
                     <ul class="nav d-inline-flex justify-content-end ">
-                        <li class="nav-item me-2" v-for="worktypeID in worktypeIDs" :key="worktypeID.worktypeID">
+                        <li class="nav-item me-2 bg-white" v-for="worktypeID in worktypeIDs" :key="worktypeID.worktypeID">
                             <a class="btn btn-outline-dark"
                                 :class="{ 'active': filters.worktype.includes(worktypeID.worktypeID) }"
                                 @click="toggleWorkType(worktypeID.worktypeID)">
@@ -54,19 +54,19 @@
                 </div>
                 <div class="col-lg-3 text-end wow animate__animated animate__slideInRight" data-wow-delay="0.1s">
                     <ul class="nav nav-pills d-inline-flex justify-content-end">
-                        <li class="nav-item me-2">
+                        <li class="nav-item me-2 bg-white">
                             <a class="btn btn-outline-primary active" data-bs-toggle="pill"
                                 @click="toggleSorts('views', 'DESC')">熱門項目</a>
                         </li>
-                        <li class="nav-item me-2">
+                        <li class="nav-item me-2 bg-white">
                             <a class="btn btn-outline-primary" data-bs-toggle="pill"
                                 @click="toggleSorts('createdAt', 'DESC')">最新上架</a>
                         </li>
-                        <li class="nav-item me-2">
+                        <li class="nav-item me-2 bg-white">
                             <a class="btn btn-outline-primary" data-bs-toggle="pill"
                                 @click="toggleSorts('EndDate', 'ASC')">即將截止</a>
                         </li>
-                        <li class="nav-item me-2">
+                        <li class="nav-item me-2 bg-white">
                             <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="toggleSortByAttendance">參與人數
                                 <i class="fa fa-arrow-down" :class="{ 'rotate': isArrowUp }"></i></a>
                         </li>
