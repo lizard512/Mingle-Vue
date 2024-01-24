@@ -1,16 +1,19 @@
 <template>
-    <div class="container bg-white p-0 row">
+    <div class=" bg-white p-0 row">
         <!-- index Start -->
-        <div class="row">
-            <!-- left Start -->
-            <ANavbar @xyzClick="clickHandler"></ANavbar>
-            <!-- right Start -->
+
+        <!-- left Start -->
+        <ANavbar @xyzClick="clickHandler"></ANavbar>
+
+        <!-- right Start -->
+        <div class="col-10 md-right">
             <Account1 v-show="isShowAccount"></Account1>
             <introduction v-show="isShowIntroduction"></introduction>
             <LikeWork v-show="isShowLikeWork"></LikeWork>
             <FinshWork v-show="isShowFinshWork"></FinshWork>
-            <!-- index End -->
         </div>
+        <!-- index End -->
+
     </div>
 </template>
     
@@ -39,7 +42,6 @@ const closeShow = () => {
     isShowFinshWork.value = false;
     isShowIntroduction.value = false;
 }
-
 
 
 

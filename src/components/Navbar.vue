@@ -19,7 +19,7 @@
                         <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">打工換宿資訊</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
                             <RouterLink class="dropdown-item" to="/work-search">瀏覽打工項目</RouterLink>
-                            <RouterLink class="dropdown-item" to="/map">住宿地點一覽</RouterLink>
+                            <RouterLink class="dropdown-item" to="/map">依地圖檢視</RouterLink>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
