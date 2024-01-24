@@ -43,15 +43,18 @@
                     <h1 class="text-dark"> 請點擊左側聊天室列表開始聊天 <i class="fa-solid fa-comment-sms"></i></h1>
                 </div>
                 <template v-for="item in messages">
-                    <span v-if="senderID !== item.senderID"
-                        class="px-3 py-2 m-1 rounded-3 flex-start align-self-start chat-message chat-received animate__animated animate__fadeIn">
-                        <span>{{ item.contents }}</span>
-                        <span>{{ item.time }}</span>
-                    </span>
-                    <div v-if="senderID === item.senderID"
-                        class="px-3 py-2 m-1 rounded-3 align-self-end chat-message chat-sent animate__animated animate__fadeIn">
-                        <span>{{ item.time }}</span>
-                        <span>{{ item.contents }}</span>
+                    <div v-if="senderID !== item.senderID" class="my-3">
+                        <span
+                            class="px-3 py-2 m-1 rounded-3 flex-start align-self-start chat-message chat-received animate__animated animate__fadeIn">
+                            <span>{{ item.contents }}</span>
+                        </span>
+                        <span class="ms-1 animate__animated animate__fadeIn">{{ item.time }}</span>
+                    </div>
+                    <div v-if="senderID === item.senderID" class="my-3 align-self-end">
+                        <span class="me-1 animate__animated animate__fadeIn">{{ item.time }}</span>
+                        <span class="px-3 py-2 m-1 rounded-3 chat-message chat-sent animate__animated animate__fadeIn">
+                            <span>{{ item.contents }}</span>
+                        </span>
                     </div>
                 </template>
             </div>
