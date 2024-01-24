@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div>
-                <div class="ms-4 me-4 list-group" v-for="item in roomList"
+                <div class="ms-4 me-4 border  border-2 border-light rounded-3 list-group" v-for="item in roomList"
                     @click="selectRoom(item.senderid, item.recieverid, item.sendername, item.recievername)">
                     <a href="#" class="list-group-item list-group-item-action list-group-item-light"
                         :class="{ 'active': item.senderid == selectedUserID || item.recieverid == selectedUserID }">
@@ -45,15 +45,15 @@
                 <template v-for="item in messages">
                     <div v-if="senderID !== item.senderID" class="my-3">
                         <span
-                            class="px-3 py-2 m-1 rounded-3 flex-start align-self-start chat-message chat-received animate__animated animate__fadeIn">
-                            <span>{{ item.contents }}</span>
-                        </span>
-                        <span class="ms-1 animate__animated animate__fadeIn">{{ item.time }}</span>
+                            class="shadow-sm p-3 px-3 py-2 m-1 rounded-3 flex-start align-self-start chat-message chat-received animate__animated animate__fadeIn">
+                            {{ item.contents }} </span>
+                        <span class="ms-1 animate__animated animate__fadeIn message-time">{{ item.time }}</span>
                     </div>
                     <div v-if="senderID === item.senderID" class="my-3 align-self-end">
-                        <span class="me-1 animate__animated animate__fadeIn">{{ item.time }}</span>
-                        <span class="px-3 py-2 m-1 rounded-3 chat-message chat-sent animate__animated animate__fadeIn">
-                            <span>{{ item.contents }}</span>
+                        <span class="me-1 animate__animated animate__fadeIn message-time">{{ item.time }}</span>
+                        <span
+                            class="shadow-sm p-3 px-3 py-2 m-1 rounded-3 chat-message chat-sent animate__animated animate__fadeIn">
+                            {{ item.contents }}
                         </span>
                     </div>
                 </template>
@@ -141,7 +141,7 @@ function onError() {
 
     })
 }
-// 搜尋列初始化
+// 搜尋列初始化(先不用)
 async function initsearch() {
     await axios.get(`${path}/messages/${senderID.value}/findAllUser`)
         .then(function (response) {
@@ -297,7 +297,7 @@ async function assignSelectedUser(senderid, recieverid, sendername, recievername
 
 .chat-container {
     height: 88%;
-    background-color: #7d8cc4;
+    background-color: antiquewhite;
 }
 
 .input-group {
@@ -319,5 +319,9 @@ async function assignSelectedUser(senderid, recieverid, sendername, recievername
 
 .chat-sent {
     background-color: #dcf8c6;
+}
+
+.message-time {
+    font-size: 0.7em;
 }
 </style>
