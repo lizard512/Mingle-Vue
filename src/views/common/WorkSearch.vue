@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="col-lg-3 mx-auto">
-                    <select v-model="filters.city[0]" @change="reloadWork()">
+                    <select class="form-select w-50" v-model="filters.city[0]" @change="reloadWork()">
                         <option value="">所有縣市</option>
                         <optgroup v-for="(group, area) in groupedCities" :label="area" :key="area">
                             <option v-for="city in group" :value="city.city" :key="city.city">
