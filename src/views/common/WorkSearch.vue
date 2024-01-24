@@ -42,11 +42,11 @@
                 </div>
                 <div class="col-lg-4 mx-auto">
                     <ul class="nav d-inline-flex justify-content-end ">
-                        <li class="nav-item me-2" v-for="workType in workTypes" :key="workType.workType">
+                        <li class="nav-item me-2" v-for="worktypeID in worktypeIDs" :key="worktypeID.worktypeID">
                             <a class="btn btn-outline-dark"
-                                :class="{ 'active': filters.worktype.includes(workType.workType) }"
-                                @click="toggleWorkType(workType.workType)">
-                                {{ workType.workType }}
+                                :class="{ 'active': filters.worktype.includes(worktypeID.worktypeID) }"
+                                @click="toggleWorkType(worktypeID.worktypeID)">
+                                {{ worktypeID.worktypeID }}
                             </a>
                         </li>
                     </ul>
@@ -135,7 +135,8 @@ import axios from 'axios';
 
 // 接收資料
 let works = ref([]);
-const workTypes = ref([]);
+const worktypeIDs = ref([]);
+const cityIDs = ref([]);
 const baseURL = "http://localhost:8080";
 
 // 工作資料載入用的預設參數
@@ -154,11 +155,11 @@ let filters = ref({
 });
 
 
-
 // 生命週期
 onMounted(async () => {
     await loadWork();
     await loadWorkType();
+    await loadCity();
     window.addEventListener('scroll', infiniteScroll);
     window.addEventListener('scroll', checkSticky);
     // document.body.classList.add('no-scroll');
@@ -173,7 +174,14 @@ onUnmounted(() => {
 // 載入工作分類
 const loadWorkType = async () => {
     const response = await axios.get(baseURL + '/api/worktype/getWorktypes');
-    workTypes.value = response.data;
+    worktypeIDs.value = response.data;
+}
+
+// 載入城市
+const loadCity = async () => {
+    const response = await axios.get(baseURL + '/api/city/getCities');
+    cityIDs.value = response.data;
+    console.log(cityIDs.value);
 }
 
 // 載入第一頁的工作資料(預設為熱門排序)
@@ -225,13 +233,13 @@ const infiniteScroll = () => {
 };
 
 
-const toggleWorkType = (workType) => {
-    const index = filters.value.worktype.indexOf(workType);
+const toggleWorkType = (worktypeID) => {
+    const index = filters.value.worktype.indexOf(worktypeID);
     if (index >= 0) {
-        // 如果 workType 已經在 filters.workType 中，移除它
+        // 如果 worktypeID 已經在 filters.worktypeID 中，移除它
         filters.value.worktype.splice(index, 1);
     } else {
-        filters.value.worktype.push(workType);
+        filters.value.worktype.push(worktypeID);
     }
     console.log(toRaw(filters.value));
 
