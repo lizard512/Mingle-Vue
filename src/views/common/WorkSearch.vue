@@ -338,11 +338,11 @@ const checkSticky = () => {
     height: 100px
 }
 
-/* .work-address {
+.work-address {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-} */
+}
 </style>
 <!-- <style>
 .no-scroll {
