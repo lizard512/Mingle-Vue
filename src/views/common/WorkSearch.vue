@@ -55,19 +55,19 @@
                 <div class="col-lg-3 text-end wow animate__animated animate__slideInRight" data-wow-delay="0.1s">
                     <ul class="nav nav-pills d-inline-flex justify-content-end">
                         <li class="nav-item me-2 bg-white">
-                            <a class="btn btn-outline-primary active" data-bs-toggle="pill"
+                            <a class="btn btn-outline-secondary active" data-bs-toggle="pill"
                                 @click="toggleSorts('views', 'DESC')">熱門項目</a>
                         </li>
                         <li class="nav-item me-2 bg-white">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill"
+                            <a class="btn btn-outline-secondary" data-bs-toggle="pill"
                                 @click="toggleSorts('createdAt', 'DESC')">最新上架</a>
                         </li>
                         <li class="nav-item me-2 bg-white">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill"
+                            <a class="btn btn-outline-secondary" data-bs-toggle="pill"
                                 @click="toggleSorts('EndDate', 'ASC')">即將截止</a>
                         </li>
                         <li class="nav-item me-2 bg-white">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="toggleSortByAttendance">參與人數
+                            <a class="btn btn-outline-secondary" data-bs-toggle="pill" @click="toggleSortByAttendance">參與人數
                                 <i class="fa fa-arrow-down" :class="{ 'rotate': isArrowUp }"></i></a>
                         </li>
                     </ul>
@@ -83,29 +83,29 @@
                             <div class="position-relative overflow-hidden">
                                 <img class="img-fluid" src="@images/台東熱氣球活動.jpg" :src="work.photo"
                                     @error="work.photo = '@images/grey.jpg'" :alt="work.name">
-                                <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+                                <div class="bg-dark rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
                                     {{ work.worktype }}</div>
                                 <div
-                                    class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
+                                    class="bg-info rounded-top text-white position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
                                     {{ work.city }}</div>
                             </div>
                             <div class="p-4 pb-0">
                                 <a class="d-block h5 mb-2" href="">{{ work.name }}</a>
-                                <p class="work-address"><i class="fa fa-map-marker text-primary me-2"></i>{{
+                                <p class="work-address"><i class="fa fa-map-marker me-2"></i>{{
                                     work.address }}</p>
                                 <!-- <p>{{ work.description }}</p> -->
                             </div>
                             <div class="d-flex border-top">
                                 <small class="flex-fill text-center border-end py-2"><i
-                                        class="fa fa-calendar text-primary me-2"></i>{{ work.startDate.toString().substring(0, 10) }} ~
+                                        class="fa fa-calendar me-2"></i>{{ work.startDate.toString().substring(0, 10) }} ~
                                         {{ work.endDate.toString().substring(0, 10) }}</small>
                             </div>
                             <div class="d-flex border-top">
                                 <small class="flex-fill text-center border-end py-2"><i
-                                        class="fa fa-user text-primary me-2"></i>{{ work.attendance }} /
+                                        class="fa fa-user me-2"></i>{{ work.attendance }} /
                                     {{ work.maxAttendance }} 人已報名</small>
                                 <small class="flex-fill text-center py-2"><i
-                                        class="fa fa-solid fa-eye text-primary me-2"></i>{{
+                                        class="fa fa-solid fa-eye me-2"></i>{{
                                             work.views }} 次瀏覽</small>
                             </div>
                         </div>
