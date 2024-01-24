@@ -18,8 +18,8 @@
                     <div class="nav-item dropdown">
                         <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">打工換宿資訊</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <RouterLink class="dropdown-item" to="/search">瀏覽打工項目</RouterLink>
-                            <RouterLink class="dropdown-item" to="#">住宿地點一覽</RouterLink>
+                            <RouterLink class="dropdown-item" to="/work-search">瀏覽打工項目</RouterLink>
+                            <RouterLink class="dropdown-item" to="/map">依地圖檢視</RouterLink>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -35,7 +35,8 @@
                             <RouterLink class=" btn btn-secondary px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="/lord-center">房東中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <RouterLink class="dropdown-item" to="/providerHouse">發布工作</RouterLink>
+                                <RouterLink class="dropdown-item" to="/providerWork">建立工作</RouterLink>
+                                <RouterLink class="dropdown-item" to="/providerHouse">建立發源</RouterLink>
                                 <RouterLink class="dropdown-item" to="/houseMaintain">房源維護</RouterLink>
                                 <RouterLink class="dropdown-item" to="/WorkMaintain">工作管理</RouterLink>
                                 <RouterLink class="dropdown-item" to="#">訂單管理</RouterLink>
@@ -112,12 +113,18 @@ function resetStore() {
 
 
 // // Sticky Navbar
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount} from 'vue';
+import router from '@router/router'
 
 const isSticky = ref(false);
 
 const checkSticky = () => {
-    isSticky.value = window.pageYOffset > 45;
+    // 如果當前的路由是 WorkSearch，則不懸浮 NAVBAR
+    if (router.currentRoute.value.name === 'WorkSearch') {
+        isSticky.value = false;
+    } else {
+        isSticky.value = window.scrollY > 45;
+    }
 };
 
 onMounted(() => {

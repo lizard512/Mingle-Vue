@@ -4,6 +4,8 @@
     <RouterView></RouterView>
 
     <Footer v-if="!$route.meta.hideFooter"></Footer>
+
+    <BackToTopButton v-if="!$route.meta.hideBTTB"></BackToTopButton>
 </template>
 
 <script setup>
@@ -15,6 +17,7 @@ wow.init();
 // 內部元件
 import Navbar from '@components/Navbar.vue'
 import Footer from '@components/Footer.vue'
+import BackToTopButton from '@components/BackToTopButton.vue'
 </script>
 
 <!-- Animate.css -->
@@ -26,9 +29,9 @@ import Footer from '@components/Footer.vue'
 <!-- Customized CSS -->
 <style src="@styles/style.css"></style>
 <!-- Customized Bootstrap SCSS-->
-<style lang="scss" src="@styles/customized-bootstrap.scss">
-
-
-
-
+<style lang="scss" src="@styles/customized-bootstrap.scss"></style>
+<style>
+::-webkit-scrollbar {
+    display: none;
+}
 </style>

@@ -1,68 +1,53 @@
 <template>
-    <div>
-    <GmapMap
-      :center="mapCenter"
-      :zoom="10"
-      style="width: 100%; height: 500px"
-    >
-      <GmapMarker
-        v-for="(address, index) in formattedAddresses"
-        :key="index"
-        :position="getCoordinates(address)"
-      ></GmapMarker>
-    </GmapMap>
+  <div>
+    <GoogleMap api-key="AIzaSyChYl423JJyZHyoVgPhUWBgi7bLCH3pGNA" :center="mapCenter" :zoom="7"
+      style="width: 100%; height: 650px">
+      <CustomMarker v-for="(location, index) in locations" :key="index" :options="{
+        position: location.position,
+        title: location.address,
+        draggable: true,
+        clickable: true,
+      }" @click="openInfoWindow(location)">
+      <img src="@images/icon-mapIcon.png" alt="Marker Icon" style="width: 30px; height: 30px;">
+      </CustomMarker>
+
+    </GoogleMap>
   </div>
 </template>
-    
+
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted} from 'vue';
 import axios from 'axios';
-// import { GmapMap, GmapMarker } from 'vue2-google-maps';
+import { GoogleMap, CustomMarker } from 'vue3-google-map';
+// import { Loader } from "@googlemaps/js-api-loader"
 
-const mapCenter = ref({ lat: 0, lng: 0 });
-const formattedAddresses = ref([]);
+const mapCenter = ref({ lat: 25.0330, lng: 121.5654 });
 
-const getCoordinates = async (address) => {
-  try {
-    const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-      params: {
-        address: address,
-        key: 'AIzaSyChYl423JJyZHyoVgPhUWBgi7bLCH3pGNA', // Replace with your actual API key
-      },
-    });
-    console.log(response);
-    if (response.data.results && response.data.results.length > 0) {
-      const location = response.data.results[0].geometry?.location;
+const locations = ref([]);
 
-      if (location) {
-        return { lat: location.lat, lng: location.lng };
-      } else {
-        console.error('No coordinates found in the API response:', response.data);
-        return { lat: 0, lng: 0 };
-      }
-    } else {
-      console.warn('No results found in the API response for address:', address);
-      console.log('API Response:', response.data); // Log the entire API response for debugging
-      return { lat: 0, lng: 0 };
-    }
-  } catch (error) {
-    console.error('Error fetching coordinates:', error);
-    return { lat: 0, lng: 0 };
-  }
+const openInfoWindow = (location) => {
+  alert('打工地點: '+location.address); // You can replace this with your logic to display a custom info window
 };
 
-onMounted(async () => {
-  try {
-    // Example backend API endpoint to fetch formatted addresses
-    const backendResponse = await axios.get('http://localhost:8080/api/work/formattedAddresses');
-    // Assuming the backend response contains an array of formatted addresses
-    formattedAddresses.value = backendResponse.data;
-  } catch (error) {
-    console.error('Error fetching formatted addresses:', error);
-  }
-});
+onMounted(() => {
+  axios.get('http://localhost:8080/api/work/formattedAddresses').then((resp) => {
+    for (let address of resp.data) {
+
+      axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+        params: {
+          address: address,
+          key: 'AIzaSyChYl423JJyZHyoVgPhUWBgi7bLCH3pGNA', // Replace with your actual API key
+        },
+      }).then((resp) => {
+        locations.value.push({ address, position: resp.data.results[0].geometry.location })
+      })
+
+    }
+  });
+
+})
+
+
 </script>
     
-<style scoped>
-
-</style>
+<style scoped></style>
