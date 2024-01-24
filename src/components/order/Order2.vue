@@ -23,7 +23,7 @@
                                         <div>
                                             <h5 class="mb-0">訂單編號: <span
                                                     class="text-primary font-weight-bold">ID1234567</span></h5>
-                                            <p class="mb-0 text-muted" rderDate="orderDate">訂購日期:{{ dataForOrder2.orderDate
+                                            <p class="mb-0 text-muted" orderDate="orderDate">訂購日期:{{ dataForOrder2.orderDate
                                             }} </p>
                                         </div>
 
@@ -252,21 +252,23 @@
 
 
                             <div class="row">
-                                <div class="mb-4 col-md-4 " v-for="(value, key) in roomDetail" :key="key" v-show="value > 0">
+                                <div class="mb-4 col-md-4 " v-for="(value, key) in roomDetail" :key="key"
+                                    v-show="value > 0">
                                     <ul class="list-group col-12">
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
                                                 <h6 class="my-0">房號</h6>
                                                 <small class="text-muted">houseID</small>
                                             </div>
-                                            <span class="text-muted" >{{ key }}</span>
+                                            <span class="text-muted">{{ key }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
                                                 <h6 class="my-0">房間</h6>
                                                 <small class="text-muted">house name</small>
                                             </div>
-                                            <span class="text-muted margin-left">可怕屋</span>
+                                            <span class="text-muted margin-left btn btn-primary"
+                                                @click="showRoom()">{{ housedetail.name }} (查看詳情)</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
@@ -359,9 +361,12 @@ const roomDetail = ref([]);
 //============路由控制============
 
 import { useOrderStore } from '@store/orderStore-memory.js';
+import Swal from 'sweetalert2';
 
 
 const orderStore = useOrderStore();
+
+const houseid = ref('');
 
 const loaddata = () => {
     // 从 Pinia store 获取数据
@@ -373,6 +378,7 @@ const loaddata = () => {
     for (const key in roomDetail.value) {
         // key 是属性名，selectedRooms[key] 是对应的值
         console.log(`属性名: ${key}, 值: ${roomDetail.value[key]}`);
+        houseid.value = key;
     }
 }
 
@@ -380,22 +386,42 @@ const loaddata = () => {
 //============查詢房屋資料============
 
 
-const houseid = ref({});
+const housedetail = reactive({});
+
+const showDetail = async (key) => {
+    houseid.value = key;
+    const House_API_URL = 'http://localhost:8080/api/house/' + houseid.value;
+    const response = await axios.get(House_API_URL);
+    Object.assign(housedetail, response.data);
+    console.log('Received workdetail:', housedetail);
+}
 
 
 
 
-// const loadworkDetail = async () => {
-//     const Work_API_URL = 'http://localhost:8080/order/' + workid.value;
-//     const response = await axios.post(Work_API_URL);
-//     Object.assign(workdetail, response.data);
-//     console.log('Received workdetail:', workdetail);
-// }
+const showRoom = function () {
+    Swal.fire({
+        title: "title",
+        text: "text",
+        icon: "question",
+        allowOutsideClick: false,
+        confirmButtonText: "確認",
+
+    }).then(function (result) {
+        console.log(result);
+        if (result.isConfirmed) {
+            console.log(`確認`);
+        }
+    })
+
+}
+
+
 
 
 onMounted(async () => {
     loaddata();
-    // await loadworkDetail();
+    await showDetail(houseid.value);
 });
 
 
@@ -411,6 +437,7 @@ const goToOrder1 = function () {
         '/order/order1',
     )
 }
+
 
 
 </script>

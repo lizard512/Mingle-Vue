@@ -200,7 +200,7 @@
 
                             <div class="col-md-3" :class="{ 'has-error': haserror }">
                                 <label for="work_period" class="form-label">打工區間 (work period)</label>
-                                <select class="form-select" id="work_period" v-model="selectedPeriod"
+                                <select class=" col-12 select-form" id="work_period" v-model="selectedPeriod"
                                     @change="updateDateRange" required>
                                     <option value="">Choose...</option>
                                     <option v-for="period in maxPeriod.length" :key="period" :value="period"
@@ -226,7 +226,7 @@
                                     v-model="endDate" value="" required disabled />
 
                             </div>
-                            <div id="error-message" class="text-secondary text-center"></div>
+                            <div id="error-message" class="text-secondary text-center date-error"></div>
 
 
 
@@ -265,25 +265,27 @@
                                             <div>描述:{{ house_type.description }}</div>
                                         </td>
                                         <td class=" align-middle col-2">{{ house_type.beds }}</td>
-                                        <td class=" align-middle  col-2"> <select class="form-select" id="room_numbers"
-                                                v-model="selectedRooms[house_type.houseid]"
+                                        <td class=" align-middle  col-2"> <select class="select-form col-12"
+                                                v-model="selectedRooms[house_type.houseid]" @change="roomValidate()"
                                                 :class="{ 'is-invalid': isInvalid(), 'is-valid': isValid() }">
                                                 <option value="0">0</option>
-                                                <option v-for="room in house_type.beds" :key="room" :value="room">
+                                                <option id="room" v-for="room in house_type.beds" :key="room" :value="room">
                                                     {{ room }}</option>
                                             </select>
-                                            <div v-if="totalRooms() > selectedAccomodator" class="text-danger">
-                                                所選房間間數大於報名人數，請重新選擇
-                                            </div>
-                                            <div v-if="totalRooms() == 0" class="text-danger">
-                                                請選擇間數。
-                                            </div>
                                         </td>
-       
-
                                     </tr>
                                 </tbody>
                             </table>
+                            <div v-if="totalRooms() > selectedAccomodator" class="text-danger text-end text-secondary">
+                                錯誤訊息：所選房間間數大於報名人數，請重新選擇。
+                            </div>
+                            <!-- <div v-if="totalRooms() == 0" class="text-danger ">
+                                                請選擇間數。
+                                            </div> -->
+
+                            <div class="room-select-error  text-secondary text-end">
+
+                            </div>
 
                             <!-- ====================================================================== -->
 
@@ -465,6 +467,7 @@ function updateAccomodatorData() {
 
 
 
+
 //============鎖定可選打工日期範圍============
 
 // 使用 ref 創建可響應的變數
@@ -496,7 +499,6 @@ watch(startDate, (newValue) => {
 watch(endDate, (newValue) => {
     updateDateRange(selectedPeriod.value);
 });
-
 
 
 // 更新日期範圍的函數
@@ -585,24 +587,32 @@ const validateAndGoToOrder2 = (event) => {
 
     // 阻止表单的默认提交行为
     event.preventDefault();
-
     // 資料驗證結果
     const isFormValid = validateForm();
     // 使用 Bootstrap 驗證的結果
     const form = document.querySelector('.needs-validation');
 
-    // 自定义验证逻辑，这里假设存在带有 text-danger 类的元素
+    roomValidate();
+    // 自定义验证逻辑，假設存在带有 text-danger 类的元素
     const customValidationFailed = document.querySelector('.text-danger');
     const customValidationFailed2 = document.querySelector('.has-error');
+    const customValidationFailed3 = document.querySelector('.room-select-error');
 
+    // if(totalRooms() == 0){
+    //     var roomSelectError = form.querySelector('.room-select-error');
+    //     roomSelectError.innerText = '請選擇間數xxxx。';
+    // }else{
+    //     var roomSelectError = form.querySelector('.room-select-error');
+    //     roomSelectError.innerText = '';
+    // }
 
-    if (isFormValid && form.checkValidity() && !customValidationFailed && !customValidationFailed2) {
-        // 停留在本页面
+    if (isFormValid && form.checkValidity() && !customValidationFailed && !customValidationFailed2 && customValidationFailed3.innerHTML == '') {
 
         goToOrder2();
 
     } else {
         console.log(totalRooms())
+
 
         // 取得錯誤訊息的 HTML 元素
         var error = document.getElementById('error-response');
@@ -630,6 +640,9 @@ const validation = () => {
                 event.stopPropagation();
             }
 
+
+
+
             if (form) {
                 form.classList.add('was-validated');
             }
@@ -638,9 +651,39 @@ const validation = () => {
 };
 
 
-const isInvalid = () => totalRooms() > selectedAccomodator.value || totalRooms() == 0;
+const isInvalid = () => totalRooms() > selectedAccomodator.value;
 
 const isValid = () => totalRooms() <= selectedAccomodator.value && totalRooms() > 0;
+
+
+//============房間驗證============
+
+const roomValidate = function () {
+    // 获取当前选中的房间数
+    const selectedRoomCount = totalRooms();
+
+    // 获取当前表单元素
+    const form = document.querySelector('.needs-validation');
+
+    // 获取错误信息的 HTML 元素
+    const roomSelectError = form.querySelector('.room-select-error');
+    const roomSelectElement = form.querySelector('#room'); // 通过ID获取<select>
+
+    if (selectedRoomCount == 0) {
+
+        roomSelectError.innerText = '錯誤訊息：請選擇間數。';
+        roomSelectElement.classList.add('is-invalid'); // 添加 is-invalid 类
+
+
+    } else {
+        roomSelectError.innerText = null;
+        roomSelectElement.classList.remove('is-invalid'); // 移除 is-invalid 类
+        roomSelectElement.classList.add('is-valid'); // 添加 is-valid 类
+
+    }
+}
+
+
 
 
 
@@ -779,6 +822,9 @@ async function goToOrder2() {
             totalRooms: totalRooms(),
             //每間房間數
             selectedRooms: selectedRooms.value,
+            //每間房間名稱
+             selectedName :workdetail.houses
+
 
 
         };
@@ -799,7 +845,36 @@ async function goToOrder2() {
 
 
 <style scoped>
+.select-form {
+
+    background-image: none;
+    border: 1px solid #E0E0E0;
+    border-radius: 5px;
+    height: 40px;
+}
+
+input:invalid {
+
+    color: red !important;
+}
+
+.date-error {
+
+    color: red !important;
+
+}
+
+
+.room-select-error {
+
+    color: red !important;
+
+
+}
+
+
 .is-invalid {
+    border: 1px solid red;
     border-color: red !important;
     display: inline-block;
     /* 顯示紅色驚嘆號 */
@@ -807,6 +882,25 @@ async function goToOrder2() {
     /* 設定字型大小，根據需要調整 */
     margin-left: 5px;
     /* 設定圖示和元素之間的間距，根據需要調整 */
+}
+
+.is-valid {
+
+    border-color: green !important;
+    position: relative;
+}
+
+.is-valid::after {
+    font-family: 'Font Awesome 5 Free';
+    /* Font Awesome font family */
+    content: '\f00c';
+    /* Unicode Private Use Area code for checkmark */
+    color: green;
+    position: absolute;
+    right: 10px;
+    /* Adjust the position as needed */
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .has-error {
