@@ -43,18 +43,24 @@
                     <h1 class="text-dark"> 請點擊左側聊天室列表開始聊天 <i class="fa-solid fa-comment-sms"></i></h1>
                 </div>
                 <template v-for="item in messages">
-                    <div v-if="senderID !== item.senderID" class="my-3">
-                        <span
-                            class="shadow-sm p-3 px-3 py-2 m-1 rounded-3 flex-start align-self-start chat-message chat-received animate__animated animate__fadeIn">
-                            {{ item.contents }} </span>
-                        <span class="ms-1 animate__animated animate__fadeIn message-time">{{ item.time }}</span>
+                    <div v-if="senderID !== item.senderID" class="my-3 d-flex">
+                        <div
+                            class="shadow-sm p-3 px-3 py-2 m-1 rounded-3 chat-message chat-received text-break animate__animated animate__fadeIn">
+                            {{ item.contents }} </div>
+                        <div
+                            class="ms-1 mb-2 d-flex flex-column align-self-end animate__animated animate__fadeIn message-time">
+                            {{
+                                item.time }}
+                        </div>
                     </div>
-                    <div v-if="senderID === item.senderID" class="my-3 align-self-end">
-                        <span class="me-1 animate__animated animate__fadeIn message-time">{{ item.time }}</span>
-                        <span
-                            class="shadow-sm p-3 px-3 py-2 m-1 rounded-3 chat-message chat-sent animate__animated animate__fadeIn">
+                    <div v-if="senderID === item.senderID" class="my-3 align-self-end d-flex">
+                        <div
+                            class="me-1 mb-2 d-flex flex-column align-self-end animate__animated animate__fadeIn message-time">
+                            {{ item.time }}</div>
+                        <div
+                            class="shadow-sm p-3 px-3 py-2 m-1 rounded-3 chat-message chat-sent text-break animate__animated animate__fadeIn">
                             {{ item.contents }}
-                        </span>
+                        </div>
                     </div>
                 </template>
             </div>
@@ -310,7 +316,7 @@ async function assignSelectedUser(senderid, recieverid, sendername, recievername
 </style>
 <style>
 .chat-message {
-    max-width: 50%;
+    max-width: 500px;
 }
 
 .chat-received {
