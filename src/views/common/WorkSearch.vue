@@ -53,14 +53,13 @@
                 <div class="col-lg-4 text-end wow animate__animated animate__slideInRight" data-wow-delay="0.1s">
                     <ul class="nav nav-pills d-inline-flex justify-content-end">
                         <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary active" data-bs-toggle="pill"
-                                @click="getWorks('hot')">熱門項目</a>
+                            <a class="btn btn-outline-primary active" data-bs-toggle="pill" @click="getWorks('views','DESC')">熱門項目</a>
                         </li>
                         <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="getWorks('latest')">最新上架</a>
+                            <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="getWorks('createdAt','DESC')">最新上架</a>
                         </li>
                         <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="getWorks('deadline')">即將截止</a>
+                            <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="getWorks('EndDate','ASC')">即將截止</a>
                         </li>
                         <li class="nav-item me-2">
                             <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="getWorksByAttendance">參與人數
@@ -137,13 +136,19 @@ const baseURL = "http://localhost:8080";
 
 // 工作資料載入用的預設參數
 let currentPage = ref(0);
-let sort = 'hot'; // 排序方式
-const pageSize = 6; // 每次載入的數量
+let direction = 'DESC'; // 排序方向
+let property = 'views'; // 排序屬性
+const size = 6; // 每次載入的數量
 const isLoading = ref(false); //避免重複載入
 let isEnd = ref(false);
 let isArrowUp = ref(true);// 排序按紐的箭頭方向
 const isSticky = ref(false); // Sticky Header
 let selectedWorkType = ref(null); // 選擇的工作類型
+let filters = {
+    // "worktype": ["人力"],
+    // "city": ["臺北市"],
+};
+
 
 
 // 生命週期
@@ -174,13 +179,19 @@ const loadWork = async () => {
     try {
         // 模擬載入時間
         // await new Promise(resolve => setTimeout(resolve, 1000));
-        const response = await axios.get(baseURL + "/api/work/getWorks", {
-            params: {
-                page: currentPage.value,
-                size: pageSize,
-                sort: sort,
+        const response = await axios.post(baseURL + "/api/work/getWorks",
+            // 這是請求體
+            filters,
+            // 這是請求參數
+            {
+                params: {
+                    page: currentPage.value,
+                    size: size,
+                    direction: direction,
+                    property: property
+                }
             }
-        });
+        );
         works.value = [...works.value, ...response.data.content];
         // 如果已經無法獲取更多的工作，停止發送請求
         if (response.data.last) isEnd.value = true;
@@ -195,7 +206,7 @@ const loadWork = async () => {
 
 const infiniteScroll = () => {
     if (isLoading.value) return;
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight-200) {
         loadWork();
     }
 };
@@ -206,14 +217,14 @@ const toggleWorkType = (workType) => {
 };
 
 // 依照熱門、最新、屆期更改工作排序
-const getWorks = (sortParam) => {
-    sort = sortParam; // 更新排序方式
+const getWorks = (propertyParam, directionParam) => {
+    property = propertyParam; // 更新排序欄位
+    direction = directionParam; // 更新排序方向
     works.value = []; // 清空工作列表
     currentPage.value = 0; // 重設頁數
     isEnd.value = false; // 重設結束標記
 
-    // // 將頁面滾動到最上方
-    // window.scrollTo(0, 0);
+    window.scrollTo(0, 0); // 將頁面滾動到最上方
 
     loadWork();
 }
@@ -222,14 +233,10 @@ const getWorks = (sortParam) => {
 const getWorksByAttendance = () => {
     isArrowUp.value = !isArrowUp.value;
 
-    works.value = []; // 清空工作列表
-    currentPage.value = 0; // 重設頁數
-    isEnd.value = false; // 重設結束標記
-
     if (isArrowUp.value) {
-        sort = 'attendanceAsc';
+        getWorks('attendance','ASC')
     } else {
-        sort = 'attendanceDesc';
+        getWorks('attendance','DESC')
     }
 
     loadWork(); // 重新載入工作列表
