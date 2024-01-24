@@ -43,7 +43,8 @@
                 <div class="col-lg-4 mx-auto">
                     <ul class="nav d-inline-flex justify-content-end ">
                         <li class="nav-item me-2" v-for="workType in workTypes" :key="workType.workType">
-                            <a class="btn btn-outline-dark" :class="{ 'active': selectedWorkType === workType.workType }"
+                            <a class="btn btn-outline-dark"
+                                :class="{ 'active': filters.worktype.includes(workType.workType) }"
                                 @click="toggleWorkType(workType.workType)">
                                 {{ workType.workType }}
                             </a>
@@ -53,16 +54,19 @@
                 <div class="col-lg-4 text-end wow animate__animated animate__slideInRight" data-wow-delay="0.1s">
                     <ul class="nav nav-pills d-inline-flex justify-content-end">
                         <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary active" data-bs-toggle="pill" @click="getWorks('views','DESC')">熱門項目</a>
+                            <a class="btn btn-outline-primary active" data-bs-toggle="pill"
+                                @click="toggleSorts('views', 'DESC')">熱門項目</a>
                         </li>
                         <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="getWorks('createdAt','DESC')">最新上架</a>
+                            <a class="btn btn-outline-primary" data-bs-toggle="pill"
+                                @click="toggleSorts('createdAt', 'DESC')">最新上架</a>
                         </li>
                         <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="getWorks('EndDate','ASC')">即將截止</a>
+                            <a class="btn btn-outline-primary" data-bs-toggle="pill"
+                                @click="toggleSorts('EndDate', 'ASC')">即將截止</a>
                         </li>
                         <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="getWorksByAttendance">參與人數
+                            <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="toggleSortByAttendance">參與人數
                                 <i class="fa fa-arrow-down" :class="{ 'rotate': isArrowUp }"></i></a>
                         </li>
                     </ul>
@@ -126,7 +130,7 @@
     
 <script setup>
 // 引用函示庫
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, toRaw } from 'vue';
 import axios from 'axios';
 
 // 接收資料
@@ -144,10 +148,10 @@ let isEnd = ref(false);
 let isArrowUp = ref(true);// 排序按紐的箭頭方向
 const isSticky = ref(false); // Sticky Header
 let selectedWorkType = ref(null); // 選擇的工作類型
-let filters = {
-    // "worktype": ["人力"],
-    // "city": ["臺北市"],
-};
+let filters = ref({
+    worktype: [],
+    // 其他過濾條件...
+});
 
 
 
@@ -180,9 +184,9 @@ const loadWork = async () => {
         // 模擬載入時間
         // await new Promise(resolve => setTimeout(resolve, 1000));
         const response = await axios.post(baseURL + "/api/work/getWorks",
-            // 這是請求體
-            filters,
-            // 這是請求參數
+            // request body
+            filters.value,
+            // request params
             {
                 params: {
                     page: currentPage.value,
@@ -204,42 +208,53 @@ const loadWork = async () => {
     }
 };
 
+const reloadWork = async () => {
+    works.value = []; // 清空工作列表
+    currentPage.value = 0; // 重設頁數
+    isEnd.value = false; // 重設結束標記
+    window.scrollTo(0, 0); // 將頁面滾動到最上方
+
+    loadWork();
+}
+
 const infiniteScroll = () => {
     if (isLoading.value) return;
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight-200) {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
         loadWork();
     }
 };
 
 
 const toggleWorkType = (workType) => {
-    selectedWorkType.value = selectedWorkType.value === workType ? null : workType;
+    const index = filters.value.worktype.indexOf(workType);
+    if (index >= 0) {
+        // 如果 workType 已經在 filters.workType 中，移除它
+        filters.value.worktype.splice(index, 1);
+    } else {
+        filters.value.worktype.push(workType);
+    }
+    console.log(toRaw(filters.value));
+
+    reloadWork(); // 重新載入工作列表
 };
 
 // 依照熱門、最新、屆期更改工作排序
-const getWorks = (propertyParam, directionParam) => {
+const toggleSorts = (propertyParam, directionParam) => {
     property = propertyParam; // 更新排序欄位
     direction = directionParam; // 更新排序方向
-    works.value = []; // 清空工作列表
-    currentPage.value = 0; // 重設頁數
-    isEnd.value = false; // 重設結束標記
 
-    window.scrollTo(0, 0); // 將頁面滾動到最上方
-
-    loadWork();
+    reloadWork();
 }
 
 // 依照參加人數排序工作
-const getWorksByAttendance = () => {
+const toggleSortByAttendance = () => {
     isArrowUp.value = !isArrowUp.value;
 
     if (isArrowUp.value) {
-        getWorks('attendance','ASC')
+        toggleSorts('attendance', 'ASC')
     } else {
-        getWorks('attendance','DESC')
+        toggleSorts('attendance', 'DESC')
     }
-
-    loadWork(); // 重新載入工作列表
 }
 
 // 格式化日期為"YYYY/MM/DD"
