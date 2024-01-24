@@ -1,4 +1,5 @@
 <template>
+<<<<<<< Updated upstream
   <div class="container ">
     <form>
       <div v-show="currentPage === 1" class="page1">
@@ -9,6 +10,49 @@
                  aria-label="Basic radio toggle button group">
               <div class="col">
                 <input type="radio" class="btn-check" name="workcontain" id="page1radio1" autocomplete="off">
+=======
+  <form>
+    <div class="container">
+      <div class="step-1">
+        <div class="form-group">
+          <div class="header">
+            <h1>下列哪項最符合工作內容？</h1>
+            <div class="btn-row" style="margin-top: 50px;">
+              <transition name="el-fade-in">
+                <el-button class="page1Btn" v-show="show">
+                  <i class="el-icon" style="width: 4em; height: 4em"></i>人力</el-button>
+              </transition>
+              <transition name="el-fade-in">
+                <el-button class="page1Btn" v-show="show">
+                  <i class="el-icon" style="width: 4em; height: 4em"></i>人力</el-button>
+              </transition>
+              <transition name="el-fade-in">
+                <el-button class="page1Btn" v-show="show">
+                  <i class="el-icon" style="width: 4em; height: 4em"></i>人力</el-button>
+              </transition>
+              <transition name="el-fade-in">
+                <el-button class="page1Btn" v-show="show">
+                  <i class="el-icon" style="width: 4em; height: 4em"></i>人力</el-button>
+              </transition>
+            </div>
+            <div class="btn-row" style="margin-top: 50px;">
+              <transition name="el-fade-in">
+                <el-button class="page1Btn" v-show="show">
+                  <i class="el-icon" style="width: 4em; height: 4em"></i>人力</el-button>
+              </transition>
+              <transition name="el-fade-in">
+                <el-button class="page1Btn" v-show="show">
+                  <i class="el-icon" style="width: 4em; height: 4em"></i>人力</el-button>
+              </transition>
+              <transition name="el-fade-in">
+                <el-button class="page1Btn" v-show="show">
+                  <i class="el-icon" style="width: 4em; height: 4em"></i>人力</el-button>
+              </transition>
+              <transition name="el-fade-in">
+                <el-button class="page1Btn" v-show="show" @click="select">
+                  <i class="el-icon" style="width: 4em; height: 4em"></i>人力</el-button>
+              </transition>
+>>>>>>> Stashed changes
 
                 <label class="btn btn-outline-primary cusbtn" for="page1radio1">
                   <img src="@images/icon-人力.png">人力 </label>
@@ -96,6 +140,10 @@
               </div>
             </div>
           </div>
+<<<<<<< Updated upstream
+=======
+          <el-button @click="show = !show" style=" margin-top: 20px">Next Step</el-button>
+>>>>>>> Stashed changes
         </div>
       </div>
 
@@ -151,6 +199,7 @@
            aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
       </div>
     </div>
+<<<<<<< Updated upstream
     <button type="button" class="btn btn-outline-primary prev col-1 " @click="prev" :disabled="currentPage <= 1">Prev
       Step
     </button>
@@ -159,6 +208,9 @@
     </button>
   </div>
 
+=======
+  </form>
+>>>>>>> Stashed changes
 </template>
 
 <script lang="ts" setup>
@@ -184,10 +236,25 @@ function prev() {
 </script>
 
 <style scoped>
+<<<<<<< Updated upstream
 .container {
   margin: auto;
   height: 70vh;
   width: 70vh;
+=======
+.el-icon {
+  background: url("@images/icon-人力.png");
+  background-size: cover;
+
+
+}
+
+.el-icon:before {
+  border: 2px solid black;
+}
+
+.btn-row {
+>>>>>>> Stashed changes
   display: flex;
   justify-content: center;
   align-content: center;
@@ -195,6 +262,7 @@ function prev() {
   flex-wrap: wrap;
 }
 
+<<<<<<< Updated upstream
 .cusbtn {
   width: 20vh;
   height: 10vh;
@@ -269,3 +337,13 @@ img{
   margin-right: 10px;
 }
 </style>
+=======
+.page1Btn {
+  min-width: 15em;
+  min-height: 8em;
+}
+
+.page1Btn:before {
+  border: 3px solid black;
+}</style>
+>>>>>>> Stashed changes
