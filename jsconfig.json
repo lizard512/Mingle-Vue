@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    // "lib": ["ES6", "DOM"],
-    "paths": {
-      "@/*": ["./src/*"]
-    },
-  },
-  "exclude": ["node_modules", "dist"]
-}
