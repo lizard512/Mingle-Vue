@@ -150,7 +150,7 @@ let direction = 'DESC'; // 排序方向
 let property = 'views'; // 排序屬性
 let isArrowUp = ref(true);// 排序按紐的箭頭方向
 // 篩選相關
-const areaOrder = ['北部區域', '中部區域', '南部區域', '東部區域', '福建省'];
+const areaOrder = ['北部區域', '中部區域', '南部區域', '東部區域', '外島區域'];
 let filters = ref({
     worktype: [],
     city: [''],
