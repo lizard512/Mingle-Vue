@@ -1,7 +1,7 @@
 <template>
     <!-- Navbar Start -->
     <div class="container-fluid nav-bar" :class="{ 'sticky-top': isSticky }">
-        <nav class="navbar bg-primary navbar-expand-xxl navbar-light py-0 px-4">
+        <nav class="navbar navbar-expand-xxl navbar-light py-0 px-4">
             <RouterLink to="/" class="navbar-brand d-flex align-items-center text-center">
                 <div class="icon p-2 me-2">
                     <img class="img-fluid" src="@images/icon-main.png" alt="Icon" style="width: 30px; height: 27px;">
@@ -13,23 +13,23 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto d-flex align-items-center">
-                    <RouterLink class="nav-item nav-link active" to="/">首頁</RouterLink>
-                    <RouterLink class="nav-item nav-link text-dark"  to="#">關於Mingle</RouterLink>
+                    <RouterLink class="nav-item nav-link" to="/">首頁</RouterLink>
+                    <RouterLink class="nav-item nav-link"  to="#">關於Mingle</RouterLink>
                     <div class="nav-item dropdown">
-                        <RouterLink class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" to="#">打工換宿資訊</RouterLink>
+                        <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">打工換宿資訊</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
                             <RouterLink class="dropdown-item" to="/work-search">瀏覽打工項目</RouterLink>
                             <RouterLink class="dropdown-item" to="/map">依地圖檢視</RouterLink>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <RouterLink class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" to="#">論壇日誌</RouterLink>
+                        <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">論壇日誌</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
                             <RouterLink class="dropdown-item" to="#">討論 & 問答</RouterLink>
                             <RouterLink class="dropdown-item" to="#">打工日誌</RouterLink>
                         </div>
                     </div>
-                    <RouterLink class="nav-item nav-link text-dark" to="/contact-Us">聯絡我們</RouterLink>
+                    <RouterLink class="nav-item nav-link" to="/contact-Us">聯絡我們</RouterLink>
                     <template v-if="isLoggedIn">
                         <div v-if="isLandlord" class="nav-item dropdown">
                             <RouterLink class=" btn btn-secondary px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
@@ -70,7 +70,7 @@
                         <p class="m-3">已有帳戶? </p>
                         <RouterLink class="btn btn-dark px-3 me-3" to="/login">登入</RouterLink>
                     </template>
-                    <div class="my-3">
+                    <div class="">
                         <input type="checkbox" class="checkbox" id="checkbox" @click="toggleDarkMode">
                         <label for="checkbox" class="checkbox-label">
                             <i class="fas fa-moon"></i>
@@ -96,10 +96,12 @@ watchEffect(() => {
     const htmlTag = document.documentElement;
     if (darkMode.value) {
         htmlTag.setAttribute('data-bs-theme', 'dark');
+        htmlTag.style.setProperty('--primary', '#d29f05');
         htmlTag.style.setProperty('--light', '#0E2E50');
         htmlTag.style.setProperty('--dark', '#EFFDF5');
     } else {
         htmlTag.removeAttribute('data-bs-theme');
+        htmlTag.style.setProperty('--primary', '#ffc107');
         htmlTag.style.setProperty('--light', '#EFFDF5');
         htmlTag.style.setProperty('--dark', '#0E2E50');
     }
@@ -180,6 +182,7 @@ onBeforeUnmount(() => {
 
 .navbar {
     box-shadow: 0 0 30px rgba(0, 0, 0, .08);
+    background-color: var(--primary);
 }
 
 .navbar .dropdown-toggle::after {
@@ -197,17 +200,16 @@ onBeforeUnmount(() => {
 }
 
 .navbar-light .navbar-nav .nav-link {
-    margin-right: 30px;
-    padding: 25px;
-    color: #FFFFFF;
-    font-size: 15px;
-    text-transform: uppercase;
-    outline: none;
+    color: var(--dark);
+    margin-right: 40px;
+    /* text-transform: uppercase; */
+    border-radius: 5px;
 }
 
 .navbar-light .navbar-nav .nav-link:hover,
 .navbar-light .navbar-nav .nav-link.active {
-    color: var(--secondary);
+    color: var(--dark);
+    background-color: var(--light);
 }
 
 @media (max-width: 1591.98px) {
@@ -224,11 +226,6 @@ onBeforeUnmount(() => {
 
 .navbar-light .navbar-brand {
     height: 75px;
-}
-
-.navbar-light .navbar-nav .nav-link {
-    color: var(--dark);
-    font-weight: 500;
 }
 
 @media (min-width: 1592px) {
