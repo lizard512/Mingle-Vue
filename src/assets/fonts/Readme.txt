@@ -10,5 +10,28 @@ https://justfont.com/huninn/
 https://github.com/max32002/naikaifont
 
 
+引入範例
+<template>
+  <div class="text-Font-Account">
+    此元素使用 'Accounttext' 字體
+  </div>
+</template>
+
+<style scoped>
+/* 字體樣式改變 */
+@font-face {
+    font-family: 'Accounttext';
+    /* src: url('@fonts/ChenYuluoyan-Thin-Monospaced.ttf') format('opentype'); */
+    /* src: url('@fonts/jf-openhuninn-2.0.ttf') format('truetype'); */
+    src: url(https://cdn.jsdelivr.net/gh/max32002/naikaifont@1.0/webfont/NaikaiFont-Regular-Lite.woff2) format("woff2");
+}
+
+.text-Font-Account {
+    font-family: 'Accounttext', sans-serif;
+}
+</style>
+
+
+
 
 

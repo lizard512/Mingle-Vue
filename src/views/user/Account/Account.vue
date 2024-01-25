@@ -47,4 +47,16 @@ const closeShow = () => {
 
 </script>
     
-<style scoped></style>
+<style scoped>
+@font-face {
+    font-family: 'Accounttext';
+    src: url(https://cdn.jsdelivr.net/gh/max32002/naikaifont@1.0/webfont/NaikaiFont-Regular-Lite.woff2) format("woff2");
+    font-weight: 100;
+}
+
+.text-Font-Account {
+    font-family: 'Accounttext', sans-serif;
+    font-size: 5vh;
+    /* 在這裡設定字體大小 */
+}
+</style>
