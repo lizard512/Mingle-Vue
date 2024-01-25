@@ -457,9 +457,6 @@ onActivated(() => {
 
 
 
-
-
-
 const goToOrder3 = function () {
     router.push(
         '/order/order3')

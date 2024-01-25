@@ -19,8 +19,8 @@
 
                                     <div class="d-flex justify-content-between align-items-center mb-5">
                                         <div>
-                                            <h5 class="mb-0"><span
-                                                    class="text-primary font-weight-bold" >訂購日期:{{ orderDate }}</span></h5>
+                                            <h5 class="mb-0"><span class="text-primary font-weight-bold">訂購日期:{{ orderDate
+                                            }}</span></h5>
                                         </div>
 
                                     </div>
@@ -255,14 +255,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="house_type in workdetail.houses" :key="house_type.houseid">
+                                    <tr v-for="house_type in housedetail" :key="house_type.houseid">
                                         <td>
                                             <h6>房號：{{ house_type.houseid }}</h6>
                                             <h6>{{ house_type.houseType }}-{{ house_type.name }}</h6>
                                             <div>地址:{{ house_type.postCode }}{{ house_type.city }}-{{ house_type.address }}
                                             </div>
                                             <div>
-                                                <div >
+                                                <div>
                                                     描述:{{ house_type.description }}
                                                     照片:
                                                 </div>
@@ -724,13 +724,19 @@ const loaduserDetail = async () => {
 
 const workdetail = reactive({})
 
-
+const housedetail = reactive({})
 
 const Work_API_URL = 'http://localhost:8080/order/' + 3;
 
+const WorkHouse_API_URL = 'http://localhost:8080/order/house/' + 3;
+
 const loadworkDetail = async () => {
-    const response = await axios.post(Work_API_URL);
-    Object.assign(workdetail, response.data);
+    const workResponse = await axios.post(Work_API_URL);
+    const workHouseResponse = await axios.get(WorkHouse_API_URL);
+
+    Object.assign(workdetail, workResponse.data);
+    Object.assign(housedetail, workHouseResponse.data);
+
 
     orderDate.value = new Date().toISOString().split('T')[0];
     startDate.value = workdetail.startDate
@@ -739,6 +745,7 @@ const loadworkDetail = async () => {
     minDate.value = workdetail.startDate
     maxDate.value = workdetail.endDate
 
+
     selectedPeriod.value = workdetail.minPeriod
     rangeStart.value = new Date(workdetail.startDate)
     rangeEnd.value = new Date(workdetail.endDate)
@@ -746,7 +753,6 @@ const loadworkDetail = async () => {
     console.log(workdetail)
 
 }
-
 
 
 
@@ -775,7 +781,7 @@ onMounted(async () => {
         updateAccomodatorData();
         await loaduserDetail();
         await loadworkDetail();
-        workdetail.houses.forEach((house_type) => { //初始化房間選取數量
+        housedetail.forEach((house_type) => { //初始化房間選取數量
             selectedRooms.value[house_type.houseid] = 0;
         });
         updateDateRange(selectedPeriod.value);
@@ -837,10 +843,9 @@ async function goToOrder2() {
             totalRooms: totalRooms(),
             //每間房間數
             selectedRooms: selectedRooms.value,
-            //每間房間名稱
-             selectedName :workdetail.houses,
-             //需求
-             needs: needs.value
+
+            //需求
+            needs: needs.value
 
 
 
