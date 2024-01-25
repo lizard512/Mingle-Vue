@@ -30,7 +30,7 @@
                         <p>快來查看正在徵求幫助者的項目！</p>
                     </div>
                 </div>
-                <div class="col-lg-3 mx-auto">
+                <div class="col-lg-2 mx-auto">
                     <select class="form-select w-50" v-model="filters.city[0]" @change="reloadWork()">
                         <option value="">所有縣市</option>
                         <optgroup v-for="(group, area) in groupedCities" :label="area" :key="area">
@@ -41,7 +41,7 @@
                         </optgroup>
                     </select>
                 </div>
-                <div class="col-lg-3 mx-auto">
+                <div class="col-lg-4 mx-auto">
                     <ul class="nav d-inline-flex justify-content-end ">
                         <li class="nav-item me-2 bg-white" v-for="worktypeID in worktypeIDs" :key="worktypeID.worktypeID">
                             <a class="btn btn-outline-dark"
@@ -55,19 +55,19 @@
                 <div class="col-lg-3 text-end wow animate__animated animate__slideInRight" data-wow-delay="0.1s">
                     <ul class="nav nav-pills d-inline-flex justify-content-end">
                         <li class="nav-item me-2 bg-white">
-                            <a class="btn btn-outline-secondary active" data-bs-toggle="pill"
+                            <a class="btn btn-outline-danger active" data-bs-toggle="pill"
                                 @click="toggleSorts('views', 'DESC')">熱門項目</a>
                         </li>
                         <li class="nav-item me-2 bg-white">
-                            <a class="btn btn-outline-secondary" data-bs-toggle="pill"
+                            <a class="btn btn-outline-danger" data-bs-toggle="pill"
                                 @click="toggleSorts('createdAt', 'DESC')">最新上架</a>
                         </li>
                         <li class="nav-item me-2 bg-white">
-                            <a class="btn btn-outline-secondary" data-bs-toggle="pill"
+                            <a class="btn btn-outline-danger" data-bs-toggle="pill"
                                 @click="toggleSorts('EndDate', 'ASC')">即將截止</a>
                         </li>
                         <li class="nav-item me-2 bg-white">
-                            <a class="btn btn-outline-secondary" data-bs-toggle="pill" @click="toggleSortByAttendance">參與人數
+                            <a class="btn btn-outline-danger" data-bs-toggle="pill" @click="toggleSortByAttendance">參與人數
                                 <i class="fa fa-arrow-down" :class="{ 'rotate': isArrowUp }"></i></a>
                         </li>
                     </ul>
@@ -301,6 +301,36 @@ const checkSticky = () => {
 <style scoped>
 .work-search {
     height: 100vh;
+}
+
+
+.nav-pills .nav-item .btn {
+    color: var(--dark);
+}
+
+.nav-pills .nav-item .btn:hover,
+.nav-pills .nav-item .btn.active {
+    color: #FFFFFF;
+}
+
+.list-item {
+    box-shadow: 0 0 30px rgba(0, 0, 0, .08);
+}
+
+.list-item img {
+    transition: .5s;
+}
+
+.list-item:hover img {
+    transform: scale(1.1);
+}
+
+.list-item .border-top {
+    border-top: 1px dashed rgba(0, 185, 142, .3) !important;
+}
+
+.list-item .border-end {
+    border-right: 1px dashed rgba(0, 185, 142, .3) !important;
 }
 
 .fa-arrow-down {
