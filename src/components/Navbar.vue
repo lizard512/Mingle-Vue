@@ -14,22 +14,22 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto d-flex align-items-center">
                     <RouterLink class="nav-item nav-link active" to="/">首頁</RouterLink>
-                    <RouterLink class="nav-item nav-link" to="#">關於Mingle</RouterLink>
+                    <RouterLink class="nav-item nav-link text-dark"  to="#">關於Mingle</RouterLink>
                     <div class="nav-item dropdown">
-                        <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">打工換宿資訊</RouterLink>
+                        <RouterLink class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" to="#">打工換宿資訊</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
                             <RouterLink class="dropdown-item" to="/work-search">瀏覽打工項目</RouterLink>
                             <RouterLink class="dropdown-item" to="/map">依地圖檢視</RouterLink>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">論壇日誌</RouterLink>
+                        <RouterLink class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" to="#">論壇日誌</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
                             <RouterLink class="dropdown-item" to="#">討論 & 問答</RouterLink>
                             <RouterLink class="dropdown-item" to="#">打工日誌</RouterLink>
                         </div>
                     </div>
-                    <RouterLink class="nav-item nav-link" to="/contact-Us">聯絡我們</RouterLink>
+                    <RouterLink class="nav-item nav-link text-dark" to="/contact-Us">聯絡我們</RouterLink>
                     <template v-if="isLoggedIn">
                         <div v-if="isLandlord" class="nav-item dropdown">
                             <RouterLink class=" btn btn-secondary px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
