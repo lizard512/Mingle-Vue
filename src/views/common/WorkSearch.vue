@@ -82,7 +82,7 @@
                                     {{ work.city }}</div>
                             </div>
                             <div class="p-4 pb-0">
-                                <a class="d-block h5 mb-2" href="">{{ work.name }}</a>
+                                <p class="text-truncate h5" href="">{{ work.name }}</p>
                                 <p class="text-truncate"><i class="fa fa-map-marker me-2"></i>{{
                                     work.address }}</p>
                                 <!-- <p>{{ work.description }}</p> -->
