@@ -36,7 +36,7 @@
           <td>{{ house.houseid }}</td>
           <td>{{ house.lordid }}</td>
           <td>
-            <button type="button" class="btn btn-light update" @click="openUpdateModal(house.houseId)">修改</button>
+            <button type="button" class="btn btn-light update" @click="openUpdateModal(house.houseid)">修改</button>
             <button type="button" class="btn btn-danger delete" @click="confirmDelete(house.houseid)">刪除</button>
           </td>
           <td>{{ house.houseType }}</td>
@@ -75,18 +75,18 @@
             <form @submit.prevent="handleUpdateSubmit">
               <!-- Add your form fields for updating specific house data -->
               <p style="text-align: left; font-weight: bold;">更新房屋:</p>
-              <input v-model="updateFormData.houseid" type="hidden">
+              <input v-model="updateFormData.houseid" type="hidden">  
               <div class="mb-3 row">
                 <label for="name" class="col-sm-2 col-form-label">名稱:</label>
                 <div class="col-sm-10">
-                  <input v-model="updateFormData.name" type="text" class="form-control" id="name" placeholder="名稱">
+                  <input v-model="updateFormData.name" type="text" class="form-control" id="name">
                 </div>
               </div>
 
               <div class="mb-3 row">
                 <label for="description" class="col-sm-2 col-form-label">描述:</label>
                 <div class="col-sm-10">
-                  <textarea v-model="updateFormData.description" class="form-control" id="description" placeholder="描述"
+                  <textarea v-model="updateFormData.description" class="form-control" id="description"
                     rows="3"></textarea>
                 </div>
               </div>
@@ -94,68 +94,63 @@
               <div class="mb-3 row">
                 <label for="address" class="col-sm-2 col-form-label">地址:</label>
                 <div class="col-sm-10">
-                  <input v-model="updateFormData.address" type="text" class="form-control" id="address" placeholder="地址">
+                  <input v-model="updateFormData.address" type="text" class="form-control" id="address">
                 </div>
               </div>
 
               <div class="mb-3 row">
                 <label for="postCode" class="col-sm-2 col-form-label">郵遞區號:</label>
                 <div class="col-sm-10">
-                  <input v-model="updateFormData.postCode" type="text" class="form-control" id="postCode"
-                    placeholder="郵遞區號">
+                  <input v-model="updateFormData.postCode" type="text" class="form-control" id="postCode">
                 </div>
               </div>
 
               <div class="mb-3 row">
                 <label for="beds" class="col-sm-2 col-form-label">床位:</label>
                 <div class="col-sm-10">
-                  <input v-model="updateFormData.beds" type="text" class="form-control" id="beds" placeholder="床位">
+                  <input v-model="updateFormData.beds" type="text" class="form-control" id="beds">
                 </div>
               </div>
 
               <div class="mb-3 row">
                 <label for="notes" class="col-sm-2 col-form-label">備註:</label>
                 <div class="col-sm-10">
-                  <input v-model="updateFormData.notes" type="text" class="form-control" id="notes" placeholder="備註">
+                  <input v-model="updateFormData.notes" type="text" class="form-control" id="notes">
                 </div>
               </div>
 
               <div class="mb-3 row">
                 <label for="hasWifi" class="col-sm-2 col-form-label">有Wifi:</label>
                 <div class="col-sm-10">
-                  <input v-model="updateFormData.hasWifi" type="text" class="form-control" id="hasWifi"
-                    placeholder="有Wifi">
+                  <input v-model="updateFormData.hasWifi" type="text" class="form-control" id="hasWifi">
                 </div>
               </div>
 
               <div class="mb-3 row">
                 <label for="hasTV" class="col-sm-2 col-form-label">有TV:</label>
                 <div class="col-sm-10">
-                  <input v-model="updateFormData.hasTV" type="text" class="form-control" id="hasTV" placeholder="有TV">
+                  <input v-model="updateFormData.hasTV" type="text" class="form-control" id="hasTV">
                 </div>
               </div>
 
               <div class="mb-3 row">
                 <label for="hasKitchen" class="col-sm-2 col-form-label">有廚房:</label>
                 <div class="col-sm-10">
-                  <input v-model="updateFormData.hasKitchen" type="text" class="form-control" id="hasKitchen"
-                    placeholder="有廚房">
+                  <input v-model="updateFormData.hasKitchen" type="text" class="form-control" id="hasKitchen">
                 </div>
               </div>
 
               <div class="mb-3 row">
                 <label for="hasLaundry" class="col-sm-2 col-form-label">有洗衣機:</label>
                 <div class="col-sm-10">
-                  <input v-model="updateFormData.hasLaundry" type="text" class="form-control" id="hasLaundry"
-                    placeholder="有洗衣機">
+                  <input v-model="updateFormData.hasLaundry" type="text" class="form-control" id="hasLaundry">
                 </div>
               </div>
 
               <div class="mb-3 row">
                 <label for="hasParkingLot" class="col-sm-2 col-form-label">有停車位:</label>
                 <div class="col-sm-10">
-                  <input v-model="updateFormData.hasParkingLot" type="text" class="form-control" id="hasParkingLot"
-                    placeholder="有停車位">
+                  <input v-model="updateFormData.hasParkingLot" type="text" class="form-control" id="hasParkingLot">
                 </div>
               </div>
 
@@ -163,15 +158,28 @@
                 <label for="hasAirconditioner" class="col-sm-2 col-form-label">有冷氣:</label>
                 <div class="col-sm-10">
                   <input v-model="updateFormData.hasAirconditioner" type="text" class="form-control"
-                    id="hasAirconditioner" placeholder="有冷氣">
+                    id="hasAirconditioner">
                 </div>
               </div>
 
               <div class="mb-3 row">
                 <label for="hasPersonalSpace" class="col-sm-2 col-form-label">有私人空間:</label>
                 <div class="col-sm-10">
-                  <input v-model="updateFormData.hasPersonalSpace" type="text" class="form-control" id="hasPersonalSpace"
-                    placeholder="有私人空間">
+                  <input v-model="updateFormData.hasPersonalSpace" type="text" class="form-control" id="hasPersonalSpace">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasPool" class="col-sm-2 col-form-label">有游泳池:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasPool" type="text" class="form-control" id="hasPool">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasGym" class="col-sm-2 col-form-label">有健身房:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasGym" type="text" class="form-control" id="hasGym">
                 </div>
               </div>
               <br>
@@ -188,7 +196,7 @@
 <script setup>
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, toRefs } from 'vue';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
@@ -196,7 +204,7 @@ const houses = ref([]);
 const isUpdateModalVisible = ref(false);
 
 const fetchHouses = () => {
-  fetch('http://localhost:8080/api/house/findAll')
+  fetch('http://192.168.74.123:8080/api/house/findAll')
     .then((response) => response.json())
     .then((data) => {
       houses.value = data;
@@ -232,18 +240,38 @@ const updateFormData = ref({
   houseid: null,
   lordid: '',
   houseType: '',
+  name: ''
   // Add other properties
 });
 
-const openUpdateModal = (houseId) => {
+const openUpdateModal =async (houseId) => {
   // Find the specific house data using houseId
-  const houseToUpdate = houses.value.find(house => house.houseId === houseId);
-
+  const houseToUpdate  =await houses.value.find(house => house.houseid === houseId);
   // Set the values in the updateFormData
-  updateFormData.houseid = houseToUpdate.houseId;
-  updateFormData.lordid = houseToUpdate.lordid;
-  updateFormData.houseType = houseToUpdate.houseType;
-  // Set other properties
+  console.log(houses.value)
+  updateFormData.value.houseid = houseToUpdate.houseid;
+  // updateFormData.lordid = houseToUpdate.lordid;
+  // updateFormData.houseType = houseToUpdate.housType;
+  // updateFormData.city = houseToUpdate.city;
+  updateFormData.value.name = houseToUpdate.name;
+  // updateFormData.description = houseToUpdate.description;
+  // updateFormData.address = houseToUpdate.address;
+  // updateFormData.postCode = houseToUpdate.postCode;
+  // updateFormData.beds = houseToUpdate.beds;
+  // // updateFormData.status = houseToUpdate.status;
+  // updateFormData.notes = houseToUpdate.notes;
+  // updateFormData.hasWifi = houseToUpdate.hasWifi;
+  // updateFormData.hasTV = houseToUpdate.hasTV;
+  // updateFormData.hasKitchen = houseToUpdate.hasKitchen;
+  // updateFormData.hasLaundry = houseToUpdate.hasLaundry;
+  // updateFormData.hasParkingLot = houseToUpdate.hasParkingLot;
+  // updateFormData.hasAirconditioner = houseToUpdate.hasAirconditioner;
+  // updateFormData.hasPersonalSpace = houseToUpdate.hasPersonalSpace;
+  // updateFormData.hasPool = houseToUpdate.hasPool;
+  // updateFormData.hasGym = houseToUpdate.hasGym;
+  // updateFormData.createdAt = houseToUpdate.createdAt;
+  // updateFormData.updatedAt = getDate();
+  // updateFormData.isDeleted = houseToUpdate.isDeleted;
 
   isUpdateModalVisible.value = true;
 };
@@ -327,4 +355,5 @@ table td {
 .modal {
   z-index: 1050;
   /* or a higher value */
-}</style>
+}
+</style>

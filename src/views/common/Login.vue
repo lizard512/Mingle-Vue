@@ -76,7 +76,7 @@ function checkPassword() {
 }
 
 function gotGoogleLoginPage() {
-    window.location.href = "http://localhost:8080/google-login";
+    window.location.href = "http://192.168.74.123:8080/google-login";
 }
 
 let userid = ref('');
@@ -103,7 +103,7 @@ const login = function () {
         userid: userid.value,
         password: password.value,
     }
-    axios.post("http://localhost:8080/login.controller", request)
+    axios.post("http://192.168.74.123:8080/login.controller", request)
         .then(function (response) {
             console.log(response);
 
