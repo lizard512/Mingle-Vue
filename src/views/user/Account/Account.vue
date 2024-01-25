@@ -6,7 +6,7 @@
         <ANavbar @xyzClick="clickHandler"></ANavbar>
 
         <!-- right Start -->
-        <div class="col-10 md-right">
+        <div class="col-9">
             <Account1 v-show="isShowAccount"></Account1>
             <introduction v-show="isShowIntroduction"></introduction>
             <LikeWork v-show="isShowLikeWork"></LikeWork>
@@ -56,7 +56,7 @@ const closeShow = () => {
 
 .text-Font-Account {
     font-family: 'Accounttext', sans-serif;
-    font-size: 5vh;
+    font-size: 3vh;
     /* 在這裡設定字體大小 */
 }
 </style>
