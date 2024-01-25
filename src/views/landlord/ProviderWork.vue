@@ -1,90 +1,89 @@
 <template>
   <div class="container ">
-    <form>
-      <div v-show="currentPage === 1" class="page1">
+
+    <form class="novalidate">
+      <div v-show="currentPage === 1" class="page1" id="page">
         <div style="font-size: large" class="animate__animated animate__fadeInDown">
           <div>
             <div class="row row-cols-3 gx-0 gy-3 justify-content-around" style="" role="group"
                  aria-label="Basic radio toggle button group">
             </div>
           </div>
-        </div>
-        <div class="py-5">
-          <div class="container">
-            <div class="col-md-12">
-              <h1>下列哪項最符合工作內容？</h1>
-            </div>
-            <div class="row">
-              <div class="col-md-4" style="">
-                <div class="col">
-                  <input type="radio" class="btn-check" name="workcontain" id="page1radio1" autocomplete="off">
-                  <label class="btn btn-outline-primary cusbtn" for="page1radio1">
-                    <img src="@images/icon-人力.png">人力 </label>
+
+          <div class="py-5">
+            <div class="container">
+              <div class="col-md-12">
+                <h1>下列哪項最符合工作內容？</h1>
+              </div>
+              <div class="row">
+                <div class="col-md-4" style="">
+                  <div class="col">
+                    <input type="radio" class="btn-check" name="workcontain" id="page1radio1" autocomplete="off">
+                    <label class="btn btn-outline-primary cusbtn" for="page1radio1">
+                      <img src="@images/icon-人力.png">人力 </label>
+                  </div>
+                </div>
+                <div class="col-md-4" style="">
+                  <div class="col">
+                    <input type="radio" class="btn-check" name="workcontain" id="page1radio2" autocomplete="off">
+                    <label class="btn btn-outline-primary cusbtn" for="page1radio2">
+                      <img src="@images/icon-旅店.png">旅店</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="col">
+                    <input type="radio" class="btn-check" name="workcontain" id="page1radio3" autocomplete="off">
+                    <label class="btn btn-outline-primary cusbtn" for="page1radio3">
+                      <img src="@images/icon-活動.png">活動</label>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-4" style="">
-                <div class="col">
-                  <input type="radio" class="btn-check" name="workcontain" id="page1radio2" autocomplete="off">
-                  <label class="btn btn-outline-primary cusbtn" for="page1radio2">
-                    <img src="@images/icon-旅店.png">旅店</label>
+              <div class="row">
+                <div class="col-md-4" style="">
+                  <div class="col">
+                    <input type="radio" class="btn-check" name="workcontain" id="page1radio4" autocomplete="off">
+                    <label class="btn btn-outline-primary cusbtn" for="page1radio4">
+                      <img src="@images/icon-銷售.png">銷售</label>
+                  </div>
+                </div>
+                <div class="col-md-4" style="">
+                  <div class="col">
+                    <input type="radio" class="btn-check" name="workcontain" id="page1radio5" autocomplete="off">
+                    <label class="btn btn-outline-primary cusbtn" for="page1radio5">
+                      <img src="@images/icon-辦公.png">辦公</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="col">
+                    <input type="radio" class="btn-check" name="workcontain" id="page1radio6" autocomplete="off">
+                    <label class="btn btn-outline-primary cusbtn" for="page1radio6">
+                      <img src="@images/icon-餐飲.png">餐飲</label>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="col">
-                  <input type="radio" class="btn-check" name="workcontain" id="page1radio3" autocomplete="off">
-                  <label class="btn btn-outline-primary cusbtn" for="page1radio3">
-                    <img src="@images/icon-活動.png">活動</label>
+              <div class="row col-12">
+                <div class="col" style="">
+                  <div class="col-4">
+                    <input type="radio" class="btn-check" name="workcontain" id="page1radio8" autocomplete="off">
+                    <label class="btn cusbtn" for="page1radio8">
+                      <img src="@images/icon-補教.png">補教</label>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4" style="">
-                <div class="col">
-                  <input type="radio" class="btn-check" name="workcontain" id="page1radio4" autocomplete="off">
-                  <label class="btn btn-outline-primary cusbtn" for="page1radio4">
-                    <img src="@images/icon-銷售.png">銷售</label>
+                <div class="col" style="">
+                  <div class="col-4">
+                    <input type="radio" class="btn-check" name="workcontain" id="page1radio7" autocomplete="off">
+                    <label class="btn btn-outline-primary cusbtn" for="page1radio7">
+                      <img src="@images/icon-其他.png">其他</label>
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-4" style="">
-                <div class="col">
-                  <input type="radio" class="btn-check" name="workcontain" id="page1radio5" autocomplete="off">
-                  <label class="btn btn-outline-primary cusbtn" for="page1radio5">
-                    <img src="@images/icon-辦公.png">辦公</label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="col">
-                  <input type="radio" class="btn-check" name="workcontain" id="page1radio6" autocomplete="off">
-                  <label class="btn btn-outline-primary cusbtn" for="page1radio6">
-                    <img src="@images/icon-餐飲.png">餐飲</label>
-                </div>
-              </div>
-            </div>
-            <div class="row col-12">
-              <div class="col" style="">
-                <div class="col-4">
-                  <input type="radio" class="btn-check" name="workcontain" id="page1radio7" autocomplete="off">
-                  <label class="btn btn-outline-primary cusbtn" for="page1radio7">
-                    <img src="@images/icon-其他.png">其他</label>
-                </div>
-              </div>
-              <div class="col" style="">
-                <div class="col-4">
-                  <input type="radio" class="btn-check" name="workcontain" id="page1radio8" autocomplete="off">
-                  <label class="btn cusbtn" for="page1radio8">
-                    <img src="@images/icon-活動.png">活動</label>
-                </div>
-              </div>
-              <div class="col" style="">
-                <div class="col-4">
+                <div class="col" style="">
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div ref="node">{{ currentPage }}</div>
       </div>
-      <div v-show="currentPage === 2" class="page2">
+      <div v-show="currentPage === 2" class="page2" id="page">
         <div style="font-size: large" class="animate__animated animate__fadeInDown">
           <div class="row">
             <div class="col">
@@ -93,25 +92,50 @@
             <div>
               <div class="col">
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="floatingInput" placeholder="">
+                  <input type="text" class="form-control" id="floatingInput" placeholder="" >
                   <label for="floatingInput">工作名稱 :</label>
+
                 </div>
               </div>
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="">
-                <label for="floatingInput">縣市：</label>
-              </div>
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="">
-                <label for="floatingInput">地址：</label>
+              <div class="row g-2">
+                <div class="form-floating mb-3 col-3">
+                  <el-cascader
+                      size="large"
+                      placeholder="市/區"
+                      v-model="addressValue"
+                      :options="addressOptions"
+                      :props="addressProps"
+                      @change="addressChange"
+                  />
+                </div>
+                <div class="form-floating mb-3 col-md">
+                  <input type="text" class="form-control" id="floatingInput" placeholder="">
+                  <label for="floatingInput">地址：</label>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div v-show="currentPage === 3" class="page3">
+      <div v-show="currentPage === 3" class="page3" id="page">
         <div style="font-size: large" class="animate__animated animate__fadeInDown">
           <h1>太棒了！告訴我們詳細資訊吧！</h1>
+          <div class="row g-2">
+            <div class="demo-date-picker">
+              <div class="block">
+                <span class="demonstration">開放時間：</span>
+                <el-date-picker
+                    v-model="dateValue1"
+                    type="daterange"
+                    range-separator="到"
+                    start-placeholder="開始時間"
+                    end-placeholder="結束時間"
+                    format="YYYY-MM-DD"
+                    value-format="YYYY-MM-DD"
+                />
+              </div>
+            </div>
+          </div>
           <div class="row g-2">
             <div class="form-floating col">
               <input type="text" class="form-control" id="floatingInput" placeholder="workHour">
@@ -158,9 +182,15 @@
               <label for="floatingSelectGrid">教育程度</label>
             </div>
           </div>
+
+          <div class="form-floating col">
+            <input type="text" class="form-control" id="floatingInput" placeholder="minDay">
+            <label for="floatingInput">可接受語言 :</label>
+          </div>
         </div>
       </div>
-      <div v-show="currentPage === 4" class="page4">
+      <div v-show="currentPage === 4" class="page4" id="page">
+
         <div style="width: 40rem; font-size: large" class="animate__animated animate__fadeInDown">
           <h1>太酷了！讓使用者更容易找到你！</h1>
           <el-upload
@@ -170,6 +200,7 @@
               :on-preview="handlePictureCardPreview"
               :on-remove="handleRemove"
               :data="getToken()"
+              :headers="upload.headers"
               accept=".jpg,.jpeg,.webp,.png"
               :limit="6"
               :multiple="true"
@@ -181,11 +212,11 @@
               <Plus/>
             </el-icon>
           </el-upload>
-          <div class="el-upload__tip" slot="tip">只能上傳jpg/jpeg/webp/png格式的圖片</div>
+          <div class="el-upload__tip" slot="tip">只能上傳jpg/jpeg/webp/png格式的圖片<br>且檔案應小於50MB</div>
         </div>
 
         <el-dialog v-model="dialogVisible"
-        width="30%">
+                   width="30%">
           <img width="100%" :src="dialogImager">
         </el-dialog>
       </div>
@@ -202,19 +233,20 @@
     <button type="button" class="btn btn-outline-primary prev col-1 " @click="prev" :disabled="currentPage <= 1">Prev
       Step
     </button>
-    <button type="button" class="btn btn-outline-primary next col-1 " @click="next" :disabled="currentPage > 4">Next
+    <button type="button" class="btn btn-outline-primary next col-1 " v-show="currentPage != 4" @click="next" :disabled="currentPage > 4">Next
       Step
+    </button>
+    <button type="button" class="btn btn-outline-primary next col-1 " v-show="currentPage == 4" @click="">送出
     </button>
   </div>
 
 </template>
 
 <script lang="ts" setup>
-import {ref} from 'vue'
+import {reactive, ref} from 'vue'
 import {Plus} from '@element-plus/icons-vue'
-import {ElMessage, UploadProps, UploadUserFile} from "element-plus";
+import {UploadProps, UploadUserFile} from "element-plus";
 import Swal from "sweetalert2";
-
 const age = ['不拘', '青壯年', '壯年', '老年']
 const gender = ['男', '女', '不限制']
 const education = ['國小', '國中', '高中職', '學士', '碩士', '博士']
@@ -222,43 +254,40 @@ let maxValue = 100 / 4;
 let barValue = 0;
 let currentPage = ref(1);
 
-
+const dateValue1 = ref('')
 const fl = ref<UploadUserFile[]>([])
-
 const dialogImager = ref('')
 const dialogVisible = ref(false)
 
+
+
 const handleChange: UploadProps['onChange'] = (file, fl) => {
-  const size = file.size < 200000 ;
+  const size = file.size < 50 * 1024 * 1024;
   console.log(size)
   if (!size) {
-    ElMessage({
-      showClose: true,
-      message: 'This is a message.',
-    })
-
     Swal.mixin({
-      toast:true,
-      position: "top-right",
-      customClass: {
-        container: 'my-swal'
-      },
-      showConfirmButton:false,
+      toast: true,
+      position: 'bottom-end',
+      showConfirmButton: false,
       timer: 3000,
-      timerProgressBar:true,
+      padding: 10,
+      width: 310,
+      timerProgressBar: true,
       didOpen: (toast) => {
         toast.onmouseenter = Swal.stopTimer;
         toast.onmouseleave = Swal.resumeTimer;
+        toast.style.bottom = '120px';
       }
     }).fire({
       icon: "error",
       title: "檔案大小不能超過50MB!"
     })
     console.log(size)
-    fl.splice(-1,1);
+    fl.splice(-1, 1);
   }
   return size
 }
+
 
 const handleRemove: UploadProps['onRemove'] = (uploadFile, fl) => {
   console.log(uploadFile, fl)
@@ -284,20 +313,44 @@ function prev() {
 }
 
 function getToken() {
-  console.log(localStorage.getItem('sessionToken'))
-  return {"sessionToken":localStorage.getItem("sessionToken")}
+  return {"sessionToken": localStorage.getItem("sessionToken")}
 }
+
+const upload = reactive({
+  open: false,
+  title: '',
+  headers: {'sessionToken': getToken()},
+})
+
+const addressChange = (value) => {
+  console.log(value)
+}
+
+const addressProps = {
+  expandTrigger: 'hover' as const,
+}
+
+const addressValue = ref([])
+
+import original from "@Alladdress/Address.json"
+
+const addressOptions = original.map(city => ({
+  value: city.name,
+  label: city.name,
+  children: city.districts.map(district => ({
+    value: district.name,
+    label: district.name,
+  })),
+}));
+
+
 
 </script>
 
-<style scoped>
-.my-swal {
-  z-index: 100000000000 !important;
-}
 
-.swal2-container > div {
-  margin: 80px;
-}
+<style scoped>
+
+
 .container {
   margin: auto;
   height: 70vh;
@@ -376,5 +429,35 @@ function getToken() {
 
 h1 {
 
+}
+
+:deep(.el-input--large) {
+  height: calc(3.5rem + calc(var(--bs-border-width) * 2));
+}
+
+
+.demo-date-picker {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.demo-date-picker .block {
+  padding: 15px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color);
+  flex: 1;
+}
+
+.demo-date-picker .block:last-child {
+  border-right: none;
+}
+
+.demo-date-picker .demonstration {
+  display: block;
+  color: var(--bs-body-color);
+  font-size: 23px;
+  margin-bottom: 10px;
 }
 </style>

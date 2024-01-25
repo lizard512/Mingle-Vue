@@ -1,84 +1,76 @@
 <template>
     <div class="vh-100">
-
-        <!-- <div class="container-fluid bg-light py-4" :class="{ 'sticky-header': isSticky }">
-            <div class="container">
-                <div class="row g-4">
-                    <div class="col-md-10">
-                        <div class="row g-4">
-                            <div class="col-md-4">
-                                <input type="text" class="form-control border-0 py-3" placeholder="用關鍵字查詢">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-dark border-0 w-100 py-3">開始搜尋</button>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-
-
         <div class="container-fluid">
             <!--Search Header Start-->
             <div class="row g-4 align-items-center py-3 bg-light-var" :class="{ 'sticky-header': isSticky }">
-                <div class="col-lg-3">
-                    <div class="text-start mx-auto wow animate__animated animate__slideInLeft inline-flex"
-                        data-wow-delay="0.1s">
-                        <h1 class="me-3">打工機會</h1>
-                        <p>快來查看正在徵求幫助者的項目！</p>
+                <div class="col-lg-5">
+                    <div class="row">
+                        <div class="col-xxl-6 col-lg-12">
+                            <div class="text-start mx-auto wow animate__animated animate__slideInLeft inline-flex"
+                                data-wow-delay="0.1s">
+                                <h2 class="mx-3">打工機會</h2>
+                                <p >正在徵求幫助者的項目！</p>
+                            </div>
+                        </div>
+                        <div class="col-xxl-6 col-lg-12 mx-auto d-inline-flex animate__animated animate__slideInDown"
+                            data-wow-delay="0.1s">
+                            <select class="form-select w-50 me-3" v-model="filters.city[0]" @change="reloadWork()">
+                                <option value="">所有縣市</option>
+                                <optgroup v-for="(group, area) in groupedCities" :label="area" :key="area">
+                                    <option v-for="city in group" :value="city.city" :key="city.city">
+                                        {{ city.city }}
+                                    </option>
+                                    <option :value="area">所有{{ area.substring(0, 2) }}縣市</option>
+                                </optgroup>
+                            </select>
+                            <input type="text" class="form-control w-50" placeholder="用關鍵字查詢">
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-2 mx-auto animate__animated animate__slideInDown" data-wow-delay="0.1s">
-                    <select class="form-select w-50" v-model="filters.city[0]" @change="reloadWork()">
-                        <option value="">所有縣市</option>
-                        <optgroup v-for="(group, area) in groupedCities" :label="area" :key="area">
-                            <option v-for="city in group" :value="city.city" :key="city.city">
-                                {{ city.city }}
-                            </option>
-                            <option :value="area">所有{{ area.substring(0,2) }}縣市</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <div class="col-lg-4 mx-auto animate__animated animate__slideInDown" data-wow-delay="0.1s">
-                    <ul class="nav nav-pills d-inline-flex justify-content-end">
-                        <li class="nav-item me-2" v-for="worktypeID in worktypeIDs" :key="worktypeID.worktypeID">
-                            <a class="btn btn-outline-info text-dark-var"
-                                :class="{ 'active': filters.worktype.includes(worktypeID.worktypeID) }"
-                                @click="toggleWorkType(worktypeID.worktypeID)">
-                                {{ worktypeID.worktypeID }}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 text-end wow animate__animated animate__slideInRight" data-wow-delay="0.1s">
-                    <ul class="nav nav-pills d-inline-flex justify-content-end">
-                        <li class="nav-item me-2">
-                            <a class="btn btn-outline-warning active" data-bs-toggle="pill"
-                                @click="toggleSorts('views', 'DESC')">熱門項目</a>
-                        </li>
-                        <li class="nav-item me-2">
-                            <a class="btn btn-outline-warning" data-bs-toggle="pill"
-                                @click="toggleSorts('createdAt', 'DESC')">最新上架</a>
-                        </li>
-                        <li class="nav-item me-2">
-                            <a class="btn btn-outline-warning" data-bs-toggle="pill"
-                                @click="toggleSorts('EndDate', 'ASC')">即將截止</a>
-                        </li>
-                        <li class="nav-item me-2">
-                            <a class="btn btn-outline-warning" data-bs-toggle="pill" @click="toggleSortByAttendance">參與人數
-                                <i class="fa fa-arrow-down text-primary" :class="{ 'rotate': isArrowUp }"></i></a>
-                        </li>
-                    </ul>
+                <div class="col-lg-7">
+                    <div class="row">
+                        <div class="col-xxl-7 col-lg-12 mx-auto animate__animated animate__slideInDown" data-wow-delay="0.1s">
+                            <ul class="nav nav-pills justify-content-end">
+                                <li class="nav-item m-1" v-for="worktypeID in worktypeIDs" :key="worktypeID.worktypeID">
+                                    <a class="btn btn-outline-info"
+                                        :class="{ 'active': filters.worktype.includes(worktypeID.worktypeID) }"
+                                        @click="toggleWorkType(worktypeID.worktypeID)">
+                                        {{ worktypeID.worktypeID }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-xxl-5 col-lg-12 text-end wow animate__animated animate__slideInRight"
+                            data-wow-delay="0.1s">
+                            <ul class="nav nav-pills justify-content-end">
+                                <li class="nav-item m-1">
+                                    <a class="btn btn-outline-warning active" data-bs-toggle="pill"
+                                        @click="toggleSorts('views', 'DESC')">熱門項目</a>
+                                </li>
+                                <li class="nav-item m-1">
+                                    <a class="btn btn-outline-warning" data-bs-toggle="pill"
+                                        @click="toggleSorts('createdAt', 'DESC')">最新上架</a>
+                                </li>
+                                <li class="nav-item m-1">
+                                    <a class="btn btn-outline-warning" data-bs-toggle="pill"
+                                        @click="toggleSorts('EndDate', 'ASC')">即將截止</a>
+                                </li>
+                                <li class="nav-item m-1">
+                                    <a class="btn btn-outline-warning" data-bs-toggle="pill"
+                                        @click="toggleSortByAttendance">參與人數
+                                        <i class="fa fa-arrow-down text-primary" :class="{ 'rotate': isArrowUp }"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!--Search Header End-->
             <!--Work Card Start-->
             <div class="container-fluid px-5 pt-3">
                 <div class="row g-4">
-                    <div class="col-xl-2 col-lg-3 col-md-6 animate__animated animate__fadeIn work-card" v-for="work in works"
-                        :key="work.workid">
+                    <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6 animate__animated animate__fadeIn work-card"
+                        v-for="work in works" :key="work.workid">
                         <div class="list-item rounded overflow-hidden">
                             <div class="position-relative overflow-hidden">
                                 <img class="img-fluid" src="@images/台東熱氣球活動.jpg" :src="work.photo"
@@ -90,23 +82,22 @@
                                     {{ work.city }}</div>
                             </div>
                             <div class="p-4 pb-0">
-                                <a class="d-block h5 mb-2" href="">{{ work.name }}</a>
+                                <p class="text-truncate h5" href="">{{ work.name }}</p>
                                 <p class="text-truncate"><i class="fa fa-map-marker me-2"></i>{{
                                     work.address }}</p>
                                 <!-- <p>{{ work.description }}</p> -->
                             </div>
                             <div class="d-flex border-top">
-                                <small class="flex-fill text-center border-end py-2"><i
-                                        class="fa fa-calendar me-2"></i>{{ work.startDate.toString().substring(0, 10) }} ~
-                                        {{ work.endDate.toString().substring(0, 10) }}</small>
+                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar me-2"></i>{{
+                                    work.startDate.toString().substring(0, 10) }} ~
+                                    {{ work.endDate.toString().substring(0, 10) }}</small>
                             </div>
                             <div class="d-flex border-top">
-                                <small class="flex-fill text-center border-end py-2"><i
-                                        class="fa fa-user me-2"></i>{{ work.attendance }} /
+                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-user me-2"></i>{{
+                                    work.attendance }} /
                                     {{ work.maxAttendance }} 人已報名</small>
-                                <small class="flex-fill text-center py-2"><i
-                                        class="fa fa-solid fa-eye me-2"></i>{{
-                                            work.views }} 次瀏覽</small>
+                                <small class="flex-fill text-center py-2"><i class="fa fa-solid fa-eye me-2"></i>{{
+                                    work.views }} 次瀏覽</small>
                             </div>
                         </div>
 
@@ -117,7 +108,7 @@
             <div class="the-end text-center m-5" v-if="isEnd">已經到底啦~~</div>
         </div>
         <!-- Sticky Footer Start-->
-        <footer class="sticky-footer mt-auto py-3 bg-light-var">
+        <footer class="sticky-footer mt-auto py-3 bg-light-var animate__animated animate__slideInUp" data-wow-delay="0.1s">
             <div class="container">
                 <span class="mx-2"><i class="fa fa-map-marker-alt me-2"></i>台北市大安區復興南路一段390號2樓</span>
                 <span class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</span>
@@ -142,7 +133,7 @@ const baseURL = "http://localhost:8080";
 //// 預設參數
 // 載入相關
 let currentPage = ref(0); // 當前頁數
-const size = 6; // 每次載入的數量
+const size = 12; // 每次載入的數量
 const isLoading = ref(false); //避免重複載入
 let isEnd = ref(false);
 // 排序相關
@@ -299,13 +290,10 @@ const checkSticky = () => {
 </script>
 
 <style scoped>
-
-.bg-light-var{
+.bg-light-var {
     background-color: var(--light);
 }
-.text-dark-var{
-    color: var(--dark);
-}
+
 
 .nav-pills .nav-item .btn {
     color: var(--dark);
@@ -370,9 +358,11 @@ const checkSticky = () => {
 .the-end {
     height: 100px
 }
+
 .fa {
     color: chocolate;
 }
+
 /* .work-address {
     overflow: hidden;
     white-space: nowrap;

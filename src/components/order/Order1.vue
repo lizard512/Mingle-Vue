@@ -19,9 +19,8 @@
 
                                     <div class="d-flex justify-content-between align-items-center mb-5">
                                         <div>
-                                            <h5 class="mb-0">訂單編號: <span
-                                                    class="text-primary font-weight-bold">ID1234567</span></h5>
-                                            <p class="mb-0 text-muted" rderDate="orderDate">訂購日期:{{ orderDate }} </p>
+                                            <h5 class="mb-0"><span
+                                                    class="text-primary font-weight-bold" >訂購日期:{{ orderDate }}</span></h5>
                                         </div>
 
                                     </div>
@@ -262,7 +261,12 @@
                                             <h6>{{ house_type.houseType }}-{{ house_type.name }}</h6>
                                             <div>地址:{{ house_type.postCode }}{{ house_type.city }}-{{ house_type.address }}
                                             </div>
-                                            <div>描述:{{ house_type.description }}</div>
+                                            <div>
+                                                <div >
+                                                    描述:{{ house_type.description }}
+                                                    照片:
+                                                </div>
+                                            </div>
                                         </td>
                                         <td class=" align-middle col-2">{{ house_type.beds }}</td>
                                         <td class=" align-middle  col-2"> <select class="select-form col-12"
@@ -374,7 +378,7 @@
                                 <label for="house_need" class="form-label">其他住宿需求 (need)</label>
                                 <p><small>住宿方無法保證達成您的特殊要求－但將盡力為您安排。訂單完成後，您依然可隨時提出特殊要求！</small></p>
                                 <input type="textarea row-10" class="form-control" id="house_need" placeholder="其他住宿需求..."
-                                    value="" novalidate>
+                                    v-model="needs" novalidate>
                             </div>
 
                         </div>
@@ -482,6 +486,7 @@ const rangeStart = new Date();
 const rangeEnd = new Date();
 const maxPeriod = ref(0);
 const selectedRooms = ref([]);
+const needs = ref('');
 
 // 計算屬性
 const minStartDate = ref('');
@@ -743,12 +748,22 @@ const loadworkDetail = async () => {
 }
 
 
+
+
 const totalRooms = function () {
     return Object.values(selectedRooms.value).reduce((total, room) => {
         return total + parseInt(room);
     }, 0);
 };
 
+//============查詢房間照片============
+// const housephoto = ref({})
+
+// const showImage = function (photoid) { 
+//     const HousePhoto_API_URL = 'http://localhost:8080/order/photo/' + photoid;
+//     const response = axios.get(HousePhoto_API_URL);
+//     console.log(response.data);
+// }
 
 
 //============初始============
@@ -823,7 +838,9 @@ async function goToOrder2() {
             //每間房間數
             selectedRooms: selectedRooms.value,
             //每間房間名稱
-             selectedName :workdetail.houses
+             selectedName :workdetail.houses,
+             //需求
+             needs: needs.value
 
 
 
