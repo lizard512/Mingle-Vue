@@ -20,7 +20,7 @@
     "axios": "^1.6.5",
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.3",
-    "bootstrap-vue": "^2.23.1",
+    "bootstrap-vue": "^2.21.2",
     "chart.js": "^4.4.1",
     "element-plus": "^2.5.2",
     "google-maps-api-loader": "^1.1.1",
