@@ -27,7 +27,6 @@ export default defineConfig({
       '@images': fileURLToPath(new URL('./src/assets/images', import.meta.url)),
       '@libs': fileURLToPath(new URL('./src/assets/libs', import.meta.url)),
       '@styles': fileURLToPath(new URL('./src/assets/styles', import.meta.url)),
-      '@fonts': fileURLToPath(new URL('./src/assets/fonts', import.meta.url)),
       // components
       '@components': fileURLToPath(new URL('./src/components', import.meta.url)),
       // router
