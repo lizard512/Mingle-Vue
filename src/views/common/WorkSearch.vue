@@ -23,15 +23,15 @@
         <div class="container-fluid">
             <!--Search Header Start-->
             <div class="row g-4 align-items-center py-3 bg-light-var" :class="{ 'sticky-header': isSticky }">
-                <div class="col-lg-3">
+                <div class="col-xl-3 col-lg-6">
                     <div class="text-start mx-auto wow animate__animated animate__slideInLeft inline-flex"
                         data-wow-delay="0.1s">
-                        <h1 class="me-3">打工機會</h1>
+                        <h2 class="m-3">打工機會</h2>
                         <p>快來查看正在徵求幫助者的項目！</p>
                     </div>
                 </div>
-                <div class="col-lg-2 mx-auto animate__animated animate__slideInDown" data-wow-delay="0.1s">
-                    <select class="form-select w-50" v-model="filters.city[0]" @change="reloadWork()">
+                <div class="col-xl-2 col-lg-6 mx-auto d-inline-flex animate__animated animate__slideInDown" data-wow-delay="0.1s">
+                    <select class="form-select w-75 me-3" v-model="filters.city[0]" @change="reloadWork()">
                         <option value="">所有縣市</option>
                         <optgroup v-for="(group, area) in groupedCities" :label="area" :key="area">
                             <option v-for="city in group" :value="city.city" :key="city.city">
@@ -40,11 +40,12 @@
                             <option :value="area">所有{{ area.substring(0,2) }}縣市</option>
                         </optgroup>
                     </select>
+                    <input type="text" class="form-control" placeholder="用關鍵字查詢">
                 </div>
-                <div class="col-lg-4 mx-auto animate__animated animate__slideInDown" data-wow-delay="0.1s">
-                    <ul class="nav nav-pills d-inline-flex justify-content-end">
+                <div class="col-xl-4 col-lg-6 mx-auto animate__animated animate__slideInDown" data-wow-delay="0.1s">
+                    <ul class="nav nav-pills justify-content-end">
                         <li class="nav-item me-2" v-for="worktypeID in worktypeIDs" :key="worktypeID.worktypeID">
-                            <a class="btn btn-outline-info text-dark-var"
+                            <a class="btn btn-outline-info"
                                 :class="{ 'active': filters.worktype.includes(worktypeID.worktypeID) }"
                                 @click="toggleWorkType(worktypeID.worktypeID)">
                                 {{ worktypeID.worktypeID }}
@@ -52,8 +53,8 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-lg-3 text-end wow animate__animated animate__slideInRight" data-wow-delay="0.1s">
-                    <ul class="nav nav-pills d-inline-flex justify-content-end">
+                <div class="col-xl-3  col-lg-6 text-end wow animate__animated animate__slideInRight" data-wow-delay="0.1s">
+                    <ul class="nav nav-pills justify-content-end">
                         <li class="nav-item me-2">
                             <a class="btn btn-outline-warning active" data-bs-toggle="pill"
                                 @click="toggleSorts('views', 'DESC')">熱門項目</a>
@@ -303,9 +304,7 @@ const checkSticky = () => {
 .bg-light-var{
     background-color: var(--light);
 }
-.text-dark-var{
-    color: var(--dark);
-}
+
 
 .nav-pills .nav-item .btn {
     color: var(--dark);
