@@ -24,7 +24,7 @@
                                 <strong>{{ item.recievername }}</strong>
                             </div>
                             <div class="text-end">
-                                <small class="text-dark">{{ item.date }} {{ item.time }}</small>
+                                <small class="">{{ item.date }} {{ item.time }}</small>
                             </div>
                         </div>
                         <p class="text-truncate">{{ item.contents }}</p>
