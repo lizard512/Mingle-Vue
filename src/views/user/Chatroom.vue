@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid row p-0 g-0 max-height chat-main-container">
+    <div class="container-fluid row p-0 g-0 chat-main-container">
         <!-- left => headline, pics & messages -->
         <div class="col-md-4 overflow-auto mh-100 bg-light">
             <h1 class="text-center my-2">Message</h1>
@@ -293,21 +293,22 @@ async function assignSelectedUser(senderid, recieverid, sendername, recievername
 
 <style scoped>
 .chat-main-container {
-    height: 840px;
+    height: calc(100vh - 75px);
+    ;
 }
 
 .chat-name {
-    height: 5%;
+    height: 34px;
     background-color: aliceblue;
 }
 
 .chat-container {
-    height: 88%;
+    height: calc(100% - 81px);
     background-color: antiquewhite;
 }
 
 .input-group {
-    height: 7%;
+    height: 47px;
 }
 
 .form-control {
