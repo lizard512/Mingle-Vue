@@ -21,10 +21,9 @@
 
                                     <div class="d-flex justify-content-between align-items-center mb-5">
                                         <div>
-                                            <h5 class="mb-0">訂單編號: <span
-                                                    class="text-primary font-weight-bold">ID1234567</span></h5>
-                                            <p class="mb-0 text-muted" orderDate="orderDate">訂購日期:{{ dataForOrder2.orderDate
-                                            }} </p>
+                                            <h5 class="mb-0"><span
+                                                    class="text-primary font-weight-bold" >訂購日期:{{ dataForOrder2.orderDate }} </span></h5>
+
                                         </div>
 
                                     </div>
@@ -87,13 +86,7 @@
                             </h4>
 
                             <ul class="list-group col-12 ">
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <h6 class="my-0">訂單編號</h6>
-                                        <small class="text-muted"> order id</small>
-                                    </div>
-                                    <span class="primary">ID1234567</span>
-                                </li>
+
 
                                 <li class="list-group-item d-flex justify-content-between lh-sm">
                                     <div>
@@ -227,6 +220,17 @@
                                             <div class="primary">{{ value.Accomodatorphone }}</div>
                                         </div>
                                     </li>
+
+                                    <li class="list-group-item d-flex justify-content-between lh-sm"
+                                        v-if="dataForOrder2.needs !=  ''">
+                                        <div>
+                                            <h6 class="my-0">住宿需求</h6>
+                                            <small class="text-muted">needs</small>
+                                        </div>
+                                        <div class="margin-left col-md-6 col-8"> <!-- 將這個 div 加入 ml-auto 類別 -->
+                                            <div class="primary">{{ dataForOrder2.needs }}</div>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -252,7 +256,7 @@
 
 
                             <div class="row">
-                                <div class="mb-4 col-md-4 " v-for="(value, key) in roomDetail" :key="key"
+                                <div class="mb-4 col-md-4 " v-for="(value, key) in  dataForOrder2.selectedRooms" :key="key"
                                     v-show="value > 0">
                                     <ul class="list-group col-12">
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
@@ -267,8 +271,8 @@
                                                 <h6 class="my-0">房間</h6>
                                                 <small class="text-muted">house name</small>
                                             </div>
-                                            <span class="text-muted margin-left btn btn-primary"
-                                                @click="showRoom()">{{ housedetail.name }} (查看詳情)</span>
+                                            <span class="text-muted margin-left btn btn-primary" @click="showRoom(key)"> {{
+                                                housedetails[key] ? housedetails[key].name + '(查看詳情)' : 'N/A' }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
@@ -325,7 +329,7 @@
 
                         <!-- button start -->
                         <hr class="my-4 col-md-12">
-                        <button class="w-50 btn change btn-primary btn-lg" type="submit" @click="goToOrder1()">修改資料</button>
+                        <button class="w-50 btn change btn-primary btn-lg" type="submit" @click="goToOrder1()">重新選擇</button>
                         <button class="w-50 btn btn-secondary btn-lg" type="submit" @click="goToOrder3()">確認報名</button>
                         <!-- button end -->
 
@@ -346,7 +350,7 @@
     
 <script setup>
 
-import { onMounted, ref, reactive } from 'vue';
+import { onMounted, ref, reactive, onActivated } from 'vue';
 
 import { useRouter } from 'vue-router';
 
@@ -358,7 +362,7 @@ const dataForOrder2 = ref([]);
 
 const roomDetail = ref([]);
 
-//============路由控制============
+//============獲取order1資料============
 
 import { useOrderStore } from '@store/orderStore-memory.js';
 import Swal from 'sweetalert2';
@@ -366,63 +370,92 @@ import Swal from 'sweetalert2';
 
 const orderStore = useOrderStore();
 
-const houseid = ref('');
-
 const loaddata = () => {
     // 从 Pinia store 获取数据
     dataForOrder2.value = orderStore.orderData;
-    console.log('Received dataForOrder2:', dataForOrder2);
     roomDetail.value = dataForOrder2.value.selectedRooms
-    console.log(roomDetail.value)
-    // 使用 for...in 遍历对象的属性
-    for (const key in roomDetail.value) {
-        // key 是属性名，selectedRooms[key] 是对应的值
-        console.log(`属性名: ${key}, 值: ${roomDetail.value[key]}`);
-        houseid.value = key;
-    }
-}
 
+}
 
 //============查詢房屋資料============
 
 
-const housedetail = reactive({});
+const housedetails = reactive({});
 
-const showDetail = async (key) => {
-    houseid.value = key;
-    const House_API_URL = 'http://localhost:8080/api/house/' + houseid.value;
-    const response = await axios.get(House_API_URL);
-    Object.assign(housedetail, response.data);
-    console.log('Received workdetail:', housedetail);
-}
+const showDetails = async () => {
+    // 遍歷 roomDetail
+    for (const key in roomDetail.value) {
+        const value = roomDetail.value[key];
 
 
+        // 檢查值是否非空
+        if (value) {
+            // 對具有非空值的每個鍵發送請求
+            const House_API_URL = 'http://localhost:8080/api/house/find';
 
-
-const showRoom = function () {
-    Swal.fire({
-        title: "title",
-        text: "text",
-        icon: "question",
-        allowOutsideClick: false,
-        confirmButtonText: "確認",
-
-    }).then(function (result) {
-        console.log(result);
-        if (result.isConfirmed) {
-            console.log(`確認`);
+            try {
+                const response = await axios.get(House_API_URL, { params: { houseId: key } });
+                // 使用鍵更新 housedetails 中的響應數據
+                housedetails[key] = response.data;
+            } catch (error) {
+                console.error(`獲取鍵 ${key} 的數據時發生錯誤：`, error);
+            }
         }
-    })
+    }
+    console.log('收到的房屋詳細信息：', housedetails);
 
 }
 
 
 
+//============alert視窗控制============
 
-onMounted(async () => {
+
+const showRoom = function (key) {
+
+    Swal.fire({
+        title: ` ${housedetails[key].houseType} - ${housedetails[key] ?  housedetails[key].name  : 'N/A'}`,
+        html: ` 
+        <table class="table">
+        <tr>
+        <td colspan="2" ><div>描述:${housedetails[key].description}   </div> </td>
+        </tr>
+        <tr>
+        <td class="align-middle col-8"><div>地址:${housedetails[key].postCode}${housedetails[key].city}-${housedetails[key].address}</div> </td>
+        <td class="align-middle col-4"><div>容納人數:${housedetails[key].beds}人 </div> </td>
+        </tr>
+        <tr>
+        <td colspan="2">
+        <div></div> 
+        </td>
+        </tr>
+
+        </table>`,
+        imageUrl: "https://unsplash.it/400/200",
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: "Custom image",
+        confirmButtonColor: '#ffc107',
+        confirmButtonText: '確認',
+    });
+
+
+
+}
+
+
+onMounted( () => {
     loaddata();
-    await showDetail(houseid.value);
+    showDetails();
 });
+
+// 元件被激活時載入數據
+onActivated(() => {
+  loaddata();
+  showDetails();
+});
+
+
 
 
 
@@ -434,7 +467,7 @@ const goToOrder3 = function () {
 
 const goToOrder1 = function () {
     router.push(
-        '/order/order1',
+        '/order/order1'
     )
 }
 
