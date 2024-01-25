@@ -1,7 +1,7 @@
 <template>
     <!-- Navbar Start -->
     <div class="container-fluid nav-bar" :class="{ 'sticky-top': isSticky }">
-        <nav class="navbar bg-primary navbar-expand-xxl navbar-light py-0 px-4">
+        <nav class="navbar navbar-expand-xxl navbar-light py-0 px-4">
             <RouterLink to="/" class="navbar-brand d-flex align-items-center text-center">
                 <div class="icon p-2 me-2">
                     <img class="img-fluid" src="@images/icon-main.png" alt="Icon" style="width: 30px; height: 27px;">
@@ -13,8 +13,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto d-flex align-items-center">
-                    <RouterLink class="nav-item nav-link active" to="/">首頁</RouterLink>
-                    <RouterLink class="nav-item nav-link" to="#">關於Mingle</RouterLink>
+                    <RouterLink class="nav-item nav-link" to="/">首頁</RouterLink>
+                    <RouterLink class="nav-item nav-link"  to="#">關於Mingle</RouterLink>
                     <div class="nav-item dropdown">
                         <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">打工換宿資訊</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
@@ -36,7 +36,7 @@
                                 to="/lord-center">房東中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" to="/providerWork">建立工作</RouterLink>
-                                <RouterLink class="dropdown-item" to="/providerHouse">建立發源</RouterLink>
+                                <RouterLink class="dropdown-item" to="/providerHouse">建立房源</RouterLink>
                                 <RouterLink class="dropdown-item" to="/houseMaintain">房源維護</RouterLink>
                                 <RouterLink class="dropdown-item" to="/WorkMaintain">工作管理</RouterLink>
                                 <RouterLink class="dropdown-item" to="#">訂單管理</RouterLink>
@@ -68,8 +68,16 @@
                     <template v-else>
                         <RouterLink class="btn btn-dark px-3" to="/register/register4">成為幫助者</RouterLink>
                         <p class="m-3">已有帳戶? </p>
-                        <RouterLink class="btn btn-dark px-3" to="/login">登入</RouterLink>
+                        <RouterLink class="btn btn-dark px-3 me-3" to="/login">登入</RouterLink>
                     </template>
+                    <div class="">
+                        <input type="checkbox" class="checkbox" id="checkbox" @click="toggleDarkMode">
+                        <label for="checkbox" class="checkbox-label">
+                            <i class="fas fa-moon"></i>
+                            <i class="fas fa-sun"></i>
+                            <span class="ball"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -78,8 +86,32 @@
 </template>
     
 <script setup>
+import { ref, onMounted, onBeforeUnmount, watchEffect } from 'vue';
+import router from '@router/router'
 import { useUserStore } from '@store/userStore-localStorage.js';
 import { computed } from 'vue';
+
+const darkMode = ref(false);
+watchEffect(() => {
+    const htmlTag = document.documentElement;
+    if (darkMode.value) {
+        htmlTag.setAttribute('data-bs-theme', 'dark');
+        htmlTag.style.setProperty('--primary', '#d29f05');
+        htmlTag.style.setProperty('--light', '#0E2E50');
+        htmlTag.style.setProperty('--dark', '#EFFDF5');
+    } else {
+        htmlTag.removeAttribute('data-bs-theme');
+        htmlTag.style.setProperty('--primary', '#ffc107');
+        htmlTag.style.setProperty('--light', '#EFFDF5');
+        htmlTag.style.setProperty('--dark', '#0E2E50');
+    }
+});
+const toggleDarkMode = () => {
+    darkMode.value = !darkMode.value;
+};
+
+
+
 const userStore = useUserStore();
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 const isLandlord = computed(() => userStore.permissions.includes('lord'));
@@ -113,9 +145,6 @@ function resetStore() {
 
 
 // // Sticky Navbar
-import { ref, onMounted, onBeforeUnmount} from 'vue';
-import router from '@router/router'
-
 const isSticky = ref(false);
 
 const checkSticky = () => {
@@ -153,6 +182,7 @@ onBeforeUnmount(() => {
 
 .navbar {
     box-shadow: 0 0 30px rgba(0, 0, 0, .08);
+    background-color: var(--primary);
 }
 
 .navbar .dropdown-toggle::after {
@@ -168,18 +198,18 @@ onBeforeUnmount(() => {
 .navbar .dropdown-toggle[aria-expanded=true]::after {
     transform: rotate(-180deg);
 }
+
 .navbar-light .navbar-nav .nav-link {
-    margin-right: 30px;
-    padding: 25px;
-    color: #FFFFFF;
-    font-size: 15px;
-    text-transform: uppercase;
-    outline: none;
+    color: var(--dark);
+    margin-right: 40px;
+    /* text-transform: uppercase; */
+    border-radius: 5px;
 }
 
 .navbar-light .navbar-nav .nav-link:hover,
 .navbar-light .navbar-nav .nav-link.active {
-    color: var(--secondary);
+    color: var(--dark);
+    background-color: var(--light);
 }
 
 @media (max-width: 1591.98px) {
@@ -196,11 +226,6 @@ onBeforeUnmount(() => {
 
 .navbar-light .navbar-brand {
     height: 75px;
-}
-
-.navbar-light .navbar-nav .nav-link {
-    color: var(--dark);
-    font-weight: 500;
 }
 
 @media (min-width: 1592px) {
@@ -222,4 +247,46 @@ onBeforeUnmount(() => {
         transition: .5s;
         opacity: 1;
     }
-}</style>
+}
+
+.checkbox {
+    opacity: 0;
+    position: absolute;
+}
+
+.checkbox-label {
+    background-color: #111;
+    width: 50px;
+    height: 26px;
+    border-radius: 50px;
+    position: relative;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fa-moon {
+    color: #f1c40f;
+}
+
+.fa-sun {
+    color: #f39c12;
+}
+
+.checkbox-label .ball {
+    background-color: #fff;
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    border-radius: 50%;
+    transition: transform 0.2s linear;
+}
+
+.checkbox:checked+.checkbox-label .ball {
+    transform: translateX(24px);
+}
+</style>
