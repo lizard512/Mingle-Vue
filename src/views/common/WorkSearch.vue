@@ -8,8 +8,8 @@
                         <div class="col-xxl-6 col-lg-12">
                             <div class="text-start mx-auto wow animate__animated animate__slideInLeft inline-flex"
                                 data-wow-delay="0.1s">
-                                <h2 class="m-3">打工機會</h2>
-                                <p>快來查看正在徵求幫助者的項目！</p>
+                                <h2 class="mx-3">打工機會</h2>
+                                <p >正在徵求幫助者的項目！</p>
                             </div>
                         </div>
                         <div class="col-xxl-6 col-lg-12 mx-auto d-inline-flex animate__animated animate__slideInDown"
@@ -108,7 +108,7 @@
             <div class="the-end text-center m-5" v-if="isEnd">已經到底啦~~</div>
         </div>
         <!-- Sticky Footer Start-->
-        <footer class="sticky-footer mt-auto py-3 bg-light-var">
+        <footer class="sticky-footer mt-auto py-3 bg-light-var animate__animated animate__slideInUp" data-wow-delay="0.1s">
             <div class="container">
                 <span class="mx-2"><i class="fa fa-map-marker-alt me-2"></i>台北市大安區復興南路一段390號2樓</span>
                 <span class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</span>
