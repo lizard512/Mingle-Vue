@@ -1,13 +1,20 @@
 <template>
-    <div class="col-2 md-left bg-primary" style="float: left;font-size:x-large; text-align: center;">
+    <div class="col-2 md-left bg-primary justify-content-center">
 
         <h4 class="my-5">我的帳戶</h4>
-        <div class="row my-5" @click="clickHandler(isShow = 1)"><a href="#" class="fa fa-solid fa-user"> 基本資料</a></div>
-        <div class="row my-5" @click="clickHandler(isShow = 4)"><a href="#" class="fa fa-solid fa-pen"> 個人介紹</a></div>
-        <div class="row my-5"> <a href="#" class="fa fa-brands fa-phoenix-framework"> 住宿/打工預定</a></div>
-        <div class="row my-5" @click="clickHandler(isShow = 2)"><a href="#" class="fa fa-solid fa-shoe-prints"> 旅行足跡</a>
+        <div class="row my-5" @click="clickHandler(isShow = 1)"><a href="#" class="styleColor ">
+                <i class="fa-solid fa-user" />基本資料</a></div>
+        <div class="row my-5" @click="clickHandler(isShow = 4)"><a href="#" class="styleColor ">
+                <i class="fa-solid fa-pen" />個人介紹</a></div>
+        <div class="row my-5"> <a href="#" class="styleColor "> <i class="fa-brands fa-phoenix-framework" />住宿/打工預定</a>
         </div>
-        <div class="row my-5" @click="clickHandler(isShow = 3)"><a href="#" class="fa fa-brands fa-gratipay"> 心願清單</a>
+        <div class="row my-5" @click="clickHandler(isShow = 2)">
+            <a href="#" class="styleColor">
+                <i class="fa-solid fa-shoe-prints" />旅行足跡
+            </a>
+        </div>
+        <div class="row my-5" @click="clickHandler(isShow = 3)"><a href="#" class="styleColor ">
+                <i class="fa-brands fa-gratipay" />心願清單</a>
         </div>
 
     </div>
@@ -25,8 +32,9 @@ const clickHandler = showVeiw => {
 </script>
     
 <style scoped>
-.fa {
+.styleColor {
     color: tomato;
     color: chocolate;
+    text-align: center;
 }
 </style>
