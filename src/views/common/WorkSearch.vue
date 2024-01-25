@@ -9,16 +9,6 @@
                             <div class="col-md-4">
                                 <input type="text" class="form-control border-0 py-3" placeholder="用關鍵字查詢">
                             </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>打工地區</option>
-                                    <option value="1">北部區域</option>
-                                    <option value="2">西部區域</option>
-                                    <option value="3">南部區域</option>
-                                    <option value="4">東部區域</option>
-                                    <option value="5">福建省</option>
-                                </select>
-                            </div>
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -33,37 +23,51 @@
         <div class="container-fluid">
             <!--Search Header Start-->
             <div class="row g-4 align-items-center py-3 bg-light " :class="{ 'sticky-header': isSticky }">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="text-start mx-auto wow animate__animated animate__slideInLeft inline-flex"
                         data-wow-delay="0.1s">
                         <h1 class="me-3">打工機會</h1>
                         <p>快來查看正在徵求幫助者的項目！</p>
                     </div>
                 </div>
-                <div class="col-lg-4 mx-auto">
+                <div class="col-lg-3 mx-auto">
+                    <select class="form-select w-50" v-model="filters.city[0]" @change="reloadWork()">
+                        <option value="">所有縣市</option>
+                        <optgroup v-for="(group, area) in groupedCities" :label="area" :key="area">
+                            <option v-for="city in group" :value="city.city" :key="city.city">
+                                {{ city.city }}
+                            </option>
+                            <option :value="area">所有{{ area.substring(0,2) }}縣市</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="col-lg-3 mx-auto">
                     <ul class="nav d-inline-flex justify-content-end ">
-                        <li class="nav-item me-2" v-for="workType in workTypes" :key="workType.workType">
-                            <a class="btn btn-outline-dark" :class="{ 'active': selectedWorkType === workType.workType }"
-                                @click="toggleWorkType(workType.workType)">
-                                {{ workType.workType }}
+                        <li class="nav-item me-2 bg-white" v-for="worktypeID in worktypeIDs" :key="worktypeID.worktypeID">
+                            <a class="btn btn-outline-dark"
+                                :class="{ 'active': filters.worktype.includes(worktypeID.worktypeID) }"
+                                @click="toggleWorkType(worktypeID.worktypeID)">
+                                {{ worktypeID.worktypeID }}
                             </a>
                         </li>
                     </ul>
                 </div>
-                <div class="col-lg-4 text-end wow animate__animated animate__slideInRight" data-wow-delay="0.1s">
+                <div class="col-lg-3 text-end wow animate__animated animate__slideInRight" data-wow-delay="0.1s">
                     <ul class="nav nav-pills d-inline-flex justify-content-end">
-                        <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary active" data-bs-toggle="pill"
-                                @click="getWorks('hot')">熱門項目</a>
+                        <li class="nav-item me-2 bg-white">
+                            <a class="btn btn-outline-secondary active" data-bs-toggle="pill"
+                                @click="toggleSorts('views', 'DESC')">熱門項目</a>
                         </li>
-                        <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="getWorks('latest')">最新上架</a>
+                        <li class="nav-item me-2 bg-white">
+                            <a class="btn btn-outline-secondary" data-bs-toggle="pill"
+                                @click="toggleSorts('createdAt', 'DESC')">最新上架</a>
                         </li>
-                        <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="getWorks('deadline')">即將截止</a>
+                        <li class="nav-item me-2 bg-white">
+                            <a class="btn btn-outline-secondary" data-bs-toggle="pill"
+                                @click="toggleSorts('EndDate', 'ASC')">即將截止</a>
                         </li>
-                        <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" @click="getWorksByAttendance">參與人數
+                        <li class="nav-item me-2 bg-white">
+                            <a class="btn btn-outline-secondary" data-bs-toggle="pill" @click="toggleSortByAttendance">參與人數
                                 <i class="fa fa-arrow-down" :class="{ 'rotate': isArrowUp }"></i></a>
                         </li>
                     </ul>
@@ -79,30 +83,29 @@
                             <div class="position-relative overflow-hidden">
                                 <img class="img-fluid" src="@images/台東熱氣球活動.jpg" :src="work.photo"
                                     @error="work.photo = '@images/grey.jpg'" :alt="work.name">
-                                <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+                                <div class="bg-dark rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
                                     {{ work.worktype }}</div>
                                 <div
-                                    class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
+                                    class="bg-info rounded-top text-white position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
                                     {{ work.city }}</div>
                             </div>
                             <div class="p-4 pb-0">
                                 <a class="d-block h5 mb-2" href="">{{ work.name }}</a>
-                                <p class="work-address"><i class="fa fa-map-marker text-primary me-2"></i>{{
+                                <p class="work-address"><i class="fa fa-map-marker me-2"></i>{{
                                     work.address }}</p>
                                 <!-- <p>{{ work.description }}</p> -->
                             </div>
                             <div class="d-flex border-top">
                                 <small class="flex-fill text-center border-end py-2"><i
-                                        class="fa fa-calendar text-primary me-2"></i>{{ formatDate(work.startDate)
-                                        }} ~
-                                    {{ formatDate(work.endDate) }}</small>
+                                        class="fa fa-calendar me-2"></i>{{ work.startDate.toString().substring(0, 10) }} ~
+                                        {{ work.endDate.toString().substring(0, 10) }}</small>
                             </div>
                             <div class="d-flex border-top">
                                 <small class="flex-fill text-center border-end py-2"><i
-                                        class="fa fa-user text-primary me-2"></i>{{ work.attendance }} /
+                                        class="fa fa-user me-2"></i>{{ work.attendance }} /
                                     {{ work.maxAttendance }} 人已報名</small>
                                 <small class="flex-fill text-center py-2"><i
-                                        class="fa fa-solid fa-eye text-primary me-2"></i>{{
+                                        class="fa fa-solid fa-eye me-2"></i>{{
                                             work.views }} 次瀏覽</small>
                             </div>
                         </div>
@@ -126,61 +129,100 @@
 </template>
     
 <script setup>
-// 引用函示庫
-import { ref, onMounted, onUnmounted } from 'vue';
+//// 引用函示庫
+import { ref, computed, onMounted, onUnmounted, toRaw } from 'vue';
 import axios from 'axios';
 
-// 接收資料
+//// 接收資料庫資料
 let works = ref([]);
-const workTypes = ref([]);
+const worktypeIDs = ref([]);
+const cities = ref([]);
 const baseURL = "http://localhost:8080";
 
-// 工作資料載入用的預設參數
-let currentPage = ref(0);
-let sort = 'hot'; // 排序方式
-const pageSize = 6; // 每次載入的數量
+//// 預設參數
+// 載入相關
+let currentPage = ref(0); // 當前頁數
+const size = 6; // 每次載入的數量
 const isLoading = ref(false); //避免重複載入
 let isEnd = ref(false);
+// 排序相關
+let direction = 'DESC'; // 排序方向
+let property = 'views'; // 排序屬性
 let isArrowUp = ref(true);// 排序按紐的箭頭方向
+// 篩選相關
+const areaOrder = ['北部區域', '中部區域', '南部區域', '東部區域', '外島區域'];
+let filters = ref({
+    worktype: [],
+    city: [''],
+    // 其他篩選條件...
+});
+
+// 其他
 const isSticky = ref(false); // Sticky Header
-let selectedWorkType = ref(null); // 選擇的工作類型
 
 
-// 生命週期
+//// 生命週期
 onMounted(async () => {
     await loadWork();
-    await loadWorkType();
+    await loadWorktype();
+    await loadCity();
     window.addEventListener('scroll', infiniteScroll);
     window.addEventListener('scroll', checkSticky);
     // document.body.classList.add('no-scroll');
 });
-
 onUnmounted(() => {
     window.removeEventListener('scroll', infiniteScroll);
     window.removeEventListener('scroll', checkSticky);
     // document.body.classList.remove('no-scroll');
 });
 
+//// 方法
 // 載入工作分類
-const loadWorkType = async () => {
+const loadWorktype = async () => {
     const response = await axios.get(baseURL + '/api/worktype/getWorktypes');
-    workTypes.value = response.data;
+    worktypeIDs.value = response.data;
 }
+// 載入城市
+const loadCity = async () => {
+    const response = await axios.get(baseURL + '/api/city/getCities');
+    cities.value = response.data;
+}
+// 將城市依area分組、排序
+const groupedCities = computed(() => {
+    const groups = cities.value.reduce((groups, city) => {
+        if (!groups[city.area]) {
+            groups[city.area] = [];
+        }
+        groups[city.area].push(city);
+        return groups;
+    }, {});
 
-// 載入第一頁的工作資料(預設為熱門排序)
+    return Object.keys(groups).sort((a, b) => areaOrder.indexOf(a) - areaOrder.indexOf(b)).reduce((sortedGroups, key) => {
+        sortedGroups[key] = groups[key];
+        return sortedGroups;
+    }, {});
+});
+
+// 載入一頁工作列表
 const loadWork = async () => {
     if (isEnd.value || isLoading.value) return;
     isLoading.value = true;
     try {
         // 模擬載入時間
         // await new Promise(resolve => setTimeout(resolve, 1000));
-        const response = await axios.get(baseURL + "/api/work/getWorks", {
-            params: {
-                page: currentPage.value,
-                size: pageSize,
-                sort: sort,
+        const response = await axios.post(baseURL + "/api/work/getWorks",
+            // request body
+            filters.value,
+            // request params
+            {
+                params: {
+                    page: currentPage.value,
+                    size: size,
+                    direction: direction,
+                    property: property
+                }
             }
-        });
+        );
         works.value = [...works.value, ...response.data.content];
         // 如果已經無法獲取更多的工作，停止發送請求
         if (response.data.last) isEnd.value = true;
@@ -193,46 +235,54 @@ const loadWork = async () => {
     }
 };
 
-const infiniteScroll = () => {
-    if (isLoading.value) return;
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        loadWork();
-    }
-};
-
-
-const toggleWorkType = (workType) => {
-    selectedWorkType.value = selectedWorkType.value === workType ? null : workType;
-};
-
-// 依照熱門、最新、屆期更改工作排序
-const getWorks = (sortParam) => {
-    sort = sortParam; // 更新排序方式
+// 重新載入工作列表
+const reloadWork = async () => {
     works.value = []; // 清空工作列表
     currentPage.value = 0; // 重設頁數
     isEnd.value = false; // 重設結束標記
-
-    // // 將頁面滾動到最上方
-    // window.scrollTo(0, 0);
+    window.scrollTo(0, 0); // 將頁面滾動到最上方
 
     loadWork();
 }
 
-// 依照參加人數排序工作
-const getWorksByAttendance = () => {
-    isArrowUp.value = !isArrowUp.value;
+// 無限卷軸功能
+const infiniteScroll = () => {
+    if (isLoading.value) return;
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+        loadWork();
+    }
+};
 
-    works.value = []; // 清空工作列表
-    currentPage.value = 0; // 重設頁數
-    isEnd.value = false; // 重設結束標記
-
-    if (isArrowUp.value) {
-        sort = 'attendanceAsc';
+// 篩選器: 依工作類型
+const toggleWorkType = (worktypeID) => {
+    const index = filters.value.worktype.indexOf(worktypeID);
+    if (index >= 0) {
+        // 如果 worktypeID 已經在 filters.worktypeID 中，移除它
+        filters.value.worktype.splice(index, 1);
     } else {
-        sort = 'attendanceDesc';
+        filters.value.worktype.push(worktypeID);
     }
 
-    loadWork(); // 重新載入工作列表
+    reloadWork(); // 重新載入工作列表
+};
+
+// 排序: 熱門、最新、即將截止
+const toggleSorts = (propertyParam, directionParam) => {
+    property = propertyParam; // 更新排序欄位
+    direction = directionParam; // 更新排序方向
+
+    reloadWork();
+}
+
+// 排序: 參加人數升冪降冪
+const toggleSortByAttendance = () => {
+    isArrowUp.value = !isArrowUp.value;
+
+    if (isArrowUp.value) {
+        toggleSorts('attendance', 'ASC')
+    } else {
+        toggleSorts('attendance', 'DESC')
+    }
 }
 
 // 格式化日期為"YYYY/MM/DD"
@@ -241,10 +291,10 @@ const formatDate = (dateString) => {
     return `${date.getFullYear()}/${("0" + (date.getMonth() + 1)).slice(-2)}/${("0" + date.getDate()).slice(-2)}`;
 }
 
+// Sticky Header
 const checkSticky = () => {
     isSticky.value = window.scrollY > 45;
 };
-
 
 </script>
 
@@ -288,11 +338,11 @@ const checkSticky = () => {
     height: 100px
 }
 
-/* .work-address {
+.work-address {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-} */
+}
 </style>
 <!-- <style>
 .no-scroll {

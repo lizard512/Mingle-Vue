@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div>
-                <div class="ms-4 me-4 list-group" v-for="item in roomList"
+                <div class="ms-4 me-4 border  border-2 border-light rounded-3 list-group" v-for="item in roomList"
                     @click="selectRoom(item.senderid, item.recieverid, item.sendername, item.recievername)">
                     <a href="#" class="list-group-item list-group-item-action list-group-item-light"
                         :class="{ 'active': item.senderid == selectedUserID || item.recieverid == selectedUserID }">
@@ -43,18 +43,24 @@
                     <h1 class="text-dark"> 請點擊左側聊天室列表開始聊天 <i class="fa-solid fa-comment-sms"></i></h1>
                 </div>
                 <template v-for="item in messages">
-                    <div v-if="senderID !== item.senderID" class="my-3">
-                        <span
-                            class="px-3 py-2 m-1 rounded-3 flex-start align-self-start chat-message chat-received animate__animated animate__fadeIn">
-                            <span>{{ item.contents }}</span>
-                        </span>
-                        <span class="ms-1 animate__animated animate__fadeIn">{{ item.time }}</span>
+                    <div v-if="senderID !== item.senderID" class="my-3 d-flex">
+                        <div
+                            class="shadow-sm p-3 px-3 py-2 m-1 rounded-3 chat-message chat-received text-break animate__animated animate__fadeIn">
+                            {{ item.contents }} </div>
+                        <div
+                            class="ms-1 mb-2 d-flex flex-column align-self-end animate__animated animate__fadeIn message-time">
+                            {{
+                                item.time }}
+                        </div>
                     </div>
-                    <div v-if="senderID === item.senderID" class="my-3 align-self-end">
-                        <span class="me-1 animate__animated animate__fadeIn">{{ item.time }}</span>
-                        <span class="px-3 py-2 m-1 rounded-3 chat-message chat-sent animate__animated animate__fadeIn">
-                            <span>{{ item.contents }}</span>
-                        </span>
+                    <div v-if="senderID === item.senderID" class="my-3 align-self-end d-flex">
+                        <div
+                            class="me-1 mb-2 d-flex flex-column align-self-end animate__animated animate__fadeIn message-time">
+                            {{ item.time }}</div>
+                        <div
+                            class="shadow-sm p-3 px-3 py-2 m-1 rounded-3 chat-message chat-sent text-break animate__animated animate__fadeIn">
+                            {{ item.contents }}
+                        </div>
                     </div>
                 </template>
             </div>
@@ -141,7 +147,7 @@ function onError() {
 
     })
 }
-// 搜尋列初始化
+// 搜尋列初始化(先不用)
 async function initsearch() {
     await axios.get(`${path}/messages/${senderID.value}/findAllUser`)
         .then(function (response) {
@@ -297,7 +303,7 @@ async function assignSelectedUser(senderid, recieverid, sendername, recievername
 
 .chat-container {
     height: 88%;
-    background-color: #7d8cc4;
+    background-color: antiquewhite;
 }
 
 .input-group {
@@ -310,7 +316,7 @@ async function assignSelectedUser(senderid, recieverid, sendername, recievername
 </style>
 <style>
 .chat-message {
-    max-width: 50%;
+    max-width: 500px;
 }
 
 .chat-received {
@@ -319,5 +325,9 @@ async function assignSelectedUser(senderid, recieverid, sendername, recievername
 
 .chat-sent {
     background-color: #dcf8c6;
+}
+
+.message-time {
+    font-size: 0.7em;
 }
 </style>
