@@ -36,7 +36,7 @@
           <td>{{ house.houseid }}</td>
           <td>{{ house.lordid }}</td>
           <td>
-            <button type="button" class="btn btn-light update" @click="openUpdateModal(house.houseid)">修改</button>
+            <button type="button" class="btn btn-light update" @click="openUpdateModal(house.houseId)">修改</button>
             <button type="button" class="btn btn-danger delete" @click="confirmDelete(house.houseid)">刪除</button>
           </td>
           <td>{{ house.houseType }}</td>
@@ -63,16 +63,122 @@
         </tr>
       </tbody>
     </table>
-    <!-- modal is here -->
-    <div class="modal" tabindex="-1" role="dialog" v-show="isUpdateModalVisible">
-      <div class="modal-dialog" role="document">
-        <!-- Modal content -->
+    <!-- Modal for updating specific house data -->
+    <div v-if="isUpdateModalVisible" class="modal fade show" style="display: block;">
+      <div class="modal-dialog">
         <div class="modal-content">
-          <span class="close" @click="closeUpdateModal">&times;</span>
-          <!-- Update form or content here -->
-          <h2>Update House</h2>
-          <!-- Add your form fields for updating -->
-          <p>Updating House ID: {{ currentHouseToUpdate }}</p>
+          <div class="modal-header">
+            <h5 class="modal-title">Update House</h5>
+            <button type="button" class="btn-close" @click="closeUpdateModal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="handleUpdateSubmit">
+              <!-- Add your form fields for updating specific house data -->
+              <p style="text-align: left; font-weight: bold;">更新房屋:</p>
+              <input v-model="updateFormData.houseid" type="hidden">
+              <div class="mb-3 row">
+                <label for="name" class="col-sm-2 col-form-label">名稱:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.name" type="text" class="form-control" id="name" placeholder="名稱">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="description" class="col-sm-2 col-form-label">描述:</label>
+                <div class="col-sm-10">
+                  <textarea v-model="updateFormData.description" class="form-control" id="description" placeholder="描述"
+                    rows="3"></textarea>
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="address" class="col-sm-2 col-form-label">地址:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.address" type="text" class="form-control" id="address" placeholder="地址">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="postCode" class="col-sm-2 col-form-label">郵遞區號:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.postCode" type="text" class="form-control" id="postCode"
+                    placeholder="郵遞區號">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="beds" class="col-sm-2 col-form-label">床位:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.beds" type="text" class="form-control" id="beds" placeholder="床位">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="notes" class="col-sm-2 col-form-label">備註:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.notes" type="text" class="form-control" id="notes" placeholder="備註">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasWifi" class="col-sm-2 col-form-label">有Wifi:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasWifi" type="text" class="form-control" id="hasWifi"
+                    placeholder="有Wifi">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasTV" class="col-sm-2 col-form-label">有TV:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasTV" type="text" class="form-control" id="hasTV" placeholder="有TV">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasKitchen" class="col-sm-2 col-form-label">有廚房:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasKitchen" type="text" class="form-control" id="hasKitchen"
+                    placeholder="有廚房">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasLaundry" class="col-sm-2 col-form-label">有洗衣機:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasLaundry" type="text" class="form-control" id="hasLaundry"
+                    placeholder="有洗衣機">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasParkingLot" class="col-sm-2 col-form-label">有停車位:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasParkingLot" type="text" class="form-control" id="hasParkingLot"
+                    placeholder="有停車位">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasAirconditioner" class="col-sm-2 col-form-label">有冷氣:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasAirconditioner" type="text" class="form-control"
+                    id="hasAirconditioner" placeholder="有冷氣">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasPersonalSpace" class="col-sm-2 col-form-label">有私人空間:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasPersonalSpace" type="text" class="form-control" id="hasPersonalSpace"
+                    placeholder="有私人空間">
+                </div>
+              </div>
+              <br>
+              <button type="submit" class="btn btn-primary">儲存</button>
+              <button type="button" @click="closeUpdateModal" class="btn btn-secondary">取消</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -88,7 +194,6 @@ import axios from 'axios';
 
 const houses = ref([]);
 const isUpdateModalVisible = ref(false);
-let currentHouseToUpdate = null;
 
 const fetchHouses = () => {
   fetch('http://localhost:8080/api/house/findAll')
@@ -123,14 +228,46 @@ const mappedHouses = computed(() => {
   });
 });
 
+const updateFormData = ref({
+  houseid: null,
+  lordid: '',
+  houseType: '',
+  // Add other properties
+});
+
 const openUpdateModal = (houseId) => {
-  currentHouseToUpdate = houseId;
+  // Find the specific house data using houseId
+  const houseToUpdate = houses.value.find(house => house.houseId === houseId);
+
+  // Set the values in the updateFormData
+  updateFormData.houseid = houseToUpdate.houseId;
+  updateFormData.lordid = houseToUpdate.lordid;
+  updateFormData.houseType = houseToUpdate.houseType;
+  // Set other properties
+
   isUpdateModalVisible.value = true;
 };
 
 const closeUpdateModal = () => {
-  currentHouseToUpdate = null;
   isUpdateModalVisible.value = false;
+};
+
+const handleUpdateSubmit = () => {
+  // Call your Spring Boot update API here with updateFormData using Axios
+  axios.post('http://localhost:8080/api/house/save', updateFormData)
+    .then(() => {
+      // Show a success message
+      Swal.fire('更新成功!', '房源資料已更新成功', 'success');
+      // Fetch the updated list of houses
+      fetchHouses();
+      // Close the modal
+      closeUpdateModal();
+    })
+    .catch((error) => {
+      console.error('更新失敗', error);
+      // Show an error message if update fails
+      Swal.fire('更新失敗', '在更新時發生錯誤', 'error');
+    });
 };
 
 const confirmDelete = (houseId) => {
@@ -188,6 +325,6 @@ table td {
 }
 
 .modal {
-  z-index: 1050; /* or a higher value */
-}
-</style>
+  z-index: 1050;
+  /* or a higher value */
+}</style>
