@@ -1,9 +1,22 @@
 <template>
     <!-- Back to Top Button-->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa-solid fa-arrow-up"></i></a>
+    <a href="#" class="btn btn-lg btn-success back-to-top" v-if="isShow"><i class="fa-solid fa-arrow-up"></i></a>
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+const isShow = ref(false);
+
+const checkScroll = () => {
+    isShow.value = window.scrollY > 45;
+};
+
+onMounted(async () => {
+    window.addEventListener('scroll', checkScroll);
+});
+onUnmounted(() => {
+    window.removeEventListener('scroll', checkScroll);
+});
 
 </script>
     
@@ -16,8 +29,6 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: var(--primary);
-    color: var(--light);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     transition: .3s;
 }

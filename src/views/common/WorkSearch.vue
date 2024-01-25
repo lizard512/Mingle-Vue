@@ -77,7 +77,7 @@
             <!--Work Card Start-->
             <div class="container-fluid px-5 pt-3">
                 <div class="row g-4">
-                    <div class="col-lg-2 col-md-6 animate__animated animate__fadeIn work-card" v-for="work in works"
+                    <div class="col-xl-2 col-lg-3 col-md-6 animate__animated animate__fadeIn work-card" v-for="work in works"
                         :key="work.workid">
                         <div class="list-item rounded overflow-hidden">
                             <div class="position-relative overflow-hidden">
