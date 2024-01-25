@@ -36,7 +36,7 @@
                                 to="/lord-center">房東中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" to="/providerWork">建立工作</RouterLink>
-                                <RouterLink class="dropdown-item" to="/providerHouse">建立發源</RouterLink>
+                                <RouterLink class="dropdown-item" to="/providerHouse">建立房源</RouterLink>
                                 <RouterLink class="dropdown-item" to="/houseMaintain">房源維護</RouterLink>
                                 <RouterLink class="dropdown-item" to="/WorkMaintain">工作管理</RouterLink>
                                 <RouterLink class="dropdown-item" to="#">訂單管理</RouterLink>
