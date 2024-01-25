@@ -133,7 +133,7 @@ const baseURL = "http://localhost:8080";
 //// 預設參數
 // 載入相關
 let currentPage = ref(0); // 當前頁數
-const size = 6; // 每次載入的數量
+const size = 12; // 每次載入的數量
 const isLoading = ref(false); //避免重複載入
 let isEnd = ref(false);
 // 排序相關
