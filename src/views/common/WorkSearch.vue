@@ -22,17 +22,17 @@
 
         <div class="container-fluid">
             <!--Search Header Start-->
-            <div class="row g-4 align-items-center py-3 bg-light " :class="{ 'sticky-header': isSticky }">
-                <div class="col-lg-3">
+            <div class="row g-4 align-items-center py-3 bg-light-var" :class="{ 'sticky-header': isSticky }">
+                <div class="col-xl-3 col-lg-6">
                     <div class="text-start mx-auto wow animate__animated animate__slideInLeft inline-flex"
                         data-wow-delay="0.1s">
-                        <h1 class="me-3">打工機會</h1>
+                        <h2 class="m-3">打工機會</h2>
                         <p>快來查看正在徵求幫助者的項目！</p>
                     </div>
                 </div>
-                <div class="col-lg-2 mx-auto">
-                    <select class="form-select w-50" v-model="filters.city[0]" @change="reloadWork()">
-                        <option class="dropdown-item rounded-2" value="">所有縣市</option>
+                <div class="col-xl-2 col-lg-6 mx-auto d-inline-flex animate__animated animate__slideInDown" data-wow-delay="0.1s">
+                    <select class="form-select w-75 me-3" v-model="filters.city[0]" @change="reloadWork()">
+                        <option value="">所有縣市</option>
                         <optgroup v-for="(group, area) in groupedCities" :label="area" :key="area">
                             <option v-for="city in group" :value="city.city" :key="city.city">
                                 {{ city.city }}
@@ -40,11 +40,12 @@
                             <option :value="area">所有{{ area.substring(0,2) }}縣市</option>
                         </optgroup>
                     </select>
+                    <input type="text" class="form-control" placeholder="用關鍵字查詢">
                 </div>
-                <div class="col-lg-4 mx-auto">
-                    <ul class="nav d-inline-flex justify-content-end ">
-                        <li class="nav-item me-2 bg-white" v-for="worktypeID in worktypeIDs" :key="worktypeID.worktypeID">
-                            <a class="btn btn-outline-dark"
+                <div class="col-xl-4 col-lg-6 mx-auto animate__animated animate__slideInDown" data-wow-delay="0.1s">
+                    <ul class="nav nav-pills justify-content-end">
+                        <li class="nav-item me-2" v-for="worktypeID in worktypeIDs" :key="worktypeID.worktypeID">
+                            <a class="btn btn-outline-info"
                                 :class="{ 'active': filters.worktype.includes(worktypeID.worktypeID) }"
                                 @click="toggleWorkType(worktypeID.worktypeID)">
                                 {{ worktypeID.worktypeID }}
@@ -52,23 +53,23 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-lg-3 text-end wow animate__animated animate__slideInRight" data-wow-delay="0.1s">
-                    <ul class="nav nav-pills d-inline-flex justify-content-end">
-                        <li class="nav-item me-2 bg-white">
-                            <a class="btn btn-outline-danger active" data-bs-toggle="pill"
+                <div class="col-xl-3  col-lg-6 text-end wow animate__animated animate__slideInRight" data-wow-delay="0.1s">
+                    <ul class="nav nav-pills justify-content-end">
+                        <li class="nav-item me-2">
+                            <a class="btn btn-outline-warning active" data-bs-toggle="pill"
                                 @click="toggleSorts('views', 'DESC')">熱門項目</a>
                         </li>
-                        <li class="nav-item me-2 bg-white">
-                            <a class="btn btn-outline-danger" data-bs-toggle="pill"
+                        <li class="nav-item me-2">
+                            <a class="btn btn-outline-warning" data-bs-toggle="pill"
                                 @click="toggleSorts('createdAt', 'DESC')">最新上架</a>
                         </li>
-                        <li class="nav-item me-2 bg-white">
-                            <a class="btn btn-outline-danger" data-bs-toggle="pill"
+                        <li class="nav-item me-2">
+                            <a class="btn btn-outline-warning" data-bs-toggle="pill"
                                 @click="toggleSorts('EndDate', 'ASC')">即將截止</a>
                         </li>
-                        <li class="nav-item me-2 bg-white">
-                            <a class="btn btn-outline-danger" data-bs-toggle="pill" @click="toggleSortByAttendance">參與人數
-                                <i class="fa fa-arrow-down" :class="{ 'rotate': isArrowUp }"></i></a>
+                        <li class="nav-item me-2">
+                            <a class="btn btn-outline-warning" data-bs-toggle="pill" @click="toggleSortByAttendance">參與人數
+                                <i class="fa fa-arrow-down text-primary" :class="{ 'rotate': isArrowUp }"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -83,10 +84,10 @@
                             <div class="position-relative overflow-hidden">
                                 <img class="img-fluid" src="@images/台東熱氣球活動.jpg" :src="work.photo"
                                     @error="work.photo = '@images/grey.jpg'" :alt="work.name">
-                                <div class="bg-dark rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+                                <div class="bg-info rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
                                     {{ work.worktype }}</div>
                                 <div
-                                    class="bg-info rounded-top text-white position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
+                                    class="bg-success rounded-top text-white position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
                                     {{ work.city }}</div>
                             </div>
                             <div class="p-4 pb-0">
@@ -117,7 +118,7 @@
             <div class="the-end text-center m-5" v-if="isEnd">已經到底啦~~</div>
         </div>
         <!-- Sticky Footer Start-->
-        <footer class="sticky-footer mt-auto py-3 bg-light">
+        <footer class="sticky-footer mt-auto py-3 bg-light-var">
             <div class="container">
                 <span class="mx-2"><i class="fa fa-map-marker-alt me-2"></i>台北市大安區復興南路一段390號2樓</span>
                 <span class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</span>
@@ -300,6 +301,11 @@ const checkSticky = () => {
 
 <style scoped>
 
+.bg-light-var{
+    background-color: var(--light);
+}
+
+
 .nav-pills .nav-item .btn {
     color: var(--dark);
 }
@@ -363,7 +369,9 @@ const checkSticky = () => {
 .the-end {
     height: 100px
 }
-
+.fa {
+    color: chocolate;
+}
 /* .work-address {
     overflow: hidden;
     white-space: nowrap;

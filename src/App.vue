@@ -37,8 +37,8 @@ import BackToTopButton from '@components/BackToTopButton.vue'
     --primary: #ffc107;
     --secondary: #d63384;
     --success: #198754;
-    --info: #0dcaf0;
-    --warning: #fd7e14;
+    --info: #1ba2bd;
+    --warning: chocolate;
     --danger: #dc3545;
     --light: #EFFDF5;
     --dark: #0E2E50;
@@ -60,9 +60,9 @@ import BackToTopButton from '@components/BackToTopButton.vue'
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: #FFFFFF !important;
+    background: #FFFFFF;
     border-radius: 50px;
-    border: 1px dashed var(--primary) !important;
+    border: 1px dashed var(--primary);
 }
 
 </style>

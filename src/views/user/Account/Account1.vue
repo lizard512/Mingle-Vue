@@ -1,5 +1,5 @@
 <template>
-    <div class=""><br><br>
+    <div class="my-5">
         <div class="row align-items-start">
             <h3 class="col-3"></h3>
             <h3 class="col-3">歡迎回來 </h3>
@@ -12,7 +12,8 @@
                 <!-- 大頭貼上傳和預覽 -->
                 <div class="col float-end">
                     <a href="#" class="btn">
-                        <img width=300 src="@images/user-1.jpg" class="rounded float-end img1" for="formFile">
+                        <img width=300 src="@images/user-1.jpg" class="img-fluid rounded float-end rounded-circle img1"
+                            for="formFile">
                     </a>
                 </div>
                 <!-- 使用者設定名稱 -->
@@ -137,12 +138,25 @@ function imageLoaded(e) {
 
 import VueCookies from 'vue-cookies';
 import axios from 'axios';
-
+import Swal from 'sweetalert2';
+import { useRouter } from 'vue-router'
 const userdetails = reactive({})
 
 const getuserid =
     () => {
         const sessionToken = VueCookies.get('sessionToken');
+        if (sessionToken === null || sessionToken === undefined || sessionToken === "") {
+            Swal.fire({
+                icon: 'warning',
+                text: '請先登入才能使用會員管理',
+                confirmButtonText: '好的',
+            });
+            const router = useRouter();
+            router.push({
+                name: "Login",
+            });
+            return;
+        }
         const userid = String(sessionToken).substring(32, sessionToken.length);
         return userid
     }
