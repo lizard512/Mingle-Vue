@@ -5,16 +5,16 @@
             <div class="row g-4 align-items-center py-3 bg-light-var" :class="{ 'sticky-header': isSticky }">
                 <div class="col-lg-5">
                     <div class="row">
-                        <div class="col-xl-6 col-lg-12">
+                        <div class="col-xxl-6 col-lg-12">
                             <div class="text-start mx-auto wow animate__animated animate__slideInLeft inline-flex"
                                 data-wow-delay="0.1s">
-                                <h2 class="m-3">打工機會</h2>
-                                <p>快來查看正在徵求幫助者的項目！</p>
+                                <h2 class="mx-3">打工機會</h2>
+                                <p >正在徵求幫助者的項目！</p>
                             </div>
                         </div>
-                        <div class="col-xl-6 col-lg-12 mx-auto d-inline-flex animate__animated animate__slideInDown"
+                        <div class="col-xxl-6 col-lg-12 mx-auto d-inline-flex animate__animated animate__slideInDown"
                             data-wow-delay="0.1s">
-                            <select class="form-select w-75 me-3" v-model="filters.city[0]" @change="reloadWork()">
+                            <select class="form-select w-50 me-3" v-model="filters.city[0]" @change="reloadWork()">
                                 <option value="">所有縣市</option>
                                 <optgroup v-for="(group, area) in groupedCities" :label="area" :key="area">
                                     <option v-for="city in group" :value="city.city" :key="city.city">
@@ -23,13 +23,13 @@
                                     <option :value="area">所有{{ area.substring(0, 2) }}縣市</option>
                                 </optgroup>
                             </select>
-                            <input type="text" class="form-control" placeholder="用關鍵字查詢">
+                            <input type="text" class="form-control w-50" placeholder="用關鍵字查詢">
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-7">
                     <div class="row">
-                        <div class="col-xl-7 col-lg-12 mx-auto animate__animated animate__slideInDown" data-wow-delay="0.1s">
+                        <div class="col-xxl-7 col-lg-12 mx-auto animate__animated animate__slideInDown" data-wow-delay="0.1s">
                             <ul class="nav nav-pills justify-content-end">
                                 <li class="nav-item m-1" v-for="worktypeID in worktypeIDs" :key="worktypeID.worktypeID">
                                     <a class="btn btn-outline-info"
@@ -40,7 +40,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-xl-5  col-lg-12 text-end wow animate__animated animate__slideInRight"
+                        <div class="col-xxl-5 col-lg-12 text-end wow animate__animated animate__slideInRight"
                             data-wow-delay="0.1s">
                             <ul class="nav nav-pills justify-content-end">
                                 <li class="nav-item m-1">
@@ -82,7 +82,7 @@
                                     {{ work.city }}</div>
                             </div>
                             <div class="p-4 pb-0">
-                                <a class="d-block h5 mb-2" href="">{{ work.name }}</a>
+                                <p class="text-truncate h5" href="">{{ work.name }}</p>
                                 <p class="text-truncate"><i class="fa fa-map-marker me-2"></i>{{
                                     work.address }}</p>
                                 <!-- <p>{{ work.description }}</p> -->
@@ -108,7 +108,7 @@
             <div class="the-end text-center m-5" v-if="isEnd">已經到底啦~~</div>
         </div>
         <!-- Sticky Footer Start-->
-        <footer class="sticky-footer mt-auto py-3 bg-light-var">
+        <footer class="sticky-footer mt-auto py-3 bg-light-var animate__animated animate__slideInUp" data-wow-delay="0.1s">
             <div class="container">
                 <span class="mx-2"><i class="fa fa-map-marker-alt me-2"></i>台北市大安區復興南路一段390號2樓</span>
                 <span class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</span>
@@ -133,7 +133,7 @@ const baseURL = "http://localhost:8080";
 //// 預設參數
 // 載入相關
 let currentPage = ref(0); // 當前頁數
-const size = 6; // 每次載入的數量
+const size = 12; // 每次載入的數量
 const isLoading = ref(false); //避免重複載入
 let isEnd = ref(false);
 // 排序相關

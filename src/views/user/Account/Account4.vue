@@ -56,4 +56,8 @@ const handleChange = (val: string[]) => {
 </script>
   
   
-<style></style>
+<style scoped>
+.el-collapse {
+    --el-collapse-header-font-size: 3vh;
+}
+</style>

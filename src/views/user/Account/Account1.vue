@@ -1,56 +1,61 @@
 <template>
     <div class="my-5">
         <div class="row align-items-start">
-            <h3 class="col-3"></h3>
+            <h3 class="col-1" />
             <h3 class="col-3">歡迎回來 </h3>
             <h3 class="col-2"> {{ userdetails.name }}</h3>
         </div>
         <br><br>
         <!-- 表單開始 -->
-        <div class="container-xxl">
-            <div class="col-9">
-                <!-- 大頭貼上傳和預覽 -->
-                <div class="col float-end">
-                    <a href="#" class="btn">
-                        <img width=300 src="@images/user-1.jpg" class="img-fluid rounded float-end rounded-circle img1"
-                            for="formFile">
-                    </a>
-                </div>
+        <div class="container">
+
+            <!-- 大頭貼上傳和預覽 -->
+            <div class="col-9 float-end">
+                <a href="#" class="btn">
+                    <img width=300 src="@images/user-3.jpg" class="img-fluid rounded float-end rounded-circle img1"
+                        for="formFile">
+                </a>
+            </div>
+
+            <div class="col-3">
                 <!-- 使用者設定名稱 -->
                 <div class="row mb-3">
-                    <div class="col-sm-4">暱稱 </div>
+                    <div class="col-sm-4 mb-4">暱稱 </div>
                     <div class="col-sm-6"><span>{{ userdetails.name }}</span></div>
                 </div>
                 <!-- email並驗證 -->
                 <div class="row mb-3">
-                    <div class="col-sm-4">Email </div>
+                    <div class="col-sm-4 mb-4">Email </div>
                     <div class="col-sm-6"><span>{{ userdetails.email }}</span></div>
                 </div>
                 <!-- 手機號碼(驗證) -->
                 <div class="row mb-3">
-                    <div class="col-sm-4">手機號碼 </div>
+                    <div class="col-sm-4 mb-4">手機號碼 </div>
                     <div class="col-sm-6"><span>{{ userdetails.phone }}</span></div>
                 </div>
                 <!-- 性別 -->
                 <div class="row mb-3">
-                    <div class="col-sm-4">性別 </div>
-                    <div class="col-sm-6"><span>{{ userdetails.gender === "Male" ? "男" : (userdetails.gender === "Female" ?
-                        "女" : "保密") }}</span></div>
+                    <div class="col-sm-4 mb-4">性別 </div>
+                    <div class="col-sm-6"><span>{{ userdetails.gender === "Male" ? "男" : (userdetails.gender ===
+                        "Female" ? "女" : "保密") }}</span></div>
                 </div>
-            </div>
-            <!-- 出生日期 -->
-            <div class="row mb-3 ">
-                <div class="col-sm-4">生日 </div>
-                <div class="col-sm-6"><span>{{ formatDate(userdetails.birth) }}</span></div>
+                <!-- 出生日期 -->
+                <div class="row mb-3">
+                    <div class="col-sm-4 mb-4">生日 </div>
+                    <div class="col-sm-6"><span>{{ formatDate(userdetails.birth) }}</span></div>
+                </div>
+                <span class="btn btn-primary btn-block float-end" @click="enterimput"
+                    v-show="isShowToChange">變更</span><br><br>
+                <button class="btn btn-lg btn-danger btn-block float-end" type="submit" v-show="isShowToSubmit"
+                    @click="submitChanges">儲存</button>
             </div>
 
         </div>
 
 
+
         <!-- 按鈕 -->
-        <span class="btn  btn-primary btn-block float-end" @click="enterimput" v-show="isShowToChange">變更</span><br><br>
-        <button class="btn btn-lg btn-danger btn-block float-end" type="submit" v-show="isShowToSubmit"
-            @click="submitChanges">儲存</button>
+
     </div>
 </template>
     
