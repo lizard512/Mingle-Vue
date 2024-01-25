@@ -75,7 +75,7 @@
             <form @submit.prevent="handleUpdateSubmit">
               <!-- Add your form fields for updating specific house data -->
               <p style="text-align: left; font-weight: bold;">更新房屋:</p>
-              <input v-model="updateFormData.houseid" type="hidden">  
+              <input v-model="updateFormData.houseid" type="hidden">
               <div class="mb-3 row">
                 <label for="name" class="col-sm-2 col-form-label">名稱:</label>
                 <div class="col-sm-10">
@@ -196,7 +196,7 @@
 <script setup>
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { ref, onMounted, computed, toRefs } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
@@ -204,7 +204,7 @@ const houses = ref([]);
 const isUpdateModalVisible = ref(false);
 
 const fetchHouses = () => {
-  fetch('http://192.168.74.123:8080/api/house/findAll')
+  fetch('http://localhost:8080/api/house/findAll')
     .then((response) => response.json())
     .then((data) => {
       houses.value = data;
@@ -240,38 +240,36 @@ const updateFormData = ref({
   houseid: null,
   lordid: '',
   houseType: '',
-  name: ''
   // Add other properties
 });
 
-const openUpdateModal =async (houseId) => {
+const openUpdateModal = async (houseId) => {
   // Find the specific house data using houseId
-  const houseToUpdate  =await houses.value.find(house => house.houseid === houseId);
+  const houseToUpdate = await houses.value.find(house => house.houseid === houseId);
   // Set the values in the updateFormData
-  console.log(houses.value)
-  updateFormData.value.houseid = houseToUpdate.houseid;
-  // updateFormData.lordid = houseToUpdate.lordid;
-  // updateFormData.houseType = houseToUpdate.housType;
-  // updateFormData.city = houseToUpdate.city;
+  // updateFormData.value.houseid = houseToUpdate.houseid;
+  // updateFormData.value.lordid = houseToUpdate.lordid;
+  // updateFormData.value.houseType = houseToUpdate.housType;
+  // updateFormData.value.city = houseToUpdate.city;
   updateFormData.value.name = houseToUpdate.name;
-  // updateFormData.description = houseToUpdate.description;
-  // updateFormData.address = houseToUpdate.address;
-  // updateFormData.postCode = houseToUpdate.postCode;
-  // updateFormData.beds = houseToUpdate.beds;
-  // // updateFormData.status = houseToUpdate.status;
-  // updateFormData.notes = houseToUpdate.notes;
-  // updateFormData.hasWifi = houseToUpdate.hasWifi;
-  // updateFormData.hasTV = houseToUpdate.hasTV;
-  // updateFormData.hasKitchen = houseToUpdate.hasKitchen;
-  // updateFormData.hasLaundry = houseToUpdate.hasLaundry;
-  // updateFormData.hasParkingLot = houseToUpdate.hasParkingLot;
-  // updateFormData.hasAirconditioner = houseToUpdate.hasAirconditioner;
-  // updateFormData.hasPersonalSpace = houseToUpdate.hasPersonalSpace;
-  // updateFormData.hasPool = houseToUpdate.hasPool;
-  // updateFormData.hasGym = houseToUpdate.hasGym;
-  // updateFormData.createdAt = houseToUpdate.createdAt;
-  // updateFormData.updatedAt = getDate();
-  // updateFormData.isDeleted = houseToUpdate.isDeleted;
+  updateFormData.value.description = houseToUpdate.description;
+  updateFormData.value.address = houseToUpdate.address;
+  updateFormData.value.postCode = houseToUpdate.postCode;
+  updateFormData.value.beds = houseToUpdate.beds;
+  // updateFormData.value.status = houseToUpdate.status;
+  updateFormData.value.notes = houseToUpdate.notes;
+  updateFormData.value.hasWifi = houseToUpdate.hasWifi;
+  updateFormData.value.hasTV = houseToUpdate.hasTV;
+  updateFormData.value.hasKitchen = houseToUpdate.hasKitchen;
+  updateFormData.value.hasLaundry = houseToUpdate.hasLaundry;
+  updateFormData.value.hasParkingLot = houseToUpdate.hasParkingLot;
+  updateFormData.value.hasAirconditioner = houseToUpdate.hasAirconditioner;
+  updateFormData.value.hasPersonalSpace = houseToUpdate.hasPersonalSpace;
+  updateFormData.value.hasPool = houseToUpdate.hasPool;
+  updateFormData.value.hasGym = houseToUpdate.hasGym;
+  // updateFormData.value.createdAt = houseToUpdate.createdAt;
+  // updateFormData.value.updatedAt = getDate();
+  // updateFormData.value.isDeleted = houseToUpdate.isDeleted;
 
   isUpdateModalVisible.value = true;
 };
@@ -281,8 +279,15 @@ const closeUpdateModal = () => {
 };
 
 const handleUpdateSubmit = () => {
+  // Set the content type to JSON
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
   // Call your Spring Boot update API here with updateFormData using Axios
-  axios.post('http://localhost:8080/api/house/save', updateFormData)
+  axios.post('http://localhost:8080/api/house/save', updateFormData, config)
     .then(() => {
       // Show a success message
       Swal.fire('更新成功!', '房源資料已更新成功', 'success');

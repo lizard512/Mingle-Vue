@@ -89,7 +89,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--light);
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 35px;
     transition: .3s;
@@ -135,7 +134,7 @@
 }
 
 .footer .copyright a {
-    color: var(--light);
+    color: white;
 }
 
 .footer .footer-menu a {
