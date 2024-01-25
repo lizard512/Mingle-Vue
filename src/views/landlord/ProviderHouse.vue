@@ -6,7 +6,7 @@
           <h1>下列哪項最符合工作內容？</h1>
           <div>
             <div class="row row-cols-3 gx-0 gy-3 justify-content-around" style="" role="group"
-                 aria-label="Basic radio toggle button group">
+              aria-label="Basic radio toggle button group">
               <div class="col">
                 <input type="radio" class="btn-check" name="workcontain" id="page1radio1" autocomplete="off">
 
@@ -61,7 +61,7 @@
           <h1>下列哪項最能確切描述你的房源？</h1>
           <div>
             <div class="row row-cols-3 gx-0 gy-3 justify-content-around" style="" role="group"
-                 aria-label="Basic radio toggle button group">
+              aria-label="Basic radio toggle button group">
               <div class="col">
                 <input type="radio" class="btn-check" name="houseontain" id="page2radio1" autocomplete="off">
 
@@ -104,7 +104,7 @@
           <h1>房屋地址？</h1>
           <div>
             <div class="row row-cols-3 gx-0 gy-3 justify-content-around" style="" role="group"
-                 aria-label="Basic radio toggle button group">
+              aria-label="Basic radio toggle button group">
               <div class="col">
                 <input type="radio" class="btn-check" name="houseontain" id="page2radio1" autocomplete="off">
 
@@ -146,9 +146,8 @@
 
   <div class="animate__animated animate__bounceInUp row justify-content-between progress-bar-container fixed-bottom">
     <div class="progress">
-      <div class="progress-bar" role="progressbar" v-bind:style="{width: barValue + '%'}"
-           style=" background-color: #ffb4aa"
-           aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress-bar" role="progressbar" v-bind:style="{ width: barValue + '%' }"
+        style=" background-color: #ffb4aa" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
       </div>
     </div>
     <button type="button" class="btn btn-outline-primary prev col-1 " @click="prev" :disabled="currentPage <= 1">Prev
@@ -158,11 +157,10 @@
       Step
     </button>
   </div>
-
 </template>
 
 <script lang="ts" setup>
-import {ref} from 'vue'
+import { ref } from 'vue'
 
 let maxValue = 100 / 4;
 let barValue = 0;
@@ -215,7 +213,7 @@ function prev() {
 
 }
 
-.progress-bar-container > button {
+.progress-bar-container>button {
   width: 8rem;
   height: 3rem;
   margin: 2rem 3rem;
@@ -259,11 +257,11 @@ function prev() {
   flex: 1;
 }
 
-.btn > img {
+.btn>img {
   justify-content: left;
 }
 
-img{
+img {
   height: 2rem;
   width: 2rem;
   margin-right: 10px;

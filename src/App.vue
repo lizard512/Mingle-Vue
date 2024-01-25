@@ -26,12 +26,43 @@ import BackToTopButton from '@components/BackToTopButton.vue'
 <style src="bootstrap-icons/font/bootstrap-icons.css"></style>
 <!-- Font-->
 <style src="@fortawesome/fontawesome-free/css/all.css"></style>
-<!-- Customized CSS -->
-<style src="@styles/style.css"></style>
 <!-- Customized Bootstrap SCSS-->
 <style lang="scss" src="@styles/customized-bootstrap.scss"></style>
 <style>
 ::-webkit-scrollbar {
     display: none;
 }
+
+:root {
+    --primary: #ffc107;
+    --secondary: #d63384;
+    --success: #198754;
+    --info: #1ba2bd;
+    --warning: chocolate;
+    --danger: #dc3545;
+    --light: #EFFDF5;
+    --dark: #0E2E50;
+}
+
+/*** Button ***/
+/* .btn {
+    transition: .5s;
+}
+
+.btn.btn-primary,
+.btn.btn-secondary {
+    color: #FFFFFF;
+} */
+
+/*** Icon ***/
+.icon {
+    padding: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    border-radius: 50px;
+    border: 1px dashed var(--primary);
+}
+
 </style>

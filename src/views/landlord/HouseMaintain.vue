@@ -1,209 +1,330 @@
 <template>
-    <br>
-    <div class="tableDiv">
-        <table class="table">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">房間ID</th>
-                    <th scope="col">圖片</th>
-                    <th scope="col">房屋類型</th>
-                    <th scope="col">縣市</th>
-                    <th scope="col">名稱</th>
-                    <th scope="col">房源描述</th>
-                    <th scope="col">地址</th>
-                    <th scope="col">郵遞區號</th>
-                    <th scope="col">床位數</th>
-                    <th scope="col">狀態</th>
-                    <th scope="col">備註</th>
-                    <th scope="col">有Wifi</th>
-                    <th scope="col">有TV</th>
-                    <th scope="col">有廚房</th>
-                    <th scope="col">有洗衣機</th>
-                    <th scope="col">有停車位</th>
-                    <th scope="col">有冷氣機</th>
-                    <th scope="col">有停車位</th>
-                    <th scope="col">有游泳池</th>
-                    <th scope="col">有健身房</th>
-                    <th scope="col">建立日期</th>
-                    <th scope="col">更新日期</th>
-                    <th scope="col">更新</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">1</th>
-                    <th scope="col">
-                        <img src="../../assets/images/台東熱氣球活動.jpg" alt="獨棟別墅" class="img-thumbnail">
-                    </th>
-                    <th scope="col">獨棟別墅</th>
-                    <th scope="col">台北市</th>
-                    <th scope="col">總統套房</th>
-                    <th scope="col">別緻雅房，景觀美麗，交通方便</th>
-                    <th scope="col">台北市大安區復興南路一段390號2樓</th>
-                    <th scope="col">106407</th>
-                    <th scope="col">4</th>
-                    <th scope="col">建置中</th>
-                    <th scope="col">還不確定名稱</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">2023-12-28 14:43:36</th>
-                    <th scope="col">2023-12-28 14:43:36</th>
-                    <th scope="col">
-                        <button type="button" class="btn btn-light update">修改</button>
-                        <button type="button" class="btn btn-danger delete">刪除</button>
-                    </th>
-                </tr>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">2</th>
-                    <th scope="col">
-                        <img src="../../assets/images/台中實習辦公.jpg" alt="獨棟別墅" class="img-thumbnail">
-                    </th>
-                    <th scope="col">小木屋</th>
-                    <th scope="col">新北市</th>
-                    <th scope="col">野外小木屋</th>
-                    <th scope="col">坐落於河流野溪旁</th>
-                    <th scope="col">新北市金山區陽金公路35號</th>
-                    <th scope="col">208365</th>
-                    <th scope="col">2</th>
-                    <th scope="col">已建立</th>
-                    <th scope="col"></th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">NO</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">No</th>
-                    <th scope="col">No</th>
-                    <th scope="col">No</th>
-                    <th scope="col">2023-12-28 14:49:03</th>
-                    <th scope="col">2023-12-28 14:49:03</th>
-                    <th scope="col">
-                        <button type="button" class="btn btn-light update">修改</button>
-                        <button type="button" class="btn btn-danger delete">刪除</button>
-                    </th>
-                </tr>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">3</th>
-                    <th scope="col">
-                        <img src="../../assets/images/新北浩克漢堡.jpg" alt="獨棟別墅" class="img-thumbnail">
-                    </th>
-                    <th scope="col">公寓</th>
-                    <th scope="col">台中市</th>
-                    <th scope="col">公寓</th>
-                    <th scope="col">捷運站旁邊，走路五分鐘</th>
-                    <th scope="col">台中市西區公正路</th>
-                    <th scope="col">40350</th>
-                    <th scope="col">5</th>
-                    <th scope="col">已建立</th>
-                    <th scope="col"></th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">No</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">2023-12-28 14:56:25</th>
-                    <th scope="col">2023-12-28 14:56:25</th>
-                    <th scope="col">
-                        <button type="button" class="btn btn-light update">修改</button>
-                        <button type="button" class="btn btn-danger delete">刪除</button>
-                    </th>
-                </tr>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">4</th>
-                    <th scope="col">
-                        <img src="../../assets/images/台東貨櫃屋.jpg" alt="獨棟別墅" class="img-thumbnail">
-                    </th>
-                    <th scope="col">公寓</th>
-                    <th scope="col">台中市</th>
-                    <th scope="col">公寓</th>
-                    <th scope="col">捷運站旁邊，走路五分鐘</th>
-                    <th scope="col">台中市西區公正路</th>
-                    <th scope="col">40350</th>
-                    <th scope="col">5</th>
-                    <th scope="col">已建立</th>
-                    <th scope="col"></th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">No</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">2023-12-28 14:56:25</th>
-                    <th scope="col">2023-12-28 14:56:25</th>
-                    <th scope="col">
-                        <button type="button" class="btn btn-light update">修改</button>
-                        <button type="button" class="btn btn-danger delete">刪除</button>
-                    </th>
-                </tr>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">5</th>
-                    <th scope="col">
-                        <img src="../../assets/images/宜蘭小木屋建設.jpg" alt="獨棟別墅" class="img-thumbnail">
-                    </th>
-                    <th scope="col">公寓</th>
-                    <th scope="col">台中市</th>
-                    <th scope="col">公寓</th>
-                    <th scope="col">捷運站旁邊，走路五分鐘</th>
-                    <th scope="col">台中市西區公正路</th>
-                    <th scope="col">40350</th>
-                    <th scope="col">5</th>
-                    <th scope="col">已建立</th>
-                    <th scope="col"></th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">No</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">Yes</th>
-                    <th scope="col">2023-12-28 14:56:25</th>
-                    <th scope="col">2023-12-28 14:56:25</th>
-                    <th scope="col">
-                        <button type="button" class="btn btn-light update">修改</button>
-                        <button type="button" class="btn btn-danger delete">刪除</button>
-                    </th>
-                </tr>
-            </tbody>
-        </table>
+  <br>
+  <div class="tableDiv" id="app">
+    <h3>房源表</h3>
+    <table class="table">
+      <thead class="table-dark">
+        <tr>
+          <th>House ID</th>
+          <th>Lord ID</th>
+          <th>更新</th>
+          <th>房源類型</th>
+          <th>縣市</th>
+          <th>名稱</th>
+          <th>描述</th>
+          <th>地址</th>
+          <th>郵遞區號</th>
+          <th>床位</th>
+          <th>狀態</th>
+          <th>備註</th>
+          <th>有Wifi</th>
+          <th>有TV</th>
+          <th>有廚房</th>
+          <th>有洗衣機</th>
+          <th>有停車位</th>
+          <th>有冷氣</th>
+          <th>有私人空間</th>
+          <th>有游泳池</th>
+          <th>有健身房</th>
+          <th>新增時間</th>
+          <th>更新時間</th>
+          <th>是否刪除</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="house in mappedHouses" :key="house.houseid">
+          <td>{{ house.houseid }}</td>
+          <td>{{ house.lordid }}</td>
+          <td>
+            <button type="button" class="btn btn-light update" @click="openUpdateModal(house.houseId)">修改</button>
+            <button type="button" class="btn btn-danger delete" @click="confirmDelete(house.houseid)">刪除</button>
+          </td>
+          <td>{{ house.houseType }}</td>
+          <td>{{ house.city }}</td>
+          <td>{{ house.name }}</td>
+          <td>{{ house.description }}</td>
+          <td>{{ house.address }}</td>
+          <td>{{ house.postCode }}</td>
+          <td>{{ house.beds }}</td>
+          <td>{{ house.status }}</td>
+          <td>{{ house.notes }}</td>
+          <td>{{ house.hasWifi }}</td>
+          <td>{{ house.hasTV }}</td>
+          <td>{{ house.hasKitchen }}</td>
+          <td>{{ house.hasLaundry }}</td>
+          <td>{{ house.hasParkingLot }}</td>
+          <td>{{ house.hasAirconditioner }}</td>
+          <td>{{ house.hasPersonalSpace }}</td>
+          <td>{{ house.hasPool }}</td>
+          <td>{{ house.hasGym }}</td>
+          <td>{{ house.createdAt }}</td>
+          <td>{{ house.updatedAt }}</td>
+          <td>{{ house.isDeleted }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Modal for updating specific house data -->
+    <div v-if="isUpdateModalVisible" class="modal fade show" style="display: block;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Update House</h5>
+            <button type="button" class="btn-close" @click="closeUpdateModal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="handleUpdateSubmit">
+              <!-- Add your form fields for updating specific house data -->
+              <p style="text-align: left; font-weight: bold;">更新房屋:</p>
+              <input v-model="updateFormData.houseid" type="hidden">
+              <div class="mb-3 row">
+                <label for="name" class="col-sm-2 col-form-label">名稱:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.name" type="text" class="form-control" id="name" placeholder="名稱">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="description" class="col-sm-2 col-form-label">描述:</label>
+                <div class="col-sm-10">
+                  <textarea v-model="updateFormData.description" class="form-control" id="description" placeholder="描述"
+                    rows="3"></textarea>
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="address" class="col-sm-2 col-form-label">地址:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.address" type="text" class="form-control" id="address" placeholder="地址">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="postCode" class="col-sm-2 col-form-label">郵遞區號:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.postCode" type="text" class="form-control" id="postCode"
+                    placeholder="郵遞區號">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="beds" class="col-sm-2 col-form-label">床位:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.beds" type="text" class="form-control" id="beds" placeholder="床位">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="notes" class="col-sm-2 col-form-label">備註:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.notes" type="text" class="form-control" id="notes" placeholder="備註">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasWifi" class="col-sm-2 col-form-label">有Wifi:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasWifi" type="text" class="form-control" id="hasWifi"
+                    placeholder="有Wifi">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasTV" class="col-sm-2 col-form-label">有TV:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasTV" type="text" class="form-control" id="hasTV" placeholder="有TV">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasKitchen" class="col-sm-2 col-form-label">有廚房:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasKitchen" type="text" class="form-control" id="hasKitchen"
+                    placeholder="有廚房">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasLaundry" class="col-sm-2 col-form-label">有洗衣機:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasLaundry" type="text" class="form-control" id="hasLaundry"
+                    placeholder="有洗衣機">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasParkingLot" class="col-sm-2 col-form-label">有停車位:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasParkingLot" type="text" class="form-control" id="hasParkingLot"
+                    placeholder="有停車位">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasAirconditioner" class="col-sm-2 col-form-label">有冷氣:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasAirconditioner" type="text" class="form-control"
+                    id="hasAirconditioner" placeholder="有冷氣">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="hasPersonalSpace" class="col-sm-2 col-form-label">有私人空間:</label>
+                <div class="col-sm-10">
+                  <input v-model="updateFormData.hasPersonalSpace" type="text" class="form-control" id="hasPersonalSpace"
+                    placeholder="有私人空間">
+                </div>
+              </div>
+              <br>
+              <button type="submit" class="btn btn-primary">儲存</button>
+              <button type="button" @click="closeUpdateModal" class="btn btn-secondary">取消</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
-    <br>
+  </div>
 </template>
 
 <script setup>
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { ref, onMounted, computed } from 'vue';
+import Swal from 'sweetalert2';
+import axios from 'axios';
+
+const houses = ref([]);
+const isUpdateModalVisible = ref(false);
+
+const fetchHouses = () => {
+  fetch('http://localhost:8080/api/house/findAll')
+    .then((response) => response.json())
+    .then((data) => {
+      houses.value = data;
+    })
+    .catch((error) => {
+      console.error('Error fetching houses:', error);
+    });
+};
+
+const mapBoolToString = (value) => {
+  return +value ? '是' : '否';
+};
+
+const mappedHouses = computed(() => {
+  return houses.value.map((house) => {
+    return {
+      ...house,
+      hasWifi: mapBoolToString(house.hasWifi),
+      hasTV: mapBoolToString(house.hasTV),
+      hasKitchen: mapBoolToString(house.hasKitchen),
+      hasLaundry: mapBoolToString(house.hasLaundry),
+      hasParkingLot: mapBoolToString(house.hasParkingLot),
+      hasAirconditioner: mapBoolToString(house.hasAirconditioner),
+      hasPersonalSpace: mapBoolToString(house.hasPersonalSpace),
+      hasPool: mapBoolToString(house.hasPool),
+      hasGym: mapBoolToString(house.hasGym),
+      isDeleted: mapBoolToString(house.isDeleted),
+    };
+  });
+});
+
+const updateFormData = ref({
+  houseid: null,
+  lordid: '',
+  houseType: '',
+  // Add other properties
+});
+
+const openUpdateModal = (houseId) => {
+  // Find the specific house data using houseId
+  const houseToUpdate = houses.value.find(house => house.houseId === houseId);
+
+  // Set the values in the updateFormData
+  updateFormData.houseid = houseToUpdate.houseId;
+  updateFormData.lordid = houseToUpdate.lordid;
+  updateFormData.houseType = houseToUpdate.houseType;
+  // Set other properties
+
+  isUpdateModalVisible.value = true;
+};
+
+const closeUpdateModal = () => {
+  isUpdateModalVisible.value = false;
+};
+
+const handleUpdateSubmit = () => {
+  // Call your Spring Boot update API here with updateFormData using Axios
+  axios.post('http://localhost:8080/api/house/save', updateFormData)
+    .then(() => {
+      // Show a success message
+      Swal.fire('更新成功!', '房源資料已更新成功', 'success');
+      // Fetch the updated list of houses
+      fetchHouses();
+      // Close the modal
+      closeUpdateModal();
+    })
+    .catch((error) => {
+      console.error('更新失敗', error);
+      // Show an error message if update fails
+      Swal.fire('更新失敗', '在更新時發生錯誤', 'error');
+    });
+};
+
+const confirmDelete = (houseId) => {
+  Swal.fire({
+    title: '你確定要刪除嗎',
+    text: '這沒辦法復原資料的',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Call your Spring Boot delete API here with houseId using Axios
+      axios.delete(`http://localhost:8080/api/house/delete/${houseId}`)
+        .then(() => {
+          // Show a success message
+          Swal.fire('刪除成功!', '你的資料已刪除成功', 'success');
+          // Fetch the updated list of houses
+          fetchHouses();
+        })
+        .catch((error) => {
+          console.error('刪除失敗', error);
+          // Show an error message if deletion fails
+          Swal.fire('刪除失敗', '你在刪除時產生錯誤', 'error');
+        });
+    }
+  });
+};
+
+onMounted(() => {
+  // Fetch data from your Spring Boot backend when the component is mounted
+  fetchHouses();
+});
 </script>
     
 <style scoped>
 .tableDiv {
-    width: 90%;
-    margin: auto;
-    text-align: center;
-    overflow: scroll;
+  width: 90%;
+  margin: auto;
+  text-align: center;
+  overflow: scroll;
 }
 
 .table tr:nth-child(even) {
-    --bs-table-bg: #FFD966;
+  --bs-table-bg: #FFD966;
 }
-</style>
+
+table {
+  border: 3px solid #0E2E50;
+}
+
+table td {
+  border: 1px solid #0E2E50;
+}
+
+.modal {
+  z-index: 1050;
+  /* or a higher value */
+}</style>

@@ -2,6 +2,10 @@
 
 $primary: #ffc107;
 $secondary: #d63384;
+$success: #198754;
+$info: #1ba2bd;
+$warning: chocolate;
+$danger: #dc3545;
 $light: #EFFDF5;
 $dark: #0E2E50;
 
@@ -33,13 +37,13 @@ $enable-negative-margins: true;
 
 // Custom height utilities
 .h-30 {
-        height: 30% !important;
+	height: 30% !important;
 }
 
 .h-60 {
-        height: 60% !important;
+	height: 60% !important;
 }
 
 .h-90 {
-        height: 90% !important;
+	height: 90% !important;
 }

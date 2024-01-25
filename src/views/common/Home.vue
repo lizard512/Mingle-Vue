@@ -53,10 +53,29 @@
   
 
 <!-- Customized CSS -->
-<style src="@styles/style.css" scoped></style>
 <style scoped>
 .d-block {
   object-fit: cover;
   max-height: 700px;
+}
+
+/*** Category ***/
+.cat-item div {
+    background: #FFFFFF;
+    border: 1px dashed rgba(0, 185, 142, .3);
+    transition: .5s;
+}
+
+.cat-item:hover div {
+    background: lightslategray;
+    border-color: transparent;
+}
+
+.cat-item div * {
+    transition: .5s;
+}
+
+.cat-item:hover div * {
+    color: #FFFFFF !important;
 }
 </style>
