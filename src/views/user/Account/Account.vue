@@ -1,5 +1,5 @@
 <template>
-    <div class=" bg-white p-0 row">
+    <div class=" bg-white p-0 row text-Font-Account">
         <!-- index Start -->
 
         <!-- left Start -->
