@@ -1,5 +1,5 @@
 <template>
-    <div class="work-search">
+    <div class="vh-100">
 
         <!-- <div class="container-fluid bg-light py-4" :class="{ 'sticky-header': isSticky }">
             <div class="container">
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-lg-2 mx-auto">
                     <select class="form-select w-50" v-model="filters.city[0]" @change="reloadWork()">
-                        <option value="">所有縣市</option>
+                        <option class="dropdown-item rounded-2" value="">所有縣市</option>
                         <optgroup v-for="(group, area) in groupedCities" :label="area" :key="area">
                             <option v-for="city in group" :value="city.city" :key="city.city">
                                 {{ city.city }}
@@ -91,7 +91,7 @@
                             </div>
                             <div class="p-4 pb-0">
                                 <a class="d-block h5 mb-2" href="">{{ work.name }}</a>
-                                <p class="work-address"><i class="fa fa-map-marker me-2"></i>{{
+                                <p class="text-truncate"><i class="fa fa-map-marker me-2"></i>{{
                                     work.address }}</p>
                                 <!-- <p>{{ work.description }}</p> -->
                             </div>
@@ -299,10 +299,6 @@ const checkSticky = () => {
 </script>
 
 <style scoped>
-.work-search {
-    height: 100vh;
-}
-
 
 .nav-pills .nav-item .btn {
     color: var(--dark);
@@ -368,11 +364,11 @@ const checkSticky = () => {
     height: 100px
 }
 
-.work-address {
+/* .work-address {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-}
+} */
 </style>
 <!-- <style>
 .no-scroll {
