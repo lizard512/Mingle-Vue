@@ -265,7 +265,8 @@
                                             </div>
                                             <div>
                                                 <div >
-                                                    <img :src="showImage(house_type.houseid)" >
+                                                    照片:
+                                                    <img :src="showImage(house_type.houseid)">
                                                 </div>
                                                 <div>
                                                     描述:{{ house_type.description }}
@@ -801,16 +802,18 @@ const totalRooms = function () {
 
 //============查詢房間照片============
 const housephoto = ref('')
-
-const showImage = function (houseid) {
+const showImage = async function (houseid) {
     const HousePhoto_API_URL = 'http://localhost:8080/order/photo/' + houseid;
-    const photoResponse = axios.post(HousePhoto_API_URL);
-    console.log(photoResponse.data)
-    Object.assign(housephoto, photoResponse.data);
-    return housephoto
-}
-
-
+    try {
+        const photoResponse = await axios.post(HousePhoto_API_URL);
+        console.log(photoResponse.data[0]);
+        housephoto.value = photoResponse.data;
+        console.log(housephoto.value);
+        return housephoto.value
+    } catch (error) {
+        console.error('獲取圖片時出錯：', error);
+    }
+};
 //============沒有設備============
 
 const nofacilates = function(house_type){
