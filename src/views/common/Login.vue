@@ -103,10 +103,8 @@ const login = function () {
         userid: userid.value,
         password: password.value,
     }
-    axios.post("http://192.168.74.123:8080/login.controller", request)
+    axios.post("http://localhost:8080/login.controller", request)
         .then(function (response) {
-            console.log(response);
-
             if (response.data.success) {
                 console.log(response.data.message);
                 Swal.fire({
