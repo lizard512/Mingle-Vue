@@ -180,6 +180,8 @@
                             <div>{{ workdetail.minPeriod }}天</div>
                             <div>上限人數：</div>
                             <div>{{ workdetail.maxAttendance }}人</div>
+                            <div>已報名人數：</div>
+                            <div>{{ workdetail.attendance }}人</div>
 
                             <h6 class="mb-3 text-secondary">請選擇報名人數、日期 </h6>
 
@@ -188,7 +190,7 @@
                                 <select class="form-select" id="work_numbers" v-model="selectedAccomodator"
                                     @change="updateAccomodatorData" required>
                                     <option value="">Choose...</option>
-                                    <option v-for="number in workdetail.maxAttendance" :key="number" :value="number">{{
+                                    <option v-for="number in open" :key="number" :value="number">{{
                                         number }}
                                     </option>
                                 </select>
@@ -262,9 +264,43 @@
                                             <div>地址:{{ house_type.postCode }}{{ house_type.city }}-{{ house_type.address }}
                                             </div>
                                             <div>
+                                                <div >
+                                                    照片:
+                                                    <img :src="showImage(house_type.houseid)">
+                                                </div>
                                                 <div>
                                                     描述:{{ house_type.description }}
-                                                    照片:
+
+                                                </div>
+                                                <div> 房間設備:</div>
+                                                <div><span v-if="house_type.hasWifi == true"><i
+                                                            class="fa-solid fa-wifi text-muted">無線上網&nbsp</i> </span>
+                                                    <span v-if="house_type.hasTV == true"><i
+                                                            class="fa-solid fa-tv text-muted">電視、</i> </span>
+                                                    <span v-if="house_type.hasPool == true"><i
+                                                            class="fa-solid fa-person-swimming text-muted">游泳池&nbsp</i>
+                                                    </span>
+                                                    <span v-if="house_type.hasGym == true"><i
+                                                            class="fa-solid fa-dumbbell text-muted">健身房&nbsp</i>
+                                                    </span>
+                                                    <span v-if="house_type.hasKitchen == true"><i
+                                                            class="fa-solid fa-fire-burner text-muted">廚房&nbsp</i>
+                                                    </span>
+                                                    <span v-if="house_type.hasLaundry == true"><i
+                                                            class="fa-solid fa-shirt text-muted">洗衣房&nbsp</i>
+                                                    </span>
+                                                    <span v-if="house_type.hasParkingLot == true"><i
+                                                            class="fa-solid fa-square-parking text-muted">停車位&nbsp</i>
+                                                    </span>
+                                                    <span v-if="house_type.hasPersonalSpace == true"><i
+                                                            class="fa-solid fa-person text-muted">個人空間&nbsp</i>
+                                                    </span>
+                                                    <span v-if="house_type.hasAirconditioner == true"><i
+                                                            class="fa-solid  fa-fan text-muted">空調&nbsp</i>
+                                                    </span>
+                                                    <span v-if="nofacilates(house_type)" class="text-muted">無&nbsp
+                                                    </span>
+                                                    
                                                 </div>
                                             </div>
                                         </td>
@@ -416,7 +452,8 @@ import { useRouter } from 'vue-router';
 import { useOrderStore } from '@store/orderStore-memory.js';
 
 
-
+const has = ref('0')
+const nothas = ref('1')
 
 
 //============動態改變是否為自己訂購============
@@ -487,6 +524,8 @@ const rangeEnd = new Date();
 const maxPeriod = ref(0);
 const selectedRooms = ref([]);
 const needs = ref('');
+const userid = ref('');
+
 
 // 計算屬性
 const minStartDate = ref('');
@@ -702,8 +741,8 @@ const userdetails = reactive({})
 const getuserid =
     () => {
         const sessionToken = VueCookies.get('sessionToken');
-        const userid = String(sessionToken).substring(32, sessionToken.length);
-        return userid
+        userid.value = String(sessionToken).substring(32, sessionToken.length);
+        return userid.value
     }
 
 const User_API_URL = 'http://localhost:8080/order/' + getuserid();
@@ -719,12 +758,13 @@ const loaduserDetail = async () => {
 
 
 
-//============查詢工作資料============
+//============查詢工作、房間資料============
 
 
 const workdetail = reactive({})
 
 const housedetail = reactive({})
+
 
 const Work_API_URL = 'http://localhost:8080/order/' + 3;
 
@@ -733,9 +773,9 @@ const WorkHouse_API_URL = 'http://localhost:8080/order/house/' + 3;
 const loadworkDetail = async () => {
     const workResponse = await axios.post(Work_API_URL);
     const workHouseResponse = await axios.get(WorkHouse_API_URL);
-
     Object.assign(workdetail, workResponse.data);
     Object.assign(housedetail, workHouseResponse.data);
+    console.log(housedetail)
 
 
     orderDate.value = new Date().toISOString().split('T')[0];
@@ -745,12 +785,10 @@ const loadworkDetail = async () => {
     minDate.value = workdetail.startDate
     maxDate.value = workdetail.endDate
 
-
     selectedPeriod.value = workdetail.minPeriod
     rangeStart.value = new Date(workdetail.startDate)
     rangeEnd.value = new Date(workdetail.endDate)
     maxPeriod.value = generateDateRange(rangeStart.value, rangeEnd.value)
-    console.log(workdetail)
 
 }
 
@@ -763,17 +801,36 @@ const totalRooms = function () {
 };
 
 //============查詢房間照片============
-// const housephoto = ref({})
+const housephoto = ref('')
+const showImage = async function (houseid) {
+    const HousePhoto_API_URL = 'http://localhost:8080/order/photo/' + houseid;
+    try {
+        const photoResponse = await axios.post(HousePhoto_API_URL);
+        console.log(photoResponse.data[0]);
+        housephoto.value = photoResponse.data;
+        console.log(housephoto.value);
+        return housephoto.value
+    } catch (error) {
+        console.error('獲取圖片時出錯：', error);
+    }
+};
+//============沒有設備============
 
-// const showImage = function (photoid) { 
-//     const HousePhoto_API_URL = 'http://localhost:8080/order/photo/' + photoid;
-//     const response = axios.get(HousePhoto_API_URL);
-//     console.log(response.data);
-// }
+const nofacilates = function(house_type){
+
+   if(house_type.hasParkingLot==false && house_type.hasPersonalSpace==false && house_type.hasAirconditioner==false && house_type.hasWifi==false && house_type.hasTV==false && house_type.hasGym == false && house_type.hasLaundry == false && house_type.hasPool == false && house_type.hasKitchen == false ){
+       return true
+   }else{
+       return false
+   }
+
+}
 
 
 //============初始============
 
+
+const open = ref('')
 onMounted(async () => {
     try {
         // 在DOM准备好时执行渲染
@@ -781,11 +838,8 @@ onMounted(async () => {
         updateAccomodatorData();
         await loaduserDetail();
         await loadworkDetail();
-        housedetail.forEach((house_type) => { //初始化房間選取數量
-            selectedRooms.value[house_type.houseid] = 0;
-        });
+        open.value = workdetail.maxAttendance-workdetail.attendance
         updateDateRange(selectedPeriod.value);
-
     } catch (error) {
         console.error('An error occurred in onMounted:', error);
     }
@@ -811,6 +865,7 @@ async function goToOrder2() {
     try {
 
         const dataForOrder2 = {
+            userid: userid.value,
             //報名日期
             orderDate: orderDate.value,
             //會員名稱
