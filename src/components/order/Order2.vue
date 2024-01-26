@@ -21,8 +21,8 @@
 
                                     <div class="d-flex justify-content-between align-items-center mb-5">
                                         <div>
-                                            <h5 class="mb-0"><span
-                                                    class="text-primary font-weight-bold" >訂購日期:{{ dataForOrder2.orderDate }} </span></h5>
+                                            <h5 class="mb-0"><span class="text-primary font-weight-bold">訂購日期:{{
+                                                dataForOrder2.orderDate }} </span></h5>
 
                                         </div>
 
@@ -195,7 +195,7 @@
                                 <ul class="list-group col-12 ">
 
                                     <li class="list-group-item d-flex justify-content-between lh-sm"
-                                        v-show="orderby == 'myself'">
+                                        v-show="dataForOrder2.orderby == 'myself'">
                                         <div>
                                             <h6 class="my-0">住宿者資訊</h6>
                                             <small class="text-muted">accomodator info</small>
@@ -222,7 +222,7 @@
                                     </li>
 
                                     <li class="list-group-item d-flex justify-content-between lh-sm"
-                                        v-if="dataForOrder2.needs !=  ''">
+                                        v-if="dataForOrder2.needs != ''">
                                         <div>
                                             <h6 class="my-0">住宿需求</h6>
                                             <small class="text-muted">needs</small>
@@ -279,7 +279,8 @@
                                                 <h6 class="my-0">容納人數</h6>
                                                 <small class="text-muted">house capacity</small>
                                             </div>
-                                            <span class="text-muted margin-left">2人</span>
+                                            <span class="text-muted margin-left">{{ housedetails[key] ?
+                                                housedetails[key].beds : 'N/A' }} 人</span>
                                         </li>
 
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
@@ -362,6 +363,33 @@ const dataForOrder2 = ref([]);
 
 const roomDetail = ref([]);
 
+
+const orderdata = ref({
+    "userid": "",
+    "status": "待房東確認",
+    "notes": "",
+    "needs": "",
+    "createdAt": new Date().toISOString(),
+    "updatedAt": new Date().toISOString(),
+    "numbers": 0,
+    "startDate": "",
+    "endDate": "",
+    "isCancelled": 0,
+    "isRefunded": 0,
+    "isUserAttend": 0,
+    "businessId": "",
+    "invoiceDate": "",
+    "invoiceNumber": ""
+})
+
+const orderAndWorkHouse= ref({
+
+    orderid: 0,
+    workhouseid: 0
+
+})
+
+
 //============獲取order1資料============
 
 import { useOrderStore } from '@store/orderStore-memory.js';
@@ -373,7 +401,28 @@ const orderStore = useOrderStore();
 const loaddata = () => {
     // 从 Pinia store 获取数据
     dataForOrder2.value = orderStore.orderData;
+    console.log(dataForOrder2.value)
     roomDetail.value = dataForOrder2.value.selectedRooms
+
+    orderdata.value = {
+    "userid": dataForOrder2.value.userid,
+    "status": "待房東確認",
+    "notes": "",
+    "needs": dataForOrder2.value.needs,
+    "createdAt": new Date().toISOString(),
+    "updatedAt": new Date().toISOString(),
+    "numbers": dataForOrder2.value.selectedAccomodator,
+    "startDate": dataForOrder2.value.startDate,
+    "endDate": dataForOrder2.value.endDate,
+    "isCancelled": 0,
+    "isRefunded": 0,
+    "isUserAttend": 0,
+    "businessId": "",
+    "invoiceDate": new Date().toISOString(),
+    "invoiceNumber": ""
+}
+
+    console.log(orderdata.value)
 
 }
 
@@ -414,19 +463,33 @@ const showDetails = async () => {
 const showRoom = function (key) {
 
     Swal.fire({
-        title: ` ${housedetails[key].houseType} - ${housedetails[key] ?  housedetails[key].name  : 'N/A'}`,
+        title: ` ${housedetails[key].houseType} - ${housedetails[key] ? housedetails[key].name : 'N/A'}`,
         html: ` 
         <table class="table">
         <tr>
-        <td colspan="2" ><div>描述:${housedetails[key].description}   </div> </td>
+        <td ><div>描述:${housedetails[key].description}   </div> </td>
         </tr>
         <tr>
         <td class="align-middle col-8"><div>地址:${housedetails[key].postCode}${housedetails[key].city}-${housedetails[key].address}</div> </td>
-        <td class="align-middle col-4"><div>容納人數:${housedetails[key].beds}人 </div> </td>
         </tr>
         <tr>
-        <td colspan="2">
-        <div></div> 
+            <td class="align-middle col-4"><div>容納人數:${housedetails[key].beds}人 </div> </td>
+        </tr>
+        <tr>
+        <td>
+        <div>
+            <div> 房間設備:</div>
+            <div>
+                ${housedetails[key].hasWifi == 1 ? '<span><i class="fa-solid fa-wifi text-muted">無線上網&nbsp</i></span>' : ''}
+                ${housedetails[key].hasTV == 1 ? '<span><i class="fa-solid fa-tv text-muted">電視&nbsp</i></span>' : ''}
+                ${housedetails[key].hasPool == 1 ? '<span><i class="fa-solid fa-person-swimming text-muted">游泳池&nbsp</i></span>' : ''}
+                ${housedetails[key].hasGym == 1 ? '<span><i class="fa-solid fa-dumbbell text-muted">健身房&nbsp</i></span>' : ''}
+                ${housedetails[key].hasKitchen == 1 ? '<span><i class="fa-solid fa-fire-burner text-muted">廚房&nbsp</i></span>' : ''}
+                ${housedetails[key].hasLaundry == 1 ? '<span><i class="fa-solid fa-shirt text-muted">洗衣房&nbsp</i></span>' : ''}
+                ${housedetails[key].hasParkingLot == 1 ? '<span><i class="fa-solid fa-square-parking text-muted">停車位&nbsp</i></span>' : ''}
+                ${housedetails[key].hasPersonalSpace == 1 ? '<span><i class="fa-solid fa-person text-muted">個人空間&nbsp</i></span>' : ''}
+                ${housedetails[key].hasAirconditioner == 1 ? '<span><i class="fa-solid  fa-fan text-muted"> 空調&nbsp</i></span>' : '<span class= "text-muted">無&nbsp</span>'}
+        </div>
         </td>
         </tr>
 
@@ -444,22 +507,32 @@ const showRoom = function (key) {
 }
 
 
-onMounted( () => {
+onMounted(() => {
     loaddata();
     showDetails();
 });
 
 // 元件被激活時載入數據
 onActivated(() => {
-  loaddata();
-  showDetails();
+    loaddata();
+    showDetails();
 });
 
 
 
-const goToOrder3 = function () {
-    router.push(
-        '/order/order3')
+
+
+const OrderCreate_API_URL = 'http://localhost:8080/order/create';
+
+
+const goToOrder3 = () => {
+
+    const orderResponse =   axios.post(OrderCreate_API_URL, orderdata.value)
+
+    if (orderResponse) {
+        router.push(
+            '/order/order3')
+    }
 }
 
 const goToOrder1 = function () {
