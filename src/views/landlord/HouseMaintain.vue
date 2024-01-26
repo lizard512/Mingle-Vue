@@ -247,16 +247,16 @@ const openUpdateModal = async (houseId) => {
   // Find the specific house data using houseId
   const houseToUpdate = await houses.value.find(house => house.houseid === houseId);
   // Set the values in the updateFormData
-  // updateFormData.value.houseid = houseToUpdate.houseid;
-  // updateFormData.value.lordid = houseToUpdate.lordid;
-  // updateFormData.value.houseType = houseToUpdate.housType;
-  // updateFormData.value.city = houseToUpdate.city;
+  updateFormData.value.houseid = houseToUpdate.houseid;
+  updateFormData.value.lordid = houseToUpdate.lordid;
+  updateFormData.value.houseType = houseToUpdate.housType;
+  updateFormData.value.city = houseToUpdate.city;
   updateFormData.value.name = houseToUpdate.name;
   updateFormData.value.description = houseToUpdate.description;
   updateFormData.value.address = houseToUpdate.address;
   updateFormData.value.postCode = houseToUpdate.postCode;
   updateFormData.value.beds = houseToUpdate.beds;
-  // updateFormData.value.status = houseToUpdate.status;
+  updateFormData.value.status = houseToUpdate.status;
   updateFormData.value.notes = houseToUpdate.notes;
   updateFormData.value.hasWifi = houseToUpdate.hasWifi;
   updateFormData.value.hasTV = houseToUpdate.hasTV;
@@ -267,9 +267,9 @@ const openUpdateModal = async (houseId) => {
   updateFormData.value.hasPersonalSpace = houseToUpdate.hasPersonalSpace;
   updateFormData.value.hasPool = houseToUpdate.hasPool;
   updateFormData.value.hasGym = houseToUpdate.hasGym;
-  // updateFormData.value.createdAt = houseToUpdate.createdAt;
-  // updateFormData.value.updatedAt = getDate();
-  // updateFormData.value.isDeleted = houseToUpdate.isDeleted;
+  updateFormData.value.createdAt = houseToUpdate.createdAt;
+  updateFormData.value.updatedAt = houseToUpdate.updateAt;
+  updateFormData.value.isDeleted = houseToUpdate.isDeleted;
 
   isUpdateModalVisible.value = true;
 };
@@ -287,7 +287,7 @@ const handleUpdateSubmit = () => {
   };
 
   // Call your Spring Boot update API here with updateFormData using Axios
-  axios.post('http://localhost:8080/api/house/save', updateFormData, config)
+  axios.put(`http://localhost:8080/api/house/modify/${updateFormData.value.houseid}`, updateFormData, config)
     .then(() => {
       // Show a success message
       Swal.fire('更新成功!', '房源資料已更新成功', 'success');
@@ -298,6 +298,7 @@ const handleUpdateSubmit = () => {
     })
     .catch((error) => {
       console.error('更新失敗', error);
+      console.log(updateFormData.value.houseid);
       // Show an error message if update fails
       Swal.fire('更新失敗', '在更新時發生錯誤', 'error');
     });
