@@ -2,15 +2,16 @@
     <div class="my-5">
         <div class="row align-items-start">
             <h3 class="col-1" />
-            <h3 class="col-3">歡迎回來 </h3>
-            <h3 class="col-2"> {{ userdetails.name }}</h3>
+            <h3 class="col-6">歡迎回來 </h3>
+            <h3 class="col-3"> {{ userdetails.name }}</h3>
         </div>
         <br><br>
         <!-- 表單開始 -->
         <div class="container">
 
             <!-- 大頭貼上傳和預覽 -->
-            <div class="col-9 float-end">
+
+            <div class="col-6 float-end">
                 <a href="#" class="btn">
                     <img width=300 src="@images/user-3.jpg" class="img-fluid rounded float-end rounded-circle img1"
                         for="formFile">
@@ -44,10 +45,10 @@
                     <div class="col-sm-4 mb-4">生日 </div>
                     <div class="col-sm-6"><span>{{ formatDate(userdetails.birth) }}</span></div>
                 </div>
-                <span class="btn btn-primary btn-block float-end" @click="enterimput"
-                    v-show="isShowToChange">變更</span><br><br>
                 <button class="btn btn-lg btn-danger btn-block float-end" type="submit" v-show="isShowToSubmit"
                     @click="submitChanges">儲存</button>
+                <span class="btn btn-primary btn-block float-end" @click="enterimput"
+                    v-show="isShowToChange">變更</span><br><br>
             </div>
 
         </div>
@@ -65,8 +66,8 @@ import { onMounted, ref, reactive } from 'vue'
 const isShowToChange = ref(true);
 const isShowToSubmit = ref(false);
 const enterimput = () => {
-    isShowToChange.value = false;
-    isShowToSubmit.value = true;
+    isShowToChange.value = !isShowToChange.value;
+    isShowToSubmit.value = !isShowToSubmit.value;
 }
 
 const submitChanges = () => {
@@ -139,46 +140,15 @@ function imageLoaded(e) {
     image.value = e.target.result;
 }
 
+//============從父層傳值============
 //============查詢會員資料============
-
-import VueCookies from 'vue-cookies';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import { useRouter } from 'vue-router'
-const userdetails = reactive({})
-
-const getuserid =
-    () => {
-        const sessionToken = VueCookies.get('sessionToken');
-        if (sessionToken === null || sessionToken === undefined || sessionToken === "") {
-            Swal.fire({
-                icon: 'warning',
-                text: '請先登入才能使用會員管理',
-                confirmButtonText: '好的',
-            });
-            const router = useRouter();
-            router.push({
-                name: "Login",
-            });
-            return;
-        }
-        const userid = String(sessionToken).substring(32, sessionToken.length);
-        return userid
-    }
-
-const User_API_URL = 'http://localhost:8080/order/' + getuserid();
-
-const loaduserDetail = async () => {
-    const response = await axios.get(User_API_URL);
-    //console.log(response)
-    Object.assign(userdetails, response.data);
-    console.log(userdetails)
-
-
-}
+const props = defineProps({
+    userdetails: Object,
+})
 
 // 格式化日期為"YYYY/MM/DD"
 const formatDate = (dateString) => {
+    if (dateString === null || dateString === undefined || dateString === "" || dateString.length === 0) return "尚未設定生日";
     let date = new Date(dateString);
     return `${date.getFullYear()}/${("0" + (date.getMonth() + 1)).slice(-2)}/${("0" + date.getDate()).slice(-2)}`;
 }
@@ -202,7 +172,7 @@ const formatDate = (dateString) => {
 
 // }
 onMounted(async () => {
-    await loaduserDetail();
+    // await loaduserDetail();
     bookStrapValidation();
 });
 </script>
