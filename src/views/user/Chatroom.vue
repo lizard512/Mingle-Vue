@@ -108,7 +108,7 @@ const otherUser = ref([]);          // 其他使用者資料，搜尋用。
 // 賦值→連線→渲染(左側)聊天列表→
 onMounted(async () => {
     await initAssign();
-    initConnect();
+    await initConnect();
     await initsearch();
     await findAllChat();
     // await findAllMessages();
@@ -120,7 +120,7 @@ async function initAssign() {
     senderID.value = String(sessionToken).substring(32, sessionToken.length);
 }
 // stompjs連線
-function initConnect() {
+async function initConnect() {
     stompClient.connect({}, onConnected, onError);
 }
 // 訂閱
@@ -143,7 +143,8 @@ function onError() {
     Swal.fire({
         icon: 'error',
         text: 'BOOOOOOMMMMMM! 連線壞掉囉',
-        confirmButtonText: 'Alright....'
+        confirmButtonText: 'Alright....',
+        allowOutsideClick: false
     }).then(function (response) {
 
     })
