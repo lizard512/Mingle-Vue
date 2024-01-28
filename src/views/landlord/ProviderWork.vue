@@ -92,7 +92,7 @@
             <div>
               <div class="col">
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="floatingInput" placeholder="" >
+                  <input v-model="Data.workName" type="text" class="form-control" id="floatingInput" placeholder="" >
                   <label for="floatingInput">工作名稱 :</label>
 
                 </div>
@@ -109,7 +109,7 @@
                   />
                 </div>
                 <div class="form-floating mb-3 col-md">
-                  <input type="text" class="form-control" id="floatingInput" placeholder="">
+                  <input v-model="Data.address" type="text" class="form-control" id="floatingInput" placeholder="">
                   <label for="floatingInput">地址：</label>
                 </div>
               </div>
@@ -138,20 +138,20 @@
           </div>
           <div class="row g-2">
             <div class="form-floating col">
-              <input type="text" class="form-control" id="floatingInput" placeholder="workHour">
+              <input v-model="Data.workHour" type="text" class="form-control" id="floatingInput" placeholder="workHour">
               <label for="floatingInput">工時 :</label>
             </div>
             <div class="form-floating col">
-              <input type="text" class="form-control" id="floatingInput" placeholder="minDay">
+              <input v-model="Data.minDay" type="text" class="form-control" id="floatingInput" placeholder="minDay">
               <label for="floatingInput">可接受最小天數 :</label>
             </div>
           </div>
           <div class="row g-2">
             <div class="col-md">
               <div class="form-floating">
-                <select class="form-select" id="floatingSelectGrid" aria-label="accessAge">
+                <select v-model="Data.ageLimit" class="form-select" id="floatingSelectGrid" aria-label="accessAge">
                   <option selected>請選擇</option>
-                  <option v-for="item in age" value="{{item}}">
+                  <option v-for="item in age" :key="item">
                     {{ item }}
                   </option>
                 </select>
@@ -160,9 +160,9 @@
             </div>
             <div class="col-md">
               <div class="form-floating">
-                <select class="form-select" id="floatingSelectGrid" aria-label="gender">
+                <select v-model="Data.genderLimit" class="form-select" id="floatingSelectGrid" aria-label="gender">
                   <option selected>請選擇</option>
-                  <option v-for="item in gender" value="{{item}}">
+                  <option v-for="item in gender" :key="item">
                     {{ item }}
                   </option>
                 </select>
@@ -173,9 +173,9 @@
 
           <div class="row-cols-1 g-2">
             <div class="form-floating" style="margin-top: 12px">
-              <select class="form-select col" id="floatingSelectGrid" aria-label="education">
+              <select v-model="Data.educationLevel" class="form-select col" id="floatingSelectGrid" aria-label="education">
                 <option selected>請選擇</option>
-                <option v-for="item in education" value="{{item}}">
+                <option v-for="item in education" :key="item">
                   {{ item }}
                 </option>
               </select>
@@ -184,7 +184,7 @@
           </div>
 
           <div class="form-floating col">
-            <input type="text" class="form-control" id="floatingInput" placeholder="minDay">
+            <input v-model="Data.language" type="text" class="form-control" id="floatingInput" placeholder="minDay">
             <label for="floatingInput">可接受語言 :</label>
           </div>
         </div>
@@ -236,7 +236,7 @@
     <button type="button" class="btn btn-outline-primary next col-1 " v-show="currentPage != 4" @click="next" :disabled="currentPage > 4">Next
       Step
     </button>
-    <button type="button" class="btn btn-outline-primary next col-1 " v-show="currentPage == 4" @click="">送出
+    <button type="button" class="btn btn-outline-primary next col-1 " v-show="currentPage == 4" @click="submit">送出
     </button>
   </div>
 
@@ -250,7 +250,7 @@ import Swal from "sweetalert2";
 const age = ['不拘', '青壯年', '壯年', '老年']
 const gender = ['男', '女', '不限制']
 const education = ['國小', '國中', '高中職', '學士', '碩士', '博士']
-let maxValue = 100 / 4;
+let maxValue = 100 / 3;
 let barValue = 0;
 let currentPage = ref(1);
 
@@ -290,6 +290,7 @@ const handleChange: UploadProps['onChange'] = (file, fl) => {
 
 
 const handleRemove: UploadProps['onRemove'] = (uploadFile, fl) => {
+
   console.log(uploadFile, fl)
 }
 
@@ -306,7 +307,11 @@ function next() {
 }
 
 function prev() {
-  if (currentPage.value >= 1) {
+  if (currentPage.value == 2 ){
+    currentPage.value--;
+    barValue = 0;
+
+  }else if(currentPage.value >= 1) {
     currentPage.value--;
     barValue -= maxValue;
   }
@@ -342,6 +347,72 @@ const addressOptions = original.map(city => ({
     label: district.name,
   })),
 }));
+
+const Data = ref({
+  workcontain: '',
+  workName: '',
+  cityName: '',
+  districtName: '',
+  address: '',
+  openTime: '',
+  closeTime: '',
+  workHour: '',
+  minDay: '',
+  ageLimit: '請選擇',
+  genderLimit: '請選擇',
+  educationLevel: '請選擇',
+  language: '',
+  images: [],
+});
+
+const submit = async () => {
+
+  const getSelectedRadioLabel = (groupName) => {
+    const selectedRadio = document.querySelector(`input[name="${groupName}"]:checked`);
+    return selectedRadio ? selectedRadio.nextElementSibling.textContent.trim() : null;
+  };
+
+
+
+  // Proceed with form submission
+  Data.value.workcontain = getSelectedRadioLabel("workcontain");
+  Data.value.cityName = addressValue.value[0];
+  Data.value.districtName = addressValue.value[1];
+  Data.value.address = Data.value.workName; // Assuming workName is your input's v-model
+  Data.value.openTime = dateValue1.value[0];
+  Data.value.closeTime = dateValue1.value[1];
+  Data.value.workHour = Data.value.workHour; // Replace with your input's v-model
+  Data.value.minDay = Data.value.minDay; // Replace with your input's v-model
+  Data.value.ageLimit = Data.value.ageLimit; // Replace with your input's v-model
+  Data.value.genderLimit = Data.value.genderLimit; // Replace with your input's v-model
+  Data.value.educationLevel = Data.value.educationLevel; // Replace with your input's v-model
+  Data.value.language = Data.value.language; // Assuming acceptLanguage is your input's v-model
+  Data.value.images = fl.value.map((file) => file.url);
+
+  // Debugging: Log the submitted data
+  console.log(Data.value);
+
+  // Perform form validation
+  if (!Data.value.workcontain ||
+      !addressValue.value.length ||
+      !Data.value.workName ||
+      !dateValue1.value[0] ||
+      !dateValue1.value[1] ||
+      !Data.value.workHour ||
+      !Data.value.minDay ||
+      Data.value.ageLimit === '請選擇' ||
+      Data.value.genderLimit === '請選擇' ||
+      Data.value.educationLevel === '請選擇' ||
+      !Data.value.language) {
+    // Show an error message or handle the validation failure as per your requirement
+    Swal.fire({
+      icon: 'error',
+      title: '請填寫所有必填欄位',
+    });
+    return;
+  }
+
+}
 
 
 
