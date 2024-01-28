@@ -121,18 +121,27 @@
 import { ref, onMounted, nextTick } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import VueCookies from 'vue-cookies';
+
+const userid = ref('');
 
 const router = useRouter();
 
 let user = ref(null);
 
 onMounted(async () => {
+    getuserid();
     await loadUserData();
 });
 
+const getuserid = () => {
+        const sessionToken = VueCookies.get('sessionToken');
+        userid.value = String(sessionToken).substring(32, sessionToken.length);
+}
+
 const loadUserData = async () => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/1@gmail.com`);
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/${userid.value}`);
         user.value = response.data;
     } catch (error) {
         console.error('Failed to fetch user data:', error);
