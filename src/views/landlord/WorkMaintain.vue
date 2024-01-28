@@ -6,7 +6,6 @@
                 <thead class="table-dark">
                     <tr>
                         <th scope="col">工作編號</th>
-                        <th scope="col">建立者</th>
                         <th scope="col">打工類型</th>
                         <th scope="col">打工名稱</th>
                         <th scope="col">地區</th>
@@ -18,11 +17,34 @@
                         <th scope="col">管理</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>0</td>
-                        <td>詐騙</td>
+                <tbody class="accordion" id="accordionExample">
+                    <tr class="accordion-item">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#demo1"
+                            aria-expanded="true" aria-controls="collapseOne">
+                            <td>1</td>
+                            <td>詐騙</td>
+                            <td>假資料</td>
+                            <td>台北市</td>
+                            <td>2024-01-28</td>
+                            <td>2024-06-28</td>
+                            <td>2023-12-28</td>
+                            <td>{{ modifiedDate }}</td>
+                            <td class="status">別急，還沒好</td>
+                            <td><button type="button" class="btn btn-primary btn-sm">編輯</button> <button type="button"
+                                    class="btn btn-danger btn-sm">刪除</button></td>
+                        </button>
+                    </tr>
+                    <tr class="accordion-collapse collapse" id="demo1" aria-labelledby="headingOne"
+                        data-bs-parent="#accordionExample">
+                        <td colspan="10">
+                            <!-- 可摺疊內容列... -->
+                            hahahahahahaha
+                        </td>
+                    </tr>
+                    <tr data-bs-toggle="collapse" data-bs-target="#demo2" class="accordion-toggle" aria-expanded="true"
+                        aria-controls="collapseOne">
+                        <td>2</td>
+                        <td>竊盜</td>
                         <td>假資料</td>
                         <td>台北市</td>
                         <td>2024-01-28</td>
@@ -32,6 +54,13 @@
                         <td class="status">別急，還沒好</td>
                         <td><button type="button" class="btn btn-primary btn-sm">編輯</button> <button type="button"
                                 class="btn btn-danger btn-sm">刪除</button></td>
+                    </tr>
+                    <tr class="accordion-collapse collapse" id="demo2" aria-labelledby="headingOne"
+                        data-bs-parent="#accordionExample">
+                        <td colspan="10">
+                            <!-- 可摺疊內容列... -->
+                            hahahahahahaha
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -52,7 +81,6 @@ let statusElements = ref<NodeListOf<HTMLElement> | null>(null);
 
 onMounted(() => { // 在 mounted 階段，選取所有帶有 .status 的元素
     statusElements.value = document.querySelectorAll(".status");
-
     // 操作每個元素的 style
     if (statusElements.value) {
         statusElements.value.forEach(element => {

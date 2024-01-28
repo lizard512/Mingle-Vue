@@ -6,11 +6,12 @@
         <ANavbar @xyzClick="clickHandler"></ANavbar>
 
         <!-- right Start -->
-        <div class="col-10 md-right">
-            <Account1 v-show="isShowAccount"></Account1>
-            <introduction v-show="isShowIntroduction"></introduction>
+        <div class="col-9">
+            <Account1 v-show="isShowAccount" :userdetails="userdetails"></Account1>
+            <introduction v-show="isShowIntroduction" :userdetails="userdetails"></introduction>
             <LikeWork v-show="isShowLikeWork"></LikeWork>
             <FinshWork v-show="isShowFinshWork"></FinshWork>
+            <!-- <test :userdetails="userdetails"></test> -->
         </div>
         <!-- index End -->
 
@@ -23,7 +24,8 @@ import Account1 from './Account1.vue';
 import LikeWork from './Account2.vue';
 import FinshWork from './Account3.vue';
 import Introduction from './Account4.vue';
-import { ref } from 'vue';
+import test from './test.vue'
+import { onMounted, reactive, ref } from 'vue';
 const isShowAccount = ref(true);
 const isShowLikeWork = ref(false);
 const isShowFinshWork = ref(false);
@@ -43,7 +45,44 @@ const closeShow = () => {
     isShowIntroduction.value = false;
 }
 
+//============查詢會員資料============
 
+import VueCookies from 'vue-cookies';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { useRouter } from 'vue-router'
+const userdetails = reactive({})
+
+const getuserid =
+    () => {
+        const sessionToken = VueCookies.get('sessionToken');
+        if (sessionToken === null || sessionToken === undefined || sessionToken === "") {
+            Swal.fire({
+                icon: 'warning',
+                text: '請先登入才能使用會員管理',
+                confirmButtonText: '好的',
+            });
+            const router = useRouter();
+            router.push({
+                name: "Login",
+            });
+            return;
+        }
+        const userid = String(sessionToken).substring(32, sessionToken.length);
+        return userid
+    }
+
+const User_API_URL = 'http://localhost:8080/order/' + getuserid();
+
+const loaduserDetail = async () => {
+    const response = await axios.get(User_API_URL);
+    //console.log(response)
+    Object.assign(userdetails, response.data);
+    console.log(userdetails)
+}
+onMounted(async () => {
+    await loaduserDetail();
+});
 
 </script>
     
@@ -56,7 +95,7 @@ const closeShow = () => {
 
 .text-Font-Account {
     font-family: 'Accounttext', sans-serif;
-    font-size: 5vh;
+    font-size: 3vh;
     /* 在這裡設定字體大小 */
 }
 </style>

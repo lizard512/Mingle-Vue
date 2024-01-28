@@ -7,6 +7,7 @@
         <tr>
           <th>House ID</th>
           <th>Lord ID</th>
+          <th>圖片</th>
           <th>更新</th>
           <th>房源類型</th>
           <th>縣市</th>
@@ -35,6 +36,10 @@
         <tr v-for="house in mappedHouses" :key="house.houseid">
           <td>{{ house.houseid }}</td>
           <td>{{ house.lordid }}</td>
+          <td>
+            <img :src="'data:image/'+house.housePhotos[0].contentType+';base64,' + house.housePhotos[0].photo"
+              alt="House Photo" style="max-width: 100px; max-height: 100px;">
+          </td>
           <td>
             <button type="button" class="btn btn-light update" @click="openUpdateModal(house.houseid)">修改</button>
             <button type="button" class="btn btn-danger delete" @click="confirmDelete(house.houseid)">刪除</button>
@@ -74,8 +79,26 @@
           <div class="modal-body">
             <form @submit.prevent="handleUpdateSubmit">
               <!-- Add your form fields for updating specific house data -->
-              <p style="text-align: left; font-weight: bold;">更新房屋:</p>
+              <p style="text-align: left; font-weight: bold;">更新房屋:(0為否，1為是)</p>
               <input v-model="updateFormData.houseid" type="hidden">
+
+              <!-- Image preview section -->
+              <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">圖片預覽:</label>
+                <div class="col-sm-10">
+                  <img :src="updateFormData.photo" alt="Image Preview"
+                    style="max-width: 100px; max-height: 100px;">
+                </div>
+              </div>
+
+              <!-- Add your input for uploading an image -->
+              <div class="mb-3 row">
+                <label for="photo" class="col-sm-2 col-form-label">上傳圖片:</label>
+                <div class="col-sm-10">
+                  <input type="file" @change="handleImageUpload" accept="image/*">
+                </div>
+              </div>
+
               <div class="mb-3 row">
                 <label for="name" class="col-sm-2 col-form-label">名稱:</label>
                 <div class="col-sm-10">
@@ -204,9 +227,13 @@ const houses = ref([]);
 const isUpdateModalVisible = ref(false);
 
 const fetchHouses = () => {
-  fetch('http://localhost:8080/api/house/findAll')
+  fetch('http://localhost:8080/api/house/findAllHousesWithPhotos')
     .then((response) => response.json())
     .then((data) => {
+      // console.log(data);
+      // console.log(data[0].housePhotos);
+      // console.log(data[0].housePhotos[0].contentType);
+      // console.log(data[0].housePhotos[0].photo);
       houses.value = data;
     })
     .catch((error) => {
@@ -247,16 +274,16 @@ const openUpdateModal = async (houseId) => {
   // Find the specific house data using houseId
   const houseToUpdate = await houses.value.find(house => house.houseid === houseId);
   // Set the values in the updateFormData
-  // updateFormData.value.houseid = houseToUpdate.houseid;
-  // updateFormData.value.lordid = houseToUpdate.lordid;
-  // updateFormData.value.houseType = houseToUpdate.housType;
-  // updateFormData.value.city = houseToUpdate.city;
+  updateFormData.value.houseid = houseToUpdate.houseid;
+  updateFormData.value.lordid = houseToUpdate.lordid;
+  updateFormData.value.houseType = houseToUpdate.houseType;
+  updateFormData.value.city = houseToUpdate.city;
   updateFormData.value.name = houseToUpdate.name;
   updateFormData.value.description = houseToUpdate.description;
   updateFormData.value.address = houseToUpdate.address;
   updateFormData.value.postCode = houseToUpdate.postCode;
   updateFormData.value.beds = houseToUpdate.beds;
-  // updateFormData.value.status = houseToUpdate.status;
+  updateFormData.value.status = houseToUpdate.status;
   updateFormData.value.notes = houseToUpdate.notes;
   updateFormData.value.hasWifi = houseToUpdate.hasWifi;
   updateFormData.value.hasTV = houseToUpdate.hasTV;
@@ -267,9 +294,12 @@ const openUpdateModal = async (houseId) => {
   updateFormData.value.hasPersonalSpace = houseToUpdate.hasPersonalSpace;
   updateFormData.value.hasPool = houseToUpdate.hasPool;
   updateFormData.value.hasGym = houseToUpdate.hasGym;
-  // updateFormData.value.createdAt = houseToUpdate.createdAt;
-  // updateFormData.value.updatedAt = getDate();
-  // updateFormData.value.isDeleted = houseToUpdate.isDeleted;
+  updateFormData.value.createdAt = houseToUpdate.createdAt;
+  updateFormData.value.updatedAt = houseToUpdate.updatedAt;
+  updateFormData.value.isDeleted = houseToUpdate.isDeleted;
+  updateFormData.value.housePhotos = houseToUpdate.housePhotos;
+  console.log(updateFormData.value.housePhotos[0]);
+  console.log(updateFormData.value.housePhotos[0].contentType);
 
   isUpdateModalVisible.value = true;
 };
@@ -278,16 +308,20 @@ const closeUpdateModal = () => {
   isUpdateModalVisible.value = false;
 };
 
-const handleUpdateSubmit = () => {
-  // Set the content type to JSON
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
+const handleImageUpload = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      updateFormData.value.photo = reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
+};
 
+const handleUpdateSubmit = () => {
   // Call your Spring Boot update API here with updateFormData using Axios
-  axios.post('http://localhost:8080/api/house/save', updateFormData, config)
+  axios.put(`http://localhost:8080/api/house/modify/${updateFormData.value.houseid}`, updateFormData._rawValue)
     .then(() => {
       // Show a success message
       Swal.fire('更新成功!', '房源資料已更新成功', 'success');

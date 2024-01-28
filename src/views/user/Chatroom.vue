@@ -18,7 +18,8 @@
                     <a href="#" class="list-group-item list-group-item-action list-group-item-light"
                         :class="{ 'active': item.senderid == selectedUserID || item.recieverid == selectedUserID }">
                         <!--渲染時，判斷selectedid是否為該聊天室的sender或reciever-->
-                        <img class="mt-1 ms-1 me-4 rounded-circle float-start" src="https://picsum.photos/50/50">
+                        <img class="mt-1 ms-1 me-4 rounded-circle float-start" src="https://picsum.photos/50/50"
+                            :src="item.photo">
                         <div class="mt-1 d-flex justify-content-between align-items-center">
                             <div>
                                 <strong>{{ item.recievername }}</strong>
