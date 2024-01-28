@@ -53,6 +53,7 @@
                             <RouterLink class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="/user-center">會員中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
+                                <RouterLink class="dropdown-item" to="/user-profile">個人頁面</RouterLink>
                                 <RouterLink class="dropdown-item" to="/account">會員資料</RouterLink>
                                 <RouterLink class="dropdown-item" to="/order">打工訂單</RouterLink>
                                 <RouterLink class="dropdown-item" to="/chatroom">聊天室</RouterLink>

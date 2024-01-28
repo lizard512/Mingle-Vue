@@ -9,7 +9,7 @@
                             <div class="text-start mx-auto wow animate__animated animate__slideInLeft inline-flex"
                                 data-wow-delay="0.1s">
                                 <h2 class="mx-3">打工機會</h2>
-                                <p>正在徵求幫助者的項目！</p>
+                                <span class="badge bg-danger">正在徵求幫助者的項目！</span>
                             </div>
                         </div>
                         <div class="col-xxl-6 col-lg-12 mx-auto d-inline-flex animate__animated animate__slideInDown"
@@ -26,7 +26,7 @@
                             <div class="input-group w-50">
                                 <input type="text" class="form-control" placeholder="用關鍵字查詢" v-model="filters.keyword[0]"
                                     @keyup.enter="reloadWork()">
-                                <button class="btn btn-warning" @click="reloadWork()"><i class="fa fa-search text-white"></i></button>
+                                <button class="btn btn-success" @click="reloadWork()"><i class="fa fa-search text-white"></i></button>
                             </div>
                         </div>
                     </div>
@@ -101,7 +101,7 @@ import { useWorkStore } from '@store/workStore';
 let works = ref([]);
 const worktypeIDs = ref([]);
 const cities = ref([]);
-const baseURL = "http://localhost:8080";
+// const baseURL = "http://localhost:8080";
 
 //// 接收元件傳值
 const store = useWorkStore();
@@ -147,12 +147,12 @@ onUnmounted(() => {
 //// 方法
 // 載入工作分類
 const loadWorktype = async () => {
-    const response = await axios.get(baseURL + '/api/worktype/getWorktypes');
+    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/worktype/getWorktypes`);
     worktypeIDs.value = response.data;
 }
 // 載入城市
 const loadCity = async () => {
-    const response = await axios.get(baseURL + '/api/city/getCities');
+    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/city/getCities`);
     cities.value = response.data;
 }
 // 將城市依area分組、排序
@@ -178,7 +178,7 @@ const loadWork = async () => {
     try {
         // 模擬載入時間
         // await new Promise(resolve => setTimeout(resolve, 1000));
-        const response = await axios.post(baseURL + "/api/work/getWorks",
+        const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/work/getWorks`,
             // request body
             filters.value,
             // request params
@@ -337,6 +337,10 @@ const checkSticky = () => {
 }
 
 .fa {
+    color: chocolate;
+}
+
+.container-fluid :deep() .fa {
     color: chocolate;
 }
 

@@ -38,7 +38,6 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
 import { useWorkStore } from '@store/workStore';
 
 const props = defineProps({
