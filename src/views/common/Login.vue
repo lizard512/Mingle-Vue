@@ -13,14 +13,14 @@
                 <br>
                 <br>
                 <div class="passwordDiv">
-                    <input id="password" v-model="password" type="password" class="password" name="password"
+                    <input id="password" v-model="password" @keydown.enter="handleEnterKey" :type="showPassword ? 'text' : 'password'" class="password" name="password"
                         placeholder="請輸入密碼" required>
                 </div>
                 <br>
                 <div class="reminder">
                     <div class="checkboxDiv">
                         <label>
-                            <input id="checkbox" @change="checkPassword" class="checkbox" type="checkbox"
+                            <input id="checkbox" v-model="showPassword" class="checkbox" type="checkbox"
                                 value="remember-me"> 顯示密碼
                         </label>
                     </div>
@@ -60,28 +60,33 @@ const loginTestUsingPinia = () => {
 
 };
 
-
 import { createApp, ref } from 'vue';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import axios from 'axios';
 
-function checkPassword() {
-    let password = document.getElementById("password");
-    if (checkbox.checked == true) {
-        password.type = "text";
-    } else {
-        password.type = "password"
-    }
-}
+// function checkPassword() {
+//     let password = document.getElementById("password");
+//     if (checkbox.checked == true) {
+//         password.type = "text";
+//     } else {
+//         password.type = "password"
+//     }
+// }
 
 function gotGoogleLoginPage() {
-    window.location.href = "http://192.168.74.123:8080/google-login";
+    window.location.href = "http://localhost:8080/google-login";
 }
 
 let userid = ref('');
 let password = ref('');
 let loading = false;
+const showPassword = ref(false);
+
+const handleEnterKey = () => {
+    // Trigger the login function when Enter key is pressed
+    login();
+};
 
 const login = function () {
     // Set loading to true when login starts

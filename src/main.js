@@ -8,12 +8,16 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 
-
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 const app = createApp(App)
 app.use(pinia).use(router).mount('#app');
 
+
+const httpClient = axios.create({
+    withCredentials: true,
+});
+export default httpClient;
 
 // 路由守衛閃亮登場
 router.beforeEach(async (to) => {

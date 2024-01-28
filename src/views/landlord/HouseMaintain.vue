@@ -297,7 +297,9 @@ const openUpdateModal = async (houseId) => {
   updateFormData.value.createdAt = houseToUpdate.createdAt;
   updateFormData.value.updatedAt = houseToUpdate.updatedAt;
   updateFormData.value.isDeleted = houseToUpdate.isDeleted;
-  // updateFormData.value.housePhotos = houseToUpdate.housePhotos;
+  updateFormData.value.housePhotos = houseToUpdate.housePhotos;
+  console.log(updateFormData.value.housePhotos[0]);
+  console.log(updateFormData.value.housePhotos[0].contentType);
 
   isUpdateModalVisible.value = true;
 };
