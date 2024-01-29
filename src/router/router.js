@@ -47,7 +47,7 @@ const routes = [
     meta: { hideFooter: true },
   },
   {
-    path: "/user-profile",
+    path: "/user-profile/:id",
     name: "UserProfile",
     component: UserProfile,
   },

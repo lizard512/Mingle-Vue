@@ -8,7 +8,7 @@
                             @click="showAlert"><i class="fa-solid fa-thumbs-down me-1"></i>超爛房東</button>
                         <img src="@images/user-2.jpg" alt="user" class="rounded-circle img-fluid" style="width: 150px;">
                         <button type="button" class="btn btn-primary position-absolute" style="right: 5%; top: 75px;"
-                            @click="router.push({name: 'Chatroom', params: { userID:  userID }});"><i class="fa-solid fa-comment-dots me-1"></i>聯絡用戶</button>
+                            @click="navigateToChatroom"><i class="fa-solid fa-comment-dots me-1"></i>聯絡用戶</button>
                         <h5 class="my-2">{{ user.name }}</h5>
                         <span class="text-muted my-2">加入時間：{{ user.createdAt.toString().substring(0, 10) }}</span>
                         <div class="my-2">
@@ -118,35 +118,43 @@
 </template>
 
 <script setup>
+// 引用函式庫
 import { ref, onMounted, nextTick } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import VueCookies from 'vue-cookies';
+import { useRoute } from 'vue-router'
+// 引用 store
+import { useStore } from '@store/chatStore.js'
 
-const userID = ref('');
-
+const route = useRoute()
+const userID = route.params.id
 const router = useRouter();
-
 let user = ref(null);
+const chatStore = useStore()
 
 onMounted(async () => {
-    getUserID();
+    // getUserID();
     await loadUserData();
 });
 
-const getUserID = () => {
-        const sessionToken = localStorage.getItem('sessionToken');
-        userID.value = String(sessionToken).substring(32, sessionToken.length);
-}
+// const getUserID = () => {
+//         const sessionToken = localStorage.getItem('sessionToken');
+//         userID = String(sessionToken).substring(32, sessionToken.length);
+// }
 
 const loadUserData = async () => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/${userID.value}`);
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/${userID}`);
         user.value = response.data;
     } catch (error) {
         console.error('Failed to fetch user data:', error);
     }
 }
+
+const navigateToChatroom = () => {
+    chatStore.setExternalID(userID)
+    router.push(`/chatroom`);
+};
 
 const showAlert = () => {
     alert('我就爛👍');
