@@ -94,8 +94,8 @@ import { ref, computed, onMounted, onUnmounted, toRaw } from 'vue';
 
 import axios from 'axios';
 //// 引用元件
-import WorkCard from '@components/WorkCard.vue';
-import { useWorkStore } from '@store/workStore';
+// import WorkCard from '@components/WorkCard.vue';
+// import { useWorkStore } from '@store/workStore';
 
 //// 接收資料庫資料
 let works = ref([]);
@@ -104,8 +104,8 @@ const cities = ref([]);
 // const baseURL = "http://localhost:8080";
 
 //// 接收元件傳值
-const store = useWorkStore();
-store.setWorks(works);
+// const store = useWorkStore();
+// store.setWorks(works);
 
 //// 預設參數
 // 載入相關

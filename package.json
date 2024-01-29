@@ -30,6 +30,7 @@
     "resize-textarea-vue3": "^1.1.3",
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
+    "swiper": "^11.0.5",
     "vue": "^3.4.15",
     "vue-axios": "^3.5.2",
     "vue-cookies": "^1.8.3",
@@ -37,6 +38,7 @@
     "vue-router": "^4.2.5",
     "vue-sweetalert2": "^5.0.5",
     "vue3-google-map": "^0.19.0",
+    "vue3-toastify": "^0.2.1",
     "vuex": "^4.0.2",
     "wowjs": "^1.1.3"
   },

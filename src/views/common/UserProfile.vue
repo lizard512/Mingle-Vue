@@ -12,7 +12,7 @@
                         <h5 class="my-2">{{ user.name }}</h5>
                         <span class="text-muted my-2">加入時間：{{ user.createdAt.toString().substring(0, 10) }}</span>
                         <div class="my-2">
-                            <span class="text-muted me-3 fa fa-star"> NAN 則評價</span>
+                            <span class="text-muted me-3 fa fa-star" v-if="true"> 打工換宿達人</span>
                             <span class="text-muted  me-3 fa fa-solid fa-address-card" v-if="true"> 身分已驗證</span>
                             <span class="text-primary me-3 fa fa-solid fa-medal" v-if="true"> 超讚房東</span>
                         </div>
@@ -132,6 +132,7 @@ const router = useRouter();
 let user = ref(null);
 const chatStore = useStore()
 
+
 onMounted(async () => {
     // getUserID();
     await loadUserData();
@@ -153,6 +154,7 @@ const loadUserData = async () => {
 
 const navigateToChatroom = () => {
     chatStore.setExternalID(userID)
+    chatStore.setExternalName(user.value.name)
     router.push(`/chatroom`);
 };
 
