@@ -132,6 +132,7 @@ const router = useRouter();
 let user = ref(null);
 const chatStore = useStore()
 
+
 onMounted(async () => {
     // getUserID();
     await loadUserData();
@@ -153,6 +154,7 @@ const loadUserData = async () => {
 
 const navigateToChatroom = () => {
     chatStore.setExternalID(userID)
+    chatStore.setExternalName(user.value.name)
     router.push(`/chatroom`);
 };
 
