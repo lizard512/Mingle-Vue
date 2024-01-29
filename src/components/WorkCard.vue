@@ -44,6 +44,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import { toast } from 'vue3-toastify';
 // import { useWorkStore } from '@store/workStore';
 // const store = useWorkStore();
 
@@ -55,6 +56,13 @@ const props = defineProps({
 
 const keepWork = () => {
     isKept.value = !isKept.value;
+    if(isKept.value) {
+        toast("已新增至心願清單", {})
+    }else{
+        toast("已從心願清單移除", {})
+    }
+
+  ; // ToastOptions
 }
 </script>
 
