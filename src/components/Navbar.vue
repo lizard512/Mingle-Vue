@@ -121,6 +121,7 @@ const isAdmin = computed(() => userStore.permissions.includes('admin'));
 function resetStore() {
     userStore.$reset()
     localStorage.removeItem('user')
+    localStorage.removeItem('sessionToken');
 }
 
 
