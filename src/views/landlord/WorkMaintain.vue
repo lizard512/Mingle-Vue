@@ -160,30 +160,57 @@
                 </tbody>
             </table>
             <!-- main-form -->
-            <form class="row p-4 border border-info border-5 rounded needs-validation animate__animated animate__fadeIn"
-                novalidate v-show="isShowModify">
+            <form class="p-4 border border-info rounded needs-validation animate__animated animate__fadeIn" novalidate
+                v-show="isShowModify">
                 <!-- basic -->
                 <div class="my-3">
                     <h4 class="text-center mb-4 animate__animated animate__flipInX">基本資訊</h4>
-                    <div class="row">
-                        <div class="form-floating col-4">
-                            <select class="form-control" v-model="selectedWorktype" required>
-                                <option selected disabled value="">Choose...</option>
-                                <option v-for="item in worktype" :value="item">{{ item }}</option>
-                            </select>
-                            <label for="floatingInput" class="form-label">工作類型</label>
-                            <div class="invalid-feedback">
-                                請選取您的工作類型
+                    <div class="border border-danger border-2 m-3 p-3">
+                        <!--worktype & workname-->
+                        <h6 class="text-dark mx-4 mt-2">打工基本資訊</h6>
+                        <div class="row g-0 mx-3 my-4">
+                            <div class="form-floating mx-2 col">
+                                <select class="form-control" id="formWorktype" v-model="worktype" required>
+                                    <option selected disabled value="">Choose...</option>
+                                    <option v-for="item in worktypeList" :value="item">{{ item }}</option>
+                                </select>
+                                <label for="formWorktype">工作類型</label>
+                                <div class="invalid-feedback">
+                                    請選取您的工作類型
+                                </div>
+                            </div>
+                            <div class="form-floating mx-2 col">
+                                <input type="text" class="form-control" id="formWorkname" placeholder="工作名稱"
+                                    v-model.trim="workname" required>
+                                <label for="formWorkname">工作名稱</label>
+                                <div class="invalid-feedback">
+                                    工作名稱為必填欄位
+                                </div>
                             </div>
                         </div>
-                        <div class="form-floating col-4">
-                            <input type="text" class="form-control" id="floatingWorkname" v-model.trim="workname" required>
-                            <label for="floatingWorkname">工作名稱</label>
-                            <div class="invalid-feedback">
-                                請填寫您的工作名稱
+                        <!--workcity & workaddress -->
+                        <div class="row g-0 mx-3 my-4">
+                            <div class="form-floating mx-2 col-3">
+                                <select class="form-control" id="formWorkcity" v-model="workcity" required>
+                                    <option selected disabled value="">還在施工</option>
+                                    <option v-for="item in worktypeList" :value="item">{{ item }}</option>
+                                </select>
+                                <label for="formWorkcity">工作縣市</label>
+                                <div class="invalid-feedback">
+                                    請選取您的工作縣市
+                                </div>
+                            </div>
+                            <div class="form-floating mx-2 col">
+                                <input type="text" class="form-control" id="formWorkaddress" placeholder="工作名稱"
+                                    v-model.trim="workaddress" required>
+                                <label for="formWorkaddress">地址</label>
+                                <div class="invalid-feedback">
+                                    請輸入您的打工地址
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div class="col-12 d-flex justify-content-center">
                     <button class="btn btn-danger m-2" type="submit" @click="validate">確認</button>
@@ -203,9 +230,11 @@ const isShowList = ref(false);
 const isShowModify = ref(true);
 
 // form
-const worktype = ["人力", "旅店", "活動", "銷售", "辦公", "餐飲", "補教", "其他"]
-const selectedWorktype = ref('');
+const worktypeList = ["人力", "旅店", "活動", "銷售", "辦公", "餐飲", "補教", "其他"]
+const worktype = ref('');
 const workname = ref('');
+const workcity = ref('');
+const workaddress = ref('');
 
 function enterModify() {
     isShowList.value = false;
