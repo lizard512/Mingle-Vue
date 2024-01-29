@@ -93,6 +93,7 @@ const submitChanges = () => {
             updateDetail();
         } else if (result.isDismissed) {
             console.log("按下取消");
+
         }
     });
 
@@ -119,8 +120,8 @@ const updateDetail = () => {
     }).catch(function (error) {
         Swal.fire({
             icon: "error",
-            title: "Oops...",
-            text: "Something went wrong!" + error.message,
+            title: "哎呀...",
+            text: "更新失敗!" + error.message,
             confirmButtonText: "我知道了"
         });
     })

@@ -13,8 +13,7 @@
 
             <div class="col-6 float-end">
                 <a href="#" class="btn">
-                    <img width=300 src="@images/user-3.jpg" class="img-fluid rounded float-end rounded-circle img1"
-                        for="formFile">
+                    <img src="@images/user-3.jpg" class="img-fluid rounded float-end rounded-circle img1" for="formFile">
                 </a>
             </div>
 
