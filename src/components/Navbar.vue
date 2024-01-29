@@ -104,7 +104,6 @@ const getUserID = () => {
         userProfileID.value = String(sessionToken).substring(32, sessionToken.length);
 }
 
-
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 const isLandlord = computed(() => userStore.permissions.includes('lord'));
 const isAdmin = computed(() => userStore.permissions.includes('admin'));
