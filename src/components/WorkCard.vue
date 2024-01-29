@@ -1,8 +1,7 @@
 <template>
     <div class="container-fluid px-5 pt-3">
         <div class="row g-4">
-            <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6 animate__animated animate__fadeIn" v-for="work in works"
-                :key="work.workid">
+            <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6 animate__animated animate__flipInY" v-for="(work, index) in works" :key="work.workid" :style="{ animationDelay: `${index * 0.1}s` }">
                 <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                     <div class="list-item rounded overflow-hidden">
                         <div class="position-relative overflow-hidden">
@@ -17,6 +16,14 @@
                                 :class="{ 'active': isKept }" @click.stop.prevent="keepWork"><i
                                     class="fa-brands fa-gratipay"></i></button>
                         </div>
+                        <!-- <div v-if="isLoading" class="p-4 pb-0 placeholder-glow">
+                            <h5 class="card-title placeholder-glow">
+                                <span class="placeholder col-6"></span>
+                            </h5>
+                            <p class="card-text placeholder-glow">
+                                <span class="placeholder"></span>
+                            </p>
+                        </div> -->
                         <div class="p-4 pb-0">
                             <p class="text-truncate h5" href="">{{ work.name }}</p>
                             <p class="text-truncate"><i class="fa fa-map-marker me-2"></i>{{
@@ -44,31 +51,45 @@
 
 <script setup>
 import { ref } from 'vue';
+// import { onMounted } from 'vue';
 import { toast } from 'vue3-toastify';
 // import { useWorkStore } from '@store/workStore';
 // const store = useWorkStore();
 
 const isKept = ref(false);
 
+// Define props
 const props = defineProps({
     works: Array
 });
 
+
+// // Define reactive variables
+// const isLoading = ref(true);
+
+// // Fetch data on mounted
+// onMounted(async () => {
+//     // Simulate data fetching
+//     await new Promise(resolve => setTimeout(resolve, 2000));
+//     isLoading.value = false;
+// });
+
+
 const keepWork = () => {
     isKept.value = !isKept.value;
-    if(isKept.value) {
+    if (isKept.value) {
         toast("已新增至心願清單", {})
-    }else{
+    } else {
         toast("已從心願清單移除", {})
     }
 
-  ; // ToastOptions
+    ; // ToastOptions
 }
 </script>
 
 <style scoped>
 .list-item {
-    box-shadow: 0 0 30px rgba(0, 0, 0, .15);
+    box-shadow: 0 0 25px rgba(0, 0, 0, .15);
 }
 
 .list-item img {
@@ -103,4 +124,5 @@ const keepWork = () => {
 
 .fa-gratipay {
     font-size: 2em;
-}</style>
+}
+</style>
