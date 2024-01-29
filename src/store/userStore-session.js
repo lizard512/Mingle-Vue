@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { watchEffect, onMounted } from 'vue';
+// import { watchEffect, onMounted } from 'vue';
 
 export const useUserStore = defineStore({
     id: 'user',
@@ -52,11 +52,11 @@ export const useUserStore = defineStore({
     },
 });
 
-onMounted(() => {
-    const store = useUserStore();
-    watchEffect(() => {
-        store.isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
-        store.permissions = JSON.parse(sessionStorage.getItem('permissions')) || [];
-    });
-});
+// onMounted(() => {
+//     const store = useUserStore();
+//     watchEffect(() => {
+//         store.isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+//         store.permissions = JSON.parse(sessionStorage.getItem('permissions')) || [];
+//     });
+// });
 
