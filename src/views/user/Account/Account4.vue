@@ -93,6 +93,7 @@ const submitChanges = () => {
             updateDetail();
         } else if (result.isDismissed) {
             console.log("按下取消");
+
         }
     });
 
@@ -102,13 +103,16 @@ const submitChanges = () => {
 const updateDetail = () => {
 
     const data = {
-        introduction: props.userdetails.introduction,
-        background: props.userdetails.background,
-        language: props.userdetails.language,
-        hobby: props.userdetails.hobby
+        "userid": props.userdetails.userid,
+        "introduction": props.userdetails.introduction,
+        "background": props.userdetails.background,
+        "language": props.userdetails.language,
+        "hobby": props.userdetails.hobby
     }
-    console.log(data)
-    async () => await axios.post('#', data).then(function (response) {
+    console.log(data);
+    const User_API_URL = 'http://localhost:8080/'
+    async () => await axios.post(User_API_URL + 'api/volunteerDetail/update/introductions', data).then(function (response) {
+        console.log("我傳回成功啦")
         console.log(response)
         Swal.fire({
             icon: "success",
@@ -119,8 +123,8 @@ const updateDetail = () => {
     }).catch(function (error) {
         Swal.fire({
             icon: "error",
-            title: "Oops...",
-            text: "Something went wrong!" + error.message,
+            title: "哎呀...",
+            text: "更新失敗!" + error.message,
             confirmButtonText: "我知道了"
         });
     })
