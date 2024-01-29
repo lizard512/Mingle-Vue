@@ -165,18 +165,24 @@
                 <!-- basic -->
                 <div class="my-3">
                     <h4 class="text-center mb-4 animate__animated animate__flipInX">基本資訊</h4>
-                    <div class="row border">
+                    <div class="row">
                         <div class="form-floating col-4">
-                            <select class="form-control" v-model="selectedWorkType" required>
+                            <select class="form-control" v-model="selectedWorktype" required>
                                 <option selected disabled value="">Choose...</option>
-                                <option v-for="item in workType" :value="item">{{ item }}</option>
+                                <option v-for="item in worktype" :value="item">{{ item }}</option>
                             </select>
                             <label for="floatingInput" class="form-label">工作類型</label>
                             <div class="invalid-feedback">
                                 請選取您的工作類型
                             </div>
                         </div>
-                        <div class="col-4">施工中</div>
+                        <div class="form-floating col-4">
+                            <input type="text" class="form-control" id="floatingWorkname" v-model.trim="workname" required>
+                            <label for="floatingWorkname">工作名稱</label>
+                            <div class="invalid-feedback">
+                                請填寫您的工作名稱
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 d-flex justify-content-center">
@@ -193,12 +199,13 @@
 import { ref, onMounted } from 'vue';
 import Swal from 'sweetalert2'
 
-const isShowList = ref(true);
-const isShowModify = ref(false);
+const isShowList = ref(false);
+const isShowModify = ref(true);
 
 // form
-const workType = ["人力", "旅店", "活動", "銷售", "辦公", "餐飲", "補教", "其他"]
-const selectedWorkType = ref('');
+const worktype = ["人力", "旅店", "活動", "銷售", "辦公", "餐飲", "補教", "其他"]
+const selectedWorktype = ref('');
+const workname = ref('');
 
 function enterModify() {
     isShowList.value = false;
