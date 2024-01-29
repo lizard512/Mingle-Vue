@@ -103,13 +103,16 @@ const submitChanges = () => {
 const updateDetail = () => {
 
     const data = {
-        introduction: props.userdetails.introduction,
-        background: props.userdetails.background,
-        language: props.userdetails.language,
-        hobby: props.userdetails.hobby
+        "userid": props.userdetails.userid,
+        "introduction": props.userdetails.introduction,
+        "background": props.userdetails.background,
+        "language": props.userdetails.language,
+        "hobby": props.userdetails.hobby
     }
-    console.log(data)
-    async () => await axios.post('#', data).then(function (response) {
+    console.log(data);
+    const User_API_URL = 'http://localhost:8080/'
+    async () => await axios.post(User_API_URL + 'api/volunteerDetail/update/introductions', data).then(function (response) {
+        console.log("我傳回成功啦")
         console.log(response)
         Swal.fire({
             icon: "success",
