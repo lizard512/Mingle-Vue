@@ -13,6 +13,9 @@
                             <div
                                 class="bg-success rounded-top text-white position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
                                 {{ work.city }}</div>
+                            <button type="button" class="btn position-absolute end-0 top-0 m-3"
+                                :class="{ 'active': isKept }" @click.stop.prevent="keepWork"><i
+                                    class="fa-brands fa-gratipay"></i></button>
                         </div>
                         <div class="p-4 pb-0">
                             <p class="text-truncate h5" href="">{{ work.name }}</p>
@@ -40,13 +43,19 @@
 </template>
 
 <script setup>
-import { useWorkStore } from '@store/workStore';
+import { ref } from 'vue';
+// import { useWorkStore } from '@store/workStore';
+// const store = useWorkStore();
+
+const isKept = ref(false);
 
 const props = defineProps({
     works: Array
 });
 
-const store = useWorkStore();
+const keepWork = () => {
+    isKept.value = !isKept.value;
+}
 </script>
 
 <style scoped>
@@ -70,8 +79,20 @@ const store = useWorkStore();
     border-right: 1px dashed rgba(0, 185, 142, .3) !important;
 }
 
+.list-item .btn:hover,
+.btn.active {
+    color: var(--danger);
+}
+
+.list-item .btn {
+    border: 0;
+}
+
 .router-link {
     color: inherit;
     text-decoration: none;
 }
-</style>
+
+.fa-gratipay {
+    font-size: 2em;
+}</style>
