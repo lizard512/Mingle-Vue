@@ -14,8 +14,8 @@ export default [
         children: [
             {
                 path: '',
+                name: 'OrderDefault',
                 redirect: '/order/order1'
-
             },
             {
                 path: 'order1',

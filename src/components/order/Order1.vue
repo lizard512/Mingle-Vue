@@ -766,9 +766,9 @@ const workdetail = reactive({})
 const housedetail = reactive({})
 
 
-const Work_API_URL = 'http://localhost:8080/order/' + 3;
+const Work_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/`+ 3;
 
-const WorkHouse_API_URL = 'http://localhost:8080/order/house/' + 3;
+const WorkHouse_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/house/` + 3;
 
 const loadworkDetail = async () => {
     const workResponse = await axios.post(Work_API_URL);
@@ -803,7 +803,7 @@ const totalRooms = function () {
 //============查詢房間照片============
 const housephoto = ref('')
 const showImage = async function (houseid) {
-    const HousePhoto_API_URL = 'http://localhost:8080/order/photo/' + houseid;
+    const HousePhoto_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/photo/` + houseid;
     try {
         const photoResponse = await axios.post(HousePhoto_API_URL);
         console.log(photoResponse.data[0]);

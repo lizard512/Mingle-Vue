@@ -6,12 +6,21 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { useUserStore } from '@store/userStore-session.js';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-
+import axios from 'axios';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 const app = createApp(App)
 app.use(pinia).use(router).mount('#app');
+app.use(Vue3Toastify, {
+    "theme": "colored",
+    "type": "default",
+    "autoClose": 2500,
+    "transition": "slide",
+    "dangerouslyHTMLString": true
+});
 
 
 const httpClient = axios.create({

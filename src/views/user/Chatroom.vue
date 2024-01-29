@@ -81,8 +81,14 @@
 </template>
     
 <script setup>
+// 引用 store
+import { useStore } from '@store/chatStore.js'
+const chatStore = useStore()
+const externalID = chatStore.externalID
+const externalName = chatStore.externalName
+
 let global = globalThis; // 因應stomp及sockjs-client所設
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 import VueCookies from 'vue-cookies';
 import Swal from 'sweetalert2'
@@ -90,16 +96,16 @@ import Swal from 'sweetalert2'
 // Stomp & Sockjs-client
 import SockJS from 'sockjs-client/dist/sockjs.min.js';
 import Stomp from 'stompjs';
-const socket = new SockJS(path + '/ws');
+let path = import.meta.env.VITE_APP_API_URL;
+const socket = new SockJS(path + "/ws");
 const stompClient = Stomp.over(socket);
-const path = 'http://localhost:8080'
 
 const roomList = ref(null);         // 左側列表，初始、收發訊息時渲染。
 const chatContainer = ref(null);    // 右側訊息，初始、收發訊息、點擊聊天列表時渲染。
 const contents = ref('');           // 左側資料
 const messages = ref([]);           // 右側資料
 const senderID = ref('');           // 本使用者id，初始時賦值，之後永不變更。
-const selectedUserID = ref('');     // 對方使用者id，點擊聊天列表更新。
+const selectedUserID = ref(null);     // 對方使用者id，點擊聊天列表更新。
 const selectedUserName = ref('');   // 對方使用者姓名，點擊聊天列表更新。
 const inputField = ref(null);       // 訊息輸入欄位，enter可觸發。
 const beginChat = ref(true);        // 初始畫面，提醒點擊。
@@ -108,19 +114,32 @@ const otherUser = ref([]);          // 其他使用者資料，搜尋用。
 // 賦值→連線→渲染(左側)聊天列表→
 onMounted(async () => {
     await initAssign();
-    initConnect();
+    await initConnect();
     await initsearch();
     await findAllChat();
-    // await findAllMessages();
+    if (selectedUserID && selectedUserID.value != senderID.value) {
+        await findAllMessages();
+    }
     // messageEnd();
 });
+onUnmounted(() => {
+    chatStore.$reset();
+
+})
 // 初始賦值(確定使用者)
 async function initAssign() {
     const sessionToken = VueCookies.get('sessionToken');
     senderID.value = String(sessionToken).substring(32, sessionToken.length);
+
+    // 外部進入
+    if (externalID && externalID != senderID.value) {
+        selectedUserID.value = externalID;
+        selectedUserName.value = externalName;
+        beginChat.value = false;        // 關掉初始提醒
+    }
 }
 // stompjs連線
-function initConnect() {
+async function initConnect() {
     stompClient.connect({}, onConnected, onError);
 }
 // 訂閱
@@ -143,7 +162,8 @@ function onError() {
     Swal.fire({
         icon: 'error',
         text: 'BOOOOOOMMMMMM! 連線壞掉囉',
-        confirmButtonText: 'Alright....'
+        confirmButtonText: 'Alright....',
+        allowOutsideClick: false
     }).then(function (response) {
 
     })
@@ -152,7 +172,6 @@ function onError() {
 async function initsearch() {
     await axios.get(`${path}/messages/${senderID.value}/findAllUser`)
         .then(function (response) {
-            console.log(response.data)
             otherUser.value = response.data;
         })
         .catch(function (error) {

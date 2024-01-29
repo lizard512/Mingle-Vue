@@ -1,6 +1,6 @@
 <template>
     <!-- Back to Top Button-->
-    <a href="#" class="btn btn-lg btn-success back-to-top" v-if="isShow"><i class="fa-solid fa-arrow-up"></i></a>
+    <a href="#" class="btn btn-lg btn-warning back-to-top" v-if="isShow"><i class="fa-solid fa-arrow-up"></i></a>
 </template>
 
 <script setup>
