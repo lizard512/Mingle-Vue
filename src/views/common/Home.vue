@@ -48,7 +48,6 @@ const modules = [Pagination, Navigation];
 
 .swiper-slide img {
   display: block;
-  width: 100%;
   max-height: 100%;
   object-fit: cover;
 }
