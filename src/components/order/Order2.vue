@@ -272,7 +272,7 @@
                                                 <small class="text-muted">house name</small>
                                             </div>
                                             <span class="text-muted margin-left btn btn-primary" @click="showRoom(key)"> {{
-                                                housedetails[key] ? housedetails[key].name + '(查看詳情)' : 'N/A' }}</span>
+                                                housedetails[key] ? housedetails[key].name: 'N/A' }}<br>(查看詳情)</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
@@ -488,13 +488,19 @@ const showRoom = function (key) {
                 ${housedetails[key].hasLaundry == 1 ? '<span><i class="fa-solid fa-shirt text-muted">洗衣房&nbsp</i></span>' : ''}
                 ${housedetails[key].hasParkingLot == 1 ? '<span><i class="fa-solid fa-square-parking text-muted">停車位&nbsp</i></span>' : ''}
                 ${housedetails[key].hasPersonalSpace == 1 ? '<span><i class="fa-solid fa-person text-muted">個人空間&nbsp</i></span>' : ''}
-                ${housedetails[key].hasAirconditioner == 1 ? '<span><i class="fa-solid  fa-fan text-muted"> 空調&nbsp</i></span>' : '<span class= "text-muted">無&nbsp</span>'}
+                ${housedetails[key].hasAirconditioner == 1 ? '<span><i class="fa-solid  fa-fan text-muted"> 空調&nbsp</i></span>' : ''}
+                ${housedetails[key].hasWifi == 0 && housedetails[key].hasTV == 0 && housedetails[key].hasPool == 0
+                && housedetails[key].hasGym == 0 && housedetails[key].hasKitchen == 0 && housedetails[key].hasLaundry == 0
+                && housedetails[key].hasParkingLot == 0 && housedetails[key].hasPersonalSpace == 0 && housedetails[key].hasAirconditioner == 0 ? 
+                '<span class= "text-muted">無&nbsp</span>' : ''}
+              
         </div>
         </td>
         </tr>
 
         </table>`,
-        imageUrl: "https://unsplash.it/400/200",
+        // imageUrl: "https://unsplash.it/400/200",
+        imageUrl: `data:image/${housedetails[key].housePhotos[0].contentType};base64,${housedetails[key].housePhotos[0].photo}`,
         imageWidth: 400,
         imageHeight: 200,
         imageAlt: "Custom image",
