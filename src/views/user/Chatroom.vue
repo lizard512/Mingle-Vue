@@ -81,8 +81,14 @@
 </template>
     
 <script setup>
+// 引用 store
+import { useStore } from '@store/chatStore.js'
+const chatStore = useStore()
+const externalID = chatStore.externalID
+console.log(externalID)
+
 let global = globalThis; // 因應stomp及sockjs-client所設
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watchEffect } from 'vue';
 import axios from 'axios';
 import VueCookies from 'vue-cookies';
 import Swal from 'sweetalert2'
@@ -153,7 +159,6 @@ function onError() {
 async function initsearch() {
     await axios.get(`${path}/messages/${senderID.value}/findAllUser`)
         .then(function (response) {
-            console.log(response.data)
             otherUser.value = response.data;
         })
         .catch(function (error) {

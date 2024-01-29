@@ -13,8 +13,9 @@
                 <br>
                 <br>
                 <div class="passwordDiv">
-                    <input id="password" v-model="password" @keydown.enter="handleEnterKey" :type="showPassword ? 'text' : 'password'" class="password" name="password"
-                        placeholder="請輸入密碼" required>
+                    <input id="password" v-model="password" @keydown.enter="handleEnterKey"
+                        :type="showPassword ? 'text' : 'password'" class="password" name="password" placeholder="請輸入密碼"
+                        required>
                 </div>
                 <br>
                 <div class="reminder">
@@ -40,10 +41,15 @@
                             src="@images/icon-google.png" width="25px">&nbsp;透過Google帳號登入</button>
                 </div>
                 <br>
+
                 <div class="login-btn">
+                    <button class="btn btn-info" @click="fillForm">使用者1</button>
+                </div>
+
+                <!-- <div class="login-btn">
                     <button class="btn btn-lg btn-warning btn-block" type="submit"
                         @click="loginTestUsingPinia">登入(Pinia測試)</button>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -52,27 +58,13 @@
 <script setup>
 import { useUserStore } from '@store/userStore-localStorage.js';
 import { useRouter } from 'vue-router';
-const userStore = useUserStore();
-const router = useRouter();
-const loginTestUsingPinia = () => {
-    userStore.login();
-    router.push({ name: 'Home' });
-
-};
-
-import { createApp, ref } from 'vue';
+import { ref } from 'vue';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import axios from 'axios';
 
-// function checkPassword() {
-//     let password = document.getElementById("password");
-//     if (checkbox.checked == true) {
-//         password.type = "text";
-//     } else {
-//         password.type = "password"
-//     }
-// }
+const userStore = useUserStore();
+const router = useRouter();
 
 function gotGoogleLoginPage() {
     window.location.href = "http://localhost:8080/google-login";
@@ -119,7 +111,7 @@ const login = function () {
                 }).then(function (result) {
                     if (result.isConfirmed) {
                         document.cookie = `sessionToken=${response.data.sessionToken}; path=/`;
-                        localStorage.setItem('sessionToken',response.data.sessionToken)
+                        localStorage.setItem('sessionToken', response.data.sessionToken)
                         userStore.login();
                         router.push({ name: 'Home' });
                     }
@@ -145,6 +137,11 @@ const login = function () {
             // Set loading to false when the request is complete, whether it succeeded or failed
             loading = false;
         });
+};
+
+const fillForm = () => {
+    userid.value = '1@gmail.com';
+    password.value = '1';
 };
 
 </script>

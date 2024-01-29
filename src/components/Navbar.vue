@@ -53,7 +53,7 @@
                             <RouterLink class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="/user-center">會員中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <RouterLink class="dropdown-item" to="/user-profile">個人頁面</RouterLink>
+                                <RouterLink class="dropdown-item" :to="`/user-profile/${userProfileID}`">個人頁面</RouterLink>
                                 <RouterLink class="dropdown-item" to="/account">會員資料</RouterLink>
                                 <RouterLink class="dropdown-item" to="/order">打工訂單</RouterLink>
                                 <RouterLink class="dropdown-item" to="/chatroom">聊天室</RouterLink>
@@ -92,6 +92,30 @@ import router from '@router/router'
 import { useUserStore } from '@store/userStore-localStorage.js';
 import { computed } from 'vue';
 
+const userStore = useUserStore();
+const userProfileID = ref('');
+
+onMounted(async () => {
+    getUserID();
+});
+
+const getUserID = () => {
+        const sessionToken = localStorage.getItem('sessionToken');
+        userProfileID.value = String(sessionToken).substring(32, sessionToken.length);
+}
+
+
+const isLoggedIn = computed(() => userStore.isLoggedIn);
+const isLandlord = computed(() => userStore.permissions.includes('lord'));
+const isAdmin = computed(() => userStore.permissions.includes('admin'));
+// 清除使用者localStorage中的userStore
+function resetStore() {
+    userStore.$reset()
+    localStorage.removeItem('user')
+    localStorage.removeItem('sessionToken');
+}
+
+
 const darkMode = ref(false);
 watchEffect(() => {
     const htmlTag = document.documentElement;
@@ -110,39 +134,6 @@ watchEffect(() => {
 const toggleDarkMode = () => {
     darkMode.value = !darkMode.value;
 };
-
-
-
-const userStore = useUserStore();
-const isLoggedIn = computed(() => userStore.isLoggedIn);
-const isLandlord = computed(() => userStore.permissions.includes('lord'));
-const isAdmin = computed(() => userStore.permissions.includes('admin'));
-// 清除使用者localStorage中的userStore
-function resetStore() {
-    userStore.$reset()
-    localStorage.removeItem('user')
-}
-
-
-// import { computed } from 'vue';
-// import { useStore } from 'vuex';
-
-// const store = useStore();
-// const isLoggedIn = computed(() => store.state.isLoggedIn);
-// const isLord = computed(() => store.state.isLord);
-
-// function handleLogin() {
-//     store.commit('setLoggedIn', true);
-// }
-// function handleLogout() {
-//     store.commit('setLoggedIn', false);
-// }
-// function becomeLord() {
-//     store.commit('setLord', true);
-// }
-// function quitLord() {
-//     store.commit('setLord', false);
-// }
 
 
 // // Sticky Navbar
