@@ -440,7 +440,7 @@ const showDetails = async () => {
         // 檢查值是否非空
         if (value) {
             // 對具有非空值的每個鍵發送請求
-            const House_API_URL = 'http://localhost:8080/api/house/find';
+            const House_API_URL = `${import.meta.env.VITE_APP_API_URL}/api/house/find`;
 
             try {
                 const response = await axios.get(House_API_URL, { params: { houseId: key } });
@@ -522,7 +522,7 @@ onActivated(() => {
 
 
 
-const OrderCreate_API_URL = 'http://localhost:8080/order/create';
+const OrderCreate_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/create`;
 
 
 const goToOrder3 = () => {
