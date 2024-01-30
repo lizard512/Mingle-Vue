@@ -9,6 +9,7 @@ import Home from "@views/common/Home.vue";
 import Login from "@views/common/Login.vue";
 import NotFound from "@views/common/NotFound.vue";
 import WorkSearch from "@views/common/WorkSearch.vue";
+import WorkDetail from "@views/common/WorkDetail.vue";
 import UserProfile from "@views/common/UserProfile.vue";
 import ThankYou from "@components/ThankYou.vue";
 import Map from "@components/Map.vue";
@@ -50,6 +51,11 @@ const routes = [
     path: "/user-profile/:id",
     name: "UserProfile",
     component: UserProfile,
+  },
+  {
+    path: "/work-detail/:id",
+    name: "WorkDetail",
+    component: WorkDetail,
   },
   {
     path: "/:pathMatch(.*)*",
