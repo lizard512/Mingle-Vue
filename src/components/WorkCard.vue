@@ -8,7 +8,8 @@
                     <div v-if="!isFliping[index]"
                         class="list-item rounded overflow-hidden animate__animated animate__flipInY">
                         <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="@images/台東熱氣球活動.jpg" :src="work.photo" :alt="work.name">
+                            <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64" :alt="work.name">
+                            <img v-else class="img-fluid" src="@images/grey.jpg" :alt="work.name">
                             <div class="bg-info rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
                                 {{ work.worktype }}</div>
                             <div
@@ -22,7 +23,6 @@
                             <p class="text-truncate h5">{{ work.name }}</p>
                             <p class="text-truncate"><i class="fa fa-map-marker me-2"></i>{{
                                 work.address }}</p>
-                            <!-- <p>{{ work.description }}</p> -->
                         </div>
                         <div class="d-flex border-top">
                             <small class="flex-fill text-center py-2"><i class="fa fa-calendar me-2"></i>{{
@@ -96,12 +96,10 @@ const isKept = ref(false);
 let isFliping = ref([]);
 let lastFilp = ref(0); // 保存上一次翻開的進度
 watch(() => props.works.length, (newLength) => {
-    console.log(lastFilp.value);
     if (newLength < lastFilp.value) {
         lastFilp.value = 0;
         isFliping.value = [];
     }
-    console.log(lastFilp.value);
     if (newLength > lastFilp.value) {
         isFliping.value = [...isFliping.value, ...Array(newLength - lastFilp.value).fill(true)];
         for (let i = lastFilp.value; i < newLength; i++) {
@@ -119,7 +117,6 @@ watch(() => props.works.length, (newLength) => {
         lastFilp.value = newLength;
     }
 
-    console.log(lastFilp.value);
 });
 
 const keepWork = () => {
@@ -141,6 +138,7 @@ const keepWork = () => {
 
 .list-item img {
     transition: .5s;
+    /* height: 300px; */
 }
 
 .list-item:hover img {
