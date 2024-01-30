@@ -548,7 +548,6 @@ onMounted(() => {
     showDetails();
 });
 
-// 元件被激活時載入數據
 onActivated(() => {
     loaddata();
     showDetails();
