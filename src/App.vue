@@ -11,9 +11,6 @@
 <script setup>
 // 外部函式庫
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import { WOW } from 'wowjs';
-const wow = new WOW();
-wow.init();
 // 內部元件
 import Navbar from '@components/Navbar.vue'
 import Footer from '@components/Footer.vue'

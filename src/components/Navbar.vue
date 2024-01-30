@@ -46,12 +46,12 @@
                                 </RouterLink>
                             </div>
                         </div>
-                        <RouterLink v-else class="btn btn-secondary px-3" to="/form-lord" @click="userStore.becomeLandlord">
+                        <RouterLink v-else class="btn btn-secondary px-3" to="#" @click="userStore.becomeLandlord">
                             成為提供者
                         </RouterLink>
                         <div class="nav-item dropdown">
                             <RouterLink class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
-                                to="/user-center">會員中心</RouterLink>
+                                to="#">會員中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" :to="`/user-profile/${userProfileID}`">個人頁面</RouterLink>
                                 <RouterLink class="dropdown-item" to="/account">會員資料</RouterLink>
@@ -103,7 +103,6 @@ const getUserID = () => {
         const sessionToken = localStorage.getItem('sessionToken');
         userProfileID.value = String(sessionToken).substring(32, sessionToken.length);
 }
-
 
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 const isLandlord = computed(() => userStore.permissions.includes('lord'));

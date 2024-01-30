@@ -9,73 +9,46 @@
         <p class="animated fadeIn mb-4 pb-2 text-black">全台 26 縣市提供打工換宿</p>
         <a href="" class="btn btn-secondary py-3 px-5 me-3 animated fadeIn">了解詳情</a>
       </div>
-      <div class="col-md-6 animated fadeIn">
-        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-              aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-              aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-              aria-label="Slide 3"></button>
-          </div>
-          <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="2000">
-              <img src="@images/carousel-1.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-              <img src="@images/carousel-2.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-              <img src="@images/carousel-1.jpg" class="d-block w-100" alt="...">
-            </div>
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-      </div>
+      <swiper :loop="true"
+    :navigation="true"
+    :modules="modules"
+    :pagination="{ clickable: true }"
+    :autoplay="{ delay: 2500, disableOnInteraction: false }" 
+    class="mySwiper">
+        <swiper-slide><img src="@images/carousel-1.jpg" class="d-block w-100" alt="..."></swiper-slide>
+        <swiper-slide><img src="@images/carousel-2.jpg" class="d-block w-100" alt="..."></swiper-slide>
+      </swiper>
     </div>
   </div>
   <!-- Header End -->
 </template>
   
 <script setup>
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue';
 
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+// import required modules
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+
+const modules = [Pagination, Navigation];
 </script>
   
 
 <!-- Customized CSS -->
 <style scoped>
-.d-block {
+.swiper {
+  width: 50%;
+  height: 50%;
+}
+
+.swiper-slide img {
+  display: block;
+  max-height: 100%;
   object-fit: cover;
-  max-height: 700px;
-}
-
-/*** Category ***/
-.cat-item div {
-    background: #FFFFFF;
-    border: 1px dashed rgba(0, 185, 142, .3);
-    transition: .5s;
-}
-
-.cat-item:hover div {
-    background: lightslategray;
-    border-color: transparent;
-}
-
-.cat-item div * {
-    transition: .5s;
-}
-
-.cat-item:hover div * {
-    color: #FFFFFF !important;
 }
 </style>

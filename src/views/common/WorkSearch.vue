@@ -26,7 +26,8 @@
                             <div class="input-group w-50">
                                 <input type="text" class="form-control" placeholder="用關鍵字查詢" v-model="filters.keyword[0]"
                                     @keyup.enter="reloadWork()">
-                                <button class="btn btn-success" @click="reloadWork()"><i class="fa fa-search text-white"></i></button>
+                                <button class="btn btn-success" @click="reloadWork()"><i
+                                        class="fa fa-search text-white"></i></button>
                             </div>
                         </div>
                     </div>
@@ -72,13 +73,14 @@
             </div>
             <!--Search Header End-->
             <!--Work Card Start-->
-            <WorkCard :works="works" />
+            <WorkCard :works="works"/>
             <!--Work Card End-->
             <div class="the-end text-center m-5" v-if="isEnd">已經到底啦~~</div>
         </div>
         <!-- Sticky Footer Start-->
         <footer class="sticky-footer mt-auto py-3 bg-light-var animate__animated animate__slideInUp" data-wow-delay="0.1s">
             <div class="container">
+                <span class="mx-2">共有 {{ total }} 筆相符的結果</span>
                 <span class="mx-2"><i class="fa fa-map-marker-alt me-2"></i>台北市大安區復興南路一段390號2樓</span>
                 <span class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</span>
                 <span class="mx-2"><i class="fa fa-envelope me-2"></i>Mingle.org@gmail.com</span>
@@ -90,33 +92,33 @@
     
 <script setup>
 //// 引用函示庫
-import { ref, computed, onMounted, onUnmounted, toRaw } from 'vue';
+import { ref, computed, onMounted, onUnmounted} from 'vue';
 
 import axios from 'axios';
 //// 引用元件
 import WorkCard from '@components/WorkCard.vue';
-import { useWorkStore } from '@store/workStore';
+// import { useWorkStore } from '@store/workStore';
 
 //// 接收資料庫資料
 let works = ref([]);
+let total = ref(0);
 const worktypeIDs = ref([]);
 const cities = ref([]);
-// const baseURL = "http://localhost:8080";
 
 //// 接收元件傳值
-const store = useWorkStore();
-store.setWorks(works);
+// const store = useWorkStore();
+// store.setWorks(works);
 
 //// 預設參數
 // 載入相關
-let currentPage = ref(0); // 當前頁數
+const currentPage = ref(0); // 當前頁數
 const size = 12; // 每次載入的數量
 const isLoading = ref(false); //避免重複載入
-let isEnd = ref(false);
+const isEnd = ref(false);
 // 排序相關
 let direction = 'DESC'; // 排序方向
 let property = 'views'; // 排序屬性
-let isArrowUp = ref(true);// 排序按紐的箭頭方向
+const isArrowUp = ref(true);// 排序按紐的箭頭方向
 // 篩選相關
 const areaOrder = ['北部區域', '中部區域', '南部區域', '東部區域', '外島區域'];
 let filters = ref({
@@ -131,9 +133,9 @@ const isSticky = ref(false); // Sticky Header
 
 //// 生命週期
 onMounted(async () => {
-    await loadWork();
     await loadWorktype();
     await loadCity();
+    await loadWork();
     window.addEventListener('scroll', infiniteScroll);
     window.addEventListener('scroll', checkSticky);
     // document.body.classList.add('no-scroll');
@@ -176,8 +178,6 @@ const loadWork = async () => {
     if (isEnd.value || isLoading.value) return;
     isLoading.value = true;
     try {
-        // 模擬載入時間
-        // await new Promise(resolve => setTimeout(resolve, 1000));
         const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/work/getWorks`,
             // request body
             filters.value,
@@ -191,6 +191,7 @@ const loadWork = async () => {
                 }
             }
         );
+        total.value = response.data.totalElements;
         works.value = [...works.value, ...response.data.content];
         // 如果已經無法獲取更多的工作，停止發送請求
         if (response.data.last) isEnd.value = true;
@@ -204,13 +205,14 @@ const loadWork = async () => {
 };
 
 // 重新載入工作列表
-const reloadWork = async () => {
+const reloadWork = () => {
     works.value = []; // 清空工作列表
     currentPage.value = 0; // 重設頁數
     isEnd.value = false; // 重設結束標記
     window.scrollTo(0, 0); // 將頁面滾動到最上方
 
     loadWork();
+    
 }
 
 // 無限卷軸功能
@@ -279,26 +281,6 @@ const checkSticky = () => {
 .nav-pills .nav-item .btn:hover,
 .nav-pills .nav-item .btn.active {
     color: #FFFFFF;
-}
-
-.list-item {
-    box-shadow: 0 0 30px rgba(0, 0, 0, .08);
-}
-
-.list-item img {
-    transition: .5s;
-}
-
-.list-item:hover img {
-    transform: scale(1.1);
-}
-
-.list-item .border-top {
-    border-top: 1px dashed rgba(0, 185, 142, .3) !important;
-}
-
-.list-item .border-end {
-    border-right: 1px dashed rgba(0, 185, 142, .3) !important;
 }
 
 .fa-arrow-down {

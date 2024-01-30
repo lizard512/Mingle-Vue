@@ -85,13 +85,13 @@
                         <!-- 基本資料 -->
                         <div class="row g-3"
                             style="border: 1px solid wheat; padding: 20px; border-radius: 10px; margin: 10px;">
-                            <h6 class="mb-3 text-secondary">請確認會員資料</h6>
+                            <h6 class="mb-3 text-secondary">請確認會員資料，若需修改，請至個人中心。</h6>
                             <!-- name  自動帶入會員資料-->
                             <div class="col-sm-4">
                                 <label for="fullName" class="form-label" @click="handleClick">會員全名 (name) </label>
 
                                 <input type="text" class="form-control" id="fullName" placeholder=""
-                                    v-model="userdetails.name" required>
+                                    v-model="userdetails.name" required disabled>
                                 <div class="invalid-feedback">
                                     務必填寫會員全名。
                                 </div>
@@ -101,7 +101,7 @@
                             <div class="col-sm-4">
                                 <label for="email" class="form-label">信箱 (Email)</label>
                                 <input type="email" class="form-control" id="email" placeholder="you@example.com" value=""
-                                    v-model="userdetails.email" required>
+                                    v-model="userdetails.email" required disabled>
                                 <div class="invalid-feedback">
                                     務必填寫email。
                                 </div>
@@ -110,7 +110,7 @@
                             <div class="col-md-4">
                                 <label for="phone" class="form-label">電話 (phone)</label>
                                 <input type="phone" class="form-control" id="phone" placeholder="" value=""
-                                    v-model="userdetails.phone" required>
+                                    v-model="userdetails.phone" required disabled>
                                 <div class="invalid-feedback">
                                     務必填寫連絡電話。
                                 </div>
@@ -252,22 +252,19 @@
                                 <thead class="table-secondary ">
                                     <tr>
                                         <th scope="col">房型介紹 (house)</th>
+                                        <th scope="col">房間照片 (photo) </th>
                                         <th scope="col">容納人數 (beds) </th>
                                         <th scope="col">選擇間數 (room) </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="house_type in housedetail" :key="house_type.houseid">
-                                        <td>
+                                        <td class="align-middle col-md-4">
                                             <h6>房號：{{ house_type.houseid }}</h6>
                                             <h6>{{ house_type.houseType }}-{{ house_type.name }}</h6>
                                             <div>地址:{{ house_type.postCode }}{{ house_type.city }}-{{ house_type.address }}
                                             </div>
                                             <div>
-                                                <div >
-                                                    照片:
-                                                    <img :src="showImage(house_type.houseid)">
-                                                </div>
                                                 <div>
                                                     描述:{{ house_type.description }}
 
@@ -300,12 +297,17 @@
                                                     </span>
                                                     <span v-if="nofacilates(house_type)" class="text-muted">無&nbsp
                                                     </span>
-                                                    
+
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class=" align-middle col-2">{{ house_type.beds }}</td>
-                                        <td class=" align-middle  col-2"> <select class="select-form col-12"
+                                        <td class="align-middle col-md-2">
+                                            <div v-for="item in housephotodetail" :key="item">
+                                                    <img v-show="item.id == house_type.houseid"  v-for=" photo in item.housephoto" :key="photo" :src="photo" class="img-fluid img-center" :alt="item.id">
+                                                </div>
+                                        </td>
+                                        <td class=" align-middle col-md-1 text-center">{{ house_type.beds }}</td>
+                                        <td class=" align-middle  col-md-1"> <select class="select-form col-12"
                                                 v-model="selectedRooms[house_type.houseid]" @change="roomValidate()"
                                                 :class="{ 'is-invalid': isInvalid(), 'is-valid': isValid() }">
                                                 <option value="0">0</option>
@@ -745,7 +747,7 @@ const getuserid =
         return userid.value
     }
 
-const User_API_URL = 'http://localhost:8080/order/' + getuserid();
+const User_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/` + getuserid();
 
 const loaduserDetail = async () => {
     const response = await axios.get(User_API_URL);
@@ -766,9 +768,9 @@ const workdetail = reactive({})
 const housedetail = reactive({})
 
 
-const Work_API_URL = 'http://localhost:8080/order/' + 3;
+const Work_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/` + 3;
 
-const WorkHouse_API_URL = 'http://localhost:8080/order/house/' + 3;
+const WorkHouse_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/house/` + 3;
 
 const loadworkDetail = async () => {
     const workResponse = await axios.post(Work_API_URL);
@@ -801,28 +803,35 @@ const totalRooms = function () {
 };
 
 //============查詢房間照片============
-const housephoto = ref('')
+const housephotodetail = ref([])
+
 const showImage = async function (houseid) {
-    const HousePhoto_API_URL = 'http://localhost:8080/order/photo/' + houseid;
+    const HousePhoto_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/photo/` + houseid;
     try {
         const photoResponse = await axios.post(HousePhoto_API_URL);
-        console.log(photoResponse.data[0]);
-        housephoto.value = photoResponse.data;
-        console.log(housephoto.value);
-        return housephoto.value
+        if (photoResponse.data !== '') {
+            // 将新的 housephoto 數據添加到 housephoto 中
+            housephotodetail.value.push({
+                id: houseid,
+                housephoto: photoResponse.data
+            });
+            console.log(housephotodetail.value);
+            return housephotodetail.value;
+        }
     } catch (error) {
         console.error('獲取圖片時出錯：', error);
     }
 };
+
 //============沒有設備============
 
-const nofacilates = function(house_type){
+const nofacilates = function (house_type) {
 
-   if(house_type.hasParkingLot==false && house_type.hasPersonalSpace==false && house_type.hasAirconditioner==false && house_type.hasWifi==false && house_type.hasTV==false && house_type.hasGym == false && house_type.hasLaundry == false && house_type.hasPool == false && house_type.hasKitchen == false ){
-       return true
-   }else{
-       return false
-   }
+    if (house_type.hasParkingLot == false && house_type.hasPersonalSpace == false && house_type.hasAirconditioner == false && house_type.hasWifi == false && house_type.hasTV == false && house_type.hasGym == false && house_type.hasLaundry == false && house_type.hasPool == false && house_type.hasKitchen == false) {
+        return true
+    } else {
+        return false
+    }
 
 }
 
@@ -838,9 +847,14 @@ onMounted(async () => {
         updateAccomodatorData();
         await loaduserDetail();
         await loadworkDetail();
-        open.value = workdetail.maxAttendance-workdetail.attendance
+        open.value = workdetail.maxAttendance - workdetail.attendance
         updateDateRange(selectedPeriod.value);
-    } catch (error) {
+        for (const house_type in housedetail) {
+            console.log(housedetail[house_type])
+            showImage(housedetail[house_type].houseid)
+        }
+    }
+    catch (error) {
         console.error('An error occurred in onMounted:', error);
     }
 });
@@ -898,9 +912,12 @@ async function goToOrder2() {
             totalRooms: totalRooms(),
             //每間房間數
             selectedRooms: selectedRooms.value,
-
+            //房間照片
+            housephotodetail: housephotodetail.value,
             //需求
             needs: needs.value
+
+            
 
 
 
