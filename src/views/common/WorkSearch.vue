@@ -26,7 +26,8 @@
                             <div class="input-group w-50">
                                 <input type="text" class="form-control" placeholder="用關鍵字查詢" v-model="filters.keyword[0]"
                                     @keyup.enter="reloadWork()">
-                                <button class="btn btn-success" @click="reloadWork()"><i class="fa fa-search text-white"></i></button>
+                                <button class="btn btn-success" @click="reloadWork()"><i
+                                        class="fa fa-search text-white"></i></button>
                             </div>
                         </div>
                     </div>
@@ -72,7 +73,7 @@
             </div>
             <!--Search Header End-->
             <!--Work Card Start-->
-            <WorkCard :works="works" />
+            <WorkCard :works="works"/>
             <!--Work Card End-->
             <div class="the-end text-center m-5" v-if="isEnd">已經到底啦~~</div>
         </div>
@@ -94,14 +95,13 @@ import { ref, computed, onMounted, onUnmounted, toRaw } from 'vue';
 
 import axios from 'axios';
 //// 引用元件
-// import WorkCard from '@components/WorkCard.vue';
+import WorkCard from '@components/WorkCard.vue';
 // import { useWorkStore } from '@store/workStore';
 
 //// 接收資料庫資料
 let works = ref([]);
 const worktypeIDs = ref([]);
 const cities = ref([]);
-// const baseURL = "http://localhost:8080";
 
 //// 接收元件傳值
 // const store = useWorkStore();
@@ -131,9 +131,9 @@ const isSticky = ref(false); // Sticky Header
 
 //// 生命週期
 onMounted(async () => {
-    await loadWork();
     await loadWorktype();
     await loadCity();
+    await reloadWork();
     window.addEventListener('scroll', infiniteScroll);
     window.addEventListener('scroll', checkSticky);
     // document.body.classList.add('no-scroll');
@@ -176,8 +176,6 @@ const loadWork = async () => {
     if (isEnd.value || isLoading.value) return;
     isLoading.value = true;
     try {
-        // 模擬載入時間
-        // await new Promise(resolve => setTimeout(resolve, 1000));
         const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/work/getWorks`,
             // request body
             filters.value,
@@ -211,6 +209,7 @@ const reloadWork = async () => {
     window.scrollTo(0, 0); // 將頁面滾動到最上方
 
     loadWork();
+    
 }
 
 // 無限卷軸功能
