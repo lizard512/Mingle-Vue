@@ -39,7 +39,7 @@
                     </div>
                     <!-- 蓋牌 -->
                     <div v-else
-                        class="list-item rounded overflow-hidden placeholder-glow animate__animated animate__flipOutY animate__delay-2s animate__faster"
+                        class="list-item rounded overflow-hidden placeholder-glow animate__animated animate__flipOutY"
                         :style="{ animationDelay: `${index * 0.1}s`, opacity: 1 }">
                         <div class="position-relative overflow-hidden">
                             <img class="img-fluid" src="@images/grey.jpg" :alt="work.name">
@@ -92,7 +92,7 @@ const props = defineProps({
 
 const isKept = ref(false);
 
-// 翻牌模擬器好好玩
+// 翻牌模擬器好難玩OAQ
 let isFliping = ref([]);
 let lastFilp = ref(0); // 保存上一次翻開的進度
 watch(() => props.works.length, (newLength) => {
@@ -110,12 +110,10 @@ watch(() => props.works.length, (newLength) => {
                 setTimeout(() => {
                     isFliping.value[i] = true;
                     resolve();
-                }, 500 + i * 40);
+                }, 500+i * 100); // 決定每次蓋牌以後多久開牌，但和animationDelay是分開計算的
             }).then(() => {
                 // 開牌
-                setTimeout(() => {
-                    isFliping.value[i] = false;
-                }, i * 40);
+                isFliping.value[i] = false;
             });
         }
         lastFilp.value = newLength;
