@@ -85,13 +85,13 @@
                         <!-- 基本資料 -->
                         <div class="row g-3"
                             style="border: 1px solid wheat; padding: 20px; border-radius: 10px; margin: 10px;">
-                            <h6 class="mb-3 text-secondary">請確認會員資料</h6>
+                            <h6 class="mb-3 text-secondary">請確認會員資料，若需修改，請至個人中心。</h6>
                             <!-- name  自動帶入會員資料-->
                             <div class="col-sm-4">
                                 <label for="fullName" class="form-label" @click="handleClick">會員全名 (name) </label>
 
                                 <input type="text" class="form-control" id="fullName" placeholder=""
-                                    v-model="userdetails.name" required>
+                                    v-model="userdetails.name" required disabled>
                                 <div class="invalid-feedback">
                                     務必填寫會員全名。
                                 </div>
@@ -101,7 +101,7 @@
                             <div class="col-sm-4">
                                 <label for="email" class="form-label">信箱 (Email)</label>
                                 <input type="email" class="form-control" id="email" placeholder="you@example.com" value=""
-                                    v-model="userdetails.email" required>
+                                    v-model="userdetails.email" required disabled>
                                 <div class="invalid-feedback">
                                     務必填寫email。
                                 </div>
@@ -110,7 +110,7 @@
                             <div class="col-md-4">
                                 <label for="phone" class="form-label">電話 (phone)</label>
                                 <input type="phone" class="form-control" id="phone" placeholder="" value=""
-                                    v-model="userdetails.phone" required>
+                                    v-model="userdetails.phone" required disabled>
                                 <div class="invalid-feedback">
                                     務必填寫連絡電話。
                                 </div>
