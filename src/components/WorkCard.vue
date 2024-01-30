@@ -3,9 +3,10 @@
         <div class="row g-4">
             <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6 " v-for="(work, index) in works" :key="work.workid">
                 <router-link class="router-link" :to="`/work-detail/${work.workid}`">
-                    <div v-if="!isFliping"
-                        class="list-item rounded overflow-hidden animate__animated animate__flipInY"
-                        :style="{ animationDelay: `${index * 0.05}s` }">
+                    <!-- <transition name="flip"> -->
+                    <!-- 開牌 -->
+                    <div v-if="!isFliping[index]"
+                        class="list-item rounded overflow-hidden animate__animated animate__flipInY">
                         <div class="position-relative overflow-hidden">
                             <img class="img-fluid" src="@images/台東熱氣球活動.jpg" :src="work.photo" :alt="work.name">
                             <div class="bg-info rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
@@ -29,16 +30,17 @@
                                 {{ work.endDate.toString().substring(0, 10) }}</small>
                         </div>
                         <div class="d-flex border-top">
-                            <small class="flex-fill text-center py-2"><i class="fa fa-user me-2"></i>{{
+                            <small class="flex-fill text-center py-2 border-end"><i class="fa fa-user me-2"></i>{{
                                 work.attendance }} /
                                 {{ work.maxAttendance }} 人已報名</small>
                             <small class="flex-fill text-center py-2"><i class="fa fa-solid fa-eye me-2"></i>{{
                                 work.views }} 次瀏覽</small>
                         </div>
                     </div>
+                    <!-- 蓋牌 -->
                     <div v-else
-                        class="list-item rounded overflow-hidden placeholder-glow animate__animated animate__flipOutY  animate__delay-2s animate__faster"
-                        :style="{ animationDelay: `${index * 0.03}s`, opacity: 1 }">
+                        class="list-item rounded overflow-hidden placeholder-glow animate__animated animate__flipOutY animate__delay-2s animate__faster"
+                        :style="{ animationDelay: `${index * 0.1}s`, opacity: 1 }">
                         <div class="position-relative overflow-hidden">
                             <img class="img-fluid" src="@images/grey.jpg" :alt="work.name">
                             <div class="bg-info rounded text-info position-absolute start-0 top-0 m-4 py-1 px-3">
@@ -61,7 +63,7 @@
                             </small>
                         </div>
                         <div class="d-flex border-top">
-                            <small class="flex-fill text-center py-2">
+                            <small class="flex-fill text-center py-2 border-end">
                                 <p class="card-text placeholder col-9"></p>
                             </small>
                             <small class="flex-fill text-center py-2">
@@ -69,6 +71,7 @@
                             </small>
                         </div>
                     </div>
+                    <!-- </transition> -->
                 </router-link>
             </div>
         </div>
@@ -88,18 +91,37 @@ const props = defineProps({
 
 
 const isKept = ref(false);
-// 讀取模擬器
-let isFliping = ref(true);
-let delay = 0;
-watch(() => props.works.length, (newLength, oldLength) => {
-    if (newLength > 0) {
-        delay = 500 + (newLength - 1) * 40;
-        console.log(delay);
+
+// 翻牌模擬器好好玩
+let isFliping = ref([]);
+let lastFilp = ref(0); // 保存上一次翻開的進度
+watch(() => props.works.length, (newLength) => {
+    console.log(lastFilp.value);
+    if (newLength < lastFilp.value) {
+        lastFilp.value = 0;
+        isFliping.value = [];
     }
-    isFliping.value = true;
-    setTimeout(() => {
-        isFliping.value = false;
-    }, delay);
+    console.log(lastFilp.value);
+    if (newLength > lastFilp.value) {
+        isFliping.value = [...isFliping.value, ...Array(newLength - lastFilp.value).fill(true)];
+        for (let i = lastFilp.value; i < newLength; i++) {
+            new Promise((resolve) => {
+                // 蓋牌
+                setTimeout(() => {
+                    isFliping.value[i] = true;
+                    resolve();
+                }, 500 + i * 40);
+            }).then(() => {
+                // 開牌
+                setTimeout(() => {
+                    isFliping.value[i] = false;
+                }, i * 40);
+            });
+        }
+        lastFilp.value = newLength;
+    }
+
+    console.log(lastFilp.value);
 });
 
 const keepWork = () => {
@@ -131,7 +153,9 @@ const keepWork = () => {
     border-top: 1px dashed rgba(0, 185, 142, .3) !important;
 }
 
-
+.list-item .border-end {
+    border-right: 1px dashed rgba(0, 185, 142, .3) !important;
+}
 
 .list-item .btn:hover,
 .btn.active {

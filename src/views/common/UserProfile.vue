@@ -119,7 +119,7 @@
 
 <script setup>
 // 引用函式庫
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useRoute } from 'vue-router'
