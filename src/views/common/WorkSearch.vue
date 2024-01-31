@@ -74,7 +74,7 @@
             </div>
             <!--Search Header End-->
             <!--Work Card Start-->
-            <WorkCard :works="works" />
+            <WorkCard :works="works" :isAnimationEnabled="isAnimationEnabled" />
             <!--Work Card End-->
             <div class="the-end text-center m-5" v-if="isEnd">已經到底啦~~</div>
         </div>
@@ -85,6 +85,7 @@
                 <span class="mx-2"><i class="fa fa-map-marker-alt me-2"></i>台北市大安區復興南路一段390號2樓</span>
                 <span class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</span>
                 <span class="mx-2"><i class="fa fa-envelope me-2"></i>Mingle.org@gmail.com</span>
+                <button @click="toggleAnimation">不要給我看翻牌了！</button>
             </div>
         </footer>
         <!-- Sticky Footer End-->
@@ -128,7 +129,7 @@ let filters = ref({
 });
 // 其他
 const isSticky = ref(false); // Sticky Header
-
+const isAnimationEnabled = ref(true);
 
 //// 生命週期
 onMounted(async () => {
@@ -146,6 +147,12 @@ onUnmounted(() => {
 });
 
 //// 方法
+
+// 開關動畫
+const toggleAnimation = () => {
+    isAnimationEnabled.value = !isAnimationEnabled.value;
+}
+
 // 載入工作分類
 const loadWorktype = async () => {
     const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/worktype/getWorktypes`);

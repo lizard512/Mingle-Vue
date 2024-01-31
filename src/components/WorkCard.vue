@@ -6,9 +6,10 @@
                     <!-- <transition name="flip"> -->
                     <!-- 開牌 -->
                     <div v-if="!isFliping[index]"
-                        class="list-item rounded overflow-hidden animate__animated animate__flipInY">
+                        :class="['list-item', 'rounded', 'overflow-hidden', isAnimationEnabled ? 'animate__animated animate__flipInY' : '']">
                         <div class="position-relative overflow-hidden">
-                            <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64" :alt="work.name">
+                            <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64"
+                                :alt="work.name">
                             <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
                             <div class="bg-info rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
                                 {{ work.worktype }}</div>
@@ -39,7 +40,8 @@
                     </div>
                     <!-- 蓋牌 -->
                     <div v-else
-                        class="list-item rounded overflow-hidden placeholder-glow animate__animated animate__flipOutY"
+                        class="list-item rounded overflow-hidden placeholder-glow"
+                        :class="isAnimationEnabled ? 'animate__animated animate__flipOutY' : ''"
                         :style="{ animationDelay: `${index * 0.1}s`, opacity: 1 }">
                         <div class="position-relative overflow-hidden">
                             <img class="img-fluid" src="@images/grey.jpg" :alt="work.name">
@@ -87,6 +89,7 @@ import { toast } from 'vue3-toastify';
 // Define props
 const props = defineProps({
     works: Array,
+    isAnimationEnabled: Boolean,
 });
 
 const isKept = ref(false);
@@ -107,7 +110,7 @@ watch(() => props.works.length, (newLength) => {
                 setTimeout(() => {
                     isFliping.value[i] = true;
                     resolve();
-                }, 500+i * 100); // 決定每次蓋牌以後多久開牌，但和animationDelay是分開計算的
+                }, 500 + i * 100); // 決定每次蓋牌以後多久開牌，但和animationDelay是分開計算的
             }).then(() => {
                 // 開牌
                 isFliping.value[i] = false;
@@ -140,7 +143,8 @@ const keepWork = () => {
     aspect-ratio: 1 / 1;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 裁減以符合元件大小 */
+    object-fit: cover;
+    /* 裁減以符合元件大小 */
     /* object-fit: contain; 保留完整的寬或高 */
     object-position: center;
 }
