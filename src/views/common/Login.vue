@@ -43,7 +43,11 @@
                 <br>
 
                 <div class="login-btn">
-                    <button class="btn btn-info" @click="fillForm">使用者1</button>
+                    <button class="btn btn-info" @click="autoLogin1">Alice</button>
+                    <button class="btn btn-info" @click="autoLogin2">Bob</button>
+                    <button class="btn btn-info" @click="autoLogin3">Charlie</button>
+                    <button class="btn btn-info" @click="autoLogin4">Diana</button>
+                    <button class="btn btn-info" @click="autoLogin5">Eva</button>
                 </div>
 
                 <!-- <div class="login-btn">
@@ -142,10 +146,26 @@ const login = function () {
         });
 };
 
-const fillForm = () => {
+const autoLogin1 = () => {
     userid.value = '1@gmail.com';
     password.value = '1';
 };
+const autoLogin2 = () => {
+    userid.value = '2@gmail.com';
+    password.value = '2';
+};
+const autoLogin3 = () => {
+    userid.value = '3@gmail.com';
+    password.value = '3';
+}
+const autoLogin4 = () => {
+    userid.value = '4@gmail.com';
+    password.value = '4';
+}
+const autoLogin5 = () => {
+    userid.value = '5@gmail.com';
+    password.value = '5';
+}
 
 </script>
     
@@ -232,5 +252,9 @@ input {
 
 .btn-outline-dark {
     border-radius: 50px;
+}
+.login-btn .btn{
+    margin-right: 10px;
+    color:white;
 }
 </style>
