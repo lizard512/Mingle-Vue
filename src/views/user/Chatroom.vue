@@ -84,7 +84,7 @@
 let global = globalThis; // 因應stomp及sockjs-client所設
 import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
-import VueCookies from 'vue-cookies';
+import { useUserStore } from '@store/userStore-localStorage.js';
 import Swal from 'sweetalert2'
 
 // 引用 store
@@ -128,7 +128,7 @@ onUnmounted(() => {
 })
 // 初始賦值(確定使用者)
 async function initAssign() {
-    const sessionToken = VueCookies.get('sessionToken');
+    const sessionToken = localStorage.getItem('sessionToken');
     senderID.value = String(sessionToken).substring(32, sessionToken.length);
 
     // 外部進入
