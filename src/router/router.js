@@ -25,6 +25,7 @@ import WorkMaintain from "@views/landlord/WorkMaintain.vue";
 import ProviderHouse from "@views/landlord/ProviderHouse.vue";
 import ProviderWork from "@/views/landlord/ProviderWork.vue";
 // admin 管理者身分
+import AdminCenter from "@views/admin/AdminCenter.vue";
 // 子路由
 import routerRegister from "./router-register.js";
 import routerOrder from "./router-order.js";
@@ -139,6 +140,12 @@ const routes = [
     meta: { requiresAuth: true , permissions: ['lord']},
   },
   // admin 管理者身分
+  {
+    path: "/admin-center",
+    name: "AdminCenter",
+    component: AdminCenter,
+    meta: {hideNavbar: true, hideFooter: true, requiresAuth: true , permissions: ['admin']},
+  },
 
   // 子路由
   ...routerRegister,
