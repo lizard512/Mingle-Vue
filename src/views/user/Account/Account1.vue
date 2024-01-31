@@ -10,7 +10,7 @@
             <!-- 大頭貼上傳和預覽 -->
             <div class="col-6 float-end">
                 <a href="#" class="btn">
-                    <img src="@images/user-3.jpg" class="img-fluid float-end rounded-circle img1" for="formFile">
+                    <img src="@images/user-3.jpg" class="img-fluid float-end rounded-circle" for="formFile">
                 </a>
             </div>
             <div class="col-3">
@@ -53,7 +53,7 @@
                 <div class="col-6 float-end">
                     <label for="formFile" class="form-label">點我上傳大頭貼<br></label><br>
 
-                    <img v-if="true" :src="image" class="img-fluid float-end rounded-circle img1" for="formFile">
+                    <img v-if="true" :src="image" class="img-fluid float-end rounded-circle" for="formFile">
 
                     <input type="file" class="imagefile" id="formFile" @change="fileSelected">
                 </div>
@@ -285,9 +285,7 @@ select {
     font-size: large;
 }
 
-.img1 {
-    background-position: center center;
-}
+
 
 .imagefile {
     display: none;

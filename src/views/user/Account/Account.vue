@@ -3,6 +3,12 @@
         <!-- index Start -->
 
         <!-- left Start -->
+        <div class="col-2  bg-primary justify-content-center">
+            <div class="dropdown rounded-circle text-center">
+                <img src="@images/user-3.jpg" style="width: 50px" class="rounded-circle">{{ userdetails.name }}
+            </div>
+        </div>
+        <div class="col-10"></div>
         <ANavbar @xyzClick="clickHandler"></ANavbar>
 
         <!-- right Start -->

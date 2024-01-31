@@ -1,7 +1,7 @@
 <template>
     <div class="col-2 md-left bg-primary justify-content-center">
 
-        <h4 class="text-center my-5">我的帳戶</h4>
+        <h4 class="text-center my-5">我的帳號</h4>
         <div class="row my-5" @click="clickHandler(isShow = 1)"><a href="#" class="styleColor ">
                 <i class="fa-solid fa-user" />基本資料</a></div>
         <div class="row my-5" @click="clickHandler(isShow = 4)"><a href="#" class="styleColor ">
