@@ -49,6 +49,9 @@
                     <button class="btn btn-success" @click="autoLogin4">Diana</button>
                     <button class="btn btn-dark" @click="autoLogin5">Eva</button>
                 </div>
+                <div class="text-center mt-2">
+                    <button class="btn btn-light" @click="autoLoginAdmin">Admin</button>
+                </div>
 
                 <!-- <div class="login-btn">
                     <button class="btn btn-lg btn-warning btn-block" type="submit"
@@ -121,8 +124,12 @@ const login = function () {
                         }
                         if (response.data.lordID) {
                             localStorage.setItem('lordID', response.data.lordID);
+                            userStore.addPermission('lord') // reflect landlord permission on navbar
                         }
-                        userStore.login();
+                        if (response.data.adminPermission) {
+                            userStore.addPermission('admin') // reflect admin permission on navbar
+                        }
+                        userStore.login(); // reflect user permission on navbar
                         router.push({ name: 'Home' });
                     }
                 });
@@ -168,6 +175,10 @@ const autoLogin4 = () => {
 const autoLogin5 = () => {
     userid.value = '5@gmail.com';
     password.value = '5';
+}
+const autoLoginAdmin = () => {
+    userid.value = 'test@gmail.com';
+    password.value = 'P@ssw0rd';
 }
 
 </script>
@@ -257,7 +268,7 @@ input {
     border-radius: 50px;
 }
 .autoLogin-btn .btn{
-    margin-right: 10px;
+    margin: 10px;
     color:white;
 }
 </style>

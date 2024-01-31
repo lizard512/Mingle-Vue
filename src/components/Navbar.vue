@@ -58,10 +58,7 @@
                                 <RouterLink class="dropdown-item" to="/order">打工訂單</RouterLink>
                                 <RouterLink class="dropdown-item" to="/chatroom">聊天室</RouterLink>
                                 <RouterLink to="#" class="dropdown-item" @click="resetStore()">登出</RouterLink>
-                                <RouterLink v-if="isAdmin" class="dropdown-item" to="#" @click="userStore.removePermission('admin')">
-                                    不當管理者了</RouterLink>
-                                <RouterLink v-else class="dropdown-item" to="#" @click="userStore.addPermission('admin')">成為管理者
-                                </RouterLink>
+                                <RouterLink v-if="isAdmin" class="dropdown-item" to="#">管理者平台</RouterLink>
                             </div>
                         </div>
 
