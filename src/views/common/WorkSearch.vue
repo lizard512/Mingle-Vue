@@ -84,8 +84,8 @@
             <span class="col-3">請向下滾動以瀏覽更多項目</span>
             <span class="col-3">共有 {{ total }} 筆相符的結果</span>
             <div class="col-3 d-flex justify-content-center">
-                <span class="mx-2">關閉翻牌動畫</span>
-                <Toggle id="toggleAnimation" isChecked=true bgColor="black" ballColor="white" iconClass1="fa-solid fa-circle-check"
+                <span class="mx-2">翻牌動畫開關</span>
+                <Toggle id="toggleAnimation" :isChecked=true bgColor="black" ballColor="white" iconClass1="fa-solid fa-circle-check"
                     iconClass2="fa-solid fa-circle-xmark" color1="green" color2="red" v-model="isAnimationEnabled"/>
             </div>
             <div class="col-3">

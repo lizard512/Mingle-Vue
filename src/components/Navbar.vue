@@ -42,11 +42,11 @@
                                 <RouterLink class="dropdown-item" to="#">訂單管理</RouterLink>
                                 <RouterLink class="dropdown-item" to="/analyze">後臺數據</RouterLink>
                                 <RouterLink class="dropdown-item" to="/review">房東評價</RouterLink>
-                                <RouterLink class="dropdown-item" to="#" @click="userStore.quitFromLandlord">我不當房東了！
+                                <RouterLink class="dropdown-item" to="#" @click="userStore.removePermission('lord')">我不當房東了！
                                 </RouterLink>
                             </div>
                         </div>
-                        <RouterLink v-else class="btn btn-secondary px-3" to="#" @click="userStore.becomeLandlord">
+                        <RouterLink v-else class="btn btn-secondary px-3" to="#" @click="userStore.addPermission('lord')">
                             成為提供者
                         </RouterLink>
                         <div class="nav-item dropdown">
@@ -58,9 +58,9 @@
                                 <RouterLink class="dropdown-item" to="/order">打工訂單</RouterLink>
                                 <RouterLink class="dropdown-item" to="/chatroom">聊天室</RouterLink>
                                 <RouterLink to="#" class="dropdown-item" @click="resetStore()">登出</RouterLink>
-                                <RouterLink v-if="isAdmin" class="dropdown-item" to="#" @click="userStore.quitFromAdmin">
+                                <RouterLink v-if="isAdmin" class="dropdown-item" to="#" @click="userStore.removePermission('admin')">
                                     不當管理者了</RouterLink>
-                                <RouterLink v-else class="dropdown-item" to="#" @click="userStore.becomeAdmin">成為管理者
+                                <RouterLink v-else class="dropdown-item" to="#" @click="userStore.addPermission('admin')">成為管理者
                                 </RouterLink>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                         <p class="m-3">已有帳戶? </p>
                         <RouterLink class="btn btn-dark px-3 me-3" to="/login">登入</RouterLink>
                     </template>
-                    <Toggle id="toggleDarkMode" bgColor="black" ballColor="white"
+                    <Toggle id="toggleDarkMode" :isChecked=false bgColor="black" ballColor="white"
                     iconClass1="fas fa-moon" iconClass2="fas fa-sun" color1="yellow" color2="orangered" v-model="darkMode"/>
                 </div>
             </div>
@@ -81,37 +81,41 @@
 </template>
     
 <script setup>
-// 引用函式庫
+
+//// 引用函式庫
 import { ref, onMounted, onBeforeUnmount, watchEffect } from 'vue';
 import router from '@router/router'
 import { useUserStore } from '@store/userStore-localStorage.js';
 import { computed } from 'vue';
 
-// 引用元件
+
+//// 引用元件
 import Toggle from '@components/Toggle.vue';
 
+
+//// 生命週期
+onMounted(() => {
+    window.addEventListener('scroll', checkSticky);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', checkSticky);
+});
+
+
+//// 定義變數
+// user登入狀態處理
+let sessionToken = ref(localStorage.getItem('sessionToken'));
 const userStore = useUserStore();
-
-const getUserProfileLink = () => {
-    const userID = localStorage.getItem('userID');
-    return `/user-profile/${userID}`;
-};
-
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 const isLandlord = computed(() => userStore.permissions.includes('lord'));
 const isAdmin = computed(() => userStore.permissions.includes('admin'));
-// 清除使用者localStorage中的userStore
-function resetStore() {
-    userStore.$reset()
-    localStorage.removeItem('user')
-    localStorage.removeItem('sessionToken');
-    localStorage.removeItem('userID');
-    localStorage.removeItem('lordID');
-}
+// 其他 
+const darkMode = ref(false); // 暗黑模式
+const isSticky = ref(false); // Sticky Navbar
 
 
-
-const darkMode = ref(false);
+//// 監聽變數
 watchEffect(() => {
     const htmlTag = document.documentElement;
     if (darkMode.value) {
@@ -128,8 +132,25 @@ watchEffect(() => {
 });
 
 
-// // Sticky Navbar
-const isSticky = ref(false);
+//// 定義方法
+
+// 清除使用者localStorage資料
+function resetStore() {
+    userStore.$reset()
+    localStorage.removeItem('user')
+    localStorage.removeItem('sessionToken');
+    localStorage.removeItem('userID');
+    localStorage.removeItem('lordID');
+}
+
+function updateSessionToken() {
+    sessionToken.value = localStorage.getItem('sessionToken');
+}
+
+const getUserProfileLink = () => {
+    const userID = localStorage.getItem('userID');
+    return `/user-profile/${userID}`;
+};
 
 const checkSticky = () => {
     // 如果當前的路由是 WorkSearch，則不懸浮 NAVBAR
@@ -140,13 +161,7 @@ const checkSticky = () => {
     }
 };
 
-onMounted(() => {
-    window.addEventListener('scroll', checkSticky);
-});
 
-onBeforeUnmount(() => {
-    window.removeEventListener('scroll', checkSticky);
-});
 </script>
 
 <style scoped>
