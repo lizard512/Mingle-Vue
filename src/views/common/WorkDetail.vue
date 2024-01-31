@@ -28,6 +28,7 @@
                     <p class="card-text">更新時間: {{ work.updatedAt }}</p>
                     <p class="card-text">是否刪除: {{ work.isDeleted }}</p>
                     <p class="card-text">瀏覽量: {{ work.views }}</p>
+                    <p class="card-text">工作照片: {{ work.photosBase64 }}</p>
                 </div>
             </div>
             <div class="col-4">
@@ -46,7 +47,6 @@ import axios from 'axios';
 const route = useRoute()
 const workID = route.params.id
 const work = ref({});
-console.log(work.value.photosBase64);
 
 onMounted(async () => {
     await loadWorkData();
@@ -57,6 +57,7 @@ const loadWorkData = async () => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/work/getWork/${workID}`);
         work.value = response.data;
+        console.log(response.data);
     } catch (error) {
         console.error('Failed to fetch work data:', error);
     }

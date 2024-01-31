@@ -192,6 +192,8 @@ const loadWork = async () => {
             }
         );
         total.value = response.data.totalElements;
+        console.log(response.data);
+        console.log(response.data.content);
         works.value = [...works.value, ...response.data.content];
         // 如果已經無法獲取更多的工作，停止發送請求
         if (response.data.last) isEnd.value = true;
