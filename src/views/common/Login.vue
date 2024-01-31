@@ -112,6 +112,9 @@ const login = function () {
                     if (result.isConfirmed) {
                         document.cookie = `sessionToken=${response.data.sessionToken}; path=/`;
                         localStorage.setItem('sessionToken', response.data.sessionToken)
+                        if (response.data.lordID) {
+                            localStorage.setItem('lordID', response.data.lordID);
+                        }
                         userStore.login();
                         router.push({ name: 'Home' });
                     }

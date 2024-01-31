@@ -335,9 +335,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import Swal from 'sweetalert2'
-
+import { useUserStore } from '@store/userStore-localStorage.js';
 const isShowList = ref(false);
 const isShowModify = ref(true);
+
+// lordID 初始化賦值
+const lordID = localStorage.getItem('lordID');
+// console.log(lordID);
 
 // 表單資料
 const worktypeList = ["人力", "旅店", "活動", "銷售", "辦公", "餐飲", "補教", "其他"]
