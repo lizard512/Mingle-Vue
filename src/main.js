@@ -7,7 +7,7 @@ import { useUserStore } from '@store/userStore-session.js';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import axios from 'axios';
-import { toast } from 'vue3-toastify';
+import Vue3Toastify from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
 const pinia = createPinia()

@@ -129,7 +129,7 @@ import { useStore } from '@store/chatStore.js'
 const route = useRoute()
 const userID = route.params.id
 const router = useRouter();
-let user = ref(null);
+const user = ref(null);
 const chatStore = useStore()
 
 
