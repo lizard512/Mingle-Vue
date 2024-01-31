@@ -28,11 +28,10 @@
                     <p class="card-text">更新時間: {{ work.updatedAt }}</p>
                     <p class="card-text">是否刪除: {{ work.isDeleted }}</p>
                     <p class="card-text">瀏覽量: {{ work.views }}</p>
-                    <p class="card-text">工作照片: {{ work.photosBase64 }}</p>
                 </div>
             </div>
             <div class="col-4">
-                <img v-if="work.photosBase64 = undefined" class="img-fluid" :src="work.photosBase64" :alt="work.name">
+                <img v-if="work.photosBase64 && work.photosBase64.length" class="img-fluid" :src="work.photosBase64" :alt="work.name">
                 <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
             </div>
         </div>
