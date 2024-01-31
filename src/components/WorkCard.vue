@@ -9,7 +9,7 @@
                         class="list-item rounded overflow-hidden animate__animated animate__flipInY">
                         <div class="position-relative overflow-hidden">
                             <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64" :alt="work.name">
-                            <img v-else class="img-fluid" src="@images/grey.jpg" :alt="work.name">
+                            <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
                             <div class="bg-info rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
                                 {{ work.worktype }}</div>
                             <div
@@ -138,7 +138,12 @@ const keepWork = () => {
 
 .list-item img {
     transition: .5s;
-    /* height: 300px; */
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 裁減以符合元件大小 */
+    /* object-fit: contain; 保留完整的寬或高 */
+    object-position: center;
 }
 
 .list-item:hover img {
