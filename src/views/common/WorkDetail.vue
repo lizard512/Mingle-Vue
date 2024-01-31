@@ -56,7 +56,6 @@ const loadWorkData = async () => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/work/getWork/${workID}`);
         work.value = response.data;
-        console.log(response.data);
     } catch (error) {
         console.error('Failed to fetch work data:', error);
     }
