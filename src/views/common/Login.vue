@@ -67,7 +67,7 @@ const userStore = useUserStore();
 const router = useRouter();
 
 function gotGoogleLoginPage() {
-    window.location.href = "http://localhost:8080/google-login";
+    window.location.href = `${import.meta.env.VITE_APP_API_URL}/google-login`;
 }
 
 let userid = ref('');
@@ -100,7 +100,7 @@ const login = function () {
         userid: userid.value,
         password: password.value,
     }
-    axios.post("http://localhost:8080/login.controller", request)
+    axios.post(`${import.meta.env.VITE_APP_API_URL}/login.controller`, request)
         .then(function (response) {
             if (response.data.success) {
                 console.log(response.data.message);
