@@ -54,15 +54,16 @@ const closeShow = () => {
 
 //============查詢會員資料============
 
-import VueCookies from 'vue-cookies';
+import { useUserStore } from '@store/userStore-localStorage.js';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router'
 const userdetails = reactive({})
 
+const userStore = useUserStore();
 const getuserid =
     () => {
-        const sessionToken = VueCookies.get('sessionToken');
+        const sessionToken = localStorage.getItem('sessionToken');
         if (sessionToken === null || sessionToken === undefined || sessionToken === "") {
             Swal.fire({
                 icon: 'warning',
