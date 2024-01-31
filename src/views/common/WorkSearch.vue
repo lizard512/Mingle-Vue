@@ -41,7 +41,9 @@
                                     <a class="btn btn-outline-info"
                                         :class="{ 'active': filters.worktype.includes(worktypeID.worktypeID) }"
                                         @click="toggleWorkType(worktypeID.worktypeID)">
-                                        {{ worktypeID.worktypeID }}</a>
+                                        {{ worktypeID.worktypeID }}
+                                        <!-- <img :src="`/src/assets/images/icon-${worktypeID.worktypeID}.png`" width="25px"> -->
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -72,7 +74,7 @@
             </div>
             <!--Search Header End-->
             <!--Work Card Start-->
-            <WorkCard :works="works"/>
+            <WorkCard :works="works" />
             <!--Work Card End-->
             <div class="the-end text-center m-5" v-if="isEnd">已經到底啦~~</div>
         </div>
@@ -91,7 +93,7 @@
     
 <script setup>
 //// 引用函示庫
-import { ref, computed, onMounted, onUnmounted} from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 //// 引用元件
 import WorkCard from '@components/WorkCard.vue';
@@ -209,7 +211,7 @@ const reloadWork = () => {
     window.scrollTo(0, 0); // 將頁面滾動到最上方
 
     loadWork();
-    
+
 }
 
 // 無限卷軸功能
@@ -262,6 +264,7 @@ const formatDate = (dateString) => {
 const checkSticky = () => {
     isSticky.value = window.scrollY > 45;
 };
+
 
 </script>
 
