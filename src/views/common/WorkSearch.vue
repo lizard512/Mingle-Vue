@@ -41,8 +41,7 @@
                                     <a class="btn btn-outline-info"
                                         :class="{ 'active': filters.worktype.includes(worktypeID.worktypeID) }"
                                         @click="toggleWorkType(worktypeID.worktypeID)">
-                                        {{ worktypeID.worktypeID }}
-                                    </a>
+                                        {{ worktypeID.worktypeID }}</a>
                                 </li>
                             </ul>
                         </div>
@@ -93,7 +92,6 @@
 <script setup>
 //// 引用函示庫
 import { ref, computed, onMounted, onUnmounted} from 'vue';
-
 import axios from 'axios';
 //// 引用元件
 import WorkCard from '@components/WorkCard.vue';
@@ -125,7 +123,6 @@ let filters = ref({
     worktype: [],
     city: [''],
     keyword: [''],
-    // 其他篩選條件...
 });
 // 其他
 const isSticky = ref(false); // Sticky Header

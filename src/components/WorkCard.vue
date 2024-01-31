@@ -8,7 +8,8 @@
                     <div v-if="!isFliping[index]"
                         class="list-item rounded overflow-hidden animate__animated animate__flipInY">
                         <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="@images/台東熱氣球活動.jpg" :src="work.photo" :alt="work.name">
+                            <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64" :alt="work.name">
+                            <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
                             <div class="bg-info rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
                                 {{ work.worktype }}</div>
                             <div
@@ -22,7 +23,6 @@
                             <p class="text-truncate h5">{{ work.name }}</p>
                             <p class="text-truncate"><i class="fa fa-map-marker me-2"></i>{{
                                 work.address }}</p>
-                            <!-- <p>{{ work.description }}</p> -->
                         </div>
                         <div class="d-flex border-top">
                             <small class="flex-fill text-center py-2"><i class="fa fa-calendar me-2"></i>{{
@@ -89,19 +89,16 @@ const props = defineProps({
     works: Array,
 });
 
-
 const isKept = ref(false);
 
 // 翻牌模擬器好難玩OAQ
 let isFliping = ref([]);
 let lastFilp = ref(0); // 保存上一次翻開的進度
 watch(() => props.works.length, (newLength) => {
-    console.log(lastFilp.value);
     if (newLength < lastFilp.value) {
         lastFilp.value = 0;
         isFliping.value = [];
     }
-    console.log(lastFilp.value);
     if (newLength > lastFilp.value) {
         isFliping.value = [...isFliping.value, ...Array(newLength - lastFilp.value).fill(true)];
         for (let i = lastFilp.value; i < newLength; i++) {
@@ -119,7 +116,6 @@ watch(() => props.works.length, (newLength) => {
         lastFilp.value = newLength;
     }
 
-    console.log(lastFilp.value);
 });
 
 const keepWork = () => {
@@ -141,6 +137,12 @@ const keepWork = () => {
 
 .list-item img {
     transition: .5s;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 裁減以符合元件大小 */
+    /* object-fit: contain; 保留完整的寬或高 */
+    object-position: center;
 }
 
 .list-item:hover img {

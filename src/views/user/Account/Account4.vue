@@ -1,11 +1,11 @@
 <template>
-    <div class="container"><br><br>
+    <div class="container animate__animated animate__bounceInLeft animate__slow"><br><br>
         <div class="row justify-content-center">
             <h3 class="row col-md-auto">來敘述一下自己，讓大家更快了解你</h3>
             <div style="margin: 20px 0" />
         </div>
         <div class="demo-collapse">
-            <el-collapse v-model="activeNames" @change="handleChange">
+            <el-collapse v-model="activeNames">
                 <div class="row row-md-auto">
                     <el-collapse-item title="自我介紹" name="1">
                         <!-- [introduction] -->
@@ -46,16 +46,16 @@
     </div>
 </template>
   
-<script setup lang="ts">
+<script setup >
 import { watch, ref } from 'vue'
 // const textarea1 = ref('')
 // const textarea2 = ref('')
 // const textarea3 = ref('')
 // const textarea4 = ref('')
 const activeNames = ref(['1'])
-const handleChange = (val: string[]) => {
-    console.log(val)
-}
+// const handleChange = (val: string[]) => {
+//      console.log(val)
+// }
 
 
 
@@ -86,43 +86,56 @@ const submitChanges = () => {
         allowOutsideClick: false,
         confirmButtonText: "確定",
         showCancelButton: true,
-        cancelButtonText: "取消"
+        cancelButtonText: "再想想",
     }).then(function (result) {
         if (result.isConfirmed) {
             console.log("按下確定");
             updateDetail();
         } else if (result.isDismissed) {
             console.log("按下取消");
+
         }
     });
 
 
 }
 
-const updateDetail = () => {
+const updateDetail = async () => {
 
     const data = {
+        userid: props.userdetails.userid,
         introduction: props.userdetails.introduction,
         background: props.userdetails.background,
         language: props.userdetails.language,
         hobby: props.userdetails.hobby
     }
-    console.log(data)
-    async () => await axios.post('#', data).then(function (response) {
-        console.log(response)
-        Swal.fire({
-            icon: "success",
-            text: "更新成功",
-            confirmButtonText: "確定"
-        })
-        isShowToSubmit.value = false;
-    }).catch(function (error) {
+    // console.log(data);
+
+    await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/update/introductions`, data).then(function (response) {
+        console.log("我傳回成功啦")
+        console.log(response.data)
+        if (response.data.success) {
+            Swal.fire({
+                icon: "success",
+                text: "更新成功",
+                confirmButtonText: "確定"
+            })
+            isShowToSubmit.value = false;
+        } else {
+            Swal.fire({
+                icon: "warning",
+                title: "哎呀...",
+                text: "更新失敗",
+                confirmButtonText: "確認"
+            })
+        }
+    }).catch(function () {
         Swal.fire({
             icon: "error",
-            title: "Oops...",
-            text: "Something went wrong!" + error.message,
-            confirmButtonText: "我知道了"
-        });
+            title: "糟糕...",
+            text: "操作失敗",
+            confirmButtonText: "確認"
+        })
     })
 }
 

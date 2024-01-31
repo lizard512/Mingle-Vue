@@ -3,6 +3,12 @@
         <!-- index Start -->
 
         <!-- left Start -->
+        <div class="col-2  bg-primary justify-content-center">
+            <div class="dropdown rounded-circle text-center">
+                <img src="@images/user-3.jpg" style="width: 50px" class="rounded-circle">{{ userdetails.name }}
+            </div>
+        </div>
+        <div class="col-10"></div>
         <ANavbar @xyzClick="clickHandler"></ANavbar>
 
         <!-- right Start -->
@@ -26,6 +32,7 @@ import FinshWork from './Account3.vue';
 import Introduction from './Account4.vue';
 import test from './test.vue'
 import { onMounted, reactive, ref } from 'vue';
+import 'animate.css';
 const isShowAccount = ref(true);
 const isShowLikeWork = ref(false);
 const isShowFinshWork = ref(false);
@@ -71,22 +78,32 @@ const getuserid =
         const userid = String(sessionToken).substring(32, sessionToken.length);
         return userid
     }
-
-const User_API_URL = 'http://localhost:8080/order/' + getuserid();
-
 const loaduserDetail = async () => {
-    const response = await axios.get(User_API_URL);
-    //console.log(response)
+    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/order/` + getuserid());
     Object.assign(userdetails, response.data);
     console.log(userdetails)
+    if (userdetails.isDeleted) {
+        // Swal.fire({
+        //     icon: 'warning',
+        //     text: '此帳號已被停權，重新登入或註冊會員',
+        //     confirmButtonText: '好的',
+        // });
+        const router = useRouter();
+        router.push({
+            name: "Login",
+        });
+        return;
+    }
 }
 onMounted(async () => {
     await loaduserDetail();
 });
 
+
 </script>
     
 <style scoped>
+/* 載入字體樣式 */
 @font-face {
     font-family: 'Accounttext';
     src: url(https://cdn.jsdelivr.net/gh/max32002/naikaifont@1.0/webfont/NaikaiFont-Regular-Lite.woff2) format("woff2");
