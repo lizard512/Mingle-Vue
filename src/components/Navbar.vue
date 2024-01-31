@@ -53,7 +53,7 @@
                             <RouterLink class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown" to="#">會員中心
                             </RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <RouterLink class="dropdown-item" :to="`/user-profile/${userProfileID}`">個人頁面</RouterLink>
+                                <RouterLink class="dropdown-item" :to="getUserProfileLink()">個人頁面</RouterLink>
                                 <RouterLink class="dropdown-item" to="/account">會員資料</RouterLink>
                                 <RouterLink class="dropdown-item" to="/order">打工訂單</RouterLink>
                                 <RouterLink class="dropdown-item" to="/chatroom">聊天室</RouterLink>
@@ -93,16 +93,11 @@ import { useUserStore } from '@store/userStore-localStorage.js';
 import { computed } from 'vue';
 
 const userStore = useUserStore();
-const userProfileID = ref('');
 
-onMounted(async () => {
-    getUserID();
-});
-
-const getUserID = () => {
-    const sessionToken = localStorage.getItem('sessionToken');
-    userProfileID.value = String(sessionToken).substring(32, sessionToken.length);
-}
+const getUserProfileLink = () => {
+    const userID = localStorage.getItem('userID');
+    return `/user-profile/${userID}`;
+};
 
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 const isLandlord = computed(() => userStore.permissions.includes('lord'));
@@ -112,6 +107,7 @@ function resetStore() {
     userStore.$reset()
     localStorage.removeItem('user')
     localStorage.removeItem('sessionToken');
+    localStorage.removeItem('userID');
     localStorage.removeItem('lordID');
 }
 
