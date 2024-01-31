@@ -329,11 +329,13 @@
                     <div class="row g-0 mx-3 my-5">
                         <span class="mx-3 col-1 align-self-center">上架狀態：</span>
                         <div class="mx-3 col-1">
-                            <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked>
+                            <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off"
+                                v-model="workstatus" value="上架中">
                             <label class="btn btn-outline-primary" for="option1">上架</label>
                         </div>
                         <div class="mx-3 col-1">
-                            <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+                            <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off"
+                                v-model="workstatus" value="未上架">
                             <label class="btn btn-outline-secondary" for="option2">下架</label>
                         </div>
                     </div>
@@ -341,7 +343,7 @@
                     <div class="row g-0 mx-3 my-5">
                         <div class="form-floating mx-3 col">
                             <input type="textarea" class="form-control" id="formWorknote" placeholder="備註"
-                                v-model.trim="worknote" required>
+                                v-model.trim="worknote">
                             <label for="formWorknote">備註</label>
                         </div>
                     </div>
@@ -387,6 +389,7 @@ const educationRestriction = ref('');   // 學歷
 const experienceRestriction = ref('');  // 經驗
 const languageRestriction = ref('');    // 語言
 const licenseRestriction = ref('');     // 證照
+const workstatus = ref('');             // 狀態
 const worknote = ref('');               // 備註
 
 // 進編輯
