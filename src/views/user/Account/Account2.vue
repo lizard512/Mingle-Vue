@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container animate__animated animate__bounceInLeft animate__slow">
         <br><br>
         <h2 class="container" style="background-color: #bb810d;text-align: center;">你去過的地方</h2>
         <div class="card mb-3" style="max-width: 100%;">
