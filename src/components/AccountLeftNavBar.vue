@@ -26,6 +26,7 @@
 const isShow = 1
 const emit = defineEmits(["xyzClick"])
 const clickHandler = showVeiw => {
+
     emit("xyzClick", showVeiw)
 }
 </script>
