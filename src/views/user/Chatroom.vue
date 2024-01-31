@@ -81,17 +81,17 @@
 </template>
     
 <script setup>
-// 引用 store
-import { useStore } from '@store/chatStore.js'
-const chatStore = useStore()
-const externalID = chatStore.externalID
-const externalName = chatStore.externalName
-
 let global = globalThis; // 因應stomp及sockjs-client所設
 import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 import VueCookies from 'vue-cookies';
 import Swal from 'sweetalert2'
+
+// 引用 store
+import { useStore } from '@store/chatStore.js'
+const chatStore = useStore()
+const externalID = chatStore.externalID
+const externalName = chatStore.externalName
 
 // Stomp & Sockjs-client
 import SockJS from 'sockjs-client/dist/sockjs.min.js';
