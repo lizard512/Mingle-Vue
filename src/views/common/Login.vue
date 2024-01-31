@@ -42,12 +42,12 @@
                 </div>
                 <br>
 
-                <div class="login-btn">
-                    <button class="btn btn-info" @click="autoLogin1">Alice</button>
-                    <button class="btn btn-info" @click="autoLogin2">Bob</button>
-                    <button class="btn btn-info" @click="autoLogin3">Charlie</button>
-                    <button class="btn btn-info" @click="autoLogin4">Diana</button>
-                    <button class="btn btn-info" @click="autoLogin5">Eva</button>
+                <div class="autoLogin-btn text-center">
+                    <button class="btn btn-danger" @click="autoLogin1">Alice</button>
+                    <button class="btn btn-warning" @click="autoLogin2">Bob</button>
+                    <button class="btn btn-primary" @click="autoLogin3">Charlie</button>
+                    <button class="btn btn-success" @click="autoLogin4">Diana</button>
+                    <button class="btn btn-dark" @click="autoLogin5">Eva</button>
                 </div>
 
                 <!-- <div class="login-btn">
@@ -235,7 +235,7 @@ input {
     text-align: center;
 }
 
-.btn-warning {
+.login-btn .btn-warning {
     border-radius: 50px;
     color: white;
 }
@@ -253,7 +253,7 @@ input {
 .btn-outline-dark {
     border-radius: 50px;
 }
-.login-btn .btn{
+.autoLogin-btn .btn{
     margin-right: 10px;
     color:white;
 }
