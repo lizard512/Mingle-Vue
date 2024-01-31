@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="col-4">
-                <img v-if="work.photosBase64 = undefined" class="img-fluid" :src="work.photosBase64" :alt="work.name">
+                <img v-if="work.photosBase64 && work.photosBase64.length" class="img-fluid" :src="work.photosBase64" :alt="work.name">
                 <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
             </div>
         </div>
@@ -46,7 +46,6 @@ import axios from 'axios';
 const route = useRoute()
 const workID = route.params.id
 const work = ref({});
-console.log(work.value.photosBase64);
 
 onMounted(async () => {
     await loadWorkData();

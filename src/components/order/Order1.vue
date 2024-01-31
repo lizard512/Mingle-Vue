@@ -123,12 +123,12 @@
                             <h6 class="mb-3">您為誰預定呢? </h6>
                             <div class="my-3">
                                 <span class="form-check">
-                                    <input id="orderby" name="orderby" type="radio" class="form-check-input" checked
+                                    <input  name="orderby" type="radio" class="form-check-input" checked
                                         v-model="orderby" value="myself" @change="updateAccomodatorData" required>
                                     <label class="form-check-label" for="myself" value="myself">我為自己預定</label>
                                 </span>
                                 <div class="form-check">
-                                    <input id="orderby" name="orderby" type="radio" class="form-check-input"
+                                    <input  name="orderby" type="radio" class="form-check-input"
                                         v-model="orderby" value="other" @change="updateAccomodatorData" required>
                                     <label class="form-check-label" for="other" value="other">幫別人預定</label>
                                 </div>
@@ -335,7 +335,7 @@
 
                             <!-- name  會員資料-->
                             <div class="row" v-if="orderby === 'myself'">
-                                <span id="accomodatorId">1. </span>
+                                <span >1. </span>
                                 <div class="col-md-4">
                                     <label for="fullName" class="form-label">會員全名 (name) </label>
                                     <input type="text" class="form-control" id="fullName" placeholder="" value=""
@@ -371,9 +371,9 @@
                             <!-- ====================================================================== -->
                             <div class="row" v-for="value in accomodatorData" :key="value">
 
-                                <span id="accomodatorId" v-if="orderby === 'myself'">{{ value.accomodatorId + 1 + "." }}
+                                <span v-if="orderby === 'myself'">{{ value.accomodatorId + 1 + "." }}
                                 </span>
-                                <span id="accomodatorId" v-if="orderby !== 'myself'">{{ value.accomodatorId + "." }} </span>
+                                <span v-if="orderby !== 'myself'">{{ value.accomodatorId + "." }} </span>
 
                                 <!-- name  住宿者資料-->
                                 <div class="col-md-4">
@@ -731,21 +731,18 @@ const roomValidate = function () {
 
 
 
-
-
-//============查詢會員資料============
-
-import VueCookies from 'vue-cookies';
 import axios from 'axios';
-import Order2 from '@/components/order/Order2.vue'
 
-const userdetails = reactive({})
-const getuserid =
-    () => {
-        const sessionToken = VueCookies.get('sessionToken');
+//===========取得使用者ID============
+
+const getuserid = () => {
+        const sessionToken = localStorage.getItem('sessionToken');
         userid.value = String(sessionToken).substring(32, sessionToken.length);
         return userid.value
-    }
+}
+
+const userdetails = reactive({})
+
 
 const User_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/` + getuserid();
 
@@ -842,7 +839,6 @@ const nofacilates = function (house_type) {
 const open = ref('')
 onMounted(async () => {
     try {
-        // 在DOM准备好时执行渲染
         validation();
         updateAccomodatorData();
         await loaduserDetail();
