@@ -1,104 +1,115 @@
 <template>
-    <div class="vh-100">
-        <div class="container-fluid">
-            <!--Search Header Start-->
-            <div class="row g-4 align-items-center py-3 bg-light-var" :class="{ 'sticky-header': isSticky }">
-                <div class="col-lg-5">
-                    <div class="row">
-                        <div class="col-xxl-6 col-lg-12">
-                            <div class="text-start mx-auto wow animate__animated animate__slideInLeft inline-flex"
-                                data-wow-delay="0.1s">
-                                <h2 class="mx-3">打工機會</h2>
-                                <span class="badge bg-danger">正在徵求幫助者的項目！</span>
-                            </div>
-                        </div>
-                        <div class="col-xxl-6 col-lg-12 mx-auto d-inline-flex animate__animated animate__slideInDown"
+    <div class="container-fluid vh-100">
+        <!--Search Header Start-->
+        <div class="row g-4 align-items-center py-3 bg-light-var" :class="{ 'sticky-header': isSticky }">
+            <div class="col-lg-5">
+                <div class="row">
+                    <div class="col-xxl-6 col-lg-12">
+                        <div class="text-start mx-auto wow animate__animated animate__slideInLeft inline-flex"
                             data-wow-delay="0.1s">
-                            <select class="form-select w-50 me-3" v-model="filters.city[0]" @change="reloadWork()">
-                                <option value="">所有縣市</option>
-                                <optgroup v-for="(group, area) in groupedCities" :label="area" :key="area">
-                                    <option v-for="city in group" :value="city.city" :key="city.city">
-                                        {{ city.city }}
-                                    </option>
-                                    <option :value="area">所有{{ area.substring(0, 2) }}縣市</option>
-                                </optgroup>
-                            </select>
-                            <div class="input-group w-50">
-                                <input type="text" class="form-control" placeholder="用關鍵字查詢" v-model="filters.keyword[0]"
-                                    @keyup.enter="reloadWork()">
-                                <button class="btn btn-success" @click="reloadWork()"><i
-                                        class="fa fa-search text-white"></i></button>
-                            </div>
+                            <h2 class="mx-3">打工機會</h2>
+                            <span class="badge bg-danger">正在徵求幫助者的項目！</span>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="row">
-                        <div class="col-xxl-7 col-lg-12 mx-auto animate__animated animate__slideInDown"
-                            data-wow-delay="0.1s">
-                            <ul class="nav nav-pills justify-content-end">
-                                <li class="nav-item m-1" v-for="worktypeID in worktypeIDs" :key="worktypeID.worktypeID">
-                                    <a class="btn btn-outline-info"
-                                        :class="{ 'active': filters.worktype.includes(worktypeID.worktypeID) }"
-                                        @click="toggleWorkType(worktypeID.worktypeID)">
-                                        {{ worktypeID.worktypeID }}
-                                        <!-- <img :src="`/src/assets/images/icon-${worktypeID.worktypeID}.png`" width="25px"> -->
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-xxl-5 col-lg-12 text-end wow animate__animated animate__slideInRight"
-                            data-wow-delay="0.1s">
-                            <ul class="nav nav-pills justify-content-end">
-                                <li class="nav-item m-1">
-                                    <a class="btn btn-outline-warning active" data-bs-toggle="pill"
-                                        @click="toggleSorts('views', 'DESC')">熱門項目</a>
-                                </li>
-                                <li class="nav-item m-1">
-                                    <a class="btn btn-outline-warning" data-bs-toggle="pill"
-                                        @click="toggleSorts('createdAt', 'DESC')">最新上架</a>
-                                </li>
-                                <li class="nav-item m-1">
-                                    <a class="btn btn-outline-warning" data-bs-toggle="pill"
-                                        @click="toggleSorts('EndDate', 'ASC')">即將截止</a>
-                                </li>
-                                <li class="nav-item m-1">
-                                    <a class="btn btn-outline-warning" data-bs-toggle="pill"
-                                        @click="toggleSortByAttendance">參與人數
-                                        <i class="fa fa-arrow-down text-primary" :class="{ 'rotate': isArrowUp }"></i></a>
-                                </li>
-                            </ul>
+                    <div class="col-xxl-6 col-lg-12 mx-auto d-inline-flex animate__animated animate__slideInDown"
+                        data-wow-delay="0.1s">
+                        <select class="form-select w-50 me-3" v-model="filters.city[0]" @change="reloadWork()">
+                            <option value="">所有縣市</option>
+                            <optgroup v-for="(group, area) in groupedCities" :label="area" :key="area">
+                                <option v-for="city in group" :value="city.city" :key="city.city">
+                                    {{ city.city }}
+                                </option>
+                                <option :value="area">所有{{ area.substring(0, 2) }}縣市</option>
+                            </optgroup>
+                        </select>
+                        <div class="input-group w-50">
+                            <input type="text" class="form-control" placeholder="用關鍵字查詢" v-model="filters.keyword[0]"
+                                @keyup.enter="reloadWork()">
+                            <button class="btn btn-success" @click="reloadWork()"><i
+                                    class="fa fa-search text-white"></i></button>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--Search Header End-->
-            <!--Work Card Start-->
-            <WorkCard :works="works" :isAnimationEnabled="isAnimationEnabled" />
-            <!--Work Card End-->
-            <div class="the-end text-center m-5" v-if="isEnd">已經到底啦~~</div>
+            <div class="col-lg-7">
+                <div class="row">
+                    <div class="col-xxl-7 col-lg-12 mx-auto animate__animated animate__slideInDown" data-wow-delay="0.1s">
+                        <ul class="nav nav-pills justify-content-end">
+                            <li class="nav-item m-1" v-for="worktypeID in worktypeIDs" :key="worktypeID.worktypeID">
+                                <a class="btn btn-outline-info"
+                                    :class="{ 'active': filters.worktype.includes(worktypeID.worktypeID) }"
+                                    @click="toggleWorkType(worktypeID.worktypeID)">
+                                    {{ worktypeID.worktypeID }}
+                                    <!-- <img :src="`/src/assets/images/icon-${worktypeID.worktypeID}.png`" width="25px"> -->
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-xxl-5 col-lg-12 text-end wow animate__animated animate__slideInRight"
+                        data-wow-delay="0.1s">
+                        <ul class="nav nav-pills justify-content-end">
+                            <li class="nav-item m-1">
+                                <a class="btn btn-outline-warning active" data-bs-toggle="pill"
+                                    @click="toggleSorts('views', 'DESC')">熱門項目</a>
+                            </li>
+                            <li class="nav-item m-1">
+                                <a class="btn btn-outline-warning" data-bs-toggle="pill"
+                                    @click="toggleSorts('createdAt', 'DESC')">最新上架</a>
+                            </li>
+                            <li class="nav-item m-1">
+                                <a class="btn btn-outline-warning" data-bs-toggle="pill"
+                                    @click="toggleSorts('EndDate', 'ASC')">即將截止</a>
+                            </li>
+                            <li class="nav-item m-1">
+                                <a class="btn btn-outline-warning" data-bs-toggle="pill"
+                                    @click="toggleSortByAttendance">參與人數
+                                    <i class="fa fa-arrow-down text-primary" :class="{ 'rotate': isArrowUp }"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
+        <!--Search Header End-->
+        <!--Work Card Start-->
+        <WorkCard :works="works" :isAnimationEnabled="isAnimationEnabled" />
+        <!--Work Card End-->
+        <div class="the-end text-center m-5" v-if="isEnd">已經到底啦~~</div>
+
         <!-- Sticky Footer Start-->
-        <footer class="sticky-footer mt-auto py-3 bg-light-var animate__animated animate__slideInUp" data-wow-delay="0.1s">
-            <div class="container">
-                <span class="mx-2">共有 {{ total }} 筆相符的結果</span>
-                <span class="mx-2"><i class="fa fa-map-marker-alt me-2"></i>台北市大安區復興南路一段390號2樓</span>
-                <span class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</span>
-                <span class="mx-2"><i class="fa fa-envelope me-2"></i>Mingle.org@gmail.com</span>
-                <button @click="toggleAnimation">不要給我看翻牌了！</button>
+        <footer
+            class="sticky-footer mt-auto py-3 bg-light-var animate__animated animate__slideInUp row d-flex align-items-center justify-content-center"
+            data-wow-delay="0.1s">
+
+            <span class="col-3">請向下滾動以瀏覽更多項目</span>
+            <span class="col-3">共有 {{ total }} 筆相符的結果</span>
+            <div class="col-3 d-flex justify-content-center">
+                <span class="mx-2">關閉翻牌動畫</span>
+                <Toggle id="toggleAnimation" isChecked=true bgColor="black" ballColor="white" iconClass1="fa-solid fa-circle-check"
+                    iconClass2="fa-solid fa-circle-xmark" color1="green" color2="red" v-model="isAnimationEnabled"/>
             </div>
+            <div class="col-3">
+                <span class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</span>
+                <span><i class="fa fa-envelope me-2"></i>Mingle.org@gmail.com</span>
+            </div>
+
         </footer>
         <!-- Sticky Footer End-->
     </div>
 </template>
     
 <script setup>
+
 //// 引用函示庫
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
+
+
 //// 引用元件
 import WorkCard from '@components/WorkCard.vue';
+import Toggle from '@components/Toggle.vue';
 // import { useWorkStore } from '@store/workStore';
+
 
 //// 接收資料庫資料
 let works = ref([]);
@@ -106,9 +117,11 @@ let total = ref(0);
 const worktypeIDs = ref([]);
 const cities = ref([]);
 
+
 //// 接收元件傳值
 // const store = useWorkStore();
 // store.setWorks(works);
+
 
 //// 預設參數
 // 載入相關
@@ -131,7 +144,9 @@ let filters = ref({
 const isSticky = ref(false); // Sticky Header
 const isAnimationEnabled = ref(true);
 
+
 //// 生命週期
+
 onMounted(async () => {
     await loadWorktype();
     await loadCity();
@@ -146,12 +161,9 @@ onUnmounted(() => {
     // document.body.classList.remove('no-scroll');
 });
 
-//// 方法
 
-// 開關動畫
-const toggleAnimation = () => {
-    isAnimationEnabled.value = !isAnimationEnabled.value;
-}
+
+//// 方法
 
 // 載入工作分類
 const loadWorktype = async () => {
@@ -272,7 +284,6 @@ const checkSticky = () => {
     isSticky.value = window.scrollY > 45;
 };
 
-
 </script>
 
 <style scoped>
@@ -332,6 +343,7 @@ const checkSticky = () => {
 .container-fluid :deep() .fa {
     color: chocolate;
 }
+
 
 /* .work-address {
     overflow: hidden;

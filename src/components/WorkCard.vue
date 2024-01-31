@@ -110,7 +110,7 @@ watch(() => props.works.length, (newLength) => {
                 setTimeout(() => {
                     isFliping.value[i] = true;
                     resolve();
-                }, 500 + i * 100); // 決定每次蓋牌以後多久開牌，但和animationDelay是分開計算的
+                }, 500 + i * 100); // 決定蓋牌以後多久開牌
             }).then(() => {
                 // 開牌
                 isFliping.value[i] = false;

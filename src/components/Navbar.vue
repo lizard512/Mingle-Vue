@@ -71,14 +71,8 @@
                         <p class="m-3">已有帳戶? </p>
                         <RouterLink class="btn btn-dark px-3 me-3" to="/login">登入</RouterLink>
                     </template>
-                    <div class="">
-                        <input type="checkbox" class="checkbox" id="checkbox" @click="toggleDarkMode">
-                        <label for="checkbox" class="checkbox-label">
-                            <i class="fas fa-moon"></i>
-                            <i class="fas fa-sun"></i>
-                            <span class="ball"></span>
-                        </label>
-                    </div>
+                    <Toggle id="toggleDarkMode" bgColor="black" ballColor="white"
+                    iconClass1="fas fa-moon" iconClass2="fas fa-sun" color1="yellow" color2="orangered" v-model="darkMode"/>
                 </div>
             </div>
         </nav>
@@ -87,10 +81,14 @@
 </template>
     
 <script setup>
+// 引用函式庫
 import { ref, onMounted, onBeforeUnmount, watchEffect } from 'vue';
 import router from '@router/router'
 import { useUserStore } from '@store/userStore-localStorage.js';
 import { computed } from 'vue';
+
+// 引用元件
+import Toggle from '@components/Toggle.vue';
 
 const userStore = useUserStore();
 
@@ -112,6 +110,7 @@ function resetStore() {
 }
 
 
+
 const darkMode = ref(false);
 watchEffect(() => {
     const htmlTag = document.documentElement;
@@ -127,9 +126,6 @@ watchEffect(() => {
         htmlTag.style.setProperty('--dark', '#0E2E50');
     }
 });
-const toggleDarkMode = () => {
-    darkMode.value = !darkMode.value;
-};
 
 
 // // Sticky Navbar
@@ -235,46 +231,5 @@ onBeforeUnmount(() => {
         transition: .5s;
         opacity: 1;
     }
-}
-
-.checkbox {
-    opacity: 0;
-    position: absolute;
-}
-
-.checkbox-label {
-    background-color: #111;
-    width: 50px;
-    height: 26px;
-    border-radius: 50px;
-    position: relative;
-    padding: 5px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.fa-moon {
-    color: #f1c40f;
-}
-
-.fa-sun {
-    color: #f39c12;
-}
-
-.checkbox-label .ball {
-    background-color: #fff;
-    width: 22px;
-    height: 22px;
-    position: absolute;
-    left: 2px;
-    top: 2px;
-    border-radius: 50%;
-    transition: transform 0.2s linear;
-}
-
-.checkbox:checked+.checkbox-label .ball {
-    transform: translateX(24px);
 }
 </style>
