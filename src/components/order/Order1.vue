@@ -731,21 +731,18 @@ const roomValidate = function () {
 
 
 
-
-
-//============查詢會員資料============
-
-import VueCookies from 'vue-cookies';
 import axios from 'axios';
-import Order2 from '@/components/order/Order2.vue'
 
-const userdetails = reactive({})
-const getuserid =
-    () => {
-        const sessionToken = VueCookies.get('sessionToken');
+//===========取得使用者ID============
+
+const getuserid = () => {
+        const sessionToken = localStorage.getItem('sessionToken');
         userid.value = String(sessionToken).substring(32, sessionToken.length);
         return userid.value
-    }
+}
+
+const userdetails = reactive({})
+
 
 const User_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/` + getuserid();
 
@@ -842,7 +839,6 @@ const nofacilates = function (house_type) {
 const open = ref('')
 onMounted(async () => {
     try {
-        // 在DOM准备好时执行渲染
         validation();
         updateAccomodatorData();
         await loaduserDetail();
