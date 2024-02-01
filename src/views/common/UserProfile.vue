@@ -16,6 +16,7 @@
                             <span class="text-muted  me-3 fa fa-solid fa-address-card" v-if="true"> 身分已驗證</span>
                             <span class="text-primary me-3 fa fa-solid fa-medal" v-if="true"> 超讚房東</span>
                         </div>
+                        <hr>
                         <div class="row mb-3 mt-3">
                             <div class="col">
                                 <h6 class="text-muted">最後上線時間</h6>

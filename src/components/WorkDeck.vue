@@ -1,5 +1,8 @@
 <template>
-    <swiper :effect="'cards'" :grabCursor="true" :navigation="true" :modules="modules" class="mySwiper">
+    <swiper :style="{
+        '--swiper-navigation-color': '#fff',
+        '--swiper-pagination-color': '#fff',
+    }" :effect="'cards'" :grabCursor="true" :navigation="true" :modules="modules" class="mySwiper">
         <swiper-slide v-for="work in works" :key="work.workid">
             <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                 <div class="list-item rounded overflow-hidden placeholder-glow">
@@ -121,8 +124,8 @@ const loadWork = async () => {
 
 <style scoped>
 .list-item {
-    box-shadow: 0 0 25px rgba(0, 0, 0, .15);
-    background-color: var(--light);
+    box-shadow: 0 0 25px rgba(0, 0, 0, .5);
+    background-color: var(--white);
 }
 
 .list-item img {

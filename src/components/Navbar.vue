@@ -120,11 +120,15 @@ watchEffect(() => {
         htmlTag.style.setProperty('--primary', '#d29f05');
         htmlTag.style.setProperty('--light', '#0E2E50');
         htmlTag.style.setProperty('--dark', '#EFFDF5');
+        htmlTag.style.setProperty('--white', '#000000');
+        htmlTag.style.setProperty('--black', '#FFFFFF');
     } else {
         htmlTag.removeAttribute('data-bs-theme');
         htmlTag.style.setProperty('--primary', '#ffc107');
         htmlTag.style.setProperty('--light', '#EFFDF5');
         htmlTag.style.setProperty('--dark', '#0E2E50');
+        htmlTag.style.setProperty('--white', '#FFFFFF');
+        htmlTag.style.setProperty('--black', '#000000');
     }
 });
 
