@@ -54,13 +54,13 @@ const closeShow = () => {
 
 //============查詢會員資料============
 
-import { useUserStore } from '@store/userStore-localStorage.js';
+// import { useUserStore } from '@store/userStore-localStorage.js';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router'
 const userdetails = reactive({})
 
-const userStore = useUserStore();
+// const userStore = useUserStore();
 const getuserid =
     () => {
         const sessionToken = localStorage.getItem('sessionToken');
@@ -83,18 +83,18 @@ const loaduserDetail = async () => {
     const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/order/` + getuserid());
     Object.assign(userdetails, response.data);
     console.log(userdetails)
-    if (userdetails.isDeleted) {
-        // Swal.fire({
-        //     icon: 'warning',
-        //     text: '此帳號已被停權，重新登入或註冊會員',
-        //     confirmButtonText: '好的',
-        // });
-        const router = useRouter();
-        router.push({
-            name: "Login",
-        });
-        return;
-    }
+    // if (userdetails.isDeleted) {
+    //     Swal.fire({
+    //         icon: 'warning',
+    //         text: '此帳號已被停權，重新登入或註冊會員',
+    //         confirmButtonText: '好的',
+    //     });
+    //     const router = useRouter();
+    //     router.push({
+    //         name: "Login",
+    //     });
+    //     return;
+    // }
 }
 onMounted(async () => {
     await loaduserDetail();
