@@ -201,7 +201,7 @@
 
                             <div class="col-md-3" :class="{ 'has-error': haserror }">
                                 <label for="work_period" class="form-label">打工區間 (work period)</label>
-                                <select class=" col-12 select-form" id="work_period" v-model="selectedPeriod"
+                                <select class="form-select col-12 select-form" id="work_period" v-model="selectedPeriod"
                                     @change="updateDateRange" required>
                                     <option value="">Choose...</option>
                                     <option v-for="period in maxPeriod.length" :key="period" :value="period"
@@ -212,7 +212,7 @@
                             </div>
 
 
-                            <div class="col-md-3">
+                            <div class="col-md-3" :class="{ 'has-error': haserror }">
                                 <label for="work_startDate" class="form-label"> 開始日期 (startDate) </label>
                                 <input type="date" class="form-control" id="work_startDate" name="work_startDate"
                                     v-model="startDate" :min="minStartDate" :max="maxStartDate" value="" required />
@@ -839,7 +839,6 @@ const nofacilates = function (house_type) {
 const open = ref('')
 onMounted(async () => {
     try {
-        window.scrollTo({top: 0, behavior :'smooth'});
         validation();
         updateAccomodatorData();
         await loaduserDetail();
@@ -938,7 +937,7 @@ async function goToOrder2() {
 <style scoped>
 .select-form {
 
-    background-image: none;
+    /* background-image: none; */
     border: 1px solid #E0E0E0;
     border-radius: 5px;
     height: 40px;
@@ -995,9 +994,9 @@ input:invalid {
 }
 
 .has-error {
-    border: 1px solid red;
-    /* 或者其他你希望的樣式 */
-    background-color: #FDD;
+        border: 1px solid red;
+        /* 或者其他你希望的樣式 */
+        background-color: #FDD;
     /* 背景顏色也可以更改成你想要的 */
 }
 
@@ -1107,4 +1106,17 @@ input:not([required]):valid {
     background-image: none;
     border: 1px solid #E0E0E0;
 }
+
+.has-error .form-control, .has-error .form-select {
+    /* background-image: none; */
+    border: 1px solid red !important;
+    background-image: none !important; 
+    
+}
+
+/* 覆蓋綠色勾勾 */
+/* .was-validated .form-control:valid,
+.was-validated .form-check-input:valid {
+    background-image: none;
+} */
 </style>
