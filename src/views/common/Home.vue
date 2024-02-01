@@ -9,8 +9,11 @@
         <p class="animated fadeIn mb-4 pb-2 text-dark-var">全台 26 縣市提供打工換宿</p>
         <a href="" class="btn btn-secondary py-3 px-5 me-3 animated fadeIn">了解詳情</a>
       </div>
-      <swiper :centeredSlides="true" :loop="true" :navigation="true" :modules="modules" :pagination="{ clickable: true }"
-        :autoplay="{ delay: 2500, disableOnInteraction: false }" class="mySwiper">
+      <swiper :style="{
+        '--swiper-navigation-color': '#fff',
+        '--swiper-pagination-color': '#fff',
+      }" :centeredSlides="true" :loop="true" :navigation="true" :modules="modules"
+        :pagination="{ clickable: true }" :autoplay="{ delay: 2500, disableOnInteraction: false }" class="mySwiper">
         <swiper-slide><img src="@images/carousel-1.jpg" class="d-block w-100" alt="..."></swiper-slide>
         <swiper-slide><img src="@images/carousel-2.jpg" class="d-block w-100" alt="..."></swiper-slide>
       </swiper>
@@ -26,11 +29,11 @@
       </div>
       <div class="col-4 justify-items-center text-center h-100">
         <h2 class="mx-3">最新上架</h2>
-        <WorkDeck property="createdAt"/>
+        <WorkDeck property="createdAt" />
       </div>
       <div class="col-4 justify-items-center text-center h-100">
         <h2 class="mx-3">即將截止</h2>
-        <WorkDeck property="endDate" direction="ASC"/>
+        <WorkDeck property="endDate" direction="ASC" />
       </div>
     </div>
   </div>
@@ -67,9 +70,10 @@ import WorkDeck from '@components/WorkDeck.vue';
 
 <!-- Customized CSS -->
 <style scoped>
-.text-dark-var{
+.text-dark-var {
   color: var(--dark);
 }
+
 .swiper {
   width: 50%;
   height: 50%;

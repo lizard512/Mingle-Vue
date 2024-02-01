@@ -31,7 +31,22 @@
                 </div>
             </div>
             <div class="col-4">
-                <img v-if="work.photosBase64 && work.photosBase64.length" class="img-fluid" :src="work.photosBase64" :alt="work.name">
+                <div v-if="work.photosBase64 && work.photosBase64.length" class="img-fluid" style="max-heightht: 400px;">
+                    <swiper :style="{
+                        '--swiper-navigation-color': '#fff',
+                        '--swiper-pagination-color': '#fff',
+                    }" :centeredSlides="true" :loop="true" :spaceBetween="10" :navigation="true"
+                        :thumbs="{ swiper: thumbsSwiper }" :modules="modules" class="mySwiper2">
+
+                        <swiper-slide v-for="(photo, index) in work.photosBase64" :key="index"><img :src="photo"
+                                :alt="index"></swiper-slide>
+                    </swiper>
+                    <swiper v-if="work.photosBase64.length > 1" @swiper="setThumbsSwiper" :loop="true" :spaceBetween="10"
+                        :slidesPerView="4" :freeMode="true" :watchSlidesProgress="true" :modules="modules" class="mySwiper">
+                        <swiper-slide v-for="(photo, index) in work.photosBase64" :key="index"><img :src="photo"
+                                :alt="index"></swiper-slide>
+                    </swiper>
+                </div>
                 <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
             </div>
         </div>
@@ -43,9 +58,30 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 
+
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
+// import required modules
+import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+const modules = [FreeMode, Navigation, Thumbs];
+const thumbsSwiper = ref(null);
+
+const setThumbsSwiper = (swiper) => {
+    thumbsSwiper.value = swiper;
+};
+
+
 const route = useRoute()
 const workID = route.params.id
 const work = ref({});
+
+
+
 
 onMounted(async () => {
     await loadWorkData();
@@ -70,3 +106,46 @@ const increaseViewCount = async () => {
     }
 }
 </script>
+
+<style scoped>
+.swiper {
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.swiper-slide {
+    background: #fff;
+    background-size: cover;
+    background-position: center;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.mySwiper2 {
+    height: 80%;
+    width: 100%;
+}
+
+.mySwiper {
+    height: 20%;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
+
+.mySwiper .swiper-slide {
+    width: 25%;
+    height: 100%;
+    opacity: 0.4;
+}
+
+.mySwiper .swiper-slide-thumb-active {
+    opacity: 1;
+}
+</style>
