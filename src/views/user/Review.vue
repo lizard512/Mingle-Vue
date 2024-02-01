@@ -4,8 +4,8 @@
         <div class="col-md-8 px-md-4 mx-auto animate__animated animate__fadeInUp">
 
             <!-- 評價 start-->
-            <div class="card  col-md-10 mx-auto d-flex flex-md-nowrap my-5" v-for="item in review" :key="item">
-                <div class="row" @loadedmetadata="getOrderDetail(item.orderid)">
+            <div class="card  col-md-10 mx-auto d-flex flex-md-nowrap my-5" v-for="(item, index) in review" :key="index">
+                <div class="row">
                     <div class="col-2 text-center">
                         <br>
                         <a href="#">
@@ -15,26 +15,26 @@
                     <div class="col-3 text-md-start">
                         <br>
                         <p class="card-text h6">姓名:</p>
-                        <p class="card-text"><small>{{ orderDetail.name }}</small></p>
+                        <p class="card-text"><small>{{ orderDetail[index]?.username }}</small></p>
                         <p class="card-text h6">工作:</p>
-                        <p class="card-text"><small>{{ orderDetail.workName }}</small></p>
+                        <p class="card-text"><small>{{ orderDetail[index]?.workName }}</small></p>
                         <p class="card-text h6 ">訂單報名人數:</p>
                         <p class="card-text">
-                            <small>{{ orderDetail.numbers }}人</small>
+                            <small>{{ orderDetail[index]?.numbers }}人</small>
 
                         </p>
 
                         <p class="card-text h6 ">打工區間:</p>
                         <p class="card-text">
-                            <small>{{ orderDetail.startDate }}到{{ orderDetail.endDate }}</small>
-                            <small><br>總共{{ orderDetail.days }}天</small>
+                            <small>{{ orderDetail[index]?.startDate }}到{{ orderDetail[index]?.endDate }}</small>
+                            <small><br>總共{{ orderDetail[index]?.days }}天</small>
                         </p>
 
 
                         <p class="card-text h6">房源資訊:</p>
                         <p class="card-text">
-                            <small v-for="houseType in orderDetail.houseType" :key="houseType">{{ houseType }}-<small
-                                    v-for="houseName in orderDetail.houseName" :key="houseName">{{ houseName
+                            <small v-for="houseType in orderDetail[index]?.houseType" :key="houseType">{{ houseType }}-<small
+                                    v-for="houseName in orderDetail[index]?.houseName" :key="houseName">{{ houseName
                                     }}</small></small>
                         </p>
                         <br>
@@ -77,13 +77,13 @@
     
 <script setup>
 
-import { onMounted, ref } from 'vue'
+import {  onMounted, reactive, ref } from 'vue'
 import axios from 'axios';
 
 const userID = ref('');
 const landlordID = ref('');
 const review = ref([]);
-const orderDetail = ref({});
+const orderDetail = ref([]);
 
 
 //===========取得使用者ID============
@@ -93,9 +93,9 @@ const getUserID = () => {
 }
 
 // ==========取得房東id============
-const getLandlord =  () => {
+const getLandlord = () => {
     landlordID.value = localStorage.getItem('lordID');
-    
+
 
 }
 // =========取得房東的評價資訊request============
@@ -110,13 +110,12 @@ const getReview = async () => {
     });
     Object.assign(review.value, response.data);
 
+    return review.value
 
 }
 
 // =========取得完整訂單資訊(包含會員資訊、房屋、工作)request============
 const getOrderDetail = async (review_orderid) => {
-
-    console.log(review_orderid)
 
     const OrderDetail_API_URL = `${import.meta.env.VITE_APP_API_URL}/review/findOrderDetail`
     const response = await axios.get(
@@ -124,19 +123,27 @@ const getOrderDetail = async (review_orderid) => {
         params:
             { orderid: review_orderid }
     });
-    console.log(response)
-    Object.assign(orderDetail.value, response.data);
-    console.log(orderDetail.value)
+
+    orderDetail.value.push({
+        ...response.data
+    })
+
+    return orderDetail.value
+
 }
 
 
+
 onMounted(async () => {
-    window.scrollTo({top: 0, behavior :'smooth'});
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     getUserID();
     getLandlord();
-    await getReview();
-
+     await getReview();
+     for (const item of review.value) {
+        await getOrderDetail(item.orderid);
+    }
 });
+
 
 
 
