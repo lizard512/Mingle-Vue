@@ -2,29 +2,41 @@
     <div class="row">
 
         <div class="col-md-8 px-md-4 mx-auto">
-            <!-- <h1 class="h2" style="text-align: center">評價狀況</h1> -->
 
             <!-- 評價 start-->
             <div class="card  col-md-10 mx-auto d-flex flex-md-nowrap my-5" v-for="item in review" :key="item">
-                <div class="row">
+                <div class="row" >
                     <div class="col-2 text-center">
                         <br>
                         <a href="#">
                             <img class="card-img" src="/person.png" alt="image" style="width: 80px;">
                         </a>
                     </div>
-                    <div class="col-3 text-md-start" v-if="getVolunteerDetail(item.orderid)">
+                    <div class="col-3 text-md-start">
                         <br>
                         <p class="card-text h6">姓名:</p>
-                        <p class="card-text"><small>{{ volunteerDetail.name }}</small></p>
-                        <p class="card-text h6" v-if="getWorkDetail(item.orderid)">工作:</p>
-                        <p class="card-text"><small>{{ workDetail.name }}</small></p>
-                        <p class="card-text h6 ">打工區間:</p>
-                        <p class="card-text" v-if="getOrder(item.orderid)">
-                            <small>{{ dayDifference }}天</small>
+                        <p class="card-text"><small>{{ orderDetail.name }}</small></p>
+                        <p class="card-text h6">工作:</p>
+                        <p class="card-text"><small>{{ orderDetail.workName }}</small></p>
+                        <p class="card-text h6 ">訂單報名人數:</p>
+                        <p class="card-text">
+                            <small>{{ orderDetail.numbers }}人</small>
+
                         </p>
-                        <p class="card-text h6" v-if="getHouseDetail(item.orderid)">房源資訊:</p>
-                        <p class="card-text"><small>xxxx</small></p>
+
+                        <p class="card-text h6 ">打工區間:</p>
+                        <p class="card-text">
+                            <small>{{ orderDetail.startDate }}到{{ orderDetail.endDate }}</small>
+                            <small><br>總共{{ orderDetail.days }}天</small>
+                        </p>
+
+
+                        <p class="card-text h6">房源資訊:</p>
+                        <p class="card-text">
+                            <small v-for="houseType in orderDetail.houseType" :key="houseType">{{ houseType }}-<small
+                                    v-for="houseName in orderDetail.houseName" :key="houseName">{{ houseName
+                                    }}</small></small>
+                        </p>
                         <br>
                     </div>
                     <div class="col-6">
@@ -46,7 +58,8 @@
                             <!-- 回應訊息 -->
                             <h6 class=" card-title text-md-start text-secondary">房東回應</h6>
                             <div class="input-group col-12">
-                                <el-input :autosize="{ minRows: 5, maxRows: 10 }" type="textarea" placeholder="請輸入" show-word-limit maxlength="500" />
+                                <el-input :autosize="{ minRows: 5, maxRows: 10 }" type="textarea" placeholder="請輸入"
+                                    show-word-limit maxlength="500" />
                                 <input type="file" id="imageInput" accept="image/*" style="display: none;">
                                 <button class="btn btn-secondary" onclick="document.getElementById('imageInput').click();">
                                     <i class="bi bi-image"></i></button>
@@ -64,17 +77,13 @@
     
 <script setup>
 
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import axios from 'axios';
 
 const userID = ref('');
 const landlord = ref({});
 const review = ref([]);
-const volunteerDetail = ref({});
 const orderDetail = ref({});
-const workDetail = ref({});
-const dayDifference = ref('');
-const houseDetail = ref({});
 
 
 //===========取得使用者ID============
@@ -84,7 +93,7 @@ const getUserID = () => {
     console.log(userID.value)
 }
 
-// ==========取得房東資訊============
+// ==========取得房東資訊request============
 const getLandlord = async () => {
 
     const Review_API_URL = `${import.meta.env.VITE_APP_API_URL}/review/findLandlord`
@@ -98,7 +107,7 @@ const getLandlord = async () => {
     console.log(landlord.value)
 }
 
-// =========取得評價資訊============
+// =========取得房東的評價資訊request============
 
 
 const getReview = async () => {
@@ -111,76 +120,33 @@ const getReview = async () => {
     console.log(response.data)
     Object.assign(review.value, response.data);
     console.log(review.value)
+
 }
-// =========取得評價會員資訊============
-const getVolunteerDetail = async (review_orderid) => {
+
+// =========取得完整訂單資訊(包含會員資訊、房屋、工作)request============
+const getOrderDetail = async (review_orderid) => {
 
     console.log(review_orderid)
 
-    const VolunteerDetail_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/findUserDetail`
+    const OrderDetail_API_URL = `${import.meta.env.VITE_APP_API_URL}/review/findOrderDetail`
     const response = await axios.get(
-        VolunteerDetail_API_URL, {
+        OrderDetail_API_URL, {
         params:
             { orderid: review_orderid }
     });
     console.log(response)
-    Object.assign(volunteerDetail.value, response.data);
-    console.log(volunteerDetail.value)
-}
-
-// =========取得訂單資訊============
-
-const getOrder = async (review_order) => {
-    const Order_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/findOrder`
-    const response = await axios.get(
-        Order_API_URL, {
-        params:
-            { orderid: review_order }
-    });
-    console.log(response)
     Object.assign(orderDetail.value, response.data);
     console.log(orderDetail.value)
-    const startDate = new Date(orderDetail.value.startDate);
-    const endDate = new Date(orderDetail.value.endDate);
-
-    // 計算兩個日期之間的毫秒數差距
-    const timeDifference = endDate.getTime() - startDate.getTime();
-    // 將毫秒數轉換為天數
-    dayDifference.value = timeDifference / (1000 * 60 * 60 * 24);
-    console.log(dayDifference.value);
-
 }
 
+const fetchOrderDetails = async () => {
+  const orderDetailSet = new Set();
 
-// =========取得訂單工作資訊============
-
-const getWorkDetail = async (review_order) => {
-    const WorkDetail_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/findWork`
-    const response = await axios.get(
-        WorkDetail_API_URL, {
-        params:
-            { orderid: review_order }
-    });
-    console.log(response)
-    Object.assign(workDetail.value, response.data);
-
-}
-
-// =========取得訂單房屋資訊============
-
-const getHouseDetail = async (review_order) => {
-    const HouseDetail_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/findHouse`
-    const response = await axios.get(
-        HouseDetail_API_URL, {
-        params:
-            { orderid: review_order }
-    });
-    console.log(response)
-    Object.assign(houseDetail.value, response.data);
-    console.log(houseDetail.value)
-}
-
-
+  for (const item of review.value) {
+     await getOrderDetail(item.orderid);
+  }
+ 
+};
 
 
 
@@ -188,6 +154,8 @@ onMounted(async () => {
     getUserID();
     await getLandlord();
     await getReview();
+    await fetchOrderDetails();
+
 });
 
 
