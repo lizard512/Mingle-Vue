@@ -173,7 +173,7 @@
                                 <option selected disabled value="">Choose...</option>
                                 <option v-for="item in worktypeList" :value="item">{{ item }}</option>
                             </select>
-                            <label for="formWorktype">工作類型</label>
+                            <label for="formWorktype">工作類型(必填)</label>
                             <div class="invalid-feedback">
                                 請選取您的工作類型
                             </div>
@@ -181,7 +181,7 @@
                         <div class="form-floating mx-3 col">
                             <input type="text" class="form-control" id="formWorkname" placeholder="工作名稱"
                                 v-model.trim="workname" required>
-                            <label for="formWorkname">工作名稱</label>
+                            <label for="formWorkname">工作名稱(必填)</label>
                             <div class="invalid-feedback">
                                 工作名稱為必填欄位
                             </div>
@@ -194,7 +194,7 @@
                                 <option selected disabled value=""></option>
                                 <option v-for="item in city" :value="item">{{ item }}</option>
                             </select>
-                            <label for="formWorkcity">打工縣市</label>
+                            <label for="formWorkcity">打工縣市(必填)</label>
                             <div class="invalid-feedback">
                                 請選取您的打工縣市
                             </div>
@@ -202,7 +202,7 @@
                         <div class="form-floating mx-3 col">
                             <input type="text" class="form-control" id="formWorkaddress" placeholder="工作名稱"
                                 v-model.trim="workaddress" required>
-                            <label for="formWorkaddress">地址</label>
+                            <label for="formWorkaddress">地址(必填)</label>
                             <div class="invalid-feedback">
                                 請輸入您的打工地址
                             </div>
@@ -211,15 +211,15 @@
                     <!-- workperiod & attendance -->
                     <div class="row g-0 mx-3 my-5">
                         <div class="col-3 mx-3">
-                            <span class="ms-2 work-period-title">打工期間(日期)</span>
-                            <el-date-picker v-model="workperiod" @change="check" type="daterange" start-placeholder="開始日期"
+                            <span class="ms-2 work-period-title">打工期間(必填)</span>
+                            <el-date-picker v-model="workperiod" type="daterange" start-placeholder="開始日期"
                                 end-placeholder="結束日期" format="YYYY-MM-DD ddd" date-format="YYYY/MM/DD ddd" size="large"
                                 :disabled-date="daterule" />
                         </div>
                         <div class="form-floating mx-4 my-2 col-4">
                             <input type="number" class="form-control" id="formWorkminperiod" placeholder="打工最短期間(天數)"
                                 v-model="workminperiod" required>
-                            <label for="formWorkminperiod">打工最短期間 (幫助者至少工作天數)</label>
+                            <label for="formWorkminperiod">打工最短天數 (必填)</label>
                             <div class="invalid-feedback">
                                 請點選打工最短期間(或輸入阿拉伯數字)
                             </div>
@@ -227,7 +227,7 @@
                         <div class="form-floating mx-3 my-2 col-4">
                             <input type="number" class="form-control" id="formWorkmaxattendance" placeholder="打工最小期間(天數)"
                                 v-model="workmaxattendance" required>
-                            <label for="formWorkminperiod">打工需求人數(最大)</label>
+                            <label for="formWorkminperiod">打工需求人數(必填)</label>
                             <div class="invalid-feedback">
                                 請點選需求人數(或輸入阿拉伯數字)
                             </div>
@@ -243,7 +243,7 @@
                         <div class="form-floating mx-3 col">
                             <input type="text" class="form-control" id="formWorktime" placeholder="工作時間"
                                 v-model.trim="worktime" required>
-                            <label for="formWorktime">工作時間</label>
+                            <label for="formWorktime">工作時間(必填)</label>
                             <div class="invalid-feedback">
                                 請填寫工作時間
                             </div>
@@ -251,7 +251,7 @@
                         <div class="form-floating mx-3 col">
                             <input type="text" class="form-control" id="formWorkvacation" placeholder="休假制度"
                                 v-model.trim="workvacation" required>
-                            <label for="formWorkvacation">休假制度</label>
+                            <label for="formWorkvacation">休假制度(必填)</label>
                             <div class="invalid-feedback">
                                 請填寫休假制度
                             </div>
@@ -269,8 +269,8 @@
                     <div class="row g-0 mx-3 my-5">
                         <div class="form-floating mx-3 col">
                             <textarea class="form-control" id="formWorkdescription" placeholder="工作內容"
-                                v-model.trim="workdescription"></textarea>
-                            <label for="formWorkdescription">工作內容</label>
+                                v-model.trim="workdescription" required></textarea>
+                            <label for="formWorkdescription">工作內容(必填)</label>
                             <div class="invalid-feedback">
                                 請填寫工作內容
                             </div>
@@ -285,12 +285,12 @@
                     <div class="row g-0 mx-3 my-5">
                         <div class="form-floating mx-3 col">
                             <input type="text" class="form-control" id="formageRestriction" placeholder="年齡限制"
-                                v-model.trim="ageRestriction" required>
+                                v-model.trim="ageRestriction">
                             <label for="formageRestriction">年齡限制</label>
                         </div>
                         <div class="form-floating mx-3 col">
                             <input type="text" class="form-control" id="formgenderRestriction" placeholder="性別要求"
-                                v-model.trim="genderRestriction" required>
+                                v-model.trim="genderRestriction">
                             <label for="formgenderRestriction">性別要求</label>
                         </div>
                     </div>
@@ -298,12 +298,12 @@
                     <div class="row g-0 mx-3 my-5">
                         <div class="form-floating mx-3 col">
                             <input type="text" class="form-control" id="formeducationRestriction" placeholder="學歷要求"
-                                v-model.trim="educationRestriction" required>
+                                v-model.trim="educationRestriction">
                             <label for="formeducationRestriction">學歷要求</label>
                         </div>
                         <div class="form-floating mx-3 col">
                             <input type="text" class="form-control" id="formexperienceRestriction" placeholder="工作經驗"
-                                v-model.trim="experienceRestriction" required>
+                                v-model.trim="experienceRestriction">
                             <label for="formexperienceRestriction">工作經驗</label>
                         </div>
                     </div>
@@ -311,12 +311,12 @@
                     <div class="row g-0 mx-3 my-5">
                         <div class="form-floating mx-3 col">
                             <input type="text" class="form-control" id="formlanguageRestriction" placeholder="語言要求"
-                                v-model.trim="languageRestriction" required>
+                                v-model.trim="languageRestriction">
                             <label for="formlanguageRestriction">語言要求</label>
                         </div>
                         <div class="form-floating mx-3 col">
                             <input type="text" class="form-control" id="formlicenseRestriction" placeholder="證照要求"
-                                v-model.trim="licenseRestriction" required>
+                                v-model.trim="licenseRestriction">
                             <label for="formlicenseRestriction">證照要求</label>
                         </div>
                     </div>
@@ -330,7 +330,7 @@
                         <span class="mx-3 col-1 align-self-center">上架狀態：</span>
                         <div class="mx-3 col-1">
                             <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off"
-                                v-model="workstatus" value="上架中">
+                                v-model="workstatus" value="上架中" checked>
                             <label class="btn btn-outline-primary" for="option1">上架</label>
                         </div>
                         <div class="mx-3 col-1">
@@ -392,16 +392,16 @@ const licenseRestriction = ref('');     // 證照
 const workstatus = ref('');             // 狀態
 const worknote = ref('');               // 備註
 
+// 生命週期
+onMounted(() => {
+
+})
+
+
 // 進編輯
 function enterModify() {
     isShowList.value = false;
     isShowModify.value = true;
-}
-// 測試
-function check() {
-    // console.log(workperiod.value[0])
-    // console.log(workperiod.value[1])
-    // console.log(new Date());
 }
 // 日期規則
 function daterule(time) {
@@ -409,11 +409,26 @@ function daterule(time) {
     today.setHours(0, 0, 0, 0); // 將時間設為當天的午夜
     return time.getTime() < today.getTime();
 }
-
-
 // 驗證
 function validate(event) {
-    event.preventDefault();
+    // event.preventDefault();
+    // const form = document.querySelector('.needs-validation');
+    // if (form.checkValidity()) {
+    //     console.log("OK")
+    // }
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
 }
 function cancelModify() {
     Swal.fire({
