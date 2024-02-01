@@ -97,6 +97,10 @@ const goToIndex = () => {
     router.push({ path: '/' });
 }
 
+onMounted(() => {
+    window.scrollTo({top: 0, behavior :'smooth'});
+});
+
 </script>
 
 

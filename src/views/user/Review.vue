@@ -1,11 +1,11 @@
 <template>
     <div class="row">
 
-        <div class="col-md-8 px-md-4 mx-auto">
+        <div class="col-md-8 px-md-4 mx-auto animate__animated animate__fadeInUp">
 
             <!-- 評價 start-->
             <div class="card  col-md-10 mx-auto d-flex flex-md-nowrap my-5" v-for="item in review" :key="item">
-                <div class="row" >
+                <div class="row" @loadedmetadata="getOrderDetail(item.orderid)">
                     <div class="col-2 text-center">
                         <br>
                         <a href="#">
@@ -46,7 +46,7 @@
                                         class="fa-regular fa-star"></i></span></div>
 
                             <p class="card-text text-md-start">
-                            <p>評價內容:</p>
+                            <p><br>評價內容:</p>
                             <p class="card-text text-md-start">{{ item.content }}</p>
                             </p>
                             <p class="card-text  text-align-right">
@@ -81,7 +81,7 @@ import { onMounted, ref } from 'vue'
 import axios from 'axios';
 
 const userID = ref('');
-const landlord = ref({});
+const landlordID = ref('');
 const review = ref([]);
 const orderDetail = ref({});
 
@@ -90,23 +90,14 @@ const orderDetail = ref({});
 const getUserID = () => {
     const sessionToken = localStorage.getItem('sessionToken');
     userID.value = String(sessionToken).substring(32, sessionToken.length);
-    console.log(userID.value)
 }
 
-// ==========取得房東資訊request============
-const getLandlord = async () => {
+// ==========取得房東id============
+const getLandlord =  () => {
+    landlordID.value = localStorage.getItem('lordID');
+    
 
-    const Review_API_URL = `${import.meta.env.VITE_APP_API_URL}/review/findLandlord`
-    const response = await axios.get(
-        Review_API_URL, {
-        params:
-            { userid: userID.value }
-    });
-    console.log(response.data)
-    Object.assign(landlord.value, response.data);
-    console.log(landlord.value)
 }
-
 // =========取得房東的評價資訊request============
 
 
@@ -115,11 +106,10 @@ const getReview = async () => {
     const response = await axios.get(
         Review_API_URL, {
         params:
-            { landlordId: landlord.value.landlordid }
+            { landlordId: landlordID.value }
     });
-    console.log(response.data)
     Object.assign(review.value, response.data);
-    console.log(review.value)
+
 
 }
 
@@ -139,22 +129,12 @@ const getOrderDetail = async (review_orderid) => {
     console.log(orderDetail.value)
 }
 
-const fetchOrderDetails = async () => {
-  const orderDetailSet = new Set();
-
-  for (const item of review.value) {
-     await getOrderDetail(item.orderid);
-  }
- 
-};
-
-
 
 onMounted(async () => {
+    window.scrollTo({top: 0, behavior :'smooth'});
     getUserID();
-    await getLandlord();
+    getLandlord();
     await getReview();
-    await fetchOrderDetails();
 
 });
 
