@@ -114,25 +114,23 @@ const login = function () {
                 Swal.fire({
                     icon: "success",
                     text: "登入成功",
-                    confirmButtonText: "確認"
-                }).then(function (result) {
-                    if (result.isConfirmed) {
-                        document.cookie = `sessionToken=${response.data.sessionToken}; path=/`;
-                        localStorage.setItem('sessionToken', response.data.sessionToken)
-                        if (response.data.userID) {
-                            localStorage.setItem('userID', response.data.userID);
-                        }
-                        if (response.data.lordID) {
-                            localStorage.setItem('lordID', response.data.lordID);
-                            userStore.addPermission('lord') // reflect landlord permission on navbar
-                        }
-                        if (response.data.adminPermission) {
-                            userStore.addPermission('admin') // reflect admin permission on navbar
-                        }
-                        userStore.login(); // reflect user permission on navbar
-                        router.push({ name: 'Home' });
-                    }
-                });
+                    confirmButtonText: "確認",
+                })
+                document.cookie = `sessionToken=${response.data.sessionToken}; path=/`;
+                localStorage.setItem('sessionToken', response.data.sessionToken)
+                if (response.data.userID) {
+                    localStorage.setItem('userID', response.data.userID);
+                }
+                if (response.data.lordID) {
+                    localStorage.setItem('lordID', response.data.lordID);
+                    userStore.addPermission('lord') // reflect landlord permission on navbar
+                }
+                if (response.data.adminPermission) {
+                    userStore.addPermission('admin') // reflect admin permission on navbar
+                }
+                userStore.login(); // reflect user permission on navbar
+                router.push({ name: 'Home' });
+
             } else {
                 console.log(response.data.message);
                 Swal.fire({
@@ -267,8 +265,9 @@ input {
 .btn-outline-dark {
     border-radius: 50px;
 }
-.autoLogin-btn .btn{
+
+.autoLogin-btn .btn {
     margin: 10px;
-    color:white;
+    color: white;
 }
 </style>

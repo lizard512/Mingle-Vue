@@ -839,6 +839,7 @@ const nofacilates = function (house_type) {
 const open = ref('')
 onMounted(async () => {
     try {
+        window.scrollTo({top: 0, behavior :'smooth'});
         validation();
         updateAccomodatorData();
         await loaduserDetail();

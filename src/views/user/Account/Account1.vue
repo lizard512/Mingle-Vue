@@ -35,6 +35,12 @@
                     <div class="col-sm-6"><span>{{ userdetails.gender === "Male" ? "男" : (userdetails.gender ===
                         "Female" ? "女" : "保密") }}</span></div>
                 </div>
+                <!-- 國家 -->
+                <div class="row mb-3">
+                    <div class="col-sm-4 mb-4">國家 </div>
+                    <div class="col-sm-6"><span>{{ userdetails.country === null ? "尚未設定" : userdetails.country
+                    }}</span></div>
+                </div>
                 <!-- 出生日期 -->
                 <div class="row mb-3">
                     <div class="col-sm-4 mb-4">生日 </div>
@@ -62,8 +68,9 @@
                     <div class="row mb-3">
                         <label for="validationCustomUsername" class="col-4 col-form-label">暱稱</label>
                         <div class="col-8 mb-4"><input type="text" class="form-control" id="validationCustomUsername"
-                                placeholder="取一個響亮的名稱吧" aria-describedby="inputGroupPrepend" required>
-                            <div class="invalid-feedback ">
+                                placeholder="取一個響亮的名稱吧" aria-describedby="inputGroupPrepend" v-model="userdetails.name"
+                                required>
+                            <div class="invalid-feedback">
                                 請輸入名稱
                             </div>
                         </div>
@@ -73,7 +80,7 @@
                         <label for="validationCustom02" class="col-4 mb-4 form-label">Email</label>
                         <div class="col-8">
                             <input type="email" class="form-control" id="validationCustom02"
-                                placeholder="your@example.email.com" required>
+                                placeholder="your@example.email.com" required v-model="userdetails.email">
                             <div class="valid-feedback">
                                 驗證成功!
                             </div>
@@ -87,7 +94,7 @@
                         <label for="validationCustom05" class="col-sm-4 mb-4 col-form-label">手機號碼</label>
                         <div class="col-sm-8">
                             <input type="phone" class="form-control" id="validationCustom05" placeholder="0912345678"
-                                maxlength="20" required>
+                                maxlength="20" required v-model="userdetails.phone">
                             <div class="invalid-feedback">
                                 請輸入手機號碼
                             </div>
@@ -97,39 +104,35 @@
                     <div class="row mb-3">
                         <label for="" class="col-sm-4 mb-4 col-form-label">性別</label>
                         <div class="col-sm-8 mb-4 large">
-                            <input type="radio" class="form-check-input " name="gender" value="Male"
-                                v-model="userdetails.gender">保密(其他)
+                            <input type="radio" class="form-check-input " name="gender" value="Other"
+                                v-model="userdetails.gender" required>保密(其他)
+                            <input type="radio" class="form-check-input" name="gender" value="Male"
+                                v-model="userdetails.gender" required>男
                             <input type="radio" class="form-check-input" name="gender" value="Female"
-                                v-model="userdetails.gender">男
-                            <input type="radio" class="form-check-input" name="gender" value="Other"
                                 v-model="userdetails.gender" required>女
                             <div class="invalid-feedback">請點選性別</div>
+                        </div>
+                    </div>
+                    <!-- 國家 -->
+                    <div class="row mb-3">
+                        <label for="" class="col-sm-3 mb-4 col-form-label">國家</label>
+                        <div class="col-sm-8 d-flex flex-wrap">
+                            <select class="form-select" id="" required v-model="userdetails.country">
+                                <option v-for="(country, index) in countries" :key="index" value="country.countryid">{{
+                                    country.countryid }}</option>
+                                <!-- <option v-for="i in countries.length" :key="i">{{ countries[i - 1].countryid }}</option> -->
+                            </select>
+                            <div class="invalid-feedback">
+                                請選取所在國家
+                            </div>
                         </div>
                     </div>
                     <!-- 出生日期 -->
                     <div class="row mb-3">
                         <label for="colFormLabel" class="col-sm-3 mb-4 col-form-label">生日</label>
-                        <div class="col-sm-3 d-flex flex-wrap">
-                            <select class="form-select" id="" required>
-                                <option value="">日</option>
-                                <option v-for="i in 31" :key="i">{{ i }}日</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                請選取日期
-                            </div>
-                        </div>
-                        <div class="col-sm-3 d-flex flex-wrap">
-                            <select class="form-select" id="" required>
-                                <option value="">月</option>
-                                <option v-for="i in 12" :key="i">{{ i }}月</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                請選取月份
-                            </div>
-                        </div>
-                        <div class="col-sm-3 d-flex flex-wrap">
-                            <select class="form-select" id="" required>
-                                <option value="">年</option>
+                        <div class="col-sm-8 d-flex flex-wrap">
+                            <select class="form-select" id="" required v-model="birth.year">
+                                <option value="" selected disabled hidden>年</option>
                                 <option v-for="i in 300" :key="i">{{ i + 1911 }}年</option>
                             </select>
                             <div class="invalid-feedback">
@@ -137,10 +140,30 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-4 d-flex flex-wrap">
+                            <select class="form-select" id="" required v-model="birth.month">
+                                <option value="" selected disabled hidden>月</option>
+                                <option v-for="i in 12" :key="i">{{ i < 10 ? '0' + i : i }}月</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                請選取月份
+                            </div>
+                        </div>
+                        <div class="col-sm-4 d-flex flex-wrap">
+                            <select class="form-select" id="" required v-model="birth.day">
+                                <option value="" selected disabled hidden>日</option>
+                                <option v-for="i in 31" :key="i">{{ i < 10 ? '0' + i : i }}日</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                請選取日期
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- 按鈕 -->
                 <button class="btn btn-lg btn-danger btn-block " type="submit" @click="submitChanges">儲存</button>
-
             </div>
         </form>
 
@@ -151,50 +174,69 @@
     
 <script setup>
 import { onMounted, ref, reactive } from 'vue'
+import axios from 'axios';
+//============從父層傳值============
+//============查詢會員資料============
+const props = defineProps({
+    userdetails: Object,
+})
+
+
+
 //變更開關
 const isShowToChange = ref(true);
 const isShowToSubmit = ref(false);
 const enterimput = () => {
     isShowToChange.value = !isShowToChange.value;
     isShowToSubmit.value = !isShowToSubmit.value;
+    findcountry();
 }
+const countries = reactive([])
+const findcountry = async () => {
+    const API_URL = `${import.meta.env.VITE_APP_API_URL}/api/country/getCountries`
+    const response = await axios.get(API_URL);
+    countries.push(...response.data)
 
-const submitChanges = () => {
-    //enterimput();
 }
-//送出變更
-// const submitChanges = () => {
-//     // Fetch all the forms we want to apply custom Bootstrap validation styles to
-//     var forms = document.querySelectorAll('.novalidate')
+const birth = reactive({
+    year: '',
+    month: '',
+    day: '',
+})
 
-//     // Loop over them and prevent submission
-//     Array.prototype.slice.call(forms).forEach(function (form) {
-//         form.addEventListener('submit', function (event) {
-//             if (!form.checkValidity()) {
-//                 event.preventDefault()
-//                 event.stopPropagation()
-//             }
+// if (formatDate(userdetails.birth) !== "尚未設定生日") { birth.year = formatDate(userdetails.birth).split("/")[0]; birth.month = formatDate(userdetails.birth).split("/")[1]; birth.day = formatDate(userdetails.birth).split("/")[2]; }
 
-//             form.classList.add('was-validated')
-//         }, false)
-//     })()
+const submitChanges = (event) => {
+    // 阻止表单的默认提交行为
+    event.preventDefault();
 
-// }
+    console.log(props.userdetails.birth)
+    console.log(birth.year, birth.month, birth.day)
+    const data = {
+        // name: props.userdetails.name,
+        // email: userdetails.email,
+        // phone: userdetails.phone,
+        // gender: userdetails.gender,
+        // country: userdetails.country,
+        // birth: birth.year + '-' + birth.month + '-' + birth.day,
 
-//使用bootstrap驗證
-const formRef = ref(null);
-
-const submitForm = () => {
-    const form = formRef.value;
-    if (form.checkValidity()) {
-        // Handle form submission logic here
-        console.log('Form submitted successfully');
-    } else {
-        // Prevent form submission and apply validation styles
-        form.classList.add('was-validated');
-        console.log('Form validation failed');
+        //enterimput();
     }
-};
+}
+//使用bootstrap驗證
+// const formRef = ref(null);
+
+// const submitForm = () => {
+//     const form = formRef.value;
+//     if (form.checkValidity()) {
+//         // Handle form submission logic here
+//         console.log('Form submitted successfully');
+//     } else {
+//         // Prevent form submission and apply validation styles
+//         form.classList.add('was-validated');
+//         console.log('Form validation failed');
+//     }
+// };
 
 const bookStrapValidation = () => {
     let forms = document.querySelectorAll('.needs-validation');
@@ -229,11 +271,7 @@ function imageLoaded(e) {
     image.value = e.target.result;
 }
 
-//============從父層傳值============
-//============查詢會員資料============
-const props = defineProps({
-    userdetails: Object,
-})
+
 
 // 格式化日期為"YYYY/MM/DD"
 const formatDate = (dateString) => {
@@ -261,7 +299,8 @@ const formatDate = (dateString) => {
 
 // }
 onMounted(async () => {
-    // await loaduserDetail();
+    // await Object.assign(data, props.userdetails);
+    // console.log(data);
     bookStrapValidation();
 });
 </script>
