@@ -11,7 +11,7 @@
                             <span class="badge bg-danger">正在徵求幫助者的項目！</span>
                         </div>
                     </div>
-                    <div class="col-xxl-6 col-lg-12 mx-auto d-inline-flex animate__animated animate__slideInDown"
+                    <div class="col-xxl-6 col-lg-12 d-inline-flex animate__animated animate__slideInDown"
                         data-wow-delay="0.1s">
                         <select class="form-select w-50 me-3" v-model="filters.city[0]" @change="reloadWork()">
                             <option value="">所有縣市</option>
@@ -33,39 +33,35 @@
             </div>
             <div class="col-lg-7">
                 <div class="row">
-                    <div class="col-xxl-7 col-lg-12 mx-auto animate__animated animate__slideInDown" data-wow-delay="0.1s">
-                        <ul class="nav nav-pills justify-content-end">
-                            <li class="nav-item m-1" v-for="worktypeID in worktypeIDs" :key="worktypeID.worktypeID">
-                                <a class="btn btn-outline-info"
-                                    :class="{ 'active': filters.worktype.includes(worktypeID.worktypeID) }"
+                    <div class="col-xxl-7 col-lg-12 my-1 text-end animate__animated animate__slideInDown" data-wow-delay="0.1s">
+                        <div class="btn-group" role="group">
+                            <template v-for="(worktypeID, index) in worktypeIDs" :key="worktypeID.worktypeID">
+                                <input type="checkbox" class="btn-check" :id="index"
                                     @click="toggleWorkType(worktypeID.worktypeID)">
-                                    {{ worktypeID.worktypeID }}
-                                    <!-- <img :src="`/src/assets/images/icon-${worktypeID.worktypeID}.png`" width="25px"> -->
-                                </a>
-                            </li>
-                        </ul>
+                                <label class="btn btn-outline-info" :for="index">{{ worktypeID.worktypeID }}</label>
+                                <!-- <img :src="`/src/assets/images/icon-${worktypeID.worktypeID}.png`" width="25px" height="25px"> -->
+                            </template>
+                        </div>
                     </div>
-                    <div class="col-xxl-5 col-lg-12 text-end wow animate__animated animate__slideInRight"
+                    <div class="col-xxl-5 col-lg-12 my-1 text-end animate__animated animate__slideInRight"
                         data-wow-delay="0.1s">
-                        <ul class="nav nav-pills justify-content-end">
-                            <li class="nav-item m-1">
-                                <a class="btn btn-outline-warning active" data-bs-toggle="pill"
-                                    @click="toggleSorts('views', 'DESC')">熱門項目</a>
-                            </li>
-                            <li class="nav-item m-1">
-                                <a class="btn btn-outline-warning" data-bs-toggle="pill"
-                                    @click="toggleSorts('createdAt', 'DESC')">最新上架</a>
-                            </li>
-                            <li class="nav-item m-1">
-                                <a class="btn btn-outline-warning" data-bs-toggle="pill"
-                                    @click="toggleSorts('endDate', 'ASC')">即將截止</a>
-                            </li>
-                            <li class="nav-item m-1">
-                                <a class="btn btn-outline-warning" data-bs-toggle="pill"
+                        <div class="btn-group" role="group">
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" checked
+                                @click="toggleSorts('views', 'DESC')">
+                            <label class="btn btn-outline-warning" for="btnradio1">熱門項目</label>
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2"
+                                @click="toggleSorts('createdAt', 'DESC')">
+                            <label class="btn btn-outline-warning" for="btnradio2">最新上架</label>
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3"
+                                @click="toggleSorts('endDate', 'ASC')">
+                            <label class="btn btn-outline-warning" for="btnradio3">即將截止</label>
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio4"
+                                @click="toggleSortByAttendance">
+                            <label class="btn btn-outline-warning" name="btnradio" for="btnradio4"><a
                                     @click="toggleSortByAttendance">參與人數
-                                    <i class="fa fa-arrow-down text-primary" :class="{ 'rotate': isArrowUp }"></i></a>
-                            </li>
-                        </ul>
+                                    <i class="fa fa-arrow-down text-primary"
+                                        :class="{ 'rotate': isArrowUp }"></i></a></label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,8 +80,9 @@
             <span class="col-3">共有 {{ total }} 筆相符的結果</span>
             <div class="col-3 d-flex justify-content-center">
                 <span class="mx-2">翻牌動畫開關</span>
-                <Toggle id="toggleAnimation" :isChecked=true bgColor="black" ballColor="white" iconClass1="fa-solid fa-circle-check"
-                    iconClass2="fa-solid fa-circle-xmark" color1="green" color2="red" v-model="isAnimationEnabled"/>
+                <Toggle id="toggleAnimation" :isChecked=true bgColor="black" ballColor="white"
+                    iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green" color2="red"
+                    v-model="isAnimationEnabled" />
             </div>
             <div class="col-3">
                 <span class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</span>
@@ -289,13 +286,20 @@ const checkSticky = () => {
     background-color: var(--light);
 }
 
-.nav-pills .nav-item .btn {
+
+.btn-group .btn {
     color: var(--dark);
 }
-
-.nav-pills .nav-item .btn:hover,
-.nav-pills .nav-item .btn.active {
+.btn-group .btn-outline-info:hover,
+.btn-group .btn-outline-info.active {
     color: #FFFFFF;
+    background-color: var(--info);
+}
+
+.btn-group .btn-outline-warning:hover,
+.btn-group .btn-outline-warning.active {
+    color: #FFFFFF;
+    background-color: var(--warning);
 }
 
 .fa-arrow-down {

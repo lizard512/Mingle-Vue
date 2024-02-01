@@ -3,7 +3,7 @@
   <div class="container-fluid header p-0">
     <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
       <div class="col-md-6 p-5 mt-lg-5 text-center">
-        <h1 class="display-5 animated fadeIn mb-4 text-dark-var">一點 <span class="text-info ">幫助</span>
+        <h1 class="display-5 animated fadeIn mb-4 text-black-var">一點 <span class="text-info ">幫助</span>
           ，一晚<span class="text-info "> 住宿。</span>
         </h1>
         <p class="animated fadeIn mb-4 pb-2 text-dark-var">全台 26 縣市提供打工換宿</p>
@@ -21,17 +21,17 @@
   </div>
   <!-- Header End -->
   <!--Work Card Start-->
-  <div class="container-fluid p-0">
+  <div class="container-fluid p-5">
     <div class="row">
-      <div class="col-4 justify-items-center text-center h-100">
+      <div class="col-4 text-center h-100">
         <h2 class="mx-3">最多人看</h2>
         <WorkDeck />
       </div>
-      <div class="col-4 justify-items-center text-center h-100">
+      <div class="col-4 text-center h-100">
         <h2 class="mx-3">最新上架</h2>
         <WorkDeck property="createdAt" />
       </div>
-      <div class="col-4 justify-items-center text-center h-100">
+      <div class="col-4 text-center h-100">
         <h2 class="mx-3">即將截止</h2>
         <WorkDeck property="endDate" direction="ASC" />
       </div>
@@ -70,8 +70,8 @@ import WorkDeck from '@components/WorkDeck.vue';
 
 <!-- Customized CSS -->
 <style scoped>
-.text-dark-var {
-  color: var(--dark);
+.text-black-var {
+  color: var(--black);
 }
 
 .swiper {

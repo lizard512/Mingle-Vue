@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="col-4">
-                <div v-if="work.photosBase64 && work.photosBase64.length" class="img-fluid" style="max-heightht: 400px;">
+                <div v-if="work.photosBase64 && work.photosBase64.length" style="max-heightht: 400px;">
                     <swiper :style="{
                         '--swiper-navigation-color': '#fff',
                         '--swiper-pagination-color': '#fff',

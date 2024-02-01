@@ -135,7 +135,8 @@ const keepWork = () => {
 
 <style scoped>
 .list-item {
-    box-shadow: 0 0 25px rgba(0, 0, 0, .15);
+    box-shadow: 0 0 25px rgba(0, 0, 0, .5);
+    background-color: var(--white);
 }
 
 .list-item img {
