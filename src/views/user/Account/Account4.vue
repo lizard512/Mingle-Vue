@@ -103,7 +103,7 @@ const submitChanges = () => {
 const updateDetail = async () => {
 
     const data = {
-        userid: props.userdetails.userid,
+        userid: localStorage.getItem('userID'),
         introduction: props.userdetails.introduction,
         background: props.userdetails.background,
         language: props.userdetails.language,
