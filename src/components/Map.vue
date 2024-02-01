@@ -17,7 +17,7 @@
             <button class="modal-close-btn" @click="closeModal">&times;</button>
             <p>打工地點: {{ modalContent.address }}</p>
             <!-- Link to Google homepage -->
-            <a href="https://www.google.com" target="_blank">Go to Google</a>
+            <a href="https://www.google.com" target="_blank">前往打工詳細頁面</a>
           </div>
         </div>
       </div>
