@@ -58,7 +58,7 @@
                             </li>
                             <li class="nav-item m-1">
                                 <a class="btn btn-outline-warning" data-bs-toggle="pill"
-                                    @click="toggleSorts('EndDate', 'ASC')">即將截止</a>
+                                    @click="toggleSorts('endDate', 'ASC')">即將截止</a>
                             </li>
                             <li class="nav-item m-1">
                                 <a class="btn btn-outline-warning" data-bs-toggle="pill"
@@ -71,16 +71,15 @@
             </div>
         </div>
         <!--Search Header End-->
-        <!--Work Card Start-->
-        <WorkCard :works="works" :isAnimationEnabled="isAnimationEnabled" />
-        <!--Work Card End-->
+        <!--Work Cards Start-->
+        <WorkDealer :works="works" :isAnimationEnabled="isAnimationEnabled" />
+        <!--Work Cards End-->
         <div class="the-end text-center m-5" v-if="isEnd">已經到底啦~~</div>
 
         <!-- Sticky Footer Start-->
         <footer
             class="sticky-footer mt-auto py-3 bg-light-var animate__animated animate__slideInUp row d-flex align-items-center justify-content-center"
             data-wow-delay="0.1s">
-
             <span class="col-3">請向下滾動以瀏覽更多項目</span>
             <span class="col-3">共有 {{ total }} 筆相符的結果</span>
             <div class="col-3 d-flex justify-content-center">
@@ -106,7 +105,7 @@ import axios from 'axios';
 
 
 //// 引用元件
-import WorkCard from '@components/WorkCard.vue';
+import WorkDealer from '@components/WorkDealer.vue';
 import Toggle from '@components/Toggle.vue';
 // import { useWorkStore } from '@store/workStore';
 
@@ -146,7 +145,6 @@ const isAnimationEnabled = ref(true);
 
 
 //// 生命週期
-
 onMounted(async () => {
     await loadWorktype();
     await loadCity();
@@ -290,7 +288,6 @@ const checkSticky = () => {
 .bg-light-var {
     background-color: var(--light);
 }
-
 
 .nav-pills .nav-item .btn {
     color: var(--dark);

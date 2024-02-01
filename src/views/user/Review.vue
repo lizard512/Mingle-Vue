@@ -1,11 +1,11 @@
 <template>
     <div class="row">
 
-        <div class="col-md-8 px-md-4 mx-auto">
+        <div class="col-md-8 px-md-4 mx-auto animate__animated animate__fadeInUp">
 
             <!-- 評價 start-->
-            <div class="card  col-md-10 mx-auto d-flex flex-md-nowrap my-5" v-for="item in review" :key="item">
-                <div class="row" >
+            <div class="card  col-md-10 mx-auto d-flex flex-md-nowrap my-5" v-for="(item, index) in review" :key="index">
+                <div class="row">
                     <div class="col-2 text-center">
                         <br>
                         <a href="#">
@@ -15,26 +15,26 @@
                     <div class="col-3 text-md-start">
                         <br>
                         <p class="card-text h6">姓名:</p>
-                        <p class="card-text"><small>{{ orderDetail.name }}</small></p>
+                        <p class="card-text"><small>{{ orderDetail[index]?.username }}</small></p>
                         <p class="card-text h6">工作:</p>
-                        <p class="card-text"><small>{{ orderDetail.workName }}</small></p>
+                        <p class="card-text"><small>{{ orderDetail[index]?.workName }}</small></p>
                         <p class="card-text h6 ">訂單報名人數:</p>
                         <p class="card-text">
-                            <small>{{ orderDetail.numbers }}人</small>
+                            <small>{{ orderDetail[index]?.numbers }}人</small>
 
                         </p>
 
                         <p class="card-text h6 ">打工區間:</p>
                         <p class="card-text">
-                            <small>{{ orderDetail.startDate }}到{{ orderDetail.endDate }}</small>
-                            <small><br>總共{{ orderDetail.days }}天</small>
+                            <small>{{ orderDetail[index]?.startDate }}到{{ orderDetail[index]?.endDate }}</small>
+                            <small><br>總共{{ orderDetail[index]?.days }}天</small>
                         </p>
 
 
                         <p class="card-text h6">房源資訊:</p>
                         <p class="card-text">
-                            <small v-for="houseType in orderDetail.houseType" :key="houseType">{{ houseType }}-<small
-                                    v-for="houseName in orderDetail.houseName" :key="houseName">{{ houseName
+                            <small v-for="houseType in orderDetail[index]?.houseType" :key="houseType">{{ houseType }}-<small
+                                    v-for="houseName in orderDetail[index]?.houseName" :key="houseName">{{ houseName
                                     }}</small></small>
                         </p>
                         <br>
@@ -46,7 +46,7 @@
                                         class="fa-regular fa-star"></i></span></div>
 
                             <p class="card-text text-md-start">
-                            <p>評價內容:</p>
+                            <p><br>評價內容:</p>
                             <p class="card-text text-md-start">{{ item.content }}</p>
                             </p>
                             <p class="card-text  text-align-right">
@@ -77,36 +77,27 @@
     
 <script setup>
 
-import { onMounted, ref } from 'vue'
+import {  onMounted, reactive, ref } from 'vue'
 import axios from 'axios';
 
 const userID = ref('');
-const landlord = ref({});
+const landlordID = ref('');
 const review = ref([]);
-const orderDetail = ref({});
+const orderDetail = ref([]);
 
 
 //===========取得使用者ID============
 const getUserID = () => {
     const sessionToken = localStorage.getItem('sessionToken');
     userID.value = String(sessionToken).substring(32, sessionToken.length);
-    console.log(userID.value)
 }
 
-// ==========取得房東資訊request============
-const getLandlord = async () => {
+// ==========取得房東id============
+const getLandlord = () => {
+    landlordID.value = localStorage.getItem('lordID');
 
-    const Review_API_URL = `${import.meta.env.VITE_APP_API_URL}/review/findLandlord`
-    const response = await axios.get(
-        Review_API_URL, {
-        params:
-            { userid: userID.value }
-    });
-    console.log(response.data)
-    Object.assign(landlord.value, response.data);
-    console.log(landlord.value)
+
 }
-
 // =========取得房東的評價資訊request============
 
 
@@ -115,18 +106,16 @@ const getReview = async () => {
     const response = await axios.get(
         Review_API_URL, {
         params:
-            { landlordId: landlord.value.landlordid }
+            { landlordId: landlordID.value }
     });
-    console.log(response.data)
     Object.assign(review.value, response.data);
-    console.log(review.value)
+
+    return review.value
 
 }
 
 // =========取得完整訂單資訊(包含會員資訊、房屋、工作)request============
 const getOrderDetail = async (review_orderid) => {
-
-    console.log(review_orderid)
 
     const OrderDetail_API_URL = `${import.meta.env.VITE_APP_API_URL}/review/findOrderDetail`
     const response = await axios.get(
@@ -134,29 +123,27 @@ const getOrderDetail = async (review_orderid) => {
         params:
             { orderid: review_orderid }
     });
-    console.log(response)
-    Object.assign(orderDetail.value, response.data);
-    console.log(orderDetail.value)
+
+    orderDetail.value.push({
+        ...response.data
+    })
+
+    return orderDetail.value
+
 }
-
-const fetchOrderDetails = async () => {
-  const orderDetailSet = new Set();
-
-  for (const item of review.value) {
-     await getOrderDetail(item.orderid);
-  }
- 
-};
 
 
 
 onMounted(async () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     getUserID();
-    await getLandlord();
-    await getReview();
-    await fetchOrderDetails();
-
+    getLandlord();
+     await getReview();
+     for (const item of review.value) {
+        await getOrderDetail(item.orderid);
+    }
 });
+
 
 
 

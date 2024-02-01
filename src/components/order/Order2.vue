@@ -1,7 +1,7 @@
 <template>
     <!-- form start -->
 
-    <div class="container">
+    <div class="container " >
         <main>
 
 
@@ -544,6 +544,7 @@ const showRoom = function (key) {
 
 
 onMounted(() => {
+    window.scrollTo({top: 0, behavior :'smooth'});
     loaddata();
     showDetails();
 });
@@ -614,6 +615,8 @@ const goToOrder1 = function () {
         '/order/order1'
     )
 }
+
+
 
 
 

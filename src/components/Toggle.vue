@@ -13,16 +13,42 @@
 import { defineEmits } from 'vue';
 
 const props = defineProps({
-    id: String,
-    isChecked: Boolean,
-    bgColor: String,
-    ballColor: String,
-    iconClass1: String,
-    iconClass2: String,
-    color1: String,
-    color2: String,
-    value: Boolean,
-    modelValue: Boolean,
+    id: {
+        type: String,
+        default: 'defaultToggle'
+    },
+    isChecked: {
+        type: Boolean,
+        default: false
+    },
+    bgColor: {
+        type: String,
+        default: 'black'
+    },
+    ballColor: {
+        type: String,
+        default: 'white'
+    },
+    iconClass1: {
+        type: String,
+        default: 'fas fa-moon'
+    },
+    iconClass2: {
+        type: String,
+        default: 'fas fa-sun'
+    },
+    color1: {
+        type: String,
+        default: 'yellow'
+    },
+    color2: {
+        type: String,
+        default: 'orangered'
+    },
+    modelValue: {
+        type: Boolean,
+        default: false
+    },
 });
 
 const emit = defineEmits(['update:modelValue']);
