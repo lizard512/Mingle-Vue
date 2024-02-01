@@ -317,14 +317,20 @@ onMounted(async () => {
   await initAssign();
 })
 
+
 async function initAssign() {
-  const sessionToken = VueCookies.get('sessionToken');
-  lordID = await (await fetch(`${import.meta.env.VITE_APP_API_URL}/landlord/userIDtoLordID/`
-      + String(sessionToken).substring(32, sessionToken.length), {
-        method: "GET"
-      }
-  )).json();
-  console.log(lordID)
+  // const sessionToken = VueCookies.get('sessionToken');
+  // lordID = await (await fetch(`${import.meta.env.VITE_APP_API_URL}/landlord/userIDtoLordID/`
+  //     + String(sessionToken).substring(32, sessionToken.length), {
+  //       method: "GET"
+  //     }
+  // )).json();
+  // console.log(lordID)
+  fetch(`${import.meta.env.VITE_APP_API_URL}/api/upload/photoDeleteOnLoadController`, {
+    method: "POST",
+    headers: getToken()
+  })
+
 }
 
 const handleChange: UploadProps['onChange'] = (file, fl) => {
@@ -356,9 +362,11 @@ const handleChange: UploadProps['onChange'] = (file, fl) => {
 
 
 const handleRemove: UploadProps['onRemove'] = (uploadFile, fl) => {
+  console.log(uploadFile)
   fetch(`${import.meta.env.VITE_APP_API_URL}/api/upload/photoDeleteController`, {
     method: "POST",
-    body: uploadFile.url
+    body: uploadFile.response,
+    headers: getToken()
   })
   // console.log(uploadFile, fl)
 }
@@ -473,7 +481,7 @@ const submit = async () => {
   Data.value.description = Data.value.description;
   Data.value.experienceRestriction = Data.value.experienceRestriction;
   Data.value.licenseRestriction = Data.value.licenseRestriction;
-  Data.value.fkLandlordID = lordID;
+  Data.value.fkLandlordID = localStorage.getItem('lordID');
   Data.value.maxAttendance = Data.value.maxAttendance;
   Data.value.sessionToken = getToken().sessionToken;
   Data.value.images = fl.value.map((file) => file.url);
@@ -512,6 +520,7 @@ const submit = async () => {
 }
 
 async function submitData() {
+
   Swal.fire({
     title: '請稍候...',
     allowEscapeKey: false,
@@ -581,10 +590,12 @@ function fullData() {
   Data.value.description = '一直打code';
   Data.value.experienceRestriction = '10年以上';
   Data.value.licenseRestriction = '無';
-  Data.value.fkLandlordID = lordID;
-  Data.value.maxAttendance = 6;
+  Data.value.fkLandlordID = localStorage.getItem('lordID');
+  Data.value.maxAttendance = '6';
   Data.value.sessionToken = getToken().sessionToken;
-  submitData();
+  currentPage.value = 4;
+  barValue = 100;
+  // submitData();
 }
 
 </script>
