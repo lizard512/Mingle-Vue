@@ -14,7 +14,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto d-flex align-items-center">
                     <RouterLink class="nav-item nav-link" to="/">首頁</RouterLink>
-                    <RouterLink class="nav-item nav-link"  to="#">關於Mingle</RouterLink>
+                    <RouterLink class="nav-item nav-link" to="#">關於Mingle</RouterLink>
                     <div class="nav-item dropdown">
                         <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">打工換宿資訊</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
@@ -42,26 +42,23 @@
                                 <RouterLink class="dropdown-item" to="#">訂單管理</RouterLink>
                                 <RouterLink class="dropdown-item" to="/analyze">後臺數據</RouterLink>
                                 <RouterLink class="dropdown-item" to="/review">房東評價</RouterLink>
-                                <RouterLink class="dropdown-item" to="#" @click="userStore.quitFromLandlord">我不當房東了！
+                                <RouterLink class="dropdown-item" to="#" @click="userStore.removePermission('lord')">我不當房東了！
                                 </RouterLink>
                             </div>
                         </div>
-                        <RouterLink v-else class="btn btn-secondary px-3" to="#" @click="userStore.becomeLandlord">
+                        <RouterLink v-else class="btn btn-secondary px-3" to="#" @click="userStore.addPermission('lord')">
                             成為提供者
                         </RouterLink>
                         <div class="nav-item dropdown">
-                            <RouterLink class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
-                                to="#">會員中心</RouterLink>
+                            <RouterLink class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown" to="#">會員中心
+                            </RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <RouterLink class="dropdown-item" :to="`/user-profile/${userProfileID}`">個人頁面</RouterLink>
+                                <RouterLink class="dropdown-item" :to="getUserProfileLink()">個人頁面</RouterLink>
                                 <RouterLink class="dropdown-item" to="/account">會員資料</RouterLink>
                                 <RouterLink class="dropdown-item" to="/order">打工訂單</RouterLink>
                                 <RouterLink class="dropdown-item" to="/chatroom">聊天室</RouterLink>
                                 <RouterLink to="#" class="dropdown-item" @click="resetStore()">登出</RouterLink>
-                                <RouterLink v-if="isAdmin" class="dropdown-item" to="#" @click="userStore.quitFromAdmin">
-                                    不當管理者了</RouterLink>
-                                <RouterLink v-else class="dropdown-item" to="#" @click="userStore.becomeAdmin">成為管理者
-                                </RouterLink>
+                                <RouterLink v-if="isAdmin" class="dropdown-item" to="/admin-center">管理者平台</RouterLink>
                             </div>
                         </div>
 
@@ -71,14 +68,8 @@
                         <p class="m-3">已有帳戶? </p>
                         <RouterLink class="btn btn-dark px-3 me-3" to="/login">登入</RouterLink>
                     </template>
-                    <div class="">
-                        <input type="checkbox" class="checkbox" id="checkbox" @click="toggleDarkMode">
-                        <label for="checkbox" class="checkbox-label">
-                            <i class="fas fa-moon"></i>
-                            <i class="fas fa-sun"></i>
-                            <span class="ball"></span>
-                        </label>
-                    </div>
+                    <Toggle id="toggleDarkMode" :isChecked=false bgColor="black" ballColor="white"
+                    iconClass1="fas fa-moon" iconClass2="fas fa-sun" color1="yellow" color2="orangered" v-model="darkMode"/>
                 </div>
             </div>
         </nav>
@@ -87,35 +78,41 @@
 </template>
     
 <script setup>
+
+//// 引用函式庫
 import { ref, onMounted, onBeforeUnmount, watchEffect } from 'vue';
 import router from '@router/router'
 import { useUserStore } from '@store/userStore-localStorage.js';
 import { computed } from 'vue';
 
-const userStore = useUserStore();
-const userProfileID = ref('');
 
-onMounted(async () => {
-    getUserID();
+//// 引用元件
+import Toggle from '@components/Toggle.vue';
+
+
+//// 生命週期
+onMounted(() => {
+    window.addEventListener('scroll', checkSticky);
 });
 
-const getUserID = () => {
-        const sessionToken = localStorage.getItem('sessionToken');
-        userProfileID.value = String(sessionToken).substring(32, sessionToken.length);
-}
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', checkSticky);
+});
 
+
+//// 定義變數
+// user登入狀態處理
+let sessionToken = ref(localStorage.getItem('sessionToken'));
+const userStore = useUserStore();
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 const isLandlord = computed(() => userStore.permissions.includes('lord'));
 const isAdmin = computed(() => userStore.permissions.includes('admin'));
-// 清除使用者localStorage中的userStore
-function resetStore() {
-    userStore.$reset()
-    localStorage.removeItem('user')
-    localStorage.removeItem('sessionToken');
-}
+// 其他 
+const darkMode = ref(false); // 暗黑模式
+const isSticky = ref(false); // Sticky Navbar
 
 
-const darkMode = ref(false);
+//// 監聽變數
 watchEffect(() => {
     const htmlTag = document.documentElement;
     if (darkMode.value) {
@@ -130,13 +127,27 @@ watchEffect(() => {
         htmlTag.style.setProperty('--dark', '#0E2E50');
     }
 });
-const toggleDarkMode = () => {
-    darkMode.value = !darkMode.value;
+
+
+//// 定義方法
+
+// 清除使用者localStorage資料
+function resetStore() {
+    userStore.$reset()
+    localStorage.removeItem('user')
+    localStorage.removeItem('sessionToken');
+    localStorage.removeItem('userID');
+    localStorage.removeItem('lordID');
+}
+
+function updateSessionToken() {
+    sessionToken.value = localStorage.getItem('sessionToken');
+}
+
+const getUserProfileLink = () => {
+    const userID = localStorage.getItem('userID');
+    return `/user-profile/${userID}`;
 };
-
-
-// // Sticky Navbar
-const isSticky = ref(false);
 
 const checkSticky = () => {
     // 如果當前的路由是 WorkSearch，則不懸浮 NAVBAR
@@ -147,13 +158,7 @@ const checkSticky = () => {
     }
 };
 
-onMounted(() => {
-    window.addEventListener('scroll', checkSticky);
-});
 
-onBeforeUnmount(() => {
-    window.removeEventListener('scroll', checkSticky);
-});
 </script>
 
 <style scoped>
@@ -238,46 +243,5 @@ onBeforeUnmount(() => {
         transition: .5s;
         opacity: 1;
     }
-}
-
-.checkbox {
-    opacity: 0;
-    position: absolute;
-}
-
-.checkbox-label {
-    background-color: #111;
-    width: 50px;
-    height: 26px;
-    border-radius: 50px;
-    position: relative;
-    padding: 5px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.fa-moon {
-    color: #f1c40f;
-}
-
-.fa-sun {
-    color: #f39c12;
-}
-
-.checkbox-label .ball {
-    background-color: #fff;
-    width: 22px;
-    height: 22px;
-    position: absolute;
-    left: 2px;
-    top: 2px;
-    border-radius: 50%;
-    transition: transform 0.2s linear;
-}
-
-.checkbox:checked+.checkbox-label .ball {
-    transform: translateX(24px);
 }
 </style>

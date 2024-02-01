@@ -42,8 +42,15 @@
                 </div>
                 <br>
 
-                <div class="login-btn">
-                    <button class="btn btn-info" @click="fillForm">使用者1</button>
+                <div class="autoLogin-btn text-center">
+                    <button class="btn btn-danger" @click="autoLogin1">Alice</button>
+                    <button class="btn btn-warning" @click="autoLogin2">Bob</button>
+                    <button class="btn btn-primary" @click="autoLogin3">Charlie</button>
+                    <button class="btn btn-success" @click="autoLogin4">Diana</button>
+                    <button class="btn btn-dark" @click="autoLogin5">Eva</button>
+                </div>
+                <div class="text-center mt-2">
+                    <button class="btn btn-light" @click="autoLoginAdmin">Admin</button>
                 </div>
 
                 <!-- <div class="login-btn">
@@ -67,7 +74,7 @@ const userStore = useUserStore();
 const router = useRouter();
 
 function gotGoogleLoginPage() {
-    window.location.href = "http://localhost:8080/google-login";
+    window.location.href = `${import.meta.env.VITE_APP_API_URL}/google-login`;
 }
 
 let userid = ref('');
@@ -100,22 +107,30 @@ const login = function () {
         userid: userid.value,
         password: password.value,
     }
-    axios.post("http://localhost:8080/login.controller", request)
+    axios.post(`${import.meta.env.VITE_APP_API_URL}/login.controller`, request)
         .then(function (response) {
             if (response.data.success) {
                 console.log(response.data.message);
                 Swal.fire({
                     icon: "success",
                     text: "登入成功",
-                    confirmButtonText: "確認"
-                }).then(function (result) {
-                    if (result.isConfirmed) {
-                        document.cookie = `sessionToken=${response.data.sessionToken}; path=/`;
-                        localStorage.setItem('sessionToken', response.data.sessionToken)
-                        userStore.login();
-                        router.push({ name: 'Home' });
-                    }
-                });
+                    confirmButtonText: "確認",
+                })
+                document.cookie = `sessionToken=${response.data.sessionToken}; path=/`;
+                localStorage.setItem('sessionToken', response.data.sessionToken)
+                if (response.data.userID) {
+                    localStorage.setItem('userID', response.data.userID);
+                }
+                if (response.data.lordID) {
+                    localStorage.setItem('lordID', response.data.lordID);
+                    userStore.addPermission('lord') // reflect landlord permission on navbar
+                }
+                if (response.data.adminPermission) {
+                    userStore.addPermission('admin') // reflect admin permission on navbar
+                }
+                userStore.login(); // reflect user permission on navbar
+                router.push({ name: 'Home' });
+
             } else {
                 console.log(response.data.message);
                 Swal.fire({
@@ -139,10 +154,30 @@ const login = function () {
         });
 };
 
-const fillForm = () => {
+const autoLogin1 = () => {
     userid.value = '1@gmail.com';
     password.value = '1';
 };
+const autoLogin2 = () => {
+    userid.value = '2@gmail.com';
+    password.value = '2';
+};
+const autoLogin3 = () => {
+    userid.value = '3@gmail.com';
+    password.value = '3';
+}
+const autoLogin4 = () => {
+    userid.value = '4@gmail.com';
+    password.value = '4';
+}
+const autoLogin5 = () => {
+    userid.value = '5@gmail.com';
+    password.value = '5';
+}
+const autoLoginAdmin = () => {
+    userid.value = 'test@gmail.com';
+    password.value = 'P@ssw0rd';
+}
 
 </script>
     
@@ -212,7 +247,7 @@ input {
     text-align: center;
 }
 
-.btn-warning {
+.login-btn .btn-warning {
     border-radius: 50px;
     color: white;
 }
@@ -229,5 +264,10 @@ input {
 
 .btn-outline-dark {
     border-radius: 50px;
+}
+
+.autoLogin-btn .btn {
+    margin: 10px;
+    color: white;
 }
 </style>

@@ -25,19 +25,6 @@ export const useUserStore = defineStore({
                 this.permissions.splice(index, 1);
             }
         },
-        becomeLandlord() {
-            this.addPermission('lord')
-        },
-        quitFromLandlord() {
-            this.removePermission('lord')
-        },
-        becomeAdmin() {
-            this.addPermission('admin')
-        },
-        quitFromAdmin() {
-            this.removePermission('admin')
-        },
-
     },
     persist: true,
 });

@@ -119,7 +119,7 @@
 
 <script setup>
 // 引用函式庫
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useRoute } from 'vue-router'
@@ -129,7 +129,7 @@ import { useStore } from '@store/chatStore.js'
 const route = useRoute()
 const userID = route.params.id
 const router = useRouter();
-let user = ref(null);
+const user = ref(null);
 const chatStore = useStore()
 
 

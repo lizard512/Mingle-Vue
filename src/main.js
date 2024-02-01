@@ -7,7 +7,7 @@ import { useUserStore } from '@store/userStore-session.js';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import axios from 'axios';
-import { toast } from 'vue3-toastify';
+import Vue3Toastify from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
 const pinia = createPinia()
@@ -31,9 +31,10 @@ export default httpClient;
 // 路由守衛閃亮登場
 router.beforeEach(async (to) => {
     const store = useUserStore();
+    const sessionToken = localStorage.getItem('sessionToken');
     // 針對需要登入才能檢視的頁面，檢查用戶登入狀態
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!store.isLoggedIn) {
+        if (!sessionToken) {
             // 如果用戶未登入，重新導向到登入頁面
             await Swal.fire({
                 icon: 'warning',

@@ -272,7 +272,7 @@
                                                 <small class="text-muted">house name</small>
                                             </div>
                                             <span class="text-muted margin-left btn btn-primary" @click="showRoom(key)"> {{
-                                                housedetails[key] ? housedetails[key].name + '(查看詳情)' : 'N/A' }}</span>
+                                                housedetails[key] ? housedetails[key].name : 'N/A' }}<br>(查看詳情)</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
@@ -330,8 +330,8 @@
 
                         <!-- button start -->
                         <hr class="my-4 col-md-12">
-                        <button class="w-50 btn change btn-primary btn-lg" type="submit" @click="goToOrder1()">重新選擇</button>
-                        <button class="w-50 btn btn-secondary btn-lg" type="submit" @click="goToOrder3()">確認報名</button>
+                        <button class="w-50 btn change btn-primary btn-lg" type="button" @click="goToOrder1()">重新選擇</button>
+                        <button class="w-50 btn btn-secondary btn-lg" type="button" @click="goToOrder3()">確認報名</button>
                         <!-- button end -->
 
 
@@ -382,12 +382,26 @@ const orderdata = ref({
     "invoiceNumber": ""
 })
 
-const orderAndWorkHouse= ref({
+const orderAndWorkHouse = ref({
 
-    orderid: 0,
-    workhouseid: 0
+    "orderid": 0,
+    "workhouseid": 0
 
 })
+
+
+const orderAccommodator = ref(
+
+    {
+        "orderid": 0,
+        "name": "",
+        "phone": "",
+        "email": ""
+    }
+
+)
+
+
 
 
 //============獲取order1資料============
@@ -405,22 +419,22 @@ const loaddata = () => {
     roomDetail.value = dataForOrder2.value.selectedRooms
 
     orderdata.value = {
-    "userid": dataForOrder2.value.userid,
-    "status": "待房東確認",
-    "notes": "",
-    "needs": dataForOrder2.value.needs,
-    "createdAt": new Date().toISOString(),
-    "updatedAt": new Date().toISOString(),
-    "numbers": dataForOrder2.value.selectedAccomodator,
-    "startDate": dataForOrder2.value.startDate,
-    "endDate": dataForOrder2.value.endDate,
-    "isCancelled": 0,
-    "isRefunded": 0,
-    "isUserAttend": 0,
-    "businessId": "",
-    "invoiceDate": new Date().toISOString(),
-    "invoiceNumber": ""
-}
+        "userid": dataForOrder2.value.userid,
+        "status": "待房東確認",
+        "notes": "",
+        "needs": dataForOrder2.value.needs,
+        "createdAt": new Date().toISOString(),
+        "updatedAt": new Date().toISOString(),
+        "numbers": dataForOrder2.value.selectedAccomodator,
+        "startDate": dataForOrder2.value.startDate,
+        "endDate": dataForOrder2.value.endDate,
+        "isCancelled": 0,
+        "isRefunded": 0,
+        "isUserAttend": 0,
+        "businessId": "",
+        "invoiceDate": new Date().toISOString(),
+        "invoiceNumber": ""
+    }
 
     console.log(orderdata.value)
 
@@ -456,6 +470,22 @@ const showDetails = async () => {
 }
 
 
+//============獲取房間工作關聯資料============
+
+
+const workHouseDetail = reactive({});
+
+const showWorkHouse = async (houseid) => {
+
+    const WorkHouse_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/workhouse/` + houseid
+    const response = await axios.get(WorkHouse_API_URL)
+    console.log(response.data)
+
+    workHouseDetail.value = response.data
+
+
+}
+
 
 //============alert視窗控制============
 
@@ -488,13 +518,19 @@ const showRoom = function (key) {
                 ${housedetails[key].hasLaundry == 1 ? '<span><i class="fa-solid fa-shirt text-muted">洗衣房&nbsp</i></span>' : ''}
                 ${housedetails[key].hasParkingLot == 1 ? '<span><i class="fa-solid fa-square-parking text-muted">停車位&nbsp</i></span>' : ''}
                 ${housedetails[key].hasPersonalSpace == 1 ? '<span><i class="fa-solid fa-person text-muted">個人空間&nbsp</i></span>' : ''}
-                ${housedetails[key].hasAirconditioner == 1 ? '<span><i class="fa-solid  fa-fan text-muted"> 空調&nbsp</i></span>' : '<span class= "text-muted">無&nbsp</span>'}
+                ${housedetails[key].hasAirconditioner == 1 ? '<span><i class="fa-solid  fa-fan text-muted"> 空調&nbsp</i></span>' : ''}
+                ${housedetails[key].hasWifi == 0 && housedetails[key].hasTV == 0 && housedetails[key].hasPool == 0
+                && housedetails[key].hasGym == 0 && housedetails[key].hasKitchen == 0 && housedetails[key].hasLaundry == 0
+                && housedetails[key].hasParkingLot == 0 && housedetails[key].hasPersonalSpace == 0 && housedetails[key].hasAirconditioner == 0 ?
+                '<span class= "text-muted">無&nbsp</span>' : ''}
+              
         </div>
         </td>
         </tr>
 
         </table>`,
-        imageUrl: "https://unsplash.it/400/200",
+        // imageUrl: "https://unsplash.it/400/200",
+        imageUrl: `data:image/${housedetails[key].housePhotos[0].contentType};base64,${housedetails[key].housePhotos[0].photo}`,
         imageWidth: 400,
         imageHeight: 200,
         imageAlt: "Custom image",
@@ -512,7 +548,6 @@ onMounted(() => {
     showDetails();
 });
 
-// 元件被激活時載入數據
 onActivated(() => {
     loaddata();
     showDetails();
@@ -520,14 +555,53 @@ onActivated(() => {
 
 
 
-
+/** 創建訂單 */
 
 const OrderCreate_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/create`;
 
+const goToOrder3 = async () => {
 
-const goToOrder3 = () => {
+    const orderResponse = await axios.post(OrderCreate_API_URL, orderdata.value);
 
-    const orderResponse =   axios.post(OrderCreate_API_URL, orderdata.value)
+    const houseValues = Object.values(housedetails);
+
+    for (const house of houseValues) {
+        console.log(house.houseid)
+        await showWorkHouse(house.houseid);
+        workHouseDetail.value.forEach(async (element) => {
+
+            const OrderWorkHouse_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/create/orderworkhouse`;
+            if (element.workid == dataForOrder2.value.workid) {
+                orderAndWorkHouse.value = {
+                    "orderid": orderResponse.data.orderid,
+                    "workhouseid": element.id
+                }
+                await axios.post(OrderWorkHouse_API_URL, orderAndWorkHouse.value)
+            }
+        })
+    };
+
+    const AccommodatorCreate_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/create/accommodator`;
+    dataForOrder2.value.accomodatorData.forEach(async (element) => {
+        orderAccommodator.value = {
+        "orderid": orderResponse.data.orderid,
+        "name": element.AccomodatorfullName,
+        "phone": element.Accomodatorphone,
+        "email": element.Accomodatoremail
+        }
+       await axios.post(AccommodatorCreate_API_URL, orderAccommodator.value) 
+    });
+
+    if(dataForOrder2.value.orderby == 'myself'){
+
+        orderAccommodator.value = {
+        "orderid": orderResponse.data.orderid,
+        "name": dataForOrder2.value.orderbyselfname,
+        "phone": dataForOrder2.value.orderbyselfphone,
+        "email": dataForOrder2.value.orderbyselfemail
+        }
+      await axios.post(AccommodatorCreate_API_URL, orderAccommodator.value)
+    }
 
     if (orderResponse) {
         router.push(
