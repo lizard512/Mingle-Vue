@@ -162,7 +162,6 @@
             <!-- main-form -->
             <form class="p-4 animate__animated animate__fadeIn needs-validation" novalidate v-show="isShowModify">
                 <!-- basic -->
-
                 <h4 class="text-center mb-4 animate__animated animate__flipInX">基本資訊</h4>
                 <div class="border border-danger border-3 rounded-3 m-3 p-3 animate__animated animate__fadeInUp">
                     <!--worktype & workname-->
@@ -170,8 +169,10 @@
                     <div class="row g-0 mx-3 my-5">
                         <div class="form-floating mx-3 col">
                             <select class="form-control" id="formWorktype" v-model="worktype" required>
-                                <option selected disabled value="">Choose...</option>
-                                <option v-for="item in worktypeList" :value="item">{{ item }}</option>
+                                <!-- <option selected disabled value="">Choose...</option> -->
+                                <option v-for="item in worktypeList" :value="item">{{
+                                    item }}
+                                </option>
                             </select>
                             <label for="formWorktype">工作類型(必填)</label>
                             <div class="invalid-feedback">
@@ -180,7 +181,7 @@
                         </div>
                         <div class="form-floating mx-3 col">
                             <input type="text" class="form-control" id="formWorkname" placeholder="工作名稱"
-                                v-model.trim="workname" required>
+                                v-model.trim="workname" required value="">
                             <label for="formWorkname">工作名稱(必填)</label>
                             <div class="invalid-feedback">
                                 工作名稱為必填欄位
@@ -192,7 +193,7 @@
                         <div class="form-floating mx-3 col-3">
                             <select class="form-control" id="formWorkcity" v-model="workcity" required>
                                 <option selected disabled value=""></option>
-                                <option v-for="item in city" :value="item">{{ item }}</option>
+                                <option v-for=" item  in  city " :value="item">{{ item }}</option>
                             </select>
                             <label for="formWorkcity">打工縣市(必填)</label>
                             <div class="invalid-feedback">
@@ -321,6 +322,35 @@
                         </div>
                     </div>
                 </div>
+                <!-- upload & bindHouse -->
+                <h4 class="text-center my-5 animate__animated animate__flipInX">上傳圖片與綁定房源</h4>
+                <div class="border border-danger border-3 rounded-3 m-3 p-3 animate__animated animate__fadeInUp">
+                    <h5 class="text-dark mx-4 mt-3">為您的工作上傳精彩照片，並設定此份工作綁定的房源</h5>
+                    <!-- upload -->
+                    <!-- :on-preview=""
+                    :on-remove="" -->
+                    <div class="row g-0 mx-3 my-5">
+                        <el-upload v-model:file-list="fileList" class="upload-demo" action="#" @change="addToTotal"
+                            list-type="picture" :auto-upload="false" multiple drag>
+                            <el-button type="primary">Click to upload</el-button>
+                            <template #tip>
+                                <div class="el-upload__tip">
+                                    jpg/png files with a size less than 500kb
+                                </div>
+                            </template>
+                        </el-upload>
+                    </div>
+                    <!-- preview -->
+                    <div class="row g-0 mx-3 my-5 d-flex justify-content-evenly">
+                        <template v-for="item in totalList">
+                            <img :src="item"
+                                class="border border-3 border-primary rounded previewPhoto animate__animated animate__fadeIn">
+                        </template>
+                    </div>
+
+                    <!-- bindHouse -->
+
+                </div>
                 <!-- notes & status -->
                 <h4 class="text-center my-5 animate__animated animate__flipInX">上架與備註</h4>
                 <div class="border border-danger border-3 rounded-3 m-3 p-3 animate__animated animate__fadeInUp">
@@ -362,16 +392,19 @@
 import { ref, onMounted } from 'vue';
 import Swal from 'sweetalert2'
 import { useUserStore } from '@store/userStore-localStorage.js';
+import axios from 'axios';
 const isShowList = ref(false);
 const isShowModify = ref(true);
 
 // lordID 初始化賦值
 const lordID = localStorage.getItem('lordID');
-// console.log(lordID);
+// 指定path
+let path = import.meta.env.VITE_APP_API_URL;
+
 
 // 表單資料
 const worktypeList = ["人力", "旅店", "活動", "銷售", "辦公", "餐飲", "補教", "其他"]
-const city = ["基隆市", "嘉義市", "台北市", "嘉義縣", "新北市", "台南市", "桃園縣", "高雄市", "新竹市", "屏東縣", "新竹縣", "台東縣", "苗栗縣", "花蓮縣", "台中市", "宜蘭縣", "彰化縣", "澎湖縣", "南投縣", "金門縣", "雲林縣", "連江縣"]
+const city = ["基隆市", "嘉義市", "臺北市", "嘉義縣", "新北市", "臺南市", "桃園縣", "高雄市", "新竹市", "屏東縣", "新竹縣", "臺東縣", "苗栗縣", "花蓮縣", "臺中市", "宜蘭縣", "彰化縣", "澎湖縣", "南投縣", "金門縣", "雲林縣", "連江縣"]
 const worktype = ref('');               // 種類
 const workname = ref('');               // 名稱
 const workcity = ref('');               // 城市
@@ -391,18 +424,57 @@ const languageRestriction = ref('');    // 語言
 const licenseRestriction = ref('');     // 證照
 const workstatus = ref('');             // 狀態
 const worknote = ref('');               // 備註
-
+const fileList = ref([]);
+const totalList = ref([]);              // 總
+function check() {
+    // console.log("fileList.value", fileList.value);
+}
 // 生命週期
 onMounted(() => {
-
+    enterModify();
 })
 
-
-// 進編輯
-function enterModify() {
+// 進編輯前
+async function preEnter() {
     isShowList.value = false;
     isShowModify.value = true;
 }
+
+// 進編輯
+async function enterModify() {
+    await preEnter();
+    await axios.get(`${path}/api/work/getWork/76`)
+        .then(function (response) {
+            console.log(response.data);
+            worktype.value = response.data.worktype;
+            workname.value = response.data.name;
+            workcity.value = response.data.city;
+            workaddress.value = response.data.address;
+            workperiod.value = [response.data.startDate, response.data.endDate];
+            workminperiod.value = response.data.minPeriod;
+            workmaxattendance.value = response.data.maxAttendance;
+            worktime.value = response.data.workTime;
+            workvacation.value = response.data.vacation;
+            workbenefits.value = response.data.benefits;
+            workdescription.value = response.data.description;
+            ageRestriction.value = response.data.ageRestriction;
+            genderRestriction.value = response.data.genderRestriction;
+            educationRestriction.value = response.data.educationRestriction;
+            experienceRestriction.value = response.data.experienceRestriction;
+            languageRestriction.value = response.data.languageRestriction;
+            licenseRestriction.value = response.data.licenseRestriction;
+            worknote.value = response.data.notes;
+            totalList.value = response.data.photosBase64;
+        })
+}
+// (預覽)新增
+function addToTotal() {
+    // const file = fileList
+    // const tempURL = URL.createObjectURL(file);
+    //   previewPhotoIMG.src = tempURL;
+    //   console.log("tempURL",tempURL);
+}
+
 // 日期規則
 function daterule(time) {
     let today = new Date();
@@ -411,11 +483,6 @@ function daterule(time) {
 }
 // 驗證
 function validate(event) {
-    // event.preventDefault();
-    // const form = document.querySelector('.needs-validation');
-    // if (form.checkValidity()) {
-    //     console.log("OK")
-    // }
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var forms = document.querySelectorAll('.needs-validation')
     // Loop over them and prevent submission
@@ -484,5 +551,10 @@ let modifiedDate = current.getFullYear() + '-' + (current.getMonth() + 1) + '-' 
 .work-period-title {
     color: grey;
     font-size: smaller;
+}
+
+.previewPhoto {
+    /* height: 75px; */
+    width: 125px;
 }
 </style>
