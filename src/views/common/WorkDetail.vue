@@ -49,6 +49,7 @@ const work = ref({});
 
 onMounted(async () => {
     await loadWorkData();
+    await increaseViewCount();
 });
 
 
@@ -58,6 +59,14 @@ const loadWorkData = async () => {
         work.value = response.data;
     } catch (error) {
         console.error('Failed to fetch work data:', error);
+    }
+}
+
+const increaseViewCount = async () => {
+    try {
+        await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/work/increaseViewCount/${workID}`);
+    } catch (error) {
+        console.error('Failed to increase view count:', error);
     }
 }
 </script>
