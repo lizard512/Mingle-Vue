@@ -12,8 +12,8 @@
       <swiper :style="{
         '--swiper-navigation-color': '#fff',
         '--swiper-pagination-color': '#fff',
-      }" :centeredSlides="true" :loop="true" :navigation="true" :modules="modules"
-        :pagination="{ clickable: true }" :autoplay="{ delay: 2500, disableOnInteraction: false }" class="mySwiper">
+      }" :centeredSlides="true" :loop="true" :navigation="true" :modules="modules" :pagination="{ clickable: true }"
+        :autoplay="{ delay: 2500, disableOnInteraction: false }" class="mySwiper">
         <swiper-slide><img src="@images/carousel-1.jpg" class="d-block w-100" alt="..."></swiper-slide>
         <swiper-slide><img src="@images/carousel-2.jpg" class="d-block w-100" alt="..."></swiper-slide>
       </swiper>
@@ -23,25 +23,23 @@
   <!--Work Card Start-->
   <div class="container-fluid p-5">
     <div class="row">
-      <div class="col-4 text-center h-100">
+      <div class="col-xxl-3 col-lg-6 text-center h-100 work-deck">
         <h2 class="mx-3">最多人看</h2>
         <WorkDeck />
       </div>
-      <div class="col-4 text-center h-100">
+      <div class="col-xxl-3 col-lg-6 text-center h-100 work-deck">
         <h2 class="mx-3">最新上架</h2>
         <WorkDeck property="createdAt" />
       </div>
-      <div class="col-4 text-center h-100">
+      <div class="col-xxl-3 col-lg-6 text-center h-100 work-deck">
         <h2 class="mx-3">即將截止</h2>
         <WorkDeck property="endDate" direction="ASC" />
       </div>
+      <div class="col-xxl-3 col-lg-6 text-center h-100 work-deck">
+        <h2 class="mx-3">搶手項目</h2>
+        <WorkDeck property="attendance" />
+      </div>
     </div>
-  </div>
-
-
-  <div>
-
-
   </div>
   <!--Work Card End-->
 </template>
