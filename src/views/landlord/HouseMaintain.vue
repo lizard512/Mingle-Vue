@@ -283,7 +283,7 @@ const updateFormData = ref({
   createdAt:'',
   updatedAt:'',
   isDeleted:'',
-  housePhotos:[{ photo: '', contentType: '', photoSize:''}],
+  housePhotos:[{ photo: '', contentType: '', photoSize:'', updatedAt:'', createdAt:'', isDeleted:'', houseid:''}],
 });
 
 const openUpdateModal = async (houseId) => {

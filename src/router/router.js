@@ -18,6 +18,7 @@ import Chatroom from "@views/user/Chatroom.vue";
 import Order from "@views/user/Order.vue";
 import Account from "@views/user/Account/Account.vue";
 import Review from "@views/user/Review.vue";
+import Payment from "@views/user/Payment.vue";
 // landlord 房東身分
 import Analyze from "@views/landlord/Analyze.vue";
 import HouseMaintain from "@views/landlord/HouseMaintain.vue";
@@ -101,7 +102,13 @@ const routes = [
     component: Order,
     meta: { requiresAuth: true },
   },
-  // landlord 房東身分
+  {
+    path: "/payment",
+    name: "Payment",
+    component: Payment,
+    meta: { requiresAuth: true },
+  },
+  //landlord 房東身分
   {
     path: "/houseMaintain",
     name: "HouseMaintain",
