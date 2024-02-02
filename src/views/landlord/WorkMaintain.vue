@@ -325,13 +325,12 @@
                 <!-- upload & bindHouse -->
                 <h4 class="text-center my-5 animate__animated animate__flipInX">上傳圖片與綁定房源</h4>
                 <div class="border border-danger border-3 rounded-3 m-3 p-3 animate__animated animate__fadeInUp">
-                    <h5 class="text-dark mx-4 mt-3">為您的工作上傳精彩照片，並設定此份工作綁定的房源</h5>
+                    <h5 class="text-dark mx-4 mt-3">為您的工作上傳精彩照片(最多六張)
+                        ，並設定此份工作綁定的房源</h5>
                     <!-- upload -->
-                    <!-- :on-preview=""
-                    :on-remove="" -->
                     <div class="row g-0 mx-3 my-5">
-                        <el-upload v-model:file-list="fileList" class="upload-demo" action="#" :on-success="addToTotal"
-                            list-type="picture" :auto-upload="false" multiple drag>
+                        <el-upload v-model:file-list="fileList" class="upload-demo" action="#" :on-change="addToTotal"
+                            :show-file-list="false" list-type="picture" :auto-upload="false" multiple drag>
                             <el-button type="primary">Click to upload</el-button>
                             <template #tip>
                                 <div class="el-upload__tip">
@@ -395,9 +394,10 @@ import { ref, onMounted } from 'vue';
 import Swal from 'sweetalert2'
 import { useUserStore } from '@store/userStore-localStorage.js';
 import axios from 'axios';
+// import { UploadProps, UploadUserFile } from "element-plus";
 const isShowList = ref(false);
 const isShowModify = ref(true);
-
+// const fl = ref<UploadUserFile[]>([])
 // lordID 初始化賦值
 const lordID = localStorage.getItem('lordID');
 // 指定path
@@ -426,10 +426,10 @@ const languageRestriction = ref('');    // 語言
 const licenseRestriction = ref('');     // 證照
 const workstatus = ref('');             // 狀態
 const worknote = ref('');               // 備註
-const fileList = ref([]);
-const totalList = ref([]);              // 總
+const fileList = ref([]);               // 增陣列
+const deleteList = ref([]);             // 刪陣列
+const totalList = ref([]);              // 總陣列
 function check() {
-    // console.log("fileList.value", fileList.value);
 }
 // 生命週期
 onMounted(() => {
@@ -471,17 +471,35 @@ async function enterModify() {
 }
 
 // (預覽)新增
-function addToTotal() {
-    console.log(fileList.value);
-    console.log(fileList.value.length);
-    console.log(fileList.value[(fileList.value.length) - 1]);
-    totalList.value.push(fileList.value[(fileList.value.length) - 1].url);
-    console.log(fileList.value);
-    console.log(totalList.value);
-    // const file = fileList
-    // const tempURL = URL.createObjectURL(file);
-    //   previewPhotoIMG.src = tempURL;
-    //   console.log("tempURL",tempURL);
+function addToTotal(e) {
+    if (totalList.value.length <= 5) {
+        console.log(e);
+        totalList.value.push(e.url);
+        console.log(fileList.value);
+        console.log(totalList.value);
+        // const file = fileList
+        // const tempURL = URL.createObjectURL(file);
+        //   previewPhotoIMG.src = tempURL;
+        //   console.log("tempURL",tempURL);
+    } else {
+        Swal.mixin({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 3000,
+            padding: 10,
+            width: 310,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+                toast.style.bottom = '120px';
+            }
+        }).fire({
+            icon: "error",
+            title: "照片最多為6張!"
+        })
+    }
 }
 // blob URL convert
 async function convertBlobUrlToFile(url, fileName) {
@@ -570,7 +588,8 @@ let modifiedDate = current.getFullYear() + '-' + (current.getMonth() + 1) + '-' 
 }
 
 .previewPhoto {
-    /* height: 75px; */
+    height: 125px;
     width: 125px;
+    object-fit: contain;
 }
 </style>
