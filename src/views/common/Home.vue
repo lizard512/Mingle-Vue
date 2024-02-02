@@ -58,11 +58,6 @@ const modules = [Autoplay, Pagination, Navigation];
 //// 引用元件
 import WorkDeck from '@components/WorkDeck.vue';
 
-
-
-
-
-
 </script>
   
 

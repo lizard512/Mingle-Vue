@@ -102,7 +102,6 @@ onBeforeUnmount(() => {
 
 //// 定義變數
 // user登入狀態處理
-let sessionToken = ref(localStorage.getItem('sessionToken'));
 const userStore = useUserStore();
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 const isLandlord = computed(() => userStore.permissions.includes('lord'));
@@ -142,10 +141,6 @@ function resetStore() {
     localStorage.removeItem('sessionToken');
     localStorage.removeItem('userID');
     localStorage.removeItem('lordID');
-}
-
-function updateSessionToken() {
-    sessionToken.value = localStorage.getItem('sessionToken');
 }
 
 const getUserProfileLink = () => {
