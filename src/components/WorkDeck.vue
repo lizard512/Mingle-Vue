@@ -4,7 +4,7 @@
         '--swiper-pagination-color': '#fff',
     }" :effect="'cards'" :grabCursor="true" :navigation="true" :modules="modules"
         :autoplay="{delay: 2500, disableOnInteraction: false }" class="mySwiper">
-        <swiper-slide class="list-item rounded overflow-hidden placeholder-glow" v-for="work in works" :key="work.workid">
+        <swiper-slide class="list-item overflow-hidden" v-for="work in works" :key="work.workid">
             <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                 <div class="position-relative overflow-hidden">
                     <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64" :alt="work.name">
@@ -63,8 +63,9 @@ const isEnd = ref(false); // 停止載入工作
 // 篩選相關
 let filters = ref({
     worktype: [],
-    city: [''],
-    keyword: [''],
+    city: "",
+    keyword: null,
+    hideFull: true,
 });
 
 // Define props
@@ -125,6 +126,7 @@ const loadWork = async () => {
 .list-item {
     box-shadow: 0 0 12px rgba(0, 0, 0, .5);
     background-color: var(--white);
+    border-radius: 15px;
 }
 
 .list-item img {
