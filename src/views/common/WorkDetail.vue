@@ -30,7 +30,9 @@
                     <p class="card-text">瀏覽量: {{ work.views }}</p>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-4 text-center">
+                <button type="button" class="btn keep-btn" :class="{ 'active': isKept }"
+                    @click.stop.prevent="toggleKeepWork"><i class="fa-brands fa-gratipay"></i></button>
                 <div v-if="work.photosBase64 && work.photosBase64.length" style="max-heightht: 400px;">
                     <swiper :style="{
                         '--swiper-navigation-color': '#fff',
@@ -57,7 +59,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
-
+import { toast } from 'vue3-toastify';
 
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -76,14 +78,15 @@ const setThumbsSwiper = (swiper) => {
 };
 
 
+const isKept = ref(false);
 const route = useRoute()
+const userID = localStorage.getItem('userID');
 const workID = route.params.id
 const work = ref({});
 
 
-
-
 onMounted(async () => {
+    await checkIfWorkIsKept(workID);
     await loadWorkData();
     await increaseViewCount();
 });
@@ -98,11 +101,64 @@ const loadWorkData = async () => {
     }
 }
 
+const addWorkToKeepList = async () => {
+    try {
+        await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/volunteer/addWorkToKeepList`, null, {
+            params: {
+                volunteerId: userID,
+                workId: workID
+            }
+        });
+    } catch (error) {
+        console.error('Failed to add work to keep list:', error);
+    }
+}
+
+const removeWorkFromKeepList = async () => {
+    try {
+        await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/volunteer/removeWorkFromKeepList`, null, {
+            params: {
+                volunteerId: userID,
+                workId: workID
+            }
+        });
+    } catch (error) {
+        console.error('Failed to remove work from keep list:', error);
+    }
+}
+
+
 const increaseViewCount = async () => {
     try {
         await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/work/increaseViewCount/${workID}`);
     } catch (error) {
         console.error('Failed to increase view count:', error);
+    }
+}
+
+const toggleKeepWork = () => {
+    isKept.value = !isKept.value;
+    if (isKept.value) {
+        addWorkToKeepList();
+        toast("已新增至心願清單", {})
+    } else {
+        removeWorkFromKeepList();
+        toast("已從心願清單移除", {})
+    }
+    ;
+}
+
+const checkIfWorkIsKept = async (workId) => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteer/isWorkKeptByVolunteer`, {
+            params: {
+                volunteerId: userID,
+                workId: workId
+            }
+        });
+        isKept.value = response.data;
+    } catch (error) {
+        console.error('Failed to check if work is kept:', error);
     }
 }
 </script>
@@ -147,5 +203,17 @@ const increaseViewCount = async () => {
 
 .mySwiper .swiper-slide-thumb-active {
     opacity: 1;
+}
+
+.fa-gratipay {
+    font-size: 2em;
+}
+
+.keep-btn:hover,
+.keep-btn.active {
+    color: var(--danger);
+}
+.keep-btn {
+    border: 0;
 }
 </style>

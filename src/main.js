@@ -41,14 +41,14 @@ router.beforeEach(async (to) => {
                 text: '請先登入',
                 confirmButtonText: '好的'
             });
-            return { name: 'Login' }
+            return { name: 'Login', params: { redirect: router.currentRoute.fullPath } }
         } else if (to.meta.permissions) {
             // 檢查用戶是否具有必要的權限
             for (let permission of to.meta.permissions) {
                 if (!store.permissions.includes(permission)) {
                     // 如果用戶缺少必要的權限，重新導向到首頁
                     await Swal.fire({
-                        icon: 'warning',
+                        icon: 'error',
                         text: '你沒有足夠的權限訪問這個頁面',
                         confirmButtonText: '噢不'
                     });
@@ -56,6 +56,16 @@ router.beforeEach(async (to) => {
                 }
             }
         }
+    }else if(to.matched.some(record => record.meta.noEntryWithAuth)){
+        if (sessionToken) {
+            // 如果用戶已登入，阻止其進入登入或註冊頁面
+            await Swal.fire({
+                icon: 'info',
+                text: '您已登入',
+                confirmButtonText: '可惡'
+            });
+            return { name: 'Home' }
+        } 
     }
     // 如果用戶已登入且具有所有必要的權限，允許訪問
 
