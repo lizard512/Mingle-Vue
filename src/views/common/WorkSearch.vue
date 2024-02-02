@@ -4,16 +4,16 @@
         <div class="row g-4 align-items-center py-3 bg-light-var" :class="{ 'sticky-header': isSticky }">
             <div class="col-lg-5">
                 <div class="row">
-                    <div class="col-xxl-6 col-lg-12">
+                    <div class="col-xxl-6 col-lg-0">
                         <div class="text-start mx-auto wow animate__animated animate__slideInLeft inline-flex"
                             data-wow-delay="0.1s">
                             <h2 class="mx-3">打工機會</h2>
                             <span class="badge bg-danger">正在徵求幫助者的項目！</span>
                         </div>
                     </div>
-                    <div class="col-xxl-6 col-lg-12 d-inline-flex animate__animated animate__slideInDown"
+                    <div class="col-xxl-6 col-lg-0 d-inline-flex animate__animated animate__slideInDown"
                         data-wow-delay="0.1s">
-                        <select class="form-select w-50 me-3" v-model="filters.city[0]" @change="reloadWork()">
+                        <select class="form-select w-50 me-3" v-model="filters.city" @change="reloadWork()">
                             <option value="">所有縣市</option>
                             <optgroup v-for="(group, area) in groupedCities" :label="area" :key="area">
                                 <option v-for="city in group" :value="city.city" :key="city.city">
@@ -23,7 +23,7 @@
                             </optgroup>
                         </select>
                         <div class="input-group w-50">
-                            <input type="text" class="form-control" placeholder="用關鍵字查詢" v-model="filters.keyword[0]"
+                            <input type="text" class="form-control" placeholder="用關鍵字查詢" v-model="filters.keyword"
                                 @keyup.enter="reloadWork()">
                             <button class="btn btn-success" @click="reloadWork()"><i
                                     class="fa fa-search text-white"></i></button>
@@ -33,7 +33,8 @@
             </div>
             <div class="col-lg-7">
                 <div class="row">
-                    <div class="col-xxl-7 col-lg-12 my-1 text-end animate__animated animate__slideInDown" data-wow-delay="0.1s">
+                    <div class="col-xxl-7 col-lg-12 my-1 text-end animate__animated animate__slideInDown"
+                        data-wow-delay="0.1s">
                         <div class="btn-group" role="group">
                             <template v-for="(worktypeID, index) in worktypeIDs" :key="worktypeID.worktypeID">
                                 <input type="checkbox" class="btn-check" :id="index"
@@ -76,17 +77,25 @@
         <footer
             class="sticky-footer mt-auto py-3 bg-light-var animate__animated animate__slideInUp row d-flex align-items-center justify-content-center"
             data-wow-delay="0.1s">
-            <span class="col-3">請向下滾動以瀏覽更多項目</span>
-            <span class="col-3">共有 {{ total }} 筆相符的結果</span>
+            <div class="col-3">
+                <div class="m-0">共有 {{ total }} 筆相符的結果</div>
+                <div class="m-0">請向下滾動以瀏覽更多項目</div>
+            </div>
+            <div class="col-3 d-flex justify-content-center"> <!-- 上下排列請加入 flex-column align-items-center -->
+                <div class="me-2">隱藏額滿項目</div>
+                <Toggle id="toggleAttendance" :isChecked=false bgColor="black" ballColor="white"
+                    iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green" color2="red"
+                    v-model="filters.hideFull" />
+            </div>
             <div class="col-3 d-flex justify-content-center">
-                <span class="mx-2">翻牌動畫開關</span>
+                <div class="me-2">翻牌動畫開關</div>
                 <Toggle id="toggleAnimation" :isChecked=true bgColor="black" ballColor="white"
                     iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green" color2="red"
                     v-model="isAnimationEnabled" />
             </div>
-            <div class="col-3">
-                <span class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</span>
-                <span><i class="fa fa-envelope me-2"></i>Mingle.org@gmail.com</span>
+            <div class="col-xxl-3 col-lg-0">
+                <div class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</div>
+                <div><i class="fa fa-envelope me-2"></i>Mingle.org@gmail.com</div>
             </div>
 
         </footer>
@@ -97,7 +106,7 @@
 <script setup>
 
 //// 引用函示庫
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import axios from 'axios';
 
 
@@ -133,13 +142,18 @@ const isArrowUp = ref(true);// 排序按紐的箭頭方向
 const areaOrder = ['北部區域', '中部區域', '南部區域', '東部區域', '外島區域'];
 let filters = ref({
     worktype: [],
-    city: [''],
-    keyword: [''],
+    city: "",
+    keyword: null,
+    hideFull: false,
 });
 // 其他
 const isSticky = ref(false); // Sticky Header
 const isAnimationEnabled = ref(true);
 
+//// 監聽變數
+watch(() => filters.value.hideFull, () => {
+    reloadWork();
+});
 
 //// 生命週期
 onMounted(async () => {
@@ -223,9 +237,7 @@ const reloadWork = () => {
     currentPage.value = 0; // 重設頁數
     isEnd.value = false; // 重設結束標記
     window.scrollTo(0, 0); // 將頁面滾動到最上方
-
     loadWork();
-
 }
 
 // 無限卷軸功能
@@ -290,6 +302,7 @@ const checkSticky = () => {
 .btn-group .btn {
     color: var(--dark);
 }
+
 .btn-group .btn-outline-info:hover,
 .btn-group .btn-outline-info.active {
     color: #FFFFFF;

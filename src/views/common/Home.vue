@@ -14,8 +14,8 @@
         '--swiper-pagination-color': '#fff',
       }" :centeredSlides="true" :loop="true" :navigation="true" :modules="modules" :pagination="{ clickable: true }"
         :autoplay="{ delay: 2500, disableOnInteraction: false }" class="mySwiper">
-        <swiper-slide><img src="@images/carousel-1.jpg" class="d-block w-100" alt="..."></swiper-slide>
-        <swiper-slide><img src="@images/carousel-2.jpg" class="d-block w-100" alt="..."></swiper-slide>
+        <swiper-slide><img src="@images/carousel-1.jpg" class="w-100" alt="..."></swiper-slide>
+        <swiper-slide><img src="@images/carousel-2.jpg" class="w-100" alt="..."></swiper-slide>
       </swiper>
     </div>
   </div>
@@ -73,8 +73,11 @@ import WorkDeck from '@components/WorkDeck.vue';
 }
 
 .swiper-slide img {
-  display: block;
   max-height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+}
+
+.swiper-slide {
+  align-items: center; /* add this will all relevant prefixes */
 }
 </style>
