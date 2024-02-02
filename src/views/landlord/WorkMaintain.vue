@@ -330,7 +330,7 @@
                     <!-- :on-preview=""
                     :on-remove="" -->
                     <div class="row g-0 mx-3 my-5">
-                        <el-upload v-model:file-list="fileList" class="upload-demo" action="#" @change="addToTotal"
+                        <el-upload v-model:file-list="fileList" class="upload-demo" action="#" :on-success="addToTotal"
                             list-type="picture" :auto-upload="false" multiple drag>
                             <el-button type="primary">Click to upload</el-button>
                             <template #tip>
@@ -339,6 +339,8 @@
                                 </div>
                             </template>
                         </el-upload>
+
+
                     </div>
                     <!-- preview -->
                     <div class="row g-0 mx-3 my-5 d-flex justify-content-evenly">
@@ -467,12 +469,25 @@ async function enterModify() {
             totalList.value = response.data.photosBase64;
         })
 }
+
 // (預覽)新增
 function addToTotal() {
+    console.log(fileList.value);
+    console.log(fileList.value.length);
+    console.log(fileList.value[(fileList.value.length) - 1]);
+    totalList.value.push(fileList.value[(fileList.value.length) - 1].url);
+    console.log(fileList.value);
+    console.log(totalList.value);
     // const file = fileList
     // const tempURL = URL.createObjectURL(file);
     //   previewPhotoIMG.src = tempURL;
     //   console.log("tempURL",tempURL);
+}
+// blob URL convert
+async function convertBlobUrlToFile(url, fileName) {
+    return fetch(url)
+        .then(res => res.blob())
+        .then(blob => new File([blob], fileName, { type: blob.type }));
 }
 
 // 日期規則
@@ -497,6 +512,7 @@ function validate(event) {
             }, false)
         })
 }
+// 取消修改
 function cancelModify() {
     Swal.fire({
         title: "您確定要返回嗎?",
