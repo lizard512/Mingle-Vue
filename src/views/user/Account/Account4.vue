@@ -5,7 +5,7 @@
             <div style="margin: 20px 0" />
         </div>
         <div class="demo-collapse">
-            <el-collapse v-model="activeNames">
+            <el-collapse v-model="activeNames" class="larger">
                 <div class="row row-md-auto">
                     <el-collapse-item title="自我介紹" name="1">
                         <!-- [introduction] -->
@@ -109,7 +109,7 @@ const updateDetail = async () => {
         language: props.userdetails.language,
         hobby: props.userdetails.hobby
     }
-    // console.log(data);
+    console.log(data);
 
     await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/update/introductions`, data).then(function (response) {
         console.log("我傳回成功啦")
@@ -125,7 +125,7 @@ const updateDetail = async () => {
             Swal.fire({
                 icon: "warning",
                 title: "哎呀...",
-                text: "更新失敗",
+                text: "更新失敗" + response.data.error,
                 confirmButtonText: "確認"
             })
         }
@@ -143,6 +143,10 @@ const updateDetail = async () => {
 
 
 <style scoped>
+.larger {
+    font-size: 50dvh;
+}
+
 .el-collapse {
     --el-collapse-header-font-size: 3vh;
 }

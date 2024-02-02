@@ -25,7 +25,7 @@
 </template>
     
 <script setup >
-import ANavbar from '../../../components/AccountLeftNavBar.vue';
+import ANavbar from './AccountLeftNavBar.vue';
 import Account1 from './Account1.vue';
 import LikeWork from './Account2.vue';
 import FinshWork from './Account3.vue';
@@ -58,7 +58,8 @@ const closeShow = () => {
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router'
-const userdetails = reactive({})
+const user = ref({})
+const userdetails = ref({})
 
 // const userStore = useUserStore();
 const getuserid =
@@ -81,7 +82,8 @@ const getuserid =
     }
 const loaduserDetail = async () => {
     const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/order/` + getuserid());
-    Object.assign(userdetails, response.data);
+    // Object.assign(userdetails, response.data);
+    userdetails.value = response.data
     console.log(userdetails)
     // if (userdetails.isDeleted) {
     //     Swal.fire({
