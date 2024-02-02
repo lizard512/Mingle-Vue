@@ -11,6 +11,7 @@ export default [
         path: '/register',
         name: "Register",
         component: Register,
+        meta:{ noEntryWithAuth: true},
         children: [
             {
                 path: '',
