@@ -69,7 +69,9 @@ import { ref } from 'vue';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import axios from 'axios';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
 const userStore = useUserStore();
 const router = useRouter();
 
@@ -79,8 +81,9 @@ function gotGoogleLoginPage() {
 
 let userid = ref('');
 let password = ref('');
-let loading = false;
-const showPassword = ref(false);
+let redirect = route.query.redirect;
+console.log(redirect)
+const showPassword = ref(redirect);
 
 const handleEnterKey = () => {
     // Trigger the login function when Enter key is pressed
@@ -88,8 +91,7 @@ const handleEnterKey = () => {
 };
 
 const login = function () {
-    // Set loading to true when login starts
-    loading = true;
+
 
     Swal.fire({
         text: "Loading.......",
@@ -129,7 +131,11 @@ const login = function () {
                     userStore.addPermission('admin') // reflect admin permission on navbar
                 }
                 userStore.login(); // reflect user permission on navbar
-                router.push({ name: 'Home' });
+                if (redirect) {
+                    router.push(redirect);
+                } else {
+                    router.push({ name: 'Home' });
+                }
 
             } else {
                 console.log(response.data.message);
@@ -149,8 +155,6 @@ const login = function () {
             });
         })
         .finally(function () {
-            // Set loading to false when the request is complete, whether it succeeded or failed
-            loading = false;
         });
 };
 

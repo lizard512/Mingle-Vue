@@ -41,7 +41,7 @@ router.beforeEach(async (to) => {
                 text: '請先登入',
                 confirmButtonText: '好的'
             });
-            return { name: 'Login' }
+            return { name: 'Login', params: { redirect: router.currentRoute.fullPath } }
         } else if (to.meta.permissions) {
             // 檢查用戶是否具有必要的權限
             for (let permission of to.meta.permissions) {

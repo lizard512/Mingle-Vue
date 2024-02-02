@@ -66,7 +66,7 @@
                     <template v-else>
                         <RouterLink class="btn btn-dark px-3" to="/register/register4">成為幫助者</RouterLink>
                         <p class="m-3">已有帳戶? </p>
-                        <RouterLink class="btn btn-dark px-3 me-3" to="/login">登入</RouterLink>
+                        <RouterLink class="btn btn-dark px-3 me-3" :to="{ name: 'Login', query: { redirect: router.currentRoute.value.fullPath } }">登入</RouterLink>
                     </template>
                     <Toggle id="toggleDarkMode" :isChecked=false bgColor="black" ballColor="white"
                     iconClass1="fas fa-moon" iconClass2="fas fa-sun" color1="yellow" color2="orangered" v-model="darkMode"/>

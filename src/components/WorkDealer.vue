@@ -16,7 +16,7 @@
                             <div
                                 class="bg-success rounded-top text-white position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
                                 {{ work.city }}</div>
-                            <button type="button" class="btn position-absolute end-0 top-0 m-3"
+                            <button v-if="isLoggedIn" type="button" class="btn position-absolute end-0 top-0 m-3"
                                 :class="{ 'active': isKept[index] }"
                                 @click.stop.prevent="toggleKeepWork(work.workid, index)"><i
                                     class="fa-brands fa-gratipay"></i></button>
@@ -50,7 +50,7 @@
                             <div
                                 class="bg-success rounded-top text-success position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
                                 讀取</div>
-                            <button type="button" class="btn position-absolute end-0 top-0 m-3"><i
+                            <button v-if="isLoggedIn" type="button" class="btn position-absolute end-0 top-0 m-3"><i
                                     class="fa-brands fa-gratipay"></i></button>
                         </div>
                         <div class="p-4 pt-3 pb-1">
@@ -81,11 +81,11 @@
 
 <script setup>
 //// 引用函式庫
-import { ref, watch, onMounted, watchEffect } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue';
 import { toast } from 'vue3-toastify';
 import axios from 'axios';
-// import { useWorkStore } from '@store/workStore';
-// const store = useWorkStore();
+import { useUserStore } from '@store/userStore-localStorage.js';
+const userStore = useUserStore();
 
 //// 生命週期
 onMounted(async () => {
@@ -105,6 +105,7 @@ const props = defineProps({
 
 //// 初始化變數
 const userID = localStorage.getItem('userID');
+const isLoggedIn = computed(() => userStore.isLoggedIn);
 const isKept = ref([]); // 工作清單的收藏狀況
 let isFliping = ref([]);
 let lastFilp = ref(0); // 保存上一次翻開的進度
@@ -118,13 +119,12 @@ watch(() => props.works.length, (newLength) => {// 翻牌模擬器好難玩OAQ
         isFliping.value = [];
     }
     if (newLength > lastFilp.value) {
-        console.log(props.works.length);
-        isKept.value = [];
-        const promises = props.works.map((work, index) => checkIfWorkIsKept(work.workid, index));
-        // 等待所有的 checkIfWorkIsKept Promise 完成
-        Promise.all(promises).then(() => {
-            console.log(isKept.value);
-        });
+        if (isLoggedIn.value) {
+            isKept.value = [];
+            const promises = props.works.map((work, index) => checkIfWorkIsKept(work.workid, index));
+            Promise.all(promises);// 等待所有的 checkIfWorkIsKept Promise 完成
+        }
+
 
         isFliping.value = [...isFliping.value, ...Array(newLength - lastFilp.value).fill(true)];
         for (let i = lastFilp.value; i < newLength; i++) {
