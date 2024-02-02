@@ -322,12 +322,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- upload & bindHouse -->
-                <h4 class="text-center my-5 animate__animated animate__flipInX">上傳圖片與綁定房源</h4>
+                <!-- upload -->
+                <h4 class="text-center my-5 animate__animated animate__flipInX">上傳圖片</h4>
                 <div class="border border-danger border-3 rounded-3 m-3 p-3 animate__animated animate__fadeInUp">
-                    <h5 class="text-dark mx-4 mt-3">為您的工作上傳精彩照片(最多六張)
-                        ，並設定此份工作綁定的房源</h5>
-                    <!-- upload -->
+                    <h5 class="text-dark mx-4 mt-3">為您的工作上傳精彩照片(最多六張)</h5>
                     <div class="row g-0 mx-3 my-5">
                         <el-upload v-model:file-list="fileList" class="upload-demo" action="#" :on-change="addToTotal"
                             :show-file-list="false" list-type="picture" :auto-upload="false" multiple drag>
@@ -338,19 +336,22 @@
                                 </div>
                             </template>
                         </el-upload>
-
-
                     </div>
                     <!-- preview -->
-                    <div class="row g-0 mx-3 my-5 d-flex justify-content-evenly">
-                        <template v-for="item in totalList">
+                    <div class="row g-0 mx-3 my-5">
+                        <div v-for="item in totalList" class="col d-flex justify-content-center position-relative">
+                            <i class="fa-solid fa-xmark fa-2xl position-absolute"></i>
                             <img :src="item"
                                 class="border border-3 border-primary rounded previewPhoto animate__animated animate__fadeIn">
-                        </template>
+                        </div>
                     </div>
-
-                    <!-- bindHouse -->
-
+                </div>
+                <!-- bindHouse -->
+                <h4 class="text-center my-5 animate__animated animate__flipInX">綁定房源</h4>
+                <div class="border border-danger border-3 rounded-3 m-3 p-3 animate__animated animate__fadeInUp">
+                    <h5 class="text-dark mx-4 mt-3">設定此份工作綁定的房源</h5>
+                    <div class="row g-0 mx-3 my-5">
+                    </div>
                 </div>
                 <!-- notes & status -->
                 <h4 class="text-center my-5 animate__animated animate__flipInX">上架與備註</h4>
@@ -591,5 +592,9 @@ let modifiedDate = current.getFullYear() + '-' + (current.getMonth() + 1) + '-' 
     height: 125px;
     width: 125px;
     object-fit: contain;
+}
+
+.xmark {
+    top: 0px;
 }
 </style>
