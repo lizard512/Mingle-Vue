@@ -77,23 +77,31 @@
         <footer
             class="sticky-footer mt-auto py-3 bg-light-var animate__animated animate__slideInUp row d-flex align-items-center justify-content-center"
             data-wow-delay="0.1s">
-            <div class="col-3">
+            <div class="col-xxl-2 col-lg-4">
                 <div class="m-0">共有 {{ total }} 筆相符的結果</div>
                 <div class="m-0">請向下滾動以瀏覽更多項目</div>
             </div>
-            <div class="col-3 d-flex justify-content-center"> <!-- 上下排列請加入 flex-column align-items-center -->
+            <div class="col-xxl-2 col-lg-4">
+                <div><el-date-picker v-model="workperiod" type="daterange" start-placeholder="起始日期"
+                                end-placeholder="結束日期" format="YYYY-MM-DD ddd" date-format="YYYY/MM/DD ddd" size="large"
+                                :disabled-date="daterule" /></div>
+            </div>
+            <div class="col-xxl-2 col-lg-4">
+                <div></div>
+            </div>
+            <div class="col-xxl-2 col-lg-4 d-flex justify-content-center"> <!-- 上下排列請加入 flex-column align-items-center -->
                 <div class="me-2">隱藏額滿項目</div>
                 <Toggle id="toggleAttendance" :isChecked=false bgColor="black" ballColor="white"
                     iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green" color2="red"
                     v-model="filters.hideFull" />
             </div>
-            <div class="col-3 d-flex justify-content-center">
+            <div class="col-xxl-2 col-lg-4 d-flex justify-content-center">
                 <div class="me-2">翻牌動畫開關</div>
                 <Toggle id="toggleAnimation" :isChecked=true bgColor="black" ballColor="white"
                     iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green" color2="red"
                     v-model="isAnimationEnabled" />
             </div>
-            <div class="col-xxl-3 col-lg-0">
+            <div class="col-xxl-2 col-lg-4">
                 <div class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</div>
                 <div><i class="fa fa-envelope me-2"></i>Mingle.org@gmail.com</div>
             </div>
