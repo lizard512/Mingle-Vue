@@ -65,7 +65,7 @@ let filters = ref({
     worktype: [],
     city: "",
     keyword: null,
-    hideFull: false,
+    hideFull: true,
 });
 
 // Define props
