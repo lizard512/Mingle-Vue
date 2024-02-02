@@ -29,15 +29,16 @@
           <th>有健身房</th>
           <th>新增時間</th>
           <th>更新時間</th>
+          <th>是否刪除</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="house in mappedHouses" :key="house.houseid">
           <td>{{ house.houseid }}</td>
-          <td>{{ house.lordid }}</td>
+          <td>{{ house.lordid }}</td> 
           <td>
             <!-- 'data:image/'+house.housePhotos[0].contentType+';base64,' + house.housePhotos[0].photo -->
-            <img :src="'data:image/' + house.housePhotos[0].contentType + ';base64,' + house.housePhotos[0].photo"
+            <img :src="'data:image/'+house.housePhotos[0].contentType+';base64,' + house.housePhotos[0].photo"
               alt="House Photo" style="max-width: 100px; max-height: 100px;">
           </td>
           <td>
@@ -64,6 +65,7 @@
           <td>{{ house.hasGym }}</td>
           <td>{{ house.createdAt }}</td>
           <td>{{ house.updatedAt }}</td>
+          <td>{{ house.isDeleted }}</td>
         </tr>
       </tbody>
     </table>
@@ -84,34 +86,19 @@
               <div class="mb-3 row">
                 <label class="col-sm-2 col-form-label">圖片預覽:</label>
                 <div class="col-sm-10">
-                  <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                      <div v-for="(photo, index) in updateFormData.housePhotos" :key="index"
-                        :class="{ 'carousel-item': true, 'active': index === 0 }">
-                        <img :src="'data:image/' + photo.contentType + ';base64,' + photo.photo" class="d-block w-100"
-                          alt="Image Preview">
-                      </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" id="imageCarouselPrev" data-bs-target="#imageCarousel"
-                      data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: orange;"></span>
-                      <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" id="imageCarouselNext" data-bs-target="#imageCarousel"
-                      data-bs-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: orange;"></span>
-                      <span class="visually-hidden">Next</span>
-                    </button>
-                  </div>
+                  <img :src="'data:image/'+updateFormData.housePhotos[0].contentType+';base64,' + updateFormData.housePhotos[0].photo" alt="Image Preview"
+                    style="max-width: 100px; max-height: 100px;">
                 </div>
               </div>
-              <!-- Add your input for uploading images -->
+
+              <!-- Add your input for uploading an image -->
               <div class="mb-3 row">
-                <label for="photos" class="col-sm-2 col-form-label">上傳圖片:</label>
+                <label for="photo" class="col-sm-2 col-form-label">上傳圖片:</label>
                 <div class="col-sm-10">
-                  <input type="file" id="photos" @change="handleImageUpload" accept="image/*" multiple>
+                  <input type="file" @change="handleImageUpload" accept="image/*">
                 </div>
               </div>
+
               <div class="mb-3 row">
                 <label for="name" class="col-sm-2 col-form-label">名稱:</label>
                 <div class="col-sm-10">
@@ -236,12 +223,11 @@ import { ref, onMounted, computed } from 'vue';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
-let path = import.meta.env.VITE_APP_API_URL;
 const houses = ref([]);
 const isUpdateModalVisible = ref(false);
 
 const fetchHouses = () => {
-  fetch(`${path}/api/house/findAllHousesWithPhotos`)
+  fetch('http://localhost:8080/api/house/findAllHousesWithPhotos')
     .then((response) => response.json())
     .then((data) => {
       houses.value = data;
@@ -277,27 +263,27 @@ const updateFormData = ref({
   houseid: '',
   lordid: '',
   houseType: '',
-  city: '',
-  name: '',
-  description: '',
-  address: '',
-  postCode: '',
-  beds: '',
-  status: '',
-  notes: '',
-  hasWifi: '',
-  hasTV: '',
-  hasKitchen: '',
-  hasLaundry: '',
-  hasParkingLot: '',
-  hasAirconditioner: '',
-  hasPersonalSpace: '',
-  hasPool: '',
-  hasGym: '',
-  createdAt: '',
-  updatedAt: '',
-  isDeleted: '',
-  housePhotos: [{ photo: '', contentType: '', photoSize: '', updatedAt: '', createdAt: '', isDeleted: '', houseid: '' }],
+  city:'',
+  name:'',
+  description:'',
+  address:'',
+  postCode:'',
+  beds:'',
+  status:'',
+  notes:'',
+  hasWifi:'',
+  hasTV:'',
+  hasKitchen:'',
+  hasLaundry:'',
+  hasParkingLot:'',
+  hasAirconditioner:'',
+  hasPersonalSpace:'',
+  hasPool:'',
+  hasGym:'',
+  createdAt:'',
+  updatedAt:'',
+  isDeleted:'',
+  housePhotos:[{ photo: '', contentType: '', photoSize:'', updatedAt:'', createdAt:'', isDeleted:'', houseid:''}],
 });
 
 const openUpdateModal = async (houseId) => {
@@ -338,36 +324,30 @@ const closeUpdateModal = () => {
 
 
 const handleImageUpload = (event) => {
-  const files = event.target.files;
+  const file = event.target.files[0];
 
-  if (files && files.length > 0) {
-    // Clear existing images
-    updateFormData.value.housePhotos = [];
+  if (file) {
+    const reader = new FileReader();
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const reader = new FileReader();
+    reader.onload = () => {
+      const base64String = reader.result.split(",")[1];
+      
+      // Update the housePhotos array with the new Base64 string
+      updateFormData.value.housePhotos[0].photo = base64String;
 
-      reader.onload = () => {
-        const base64String = reader.result.split(",")[1];
-        const contentType = file.type;
+      // Optionally, you can also store the content type and size
+      updateFormData.value.housePhotos[0].contentType = file.type;
+      updateFormData.value.housePhotos[0].photoSize = file.size;
+    };
 
-        // Add the image to the housePhotos array
-        updateFormData.value.housePhotos.push({
-          photo: base64String,
-          contentType: contentType,
-        });
-      };
-
-      // Read the file content as Data URL
-      reader.readAsDataURL(file);
-    }
+    // Read the file content as Data URL
+    reader.readAsDataURL(file);
   }
 };
 
 const handleUpdateSubmit = () => {
   // Call your Spring Boot update API here with updateFormData using Axios
-  axios.put(`${path}/api/house/modify/${updateFormData.value.houseid}`, updateFormData._rawValue)
+  axios.put(`http://localhost:8080/api/house/modify/${updateFormData.value.houseid}`, updateFormData._rawValue)
     .then(() => {
       // Show a success message
       Swal.fire('更新成功!', '房源資料已更新成功', 'success');
@@ -395,7 +375,7 @@ const confirmDelete = (houseId) => {
   }).then((result) => {
     if (result.isConfirmed) {
       // Call your Spring Boot delete API here with houseId using Axios
-      axios.delete(`${path}/api/house/delete/${houseId}`)
+      axios.delete(`http://localhost:8080/api/house/delete/${houseId}`)
         .then(() => {
           // Show a success message
           Swal.fire('刪除成功!', '你的資料已刪除成功', 'success');

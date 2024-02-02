@@ -603,7 +603,7 @@ h1 {
 }
 
 :deep(.el-dialog) {
-  //width: 50%;
+  width: 50%;
 }
 
 
