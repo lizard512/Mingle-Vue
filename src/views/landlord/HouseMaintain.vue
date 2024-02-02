@@ -406,15 +406,17 @@ const handleImageUpload = (event) => {
         const contentType = file.type;
         const substringAfterSlash = contentType.substring(contentType.indexOf('/') + 1);
         const photoSize = file.size;
+        let date = new Date();
         // Add the image to the housePhotos array
         updateFormData.value.housePhotos.push({
           photo: base64String,
           contentType: substringAfterSlash,
           photoSize: photoSize,
-          updatedAt: new Date().toDateString(),
-          createdAt: new Date().toDateString(),
+          updatedAt: date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+ date.getHours()+":"+date.getMinutes()+":"+ date.getSeconds(),
+          createdAt: date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+ date.getHours()+":"+date.getMinutes()+":"+ date.getSeconds(),
           isDeleted: '0',
         });
+        console.log(updateFormData.value.housePhotos[0].updatedAt);
       };
 
       // Read the file content as Data URL
