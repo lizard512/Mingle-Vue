@@ -123,13 +123,13 @@
                             <h6 class="mb-3">您為誰預定呢? </h6>
                             <div class="my-3">
                                 <span class="form-check">
-                                    <input  name="orderby" type="radio" class="form-check-input" checked
-                                        v-model="orderby" value="myself" @change="updateAccomodatorData" required>
+                                    <input name="orderby" type="radio" class="form-check-input" checked v-model="orderby"
+                                        value="myself" @change="updateAccomodatorData" required>
                                     <label class="form-check-label" for="myself" value="myself">我為自己預定</label>
                                 </span>
                                 <div class="form-check">
-                                    <input  name="orderby" type="radio" class="form-check-input"
-                                        v-model="orderby" value="other" @change="updateAccomodatorData" required>
+                                    <input name="orderby" type="radio" class="form-check-input" v-model="orderby"
+                                        value="other" @change="updateAccomodatorData" required>
                                     <label class="form-check-label" for="other" value="other">幫別人預定</label>
                                 </div>
                             </div>
@@ -259,7 +259,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="house_type in housedetail" :key="house_type.houseid">
-                                        <td class="align-middle col-md-4">
+                                        <td class="align-middle col-md-3">
                                             <h6>房號：{{ house_type.houseid }}</h6>
                                             <h6>{{ house_type.houseType }}-{{ house_type.name }}</h6>
                                             <div>地址:{{ house_type.postCode }}{{ house_type.city }}-{{ house_type.address }}
@@ -301,15 +301,53 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="align-middle col-md-2">
-                                            <div v-for="item in housephotodetail" :key="item">
-                                                    <img v-show="item.id == house_type.houseid"  v-for=" photo in item.housephoto" :key="photo" :src="photo" class="img-fluid img-center" :alt="item.id">
-                                                </div>
+                                        <td class="align-middle col-md-3">
+                                            <div v-for="item in housephotodetail" :key="item" class="photo-container">
+                                                <!-- <div id="carouselExampleControlsNoTouching" class="carousel slide"
+                                                    data-bs-touch="false" data-bs-interval="false"
+                                                    v-show="item.id == house_type.houseid">
+
+                                                    <div class="carousel-inner">
+                                                        <div class="carousel-item active" v-for=" photo in item.housephoto"
+                                                            :key="photo">
+                                                            <img :src="photo" class="img-fluid img-center" :alt="item.id">
+                                                        </div>
+                                                    </div>
+                                                    <button class="carousel-control-prev" type="button"
+                                                        data-bs-target="#carouselExampleControlsNoTouching"
+                                                        data-bs-slide="prev">
+                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Previous</span>
+                                                    </button>
+                                                    <button class="carousel-control-next" type="button"
+                                                        data-bs-target="#carouselExampleControlsNoTouching"
+                                                        data-bs-slide="next">
+                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Next</span>
+                                                    </button> -->
+                                                <!-- </div> -->
+
+                                                
+                                                <swiper :style="{
+                                                    '--swiper-navigation-color': '#fff',
+                                                    '--swiper-pagination-color': '#fff',
+                                                }" :centeredSlides="true" :loop="true" :navigation="true"
+                                                    :modules="modules" :pagination="{ clickable: true }"
+                                                    class="mySwiper col-md-12">
+                                                    <swiper-slide v-show="item.id == house_type.houseid"
+                                                    v-for=" photo in item.housephoto" :key="photo" >
+                                                        <img :src="photo"  class="d-block w-100"
+                                                            :alt="item.id"></swiper-slide>
+                                                </swiper>
+                                            </div>
                                         </td>
                                         <td class=" align-middle col-md-1 text-center">{{ house_type.beds }}</td>
-                                        <td class=" align-middle  col-md-1"> <select class="select-form col-12"
-                                                v-model="selectedRooms[house_type.houseid]" @change="roomValidate()"
-                                                :class="{ 'is-invalid': isInvalid(), 'is-valid': isValid() }">
+
+                                        <td class=" align-middle  col-md-1"
+                                            :class="{ 'is-invalid': isInvalid(), 'is-valid': isValid() }"> <select
+                                                class=" form-select col-md-12" v-model="selectedRooms[house_type.houseid]"
+                                                @change="roomValidate()">
+                                                <option value="" selected>Choose...</option>
                                                 <option value="0">0</option>
                                                 <option id="room" v-for="room in house_type.beds" :key="room" :value="room">
                                                     {{ room }}</option>
@@ -321,6 +359,7 @@
                             <div v-if="totalRooms() > selectedAccomodator" class="text-danger text-end text-secondary">
                                 錯誤訊息：所選房間間數大於報名人數，請重新選擇。
                             </div>
+
                             <!-- <div v-if="totalRooms() == 0" class="text-danger ">
                                                 請選擇間數。
                                             </div> -->
@@ -335,7 +374,7 @@
 
                             <!-- name  會員資料-->
                             <div class="row" v-if="orderby === 'myself'">
-                                <span >1. </span>
+                                <span>1. </span>
                                 <div class="col-md-4">
                                     <label for="fullName" class="form-label">會員全名 (name) </label>
                                     <input type="text" class="form-control" id="fullName" placeholder="" value=""
@@ -452,6 +491,16 @@
 import { onMounted, ref, watch, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useOrderStore } from '@store/orderStore-memory.js';
+
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+// import required modules
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+const modules = [Autoplay, Pagination, Navigation];
 
 
 const has = ref('0')
@@ -697,34 +746,33 @@ const validation = () => {
 };
 
 
-const isInvalid = () => totalRooms() > selectedAccomodator.value;
+const isInvalid = () => totalRooms() > selectedAccomodator.value || totalRooms() == 0;
 
 const isValid = () => totalRooms() <= selectedAccomodator.value && totalRooms() > 0;
+
+const notValid = () => totalRooms() == null;
 
 
 //============房間驗證============
 
 const roomValidate = function () {
-    // 获取当前选中的房间数
-    const selectedRoomCount = totalRooms();
 
-    // 获取当前表单元素
+    const selectedRoomCount = totalRooms();
     const form = document.querySelector('.needs-validation');
 
-    // 获取错误信息的 HTML 元素
     const roomSelectError = form.querySelector('.room-select-error');
-    const roomSelectElement = form.querySelector('#room'); // 通过ID获取<select>
+    const roomSelectElement = form.querySelector('#room'); // 通过ID拿<select>
 
     if (selectedRoomCount == 0) {
 
         roomSelectError.innerText = '錯誤訊息：請選擇間數。';
-        roomSelectElement.classList.add('is-invalid'); // 添加 is-invalid 类
+        roomSelectElement.classList.add('is-invalid'); // 添加 is-invalid 
 
 
     } else {
         roomSelectError.innerText = null;
-        roomSelectElement.classList.remove('is-invalid'); // 移除 is-invalid 类
-        roomSelectElement.classList.add('is-valid'); // 添加 is-valid 类
+        roomSelectElement.classList.remove('is-invalid'); // 移除 is-invalid 
+        roomSelectElement.classList.add('is-valid'); // 添加 is-valid 
 
     }
 }
@@ -736,9 +784,9 @@ import axios from 'axios';
 //===========取得使用者ID============
 
 const getuserid = () => {
-        const sessionToken = localStorage.getItem('sessionToken');
-        userid.value = String(sessionToken).substring(32, sessionToken.length);
-        return userid.value
+    const sessionToken = localStorage.getItem('sessionToken');
+    userid.value = String(sessionToken).substring(32, sessionToken.length);
+    return userid.value
 }
 
 const userdetails = reactive({})
@@ -848,7 +896,11 @@ onMounted(async () => {
         for (const house_type in housedetail) {
             console.log(housedetail[house_type])
             showImage(housedetail[house_type].houseid)
+            selectedRooms.value[housedetail[house_type].houseid] = 0
         }
+        isInvalid.value = false
+
+
     }
     catch (error) {
         console.error('An error occurred in onMounted:', error);
@@ -913,7 +965,7 @@ async function goToOrder2() {
             //需求
             needs: needs.value
 
-            
+
 
 
 
@@ -936,8 +988,6 @@ async function goToOrder2() {
 
 <style scoped>
 .select-form {
-
-    /* background-image: none; */
     border: 1px solid #E0E0E0;
     border-radius: 5px;
     height: 40px;
@@ -963,40 +1013,33 @@ input:invalid {
 }
 
 
-.is-invalid {
-    border: 1px solid red;
-    border-color: red !important;
-    display: inline-block;
-    /* 顯示紅色驚嘆號 */
-    font-size: 1.2em;
-    /* 設定字型大小，根據需要調整 */
-    margin-left: 5px;
-    /* 設定圖示和元素之間的間距，根據需要調整 */
+
+
+
+.is-invalid .form-select {
+    /* background-image: none; */
+    border: 1px solid red !important;
+    background-image: none !important;
 }
 
-.is-valid {
 
-    border-color: green !important;
-    position: relative;
-}
 
-.is-valid::after {
+
+
+/* .form-select .is-valid::after {
     font-family: 'Font Awesome 5 Free';
-    /* Font Awesome font family */
     content: '\f00c';
-    /* Unicode Private Use Area code for checkmark */
     color: green;
     position: absolute;
     right: 10px;
-    /* Adjust the position as needed */
     top: 50%;
     transform: translateY(-50%);
-}
+} */
 
 .has-error {
-        border: 1px solid red;
-        /* 或者其他你希望的樣式 */
-        background-color: #FDD;
+    border: 1px solid red;
+    /* 或者其他你希望的樣式 */
+    background-color: #FDD;
     /* 背景顏色也可以更改成你想要的 */
 }
 
@@ -1107,11 +1150,12 @@ input:not([required]):valid {
     border: 1px solid #E0E0E0;
 }
 
-.has-error .form-control, .has-error .form-select {
+.has-error .form-control,
+.has-error .form-select {
     /* background-image: none; */
     border: 1px solid red !important;
-    background-image: none !important; 
-    
+    background-image: none !important;
+
 }
 
 /* 覆蓋綠色勾勾 */
@@ -1119,4 +1163,25 @@ input:not([required]):valid {
 .was-validated .form-check-input:valid {
     background-image: none;
 } */
+
+
+
+
+.photo-container {
+    width: 100%; /* 设置包装容器宽度为 100%，占满表格列 */
+    max-width: 400px; /* 设置包装容器最大宽度，调整根据需求 */
+    margin: auto; /* 水平居中 */
+    overflow: hidden; /* 隐藏溢出的图像部分 */
+}
+
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide img {
+  display: block;
+  max-height: 100%;
+  object-fit: cover;}
 </style>
