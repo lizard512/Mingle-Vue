@@ -23,19 +23,19 @@
   <!--Work Card Start-->
   <div class="container-fluid p-5">
     <div class="row">
-      <div class="col-xxl-3 col-lg-6 text-center h-100 work-deck">
+      <div class="col-xxl-3 col-lg-6 text-center h-100">
         <h2 class="mx-3">最多人看</h2>
         <WorkDeck />
       </div>
-      <div class="col-xxl-3 col-lg-6 text-center h-100 work-deck">
+      <div class="col-xxl-3 col-lg-6 text-center h-100">
         <h2 class="mx-3">最新上架</h2>
         <WorkDeck property="createdAt" />
       </div>
-      <div class="col-xxl-3 col-lg-6 text-center h-100 work-deck">
+      <div class="col-xxl-3 col-lg-6 text-center h-100">
         <h2 class="mx-3">即將截止</h2>
         <WorkDeck property="endDate" direction="ASC" />
       </div>
-      <div class="col-xxl-3 col-lg-6 text-center h-100 work-deck">
+      <div class="col-xxl-3 col-lg-6 text-center h-100">
         <h2 class="mx-3">搶手項目</h2>
         <WorkDeck property="attendance" />
       </div>
@@ -52,7 +52,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 // import required modules
-import { Autoplay, Pagination, Navigation, EffectCards } from 'swiper/modules';
+import { Autoplay, Pagination, Navigation} from 'swiper/modules';
 const modules = [Autoplay, Pagination, Navigation];
 
 //// 引用元件

@@ -616,6 +616,9 @@ const goToOrder1 = function () {
     )
 }
 
+onMounted( () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+})
 
 
 
