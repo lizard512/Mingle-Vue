@@ -339,6 +339,8 @@
                                 </div>
                             </template>
                         </el-upload>
+
+
                     </div>
                     <!-- preview -->
                     <div class="row g-0 mx-3 my-5 d-flex justify-content-evenly">

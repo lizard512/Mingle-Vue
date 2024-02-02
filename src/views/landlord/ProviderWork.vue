@@ -1,5 +1,29 @@
+#                       _oo0oo_
+#                      o8888888o
+#                      88" . "88
+#                      (| -_- |)
+#                      0\  =  /0
+#                    ___/`---'\___
+#                  .' \\|     |// '.
+#                 / \\|||  :  |||// \
+#                / _||||| -:- |||||- \
+#               |   | \\\  -  /// |   |
+#               | \_|  ''\---/''  |_/ |
+#               \  .-\__  '-'  ___/-. /
+#             ___'. .'  /--.--\  `. .'___
+#          ."" '<  `.___\_<|>_/___.' >' "".
+#         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+#         \  \ `_.   \_ __\ /__ _/   .-` /  /
+#     =====`-.____`.___ \_____/___.-`___.-'=====
+#                       `=---='
+#
+#
+#     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#               菩提本無樹 明鏡亦非台
+#               本來無BUG 何必常修改
 <template>
-  <button type="button" class="btn btn-outline-success" style="position:absolute; top:50%; left:0;" @click="fullData">
+  <button type="button" class="btn btn-outline-success animate__animated animate__fadeInDown" style="position:absolute; top:50%; left:0;" @click="fullData">
     一鍵填表
   </button>
   <div class="container">
@@ -207,6 +231,7 @@
                          placeholder="">
                   <label for="floatingInput">工作經驗 :</label>
                 </div>
+
               </div>
             </div>
           </div>
@@ -313,12 +338,12 @@ const dialogVisible = ref(false)
 const actionUrl = import.meta.env.VITE_APP_API_URL + '/api/upload/photoUploadControl'
 let lordID;
 
-onMounted(async () => {
-  await initAssign();
+onMounted( () => {
+  initAssign();
 })
 
 
-async function initAssign() {
+function initAssign() {
   // const sessionToken = VueCookies.get('sessionToken');
   // lordID = await (await fetch(`${import.meta.env.VITE_APP_API_URL}/landlord/userIDtoLordID/`
   //     + String(sessionToken).substring(32, sessionToken.length), {
@@ -334,6 +359,7 @@ async function initAssign() {
 }
 
 const handleChange: UploadProps['onChange'] = (file, fl) => {
+  console.log(fl)
   const size = file.size < 50 * 1024 * 1024;
   // console.log(size)
   if (!size) {
@@ -402,7 +428,7 @@ const upload = reactive({
   open: false,
   title: '',
   headers: {
-    'sessionToken': getToken().sessionToken
+    'sessionToken': getToken().sessionToken,
   },
 })
 
@@ -520,7 +546,7 @@ const submit = async () => {
 }
 
 async function submitData() {
-
+  console.log(JSON.stringify(Data.value))
   Swal.fire({
     title: '請稍候...',
     allowEscapeKey: false,
@@ -589,13 +615,13 @@ function fullData() {
   Data.value.benefits = '無';
   Data.value.description = '一直打code';
   Data.value.experienceRestriction = '10年以上';
-  Data.value.licenseRestriction = '無';
+  // Data.value.licenseRestriction = '無';
   Data.value.fkLandlordID = localStorage.getItem('lordID');
   Data.value.maxAttendance = '6';
   Data.value.sessionToken = getToken().sessionToken;
   currentPage.value = 4;
   barValue = 100;
-  // submitData();
+  submitData();
 }
 
 </script>
