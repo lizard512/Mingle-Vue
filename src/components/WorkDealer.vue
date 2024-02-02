@@ -1,12 +1,12 @@
 <template>
     <div class="container-fluid px-5 pt-3">
         <div class="row g-4">
-            <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6 " v-for="(work, index) in works" :key="work.workid">
+            <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6" v-for="(work, index) in works" :key="work.workid">
                 <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                     <!-- <transition name="flip"> -->
                     <!-- 開牌 -->
-                    <div v-if="!isFliping[index]"
-                        :class="['list-item', 'rounded', 'overflow-hidden', isAnimationEnabled ? 'animate__animated animate__flipInY' : '']">
+                    <div v-if="!isFliping[index]" class="list-item rounded overflow-hidden"
+                        :class="isAnimationEnabled ? 'animate__animated animate__flipInY' : ''">
                         <div class="position-relative overflow-hidden">
                             <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64"
                                 :alt="work.name">
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <!-- 蓋牌 -->
-                    <div v-else class="list-item rounded overflow-hidden placeholder-glow"
+                    <div v-else class="list-item rounded overflow-hidden"
                         :class="isAnimationEnabled ? 'animate__animated animate__flipOutY' : ''"
                         :style="{ animationDelay: `${index * 0.1}s`, opacity: 1 }">
                         <div class="position-relative overflow-hidden">
@@ -200,7 +200,7 @@ const toggleKeepWork = (workId, index) => {
 
 <style scoped>
 .list-item {
-    box-shadow: 0 0 25px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 12px rgba(0, 0, 0, .5);
     background-color: var(--white);
 }
 
