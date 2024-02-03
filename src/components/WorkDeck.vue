@@ -3,7 +3,7 @@
         '--swiper-navigation-color': '#fff',
         '--swiper-pagination-color': '#fff',
     }" :effect="'cards'" :grabCursor="true" :navigation="true" :modules="modules"
-        :autoplay="{delay: 2500, disableOnInteraction: false }" class="mySwiper">
+        :autoplay="{ delay: 2500, disableOnInteraction: false }" class="mySwiper">
         <swiper-slide class="list-item overflow-hidden" v-for="work in works" :key="work.workid">
             <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                 <div class="position-relative overflow-hidden">
@@ -13,6 +13,9 @@
                         {{ work.worktype }}</div>
                     <div class="bg-success rounded-top text-white position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
                         {{ work.city }}</div>
+                    <button v-if="isLoggedIn" type="button" class="btn position-absolute end-0 top-0 m-3"
+                        :class="{ 'active': work.kept }" @click.stop.prevent="toggleKeepWork(work.workid, work.kept)"><i
+                            class="fa-brands fa-gratipay"></i></button>
                 </div>
                 <div class="p-4 pt-3 pb-0">
                     <p class="text-truncate h5">{{ work.name }}</p>
@@ -37,7 +40,9 @@
 </template>
 
 <script setup>
-////
+//// 引用外部JS
+import { toast } from 'vue3-toastify';
+// Swiper.js
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue';
 // Import Swiper styles
@@ -45,15 +50,22 @@ import 'swiper/css';
 import 'swiper/css/effect-cards';
 import 'swiper/css/navigation';
 // import required modules
-import {  Autoplay, EffectCards, Navigation } from 'swiper/modules';
-const modules = [ Autoplay, EffectCards, Navigation];
+import { Autoplay, EffectCards, Navigation } from 'swiper/modules';
+const modules = [Autoplay, EffectCards, Navigation];
+
 
 //// 引用函式庫
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed} from 'vue';
 import axios from 'axios';
+import { useUserStore } from '@store/userStore-localStorage.js';
 
-//// 接收資料庫資料
+
+//// 接收資料
 let works = ref([]);
+const userID = localStorage.getItem('userID');
+const userStore = useUserStore();
+const isLoggedIn = computed(() => userStore.isLoggedIn);
+
 
 //// 預設參數
 // 載入相關
@@ -63,9 +75,9 @@ const isEnd = ref(false); // 停止載入工作
 // 篩選相關
 let filters = ref({
     hideFull: true,
-    hideDeleted:true,
-    showOnShelfOnly:true,
-    hideExpired:true,
+    hideDeleted: true,
+    showOnShelfOnly: true,
+    hideExpired: true,
 });
 
 // Define props
@@ -105,7 +117,8 @@ const loadWork = async () => {
                     page: currentPage.value,
                     size: props.size,
                     direction: props.direction,
-                    property: props.property
+                    property: props.property,
+                    userID: userID,
                 }
             }
         );
@@ -120,6 +133,50 @@ const loadWork = async () => {
         isLoading.value = false;
     }
 };
+
+
+const addWorkToKeepList = async (workId) => {
+    try {
+        await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/volunteer/addWorkToKeepList`, null, {
+            params: {
+                volunteerId: userID,
+                workId: workId
+            }
+        });
+    } catch (error) {
+        console.error('Failed to add work to keep list:', error);
+    }
+}
+
+const removeWorkFromKeepList = async (workId) => {
+    try {
+        await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/volunteer/removeWorkFromKeepList`, null, {
+            params: {
+                volunteerId: userID,
+                workId: workId
+            }
+        });
+    } catch (error) {
+        console.error('Failed to remove work from keep list:', error);
+    }
+}
+
+const toggleKeepWork = (workId, kept) => {
+    if (kept) {
+        removeWorkFromKeepList(workId);
+        toast("已從心願清單移除", {})
+    } else {
+        addWorkToKeepList(workId);
+        toast("已新增至心願清單", {})
+    }
+    // 更新 work.kept 的值
+        const work = works.value.find(work => work.workid === workId);
+    if (work) {
+        work.kept = !kept;
+    }
+}
+
+
 </script>
 
 <style scoped>
