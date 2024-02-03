@@ -13,7 +13,7 @@
                     </div>
                     <div class="col-xxl-6 col-md-0 d-inline-flex animate__animated animate__slideInDown"
                         data-wow-delay="0.1s">
-                        <select class="form-select w-50 me-2" v-model="filters.city" @change="reloadWork()">
+                        <select class="form-select w-50 me-2" v-model="filters.city">
                             <option value="">所有縣市</option>
                             <optgroup v-for="(group, area) in groupedCities" :label="area" :key="area">
                                 <option v-for="city in group" :value="city.city" :key="city.city">
@@ -23,8 +23,7 @@
                             </optgroup>
                         </select>
                         <div class="input-group w-50">
-                            <input type="text" class="form-control" placeholder="用關鍵字查詢" v-model="filters.keyword"
-                                @keyup.enter="reloadWork()">
+                            <input type="text" class="form-control" placeholder="用關鍵字查詢" v-model="filters.keyword">
                             <button class="btn btn-success" @click="reloadWork()"><i
                                     class="fa fa-search text-white"></i></button>
                         </div>
@@ -78,7 +77,7 @@
             class="sticky-footer mt-auto py-3 bg-light-var animate__animated animate__slideInUp row d-flex align-items-center"
             data-wow-delay="0.1s">
             <div class="col-lg-5 col-6">
-                <div class="row">
+                <div class="row g-4">
                     <div class="col-xxl-5 col-0">
                         <div class="m-0">共有 {{ total }} 筆相符的結果</div>
                         <div class="m-0">請向下滾動以瀏覽更多項目</div>
@@ -92,27 +91,29 @@
             <div class="col-lg-3 col-6">
                 <div class="row g-4">
                     <div class="col-xxl-6 col-0 d-flex justify-content-xxl-end justify-content-center">
-                        <!-- 上下排列請加入 flex-column align-items-center -->
                         <div class="me-2">隱藏額滿項目</div>
                         <Toggle id="toggleAttendance" :isChecked=false bgColor="black" ballColor="white"
                             iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green"
                             color2="red" v-model="filters.hideFull" />
                     </div>
                     <div class="col-xxl-6 col-0 d-flex justify-content-xxl-end justify-content-center">
+                        <div class="me-2">顯示收藏清單</div>
+                        <Toggle id="toggleKeptwork" :isChecked=false bgColor="black" ballColor="white"
+                            iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green"
+                            color2="red" v-model="filters.showKeptWorkOnly" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 hide-on-medium">
+                <div class="row g-4">
+                    <div class="col-xxl-6 col-0 d-flex justify-content-xxl-end justify-content-center align-items-center">
                         <div class="me-2">翻牌動畫開關</div>
                         <Toggle id="toggleAnimation" :isChecked=true bgColor="black" ballColor="white"
                             iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green"
                             color2="red" v-model="isAnimationEnabled" />
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-3 hide-on-medium">
-                <div class="row">
-                    <div class="col-xxl-4 col-md-0">
-                        <div></div>
-                    </div>
-                    <div class="col-xxl-8 col-md-0">
-                        <div class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</div>
+                    <div class="col-xxl-6 col-0">
+                        <div><i class="fa fa-phone-alt me-2"></i>02 6631 6588</div>
                         <div><i class="fa fa-envelope me-2"></i>Mingle.org@gmail.com</div>
                     </div>
                 </div>
@@ -165,21 +166,22 @@ let filters = ref({
     worktype: [],
     city: "",
     keyword: null,
-    workperiod: [],
+    workPeriod: [],
     hideFull: false,
+    showKeptWorkOnly: false,
     // 自定義條件
-    hideDeleted:true,
-    showOnShelfOnly:true,
-    hideExpired:true,
+    hideDeleted: true,
+    showOnShelfOnly: true,
+    hideExpired: true,
 });
 // 其他
 const isSticky = ref(false); // Sticky Header
 const isAnimationEnabled = ref(true);
 
 //// 監聽變數
-watch(() => filters.value.hideFull, () => {
+watch(() => filters.value, () => {
     reloadWork();
-});
+}, { deep: true });
 
 //// 生命週期
 onMounted(async () => {
@@ -285,8 +287,6 @@ const toggleWorkType = (worktypeID) => {
     } else {
         filters.value.worktype.push(worktypeID);
     }
-
-    reloadWork(); // 重新載入工作列表
 };
 
 // 排序: 熱門、最新、即將截止
