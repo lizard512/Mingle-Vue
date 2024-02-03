@@ -104,7 +104,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 hide-on-medium">
+            <div class="col-lg-4 hide-on-medium">
                 <div class="row g-4">
                     <div class="col-xxl-6 col-0 d-flex justify-content-xxl-end justify-content-center align-items-center">
                         <div class="me-2">翻牌動畫開關</div>
@@ -112,9 +112,9 @@
                             iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green"
                             color2="red" v-model="isAnimationEnabled" />
                     </div>
-                    <div class="col-xxl-6 col-0">
+                    <div class="col-xxl-6 col-0 flex-column align-items-center">
                         <div><i class="fa fa-phone-alt me-2"></i>02 6631 6588</div>
-                        <div><i class="fa fa-envelope me-2"></i>Mingle.org@gmail.com</div>
+                        <div><i class="fa fa-envelope me-2"></i>Mingle@gmail.com</div>
                     </div>
                 </div>
             </div>

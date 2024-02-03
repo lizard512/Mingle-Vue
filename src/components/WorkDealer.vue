@@ -42,7 +42,7 @@
                     <!-- 蓋牌 -->
                     <div v-else class="list-item overflow-hidden"
                         :class="isAnimationEnabled ? 'animate__animated animate__flipOutY' : ''"
-                        :style="{ animationDelay: `${index * 0.1}s`, opacity: 1 }">
+                        :style="{ animationDelay: `${index * 0.05}s`, opacity: 1 }">
                         <div class="position-relative overflow-hidden">
                             <img class="img-fluid" src="@images/grey.jpg" :alt="work.name">
                             <div class="bg-info rounded text-info position-absolute start-0 top-0 m-4 py-1 px-3">
@@ -127,7 +127,7 @@ watch(() => props.works.length, (newLength) => {// 翻牌模擬器好難玩OAQ
                 setTimeout(() => {
                     isFliping.value[i] = true;
                     resolve();
-                }, 500 + i * 100); // 決定蓋牌以後多久開牌
+                }, 500 + i * 50); // 決定蓋牌以後多久開牌
             }).then(() => {
                 // 開牌
                 isFliping.value[i] = false;
