@@ -339,10 +339,12 @@
                     </div>
                     <!-- preview -->
                     <div class="row g-0 mx-3 my-5">
-                        <div v-for="item in totalList" class="col d-flex justify-content-center position-relative">
-                            <i class="fa-solid fa-xmark fa-2xl position-absolute"></i>
-                            <img :src="item"
-                                class="border border-3 border-primary rounded previewPhoto animate__animated animate__fadeIn">
+                        <div v-for="item in totalList" class="col d-flex justify-content-center">
+                            <figcaption class="position-relative">
+                                <i class="fa-solid fa-xmark fa-2xl position-absolute xmark" @click="deletePhoto(item)"></i>
+                                <img :src="item"
+                                    class="border border-3 border-primary rounded previewPhoto animate__animated animate__fadeIn">
+                            </figcaption>
                         </div>
                     </div>
                 </div>
@@ -427,11 +429,16 @@ const languageRestriction = ref('');    // 語言
 const licenseRestriction = ref('');     // 證照
 const workstatus = ref('');             // 狀態
 const worknote = ref('');               // 備註
-const fileList = ref([]);               // 增陣列
-const deleteList = ref([]);             // 刪陣列
-const totalList = ref([]);              // 總陣列
+const totalList = ref([]);              // [總]
+const fileList = ref([]);               // [增]
+const deleteList = ref([]);             // [刪]
+const idList = ref([]);                 // [ID]
+const oldList = ref([]);                // [舊]
+
+
 function check() {
 }
+
 // 生命週期
 onMounted(() => {
     enterModify();
@@ -448,7 +455,7 @@ async function enterModify() {
     await preEnter();
     await axios.get(`${path}/api/work/getWork/76`)
         .then(function (response) {
-            console.log(response.data);
+            // console.log(response.data);
             worktype.value = response.data.worktype;
             workname.value = response.data.name;
             workcity.value = response.data.city;
@@ -468,20 +475,18 @@ async function enterModify() {
             licenseRestriction.value = response.data.licenseRestriction;
             worknote.value = response.data.notes;
             totalList.value = response.data.photosBase64;
+            // idList.value = 
+            oldList.value = [...totalList.value];
         })
 }
 
 // (預覽)新增
-function addToTotal(e) {
+async function addToTotal(e) {
     if (totalList.value.length <= 5) {
-        console.log(e);
-        totalList.value.push(e.url);
-        console.log(fileList.value);
-        console.log(totalList.value);
-        // const file = fileList
-        // const tempURL = URL.createObjectURL(file);
-        //   previewPhotoIMG.src = tempURL;
-        //   console.log("tempURL",tempURL);
+        await totalList.value.push(e.url);
+        console.log("(增)增", fileList.value);
+        console.log("(增)總", totalList.value);
+        console.log("(增)舊", oldList.value);
     } else {
         Swal.mixin({
             toast: true,
@@ -502,11 +507,26 @@ function addToTotal(e) {
         })
     }
 }
-// blob URL convert
-async function convertBlobUrlToFile(url, fileName) {
-    return fetch(url)
-        .then(res => res.blob())
-        .then(blob => new File([blob], fileName, { type: blob.type }));
+// 刪除
+function deletePhoto(item) {
+    // 判斷是否為舊照片，添加到【刪】
+    console.log("oldList.value", oldList.value);
+    console.log("item", item);
+    console.log("=============")
+    const isOldPhoto = oldList.value.includes(item);
+    if (isOldPhoto) {
+        let oldNoIndex = oldList.value.indexOf(item);
+        // deleteList.value.push(idList[oldNoIndex]);
+        deleteList.value.push(item);
+        // console.log("(刪)刪", deleteList.value);
+    }
+    // 刪【總】
+    const index = totalList.value.indexOf(item);
+    if (index !== -1) {
+        totalList.value.splice(index, 1);
+        // console.log("(刪)總", totalList.value);
+        // console.log("(刪)刪", deleteList.value);
+    }
 }
 
 // 日期規則
@@ -528,6 +548,7 @@ function validate(event) {
                     event.stopPropagation()
                 }
                 form.classList.add('was-validated')
+                console.log(fileList.value);
             }, false)
         })
 }
@@ -595,6 +616,25 @@ let modifiedDate = current.getFullYear() + '-' + (current.getMonth() + 1) + '-' 
 }
 
 .xmark {
-    top: 0px;
+    top: 14px;
+    right: 7px;
+    z-index: 1000;
+}
+
+figcaption:hover .xmark {
+    transform: rotate(270deg);
+    /* 設置 xmark 的旋轉效果 */
+}
+
+figcaption:hover img {
+    transform: scale(1.1);
+    /* 設置圖片的縮放效果 */
+    transition: transform 0.3s ease;
+    /* 添加過渡效果，使縮放平滑過渡 */
+}
+
+.xmark {
+    transition: transform 0.3s ease;
+    /* 添加過渡效果，使旋轉平滑過渡 */
 }
 </style>
