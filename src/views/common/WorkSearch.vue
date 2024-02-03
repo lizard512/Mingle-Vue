@@ -136,19 +136,19 @@ import Toggle from '@components/Toggle.vue';
 // import { useWorkStore } from '@store/workStore';
 
 
-//// 接收資料庫資料
+//// 接收資料
 let works = ref([]);
 let total = ref(0);
 const worktypeIDs = ref([]);
 const cities = ref([]);
-
+const userID = localStorage.getItem('userID');
 
 //// 接收元件傳值
 // const store = useWorkStore();
 // store.setWorks(works);
 
 
-//// 預設參數
+//// 初始化變數
 // 載入相關
 const currentPage = ref(0); // 當前頁數
 const size = 12; // 每次載入的數量
@@ -193,6 +193,7 @@ onMounted(async () => {
 onUnmounted(() => {
     window.removeEventListener('scroll', infiniteScroll);
     window.removeEventListener('scroll', checkSticky);
+    window.scrollTo(0, 0);
     // document.body.classList.remove('no-scroll');
 });
 
@@ -240,7 +241,8 @@ const loadWork = async () => {
                     page: currentPage.value,
                     size: size,
                     direction: direction,
-                    property: property
+                    property: property,
+                    userID: userID,
                 }
             }
         );
