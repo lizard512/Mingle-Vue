@@ -3,7 +3,7 @@
         '--swiper-navigation-color': '#fff',
         '--swiper-pagination-color': '#fff',
     }" :effect="'cards'" :grabCursor="true" :navigation="true" :modules="modules"
-        :autoplay="{ delay: 2500, disableOnInteraction: false }" class="mySwiper">
+        :autoplay="{ delay: 2500, disableOnInteraction: true }" class="mySwiper">
         <swiper-slide class="list-item overflow-hidden" v-for="work in works" :key="work.workid">
             <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                 <div class="position-relative overflow-hidden">

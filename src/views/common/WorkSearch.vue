@@ -76,7 +76,7 @@
         <footer
             class="sticky-footer mt-auto py-3 bg-light-var animate__animated animate__slideInUp row d-flex align-items-center"
             data-wow-delay="0.1s">
-            <div class="col-lg-5 col-6">
+            <div class="col-md-5 col-6">
                 <div class="row g-4">
                     <div class="col-xxl-5 col-0">
                         <div class="m-0">共有 {{ total }} 筆相符的結果</div>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
+            <div class="col-md-3 col-6">
                 <div class="row g-4">
                     <div class="col-xxl-6 col-0 d-flex justify-content-xxl-end justify-content-center">
                         <div class="me-2">隱藏額滿項目</div>
@@ -104,9 +104,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 hide-on-medium">
+            <div class="col-md-4 hide-on-small">
                 <div class="row g-4">
-                    <div class="col-xxl-6 col-0 d-flex justify-content-xxl-end justify-content-center align-items-center">
+                    <div class="col-xxl-6 col-0 d-flex justify-content-center align-items-center">
                         <div class="me-2">翻牌動畫開關</div>
                         <Toggle id="toggleAnimation" :isChecked=true bgColor="black" ballColor="white"
                             iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green"
