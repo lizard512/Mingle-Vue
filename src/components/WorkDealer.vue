@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid px-5 pt-3">
         <div class="row g-4">
-            <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6" v-for="(work, index) in works" :key="work.workid">
+            <div class="col-xxl-2 col-xl-3 col-lg-4 col-sm-6" v-for="(work, index) in works" :key="work.workid">
                 <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                     <!-- <transition name="flip"> -->
                     <!-- 開牌 -->

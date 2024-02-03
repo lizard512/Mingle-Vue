@@ -1,19 +1,19 @@
 <template>
     <div class="container-fluid vh-100">
         <!--Search Header Start-->
-        <div class="row g-4 align-items-center py-3 bg-light-var" :class="{ 'sticky-header': isSticky }">
-            <div class="col-lg-5">
-                <div class="row">
-                    <div class="col-xxl-6 col-lg-0">
+        <div class="row g-2 d-flex align-items-center py-3 bg-light-var" :class="{ 'sticky-header': isSticky }">
+            <div class="col-md-5">
+                <div class="row g-2">
+                    <div class="col-xxl-6 col-md-0 hide-on-small">
                         <div class="text-start mx-auto wow animate__animated animate__slideInLeft inline-flex"
                             data-wow-delay="0.1s">
                             <h2 class="mx-3">打工機會</h2>
                             <span class="badge bg-danger">正在徵求幫助者的項目！</span>
                         </div>
                     </div>
-                    <div class="col-xxl-6 col-lg-0 d-inline-flex animate__animated animate__slideInDown"
+                    <div class="col-xxl-6 col-md-0 d-inline-flex animate__animated animate__slideInDown"
                         data-wow-delay="0.1s">
-                        <select class="form-select w-50 me-3" v-model="filters.city" @change="reloadWork()">
+                        <select class="form-select w-50 me-2" v-model="filters.city" @change="reloadWork()">
                             <option value="">所有縣市</option>
                             <optgroup v-for="(group, area) in groupedCities" :label="area" :key="area">
                                 <option v-for="city in group" :value="city.city" :key="city.city">
@@ -31,20 +31,20 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-7">
-                <div class="row">
-                    <div class="col-xxl-7 col-lg-12 my-1 text-end animate__animated animate__slideInDown"
+            <div class="col-md-7">
+                <div class="row g-2">
+                    <div class="col-xxl-7 col-md-12 d-flex justify-content-md-end justify-content-center animate__animated animate__slideInDown"
                         data-wow-delay="0.1s">
                         <div class="btn-group" role="group">
                             <template v-for="(worktypeID, index) in worktypeIDs" :key="worktypeID.worktypeID">
-                                <input type="checkbox" class="btn-check" :id="index"
+                                <input type="checkbox"  class="btn-check" :id="index"
                                     @click="toggleWorkType(worktypeID.worktypeID)">
                                 <label class="btn btn-outline-info" :for="index">{{ worktypeID.worktypeID }}</label>
                                 <!-- <img :src="`/src/assets/images/icon-${worktypeID.worktypeID}.png`" width="25px" height="25px"> -->
                             </template>
                         </div>
                     </div>
-                    <div class="col-xxl-5 col-lg-12 my-1 text-end animate__animated animate__slideInRight"
+                    <div class="col-xxl-5 col-md-12 d-flex justify-content-md-end justify-content-center animate__animated animate__slideInRight"
                         data-wow-delay="0.1s">
                         <div class="btn-group" role="group">
                             <input type="radio" class="btn-check" name="btnradio" id="btnradio1" checked
@@ -75,35 +75,47 @@
 
         <!-- Sticky Footer Start-->
         <footer
-            class="sticky-footer mt-auto py-3 bg-light-var animate__animated animate__slideInUp row d-flex align-items-center justify-content-center"
+            class="sticky-footer mt-auto py-3 bg-light-var animate__animated animate__slideInUp row d-flex align-items-center"
             data-wow-delay="0.1s">
-            <div class="col-xxl-2 col-lg-4">
-                <div class="m-0">共有 {{ total }} 筆相符的結果</div>
-                <div class="m-0">請向下滾動以瀏覽更多項目</div>
+            <div class="col-lg-5 col-6">
+                <div class="row">
+                    <div class="col-xxl-5 col-0">
+                        <div class="m-0">共有 {{ total }} 筆相符的結果</div>
+                        <div class="m-0">請向下滾動以瀏覽更多項目</div>
+                    </div>
+                    <div class="col-xxl-7 col-md-0 d-flex justify-content-xxl-start justify-content-center hide-on-small">
+                        <div><el-date-picker v-model="filters.workperiod" type="daterange" start-placeholder="起始日期"
+                                end-placeholder="結束日期" format="YYYY-MM-DD ddd" value-format="YYYY-MM-DD" size="large"/></div>
+                    </div>
+                </div>
             </div>
-            <div class="col-xxl-2 col-lg-4">
-                <div><el-date-picker v-model="workperiod" type="daterange" start-placeholder="起始日期"
-                                end-placeholder="結束日期" format="YYYY-MM-DD ddd" date-format="YYYY/MM/DD ddd" size="large"
-                                :disabled-date="daterule" /></div>
+            <div class="col-lg-3 col-6">
+                <div class="row g-4">
+                    <div class="col-xxl-6 col-0 d-flex justify-content-xxl-end justify-content-center">
+                        <!-- 上下排列請加入 flex-column align-items-center -->
+                        <div class="me-2">隱藏額滿項目</div>
+                        <Toggle id="toggleAttendance" :isChecked=false bgColor="black" ballColor="white"
+                            iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green"
+                            color2="red" v-model="filters.hideFull" />
+                    </div>
+                    <div class="col-xxl-6 col-0 d-flex justify-content-xxl-end justify-content-center">
+                        <div class="me-2">翻牌動畫開關</div>
+                        <Toggle id="toggleAnimation" :isChecked=true bgColor="black" ballColor="white"
+                            iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green"
+                            color2="red" v-model="isAnimationEnabled" />
+                    </div>
+                </div>
             </div>
-            <div class="col-xxl-2 col-lg-4">
-                <div></div>
-            </div>
-            <div class="col-xxl-2 col-lg-4 d-flex justify-content-center"> <!-- 上下排列請加入 flex-column align-items-center -->
-                <div class="me-2">隱藏額滿項目</div>
-                <Toggle id="toggleAttendance" :isChecked=false bgColor="black" ballColor="white"
-                    iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green" color2="red"
-                    v-model="filters.hideFull" />
-            </div>
-            <div class="col-xxl-2 col-lg-4 d-flex justify-content-center">
-                <div class="me-2">翻牌動畫開關</div>
-                <Toggle id="toggleAnimation" :isChecked=true bgColor="black" ballColor="white"
-                    iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green" color2="red"
-                    v-model="isAnimationEnabled" />
-            </div>
-            <div class="col-xxl-2 col-lg-4">
-                <div class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</div>
-                <div><i class="fa fa-envelope me-2"></i>Mingle.org@gmail.com</div>
+            <div class="col-lg-3 hide-on-medium">
+                <div class="row">
+                    <div class="col-xxl-4 col-md-0">
+                        <div></div>
+                    </div>
+                    <div class="col-xxl-8 col-md-0">
+                        <div class="mx-2"><i class="fa fa-phone-alt me-2"></i>02 6631 6588</div>
+                        <div><i class="fa fa-envelope me-2"></i>Mingle.org@gmail.com</div>
+                    </div>
+                </div>
             </div>
 
         </footer>
@@ -149,10 +161,16 @@ const isArrowUp = ref(true);// 排序按紐的箭頭方向
 // 篩選相關
 const areaOrder = ['北部區域', '中部區域', '南部區域', '東部區域', '外島區域'];
 let filters = ref({
+    // 依篩選器變動
     worktype: [],
     city: "",
     keyword: null,
+    workperiod: [],
     hideFull: false,
+    // 自定義條件
+    hideDeleted:true,
+    showOnShelfOnly:true,
+    hideExpired:true,
 });
 // 其他
 const isSticky = ref(false); // Sticky Header
@@ -246,6 +264,7 @@ const reloadWork = () => {
     isEnd.value = false; // 重設結束標記
     window.scrollTo(0, 0); // 將頁面滾動到最上方
     loadWork();
+    console.log(filters.value.workperiod);
 }
 
 // 無限卷軸功能
@@ -260,7 +279,6 @@ const infiniteScroll = () => {
 const toggleWorkType = (worktypeID) => {
     const index = filters.value.worktype.indexOf(worktypeID);
     if (index >= 0) {
-        // 如果 worktypeID 已經在 filters.worktypeID 中，移除它
         filters.value.worktype.splice(index, 1);
     } else {
         filters.value.worktype.push(worktypeID);
@@ -364,6 +382,19 @@ const checkSticky = () => {
 
 .container-fluid :deep() .fa {
     color: chocolate;
+}
+
+@media (max-width: 767.98px) {
+    .hide-on-small {
+        display: none;
+    }
+}
+
+
+@media (max-width: 991.98px) {
+    .hide-on-medium {
+        display: none;
+    }
 }
 
 

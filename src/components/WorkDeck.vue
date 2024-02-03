@@ -62,10 +62,10 @@ const isLoading = ref(false); // 避免重複載入
 const isEnd = ref(false); // 停止載入工作
 // 篩選相關
 let filters = ref({
-    worktype: [],
-    city: "",
-    keyword: null,
     hideFull: true,
+    hideDeleted:true,
+    showOnShelfOnly:true,
+    hideExpired:true,
 });
 
 // Define props
