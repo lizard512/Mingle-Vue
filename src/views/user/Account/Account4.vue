@@ -111,7 +111,7 @@ const updateDetail = async () => {
     }
     console.log(data);
 
-    await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/update/introductions`, data).then(function (response) {
+    await axios.patch(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/update/introductions`, data).then(function (response) {
         console.log("我傳回成功啦")
         console.log(response.data)
         if (response.data.success) {

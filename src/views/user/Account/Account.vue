@@ -81,7 +81,7 @@ const getuserid =
         return userid
     }
 const loaduserDetail = async () => {
-    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/order/` + getuserid());
+    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/` + getuserid());
     // Object.assign(userdetails, response.data);
     userdetails.value = response.data
     console.log(userdetails)

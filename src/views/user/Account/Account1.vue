@@ -181,6 +181,7 @@
 import { onMounted, ref, reactive } from 'vue'
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import bootstrapBundleMin from 'bootstrap/dist/js/bootstrap.bundle.min';
 //============從父層傳值============
 //============查詢會員資料============
 const props = defineProps({
@@ -291,7 +292,6 @@ function imageLoaded(e) {
 //     //form.append(this.file, this.file.name)
 
 // }
-
 
 
 
