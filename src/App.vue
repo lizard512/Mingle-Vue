@@ -9,8 +9,6 @@
 </template>
 
 <script setup>
-// 外部函式庫
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 // 內部元件
 import Navbar from '@components/Navbar.vue'
 import Footer from '@components/Footer.vue'
@@ -39,6 +37,8 @@ import BackToTopButton from '@components/BackToTopButton.vue'
     --danger: #dc3545;
     --light: #EFFDF5;
     --dark: #0E2E50;
+    --white: #FFFFFF;
+    --black: #000000;
 }
 
 /*** Button ***/
@@ -61,5 +61,9 @@ import BackToTopButton from '@components/BackToTopButton.vue'
     border-radius: 50px;
     border: 1px dashed var(--primary);
 }
+
+
+
+
 
 </style>

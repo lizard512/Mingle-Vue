@@ -66,10 +66,10 @@
                     <template v-else>
                         <RouterLink class="btn btn-dark px-3" to="/register/register4">成為幫助者</RouterLink>
                         <p class="m-3">已有帳戶? </p>
-                        <RouterLink class="btn btn-dark px-3 me-3" to="/login">登入</RouterLink>
+                        <RouterLink class="btn btn-dark px-3 me-3" :to="{ name: 'Login', query: { redirect: router.currentRoute.value.fullPath } }">登入</RouterLink>
                     </template>
                     <Toggle id="toggleDarkMode" :isChecked=false bgColor="black" ballColor="white"
-                    iconClass1="fas fa-moon" iconClass2="fas fa-sun" color1="yellow" color2="orangered" v-model="darkMode"/>
+                    iconClass1="fas fa-moon" iconClass2="fas fa-sun" color1="yellow" color2="orangered" v-model="darkMode" class="my-2"/>
                 </div>
             </div>
         </nav>
@@ -102,7 +102,6 @@ onBeforeUnmount(() => {
 
 //// 定義變數
 // user登入狀態處理
-let sessionToken = ref(localStorage.getItem('sessionToken'));
 const userStore = useUserStore();
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 const isLandlord = computed(() => userStore.permissions.includes('lord'));
@@ -120,11 +119,15 @@ watchEffect(() => {
         htmlTag.style.setProperty('--primary', '#d29f05');
         htmlTag.style.setProperty('--light', '#0E2E50');
         htmlTag.style.setProperty('--dark', '#EFFDF5');
+        htmlTag.style.setProperty('--white', '#000000');
+        htmlTag.style.setProperty('--black', '#FFFFFF');
     } else {
         htmlTag.removeAttribute('data-bs-theme');
         htmlTag.style.setProperty('--primary', '#ffc107');
         htmlTag.style.setProperty('--light', '#EFFDF5');
         htmlTag.style.setProperty('--dark', '#0E2E50');
+        htmlTag.style.setProperty('--white', '#FFFFFF');
+        htmlTag.style.setProperty('--black', '#000000');
     }
 });
 
@@ -138,10 +141,6 @@ function resetStore() {
     localStorage.removeItem('sessionToken');
     localStorage.removeItem('userID');
     localStorage.removeItem('lordID');
-}
-
-function updateSessionToken() {
-    sessionToken.value = localStorage.getItem('sessionToken');
 }
 
 const getUserProfileLink = () => {
@@ -200,6 +199,7 @@ const checkSticky = () => {
     margin-right: 40px;
     /* text-transform: uppercase; */
     border-radius: 5px;
+    outline: none;
 }
 
 .navbar-light .navbar-nav .nav-link:hover,
@@ -217,6 +217,10 @@ const checkSticky = () => {
     .navbar-light .navbar-nav .nav-link {
         margin-right: 5;
         padding: 0;
+    }
+
+    .navbar-light .navbar-nav {
+        border-top: 1px solid #EEEEEE;
     }
 }
 

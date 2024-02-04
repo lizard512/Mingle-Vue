@@ -11,11 +11,7 @@
                             @click="navigateToChatroom"><i class="fa-solid fa-comment-dots me-1"></i>聯絡用戶</button>
                         <h5 class="my-2">{{ user.name }}</h5>
                         <span class="text-muted my-2">加入時間：{{ user.createdAt.toString().substring(0, 10) }}</span>
-                        <div class="my-2">
-                            <span class="text-muted me-3 fa fa-star" v-if="true"> 打工換宿達人</span>
-                            <span class="text-muted  me-3 fa fa-solid fa-address-card" v-if="true"> 身分已驗證</span>
-                            <span class="text-primary me-3 fa fa-solid fa-medal" v-if="true"> 超讚房東</span>
-                        </div>
+                        <p class="text-muted my-2">{{ user.introduction }}</p>
                         <div class="row mb-3 mt-3">
                             <div class="col">
                                 <h6 class="text-muted">最後上線時間</h6>
@@ -33,8 +29,13 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="text-muted my-2">{{ user.introduction }}</p>
+
                         <hr>
+                        <div class="my-2">
+                            <span class="text-muted me-3 fa fa-star" v-if="true"> 打工換宿達人</span>
+                            <span class="text-muted  me-3 fa fa-solid fa-address-card" v-if="true"> 身分已驗證</span>
+                            <span class="text-primary me-3 fa fa-solid fa-medal" v-if="true"> 超讚房東</span>
+                        </div>
                         <div class="d-flex justify-content-between text-center py-1">
                             <div>
                                 <p class="mb-1 h5" data-toggle="counter-up">25 則</p>
