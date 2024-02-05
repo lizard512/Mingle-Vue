@@ -13,7 +13,7 @@
         '--swiper-navigation-color': '#fff',
         '--swiper-pagination-color': '#fff',
       }" :centeredSlides="true" :loop="true" :navigation="true" :modules="modules" :pagination="{ clickable: true }"
-        :autoplay="{ delay: 2500, disableOnInteraction: false }" class="mySwiper">
+        :autoplay="{ delay: 2500, disableOnInteraction: true }" class="mySwiper">
         <swiper-slide><img src="@images/carousel-1.jpg" class="w-100" alt="..."></swiper-slide>
         <swiper-slide><img src="@images/carousel-2.jpg" class="w-100" alt="..."></swiper-slide>
       </swiper>

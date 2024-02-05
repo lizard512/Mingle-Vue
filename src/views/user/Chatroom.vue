@@ -159,14 +159,7 @@ function onConnected() {
 }
 // 連線中斷
 function onError() {
-    Swal.fire({
-        icon: 'error',
-        text: 'BOOOOOOMMMMMM! 連線壞掉囉',
-        confirmButtonText: 'Alright....',
-        allowOutsideClick: false
-    }).then(function (response) {
-
-    })
+    console.log("BOOOOOOMMMMMM! 連線壞掉囉");
 }
 // 搜尋列初始化(先不用)
 async function initsearch() {

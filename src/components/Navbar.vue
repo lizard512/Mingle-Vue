@@ -69,7 +69,7 @@
                         <RouterLink class="btn btn-dark px-3 me-3" :to="{ name: 'Login', query: { redirect: router.currentRoute.value.fullPath } }">登入</RouterLink>
                     </template>
                     <Toggle id="toggleDarkMode" :isChecked=false bgColor="black" ballColor="white"
-                    iconClass1="fas fa-moon" iconClass2="fas fa-sun" color1="yellow" color2="orangered" v-model="darkMode"/>
+                    iconClass1="fas fa-moon" iconClass2="fas fa-sun" color1="yellow" color2="orangered" v-model="darkMode" class="my-2"/>
                 </div>
             </div>
         </nav>
@@ -199,6 +199,7 @@ const checkSticky = () => {
     margin-right: 40px;
     /* text-transform: uppercase; */
     border-radius: 5px;
+    outline: none;
 }
 
 .navbar-light .navbar-nav .nav-link:hover,
@@ -216,6 +217,10 @@ const checkSticky = () => {
     .navbar-light .navbar-nav .nav-link {
         margin-right: 5;
         padding: 0;
+    }
+
+    .navbar-light .navbar-nav {
+        border-top: 1px solid #EEEEEE;
     }
 }
 

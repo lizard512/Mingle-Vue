@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid px-5 pt-3">
         <div class="row g-4">
-            <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6" v-for="(work, index) in works" :key="work.workid">
+            <div class="col-xxl-2 col-xl-3 col-lg-4 col-sm-6" v-for="(work, index) in works" :key="work.workid">
                 <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                     <!-- <transition name="flip"> -->
                     <!-- 開牌 -->
@@ -17,8 +17,8 @@
                                 class="bg-success rounded-top text-white position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
                                 {{ work.city }}</div>
                             <button v-if="isLoggedIn" type="button" class="btn position-absolute end-0 top-0 m-3"
-                                :class="{ 'active': isKept[index] }"
-                                @click.stop.prevent="toggleKeepWork(work.workid, index)"><i
+                                :class="{ 'active': work.kept }"
+                                @click.stop.prevent="toggleKeepWork(work.workid, work.kept)"><i
                                     class="fa-brands fa-gratipay"></i></button>
                         </div>
                         <div class="p-4 pt-3 pb-0">
@@ -42,7 +42,7 @@
                     <!-- 蓋牌 -->
                     <div v-else class="list-item overflow-hidden"
                         :class="isAnimationEnabled ? 'animate__animated animate__flipOutY' : ''"
-                        :style="{ animationDelay: `${index * 0.1}s`, opacity: 1 }">
+                        :style="{ animationDelay: `${index * 0.05}s`, opacity: 1 }">
                         <div class="position-relative overflow-hidden">
                             <img class="img-fluid" src="@images/grey.jpg" :alt="work.name">
                             <div class="bg-info rounded text-info position-absolute start-0 top-0 m-4 py-1 px-3">
@@ -81,20 +81,13 @@
 
 <script setup>
 //// 引用函式庫
-import { ref, watch, onMounted, computed } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { toast } from 'vue3-toastify';
 import axios from 'axios';
 import { useUserStore } from '@store/userStore-localStorage.js';
 const userStore = useUserStore();
 
 //// 生命週期
-onMounted(async () => {
-    // for (let i = 0; i < props.works.length; i++) {
-    //     await checkIfWorkIsKept(props.works[i].workid, i);
-    // }
-    // 建立一個 promises 陣列來儲存所有的 checkIfWorkIsKept Promise
-
-});
 
 /// 定義props
 const props = defineProps({
@@ -106,26 +99,23 @@ const props = defineProps({
 //// 初始化變數
 const userID = localStorage.getItem('userID');
 const isLoggedIn = computed(() => userStore.isLoggedIn);
-const isKept = ref([]); // 工作清單的收藏狀況
+// const isKept = ref([]); // 工作清單的收藏狀況
 let isFliping = ref([]);
 let lastFilp = ref(0); // 保存上一次翻開的進度
 
 
 //// 監聽變數
 watch(() => props.works.length, (newLength) => {// 翻牌模擬器好難玩OAQ
-
     if (newLength < lastFilp.value) {
         lastFilp.value = 0;
         isFliping.value = [];
     }
     if (newLength > lastFilp.value) {
-        if (isLoggedIn.value) {
-            isKept.value = [];
-            const promises = props.works.map((work, index) => checkIfWorkIsKept(work.workid, index));
-            Promise.all(promises);// 等待所有的 checkIfWorkIsKept Promise 完成
-        }
-
-
+        // if (isLoggedIn.value) {
+        //     isKept.value = [];
+        //     const promises = props.works.map((work, index) => checkIfWorkIsKept(work.workid, index));
+        //     Promise.all(promises);// 等待所有的 checkIfWorkIsKept Promise 完成
+        // }
         isFliping.value = [...isFliping.value, ...Array(newLength - lastFilp.value).fill(true)];
         for (let i = lastFilp.value; i < newLength; i++) {
             new Promise((resolve) => {
@@ -133,7 +123,7 @@ watch(() => props.works.length, (newLength) => {// 翻牌模擬器好難玩OAQ
                 setTimeout(() => {
                     isFliping.value[i] = true;
                     resolve();
-                }, 500 + i * 100); // 決定蓋牌以後多久開牌
+                }, 500 + i * 50); // 決定蓋牌以後多久開牌
             }).then(() => {
                 // 開牌
                 isFliping.value[i] = false;
@@ -144,20 +134,20 @@ watch(() => props.works.length, (newLength) => {// 翻牌模擬器好難玩OAQ
 
 });
 
-const checkIfWorkIsKept = async (workId, index) => {
-    try {
-        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteer/isWorkKeptByVolunteer`, {
-            params: {
-                volunteerId: userID,
-                workId: workId
-            }
-        });
-        // 更新 isKept 陣列的值
-        isKept.value[index] = response.data;
-    } catch (error) {
-        console.error('Failed to check if work is kept:', error);
-    }
-}
+// const checkIfWorkIsKept = async (workId, index) => {
+//     try {
+//         const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteer/isWorkKeptByVolunteer`, {
+//             params: {
+//                 volunteerId: userID,
+//                 workId: workId
+//             }
+//         });
+//         // 更新 isKept 陣列的值
+//         isKept.value[index] = response.data;
+//     } catch (error) {
+//         console.error('Failed to check if work is kept:', error);
+//     }
+// }
 
 const addWorkToKeepList = async (workId) => {
     try {
@@ -185,14 +175,18 @@ const removeWorkFromKeepList = async (workId) => {
     }
 }
 
-const toggleKeepWork = (workId, index) => {
-    isKept.value[index] = !isKept.value[index];
-    if (isKept.value[index]) {
-        addWorkToKeepList(workId);
-        toast("已新增至心願清單", {})
-    } else {
+const toggleKeepWork = (workId, kept) => {
+    if (kept) {
         removeWorkFromKeepList(workId);
         toast("已從心願清單移除", {})
+    } else {
+        addWorkToKeepList(workId);
+        toast("已新增至心願清單", {})
+    }
+    // 更新 work.kept 的值
+        const work = props.works.find(work => work.workid === workId);
+    if (work) {
+        work.kept = !kept;
     }
 }
 

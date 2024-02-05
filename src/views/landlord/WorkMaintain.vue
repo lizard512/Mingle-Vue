@@ -339,19 +339,93 @@
                     </div>
                     <!-- preview -->
                     <div class="row g-0 mx-3 my-5">
-                        <div v-for="item in totalList" class="col d-flex justify-content-center position-relative">
-                            <i class="fa-solid fa-xmark fa-2xl position-absolute"></i>
-                            <img :src="item"
-                                class="border border-3 border-primary rounded previewPhoto animate__animated animate__fadeIn">
+                        <div v-for="item in totalList" class="col d-flex justify-content-center">
+                            <figcaption class="position-relative">
+                                <i class="fa-solid fa-xmark fa-2xl position-absolute xmark" @click="deletePhoto(item)"></i>
+                                <img :src="item"
+                                    class="border border-3 border-primary rounded previewPhoto animate__animated animate__fadeIn">
+                            </figcaption>
                         </div>
                     </div>
                 </div>
                 <!-- bindHouse -->
                 <h4 class="text-center my-5 animate__animated animate__flipInX">綁定房源</h4>
-                <div class="border border-danger border-3 rounded-3 m-3 p-3 animate__animated animate__fadeInUp">
-                    <h5 class="text-dark mx-4 mt-3">設定此份工作綁定的房源</h5>
-                    <div class="row g-0 mx-3 my-5">
-                    </div>
+                <div class="border border-danger border-3 rounded-3 m-3 p-3  animate__animated animate__fadeInUp">
+                    <h5 class="text-dark mx-4 mt-3">設定此份工作綁定的房源(需綁定至少一項才可上架工作)</h5>
+                    <!-- table -->
+                    <table class="my-5 table table-striped table-hover align-middle text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>房屋資訊</th>
+                                <th>房屋圖片</th>
+                                <th>是否綁定</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template v-for="house in houseDetail">
+                                <tr>
+                                    <td class="align-middle col-5">
+                                        <h6>{{ house.houseType }}-{{ house.name }}</h6>
+                                        <div>地址:{{ house.postCode }}{{ house.city }}-{{ house.address }}
+                                        </div>
+                                        <div>
+                                            <div>
+                                                描述:{{ house.description }}
+
+                                            </div>
+                                            <div> 房間設備:</div>
+                                            <div><span v-if="house.hasWifi == true"><i
+                                                        class="fa-solid fa-wifi text-muted">無線上網&nbsp</i>
+                                                </span>
+                                                <span v-if="house.hasTV == true"><i
+                                                        class="fa-solid fa-tv text-muted">電視、</i>
+                                                </span>
+                                                <span v-if="house.hasPool == true"><i
+                                                        class="fa-solid fa-person-swimming text-muted">游泳池&nbsp</i>
+                                                </span>
+                                                <span v-if="house.hasGym == true"><i
+                                                        class="fa-solid fa-dumbbell text-muted">健身房&nbsp</i>
+                                                </span>
+                                                <span v-if="house.hasKitchen == true"><i
+                                                        class="fa-solid fa-fire-burner text-muted">廚房&nbsp</i>
+                                                </span>
+                                                <span v-if="house.hasLaundry == true"><i
+                                                        class="fa-solid fa-shirt text-muted">洗衣房&nbsp</i>
+                                                </span>
+                                                <span v-if="house.hasParkingLot == true"><i
+                                                        class="fa-solid fa-square-parking text-muted">停車位&nbsp</i>
+                                                </span>
+                                                <span v-if="house.hasPersonalSpace == true"><i
+                                                        class="fa-solid fa-person text-muted">個人空間&nbsp</i>
+                                                </span>
+                                                <span v-if="house.hasAirconditioner == true"><i
+                                                        class="fa-solid  fa-fan text-muted">空調&nbsp</i>
+                                                </span>
+                                                <span v-if="nofacilates(house)" class="text-muted">無&nbsp
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="mx-3 col-5 align-middle">
+                                        <div class="photo-container">
+                                            <swiper :style="{
+                                                '--swiper-navigation-color': '#fff',
+                                                '--swiper-pagination-color': '#fff',
+                                            }" :centeredSlides="true" :loop="true" :navigation="true"
+                                                :modules="modules" :pagination="{ clickable: true }"
+                                                class="mySwiper col-md-12">
+                                                <swiper-slide v-for="photo in house.photosBase64" :key="photo">
+                                                    <img v-if="photo != null" :src="photo" class="d-block w-100">
+                                                    <img v-else src="@images/ImageNotFound.jpg" class="d-block w-100">
+                                                </swiper-slide>
+                                            </swiper>
+                                        </div>
+                                    </td>
+                                    <td>還在想</td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
                 </div>
                 <!-- notes & status -->
                 <h4 class="text-center my-5 animate__animated animate__flipInX">上架與備註</h4>
@@ -395,7 +469,16 @@ import { ref, onMounted } from 'vue';
 import Swal from 'sweetalert2'
 import { useUserStore } from '@store/userStore-localStorage.js';
 import axios from 'axios';
-// import { UploadProps, UploadUserFile } from "element-plus";
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+// import required modules
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+const modules = [Autoplay, Pagination, Navigation];
+
 const isShowList = ref(false);
 const isShowModify = ref(true);
 // const fl = ref<UploadUserFile[]>([])
@@ -427,11 +510,16 @@ const languageRestriction = ref('');    // 語言
 const licenseRestriction = ref('');     // 證照
 const workstatus = ref('');             // 狀態
 const worknote = ref('');               // 備註
-const fileList = ref([]);               // 增陣列
-const deleteList = ref([]);             // 刪陣列
-const totalList = ref([]);              // 總陣列
-function check() {
-}
+const totalList = ref([]);              // [總]渲染用
+const fileList = ref([]);               // [傳]上傳
+const idList = ref([]);                 // [ID]舊照片ID
+const deleteList = ref([]);             // [刪]刪除照片ID
+const oldList = ref([]);                // [舊]舊照片(初始賦值，核對index用)
+const newList = ref([]);                // [新]新照片(file)
+
+// 房
+const houseDetail = ref([]);
+
 // 生命週期
 onMounted(() => {
     enterModify();
@@ -446,7 +534,7 @@ async function preEnter() {
 // 進編輯
 async function enterModify() {
     await preEnter();
-    await axios.get(`${path}/api/work/getWork/76`)
+    await axios.get(`${path}/api/work/modifyWork/show/76`)
         .then(function (response) {
             console.log(response.data);
             worktype.value = response.data.worktype;
@@ -468,20 +556,21 @@ async function enterModify() {
             licenseRestriction.value = response.data.licenseRestriction;
             worknote.value = response.data.notes;
             totalList.value = response.data.photosBase64;
+            idList.value = response.data.photosID;
+            oldList.value = [...totalList.value];   // 添加方式，不跟總陣列共用物件來源(會變更)
+            houseDetail.value = response.data.houseDetail;
+            console.log(houseDetail.value);
         })
 }
 
 // (預覽)新增
-function addToTotal(e) {
+async function addToTotal(e) {
     if (totalList.value.length <= 5) {
-        console.log(e);
-        totalList.value.push(e.url);
-        console.log(fileList.value);
-        console.log(totalList.value);
-        // const file = fileList
-        // const tempURL = URL.createObjectURL(file);
-        //   previewPhotoIMG.src = tempURL;
-        //   console.log("tempURL",tempURL);
+        await totalList.value.push(e.url);
+        // console.log("(增)總", totalList.value);
+        // console.log("(增)舊", oldList.value);
+        await newList.value.push(e.raw);
+        // console.log(newList.value);
     } else {
         Swal.mixin({
             toast: true,
@@ -502,13 +591,36 @@ function addToTotal(e) {
         })
     }
 }
-// blob URL convert
-async function convertBlobUrlToFile(url, fileName) {
-    return fetch(url)
-        .then(res => res.blob())
-        .then(blob => new File([blob], fileName, { type: blob.type }));
+// 刪除
+function deletePhoto(item) {
+    // 判斷是否為舊照片，添加到【刪】
+    // console.log("oldList.value", oldList.value);
+    // console.log("item", item);
+    // console.log("=============")
+    const isOldPhoto = oldList.value.includes(item);
+    if (isOldPhoto) {
+        let oldNoIndex = oldList.value.indexOf(item);
+        deleteList.value.push(idList.value[oldNoIndex]);
+        // console.log("(刪)刪", deleteList.value);
+    }
+    // 刪【總】
+    const index = totalList.value.indexOf(item);
+    if (index !== -1) {
+        totalList.value.splice(index, 1);
+        // console.log("(刪)總", totalList.value);
+        // console.log("(刪)刪", deleteList.value);
+    }
 }
+//============沒有設備============
 
+const nofacilates = function (house_type) {
+
+    if (house_type.hasParkingLot == false && house_type.hasPersonalSpace == false && house_type.hasAirconditioner == false && house_type.hasWifi == false && house_type.hasTV == false && house_type.hasGym == false && house_type.hasLaundry == false && house_type.hasPool == false && house_type.hasKitchen == false) {
+        return true
+    } else {
+        return false
+    }
+}
 // 日期規則
 function daterule(time) {
     let today = new Date();
@@ -595,6 +707,48 @@ let modifiedDate = current.getFullYear() + '-' + (current.getMonth() + 1) + '-' 
 }
 
 .xmark {
-    top: 0px;
+    top: 14px;
+    right: 7px;
+    z-index: 1000;
+}
+
+figcaption:hover .xmark {
+    transform: rotate(270deg);
+    /* 設置 xmark 的旋轉效果 */
+}
+
+figcaption:hover img {
+    transform: scale(1.1);
+    /* 設置圖片的縮放效果 */
+    transition: transform 0.3s ease;
+    /* 添加過渡效果，使縮放平滑過渡 */
+}
+
+.xmark {
+    transition: transform 0.3s ease;
+    /* 添加過渡效果，使旋轉平滑過渡 */
+}
+
+.photo-container {
+    width: 100%;
+    /* 设置包装容器宽度为 100%，占满表格列 */
+    max-width: 400px;
+    /* 设置包装容器最大宽度，调整根据需求 */
+    margin: auto;
+    /* 水平居中 */
+    overflow: hidden;
+    /* 隐藏溢出的图像部分 */
+}
+
+
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide img {
+    display: block;
+    height: 300px;
+    object-fit: contain;
 }
 </style>
