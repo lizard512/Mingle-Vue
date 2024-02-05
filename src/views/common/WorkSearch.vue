@@ -7,7 +7,7 @@
                     <div class="col-xxl-6 col-md-0 hide-on-small">
                         <div class="text-start mx-auto wow animate__animated animate__slideInLeft inline-flex"
                             data-wow-delay="0.1s">
-                            <h2 class="mx-3">打工機會</h2>
+                            <h3 class="mx-3">打工機會</h3>
                             <span class="badge bg-danger">正在徵求幫助者的項目！</span>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                             </optgroup>
                         </select>
                         <div class="input-group w-50">
-                            <input type="text" class="form-control" placeholder="用關鍵字查詢" v-model="filters.keyword">
+                            <input type="text" class="form-control" placeholder="關鍵字查詢" v-model="filters.keyword">
                             <button class="btn btn-success" @click="reloadWork()"><i
                                     class="fa fa-search text-white"></i></button>
                         </div>
