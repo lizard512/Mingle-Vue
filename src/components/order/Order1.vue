@@ -253,8 +253,8 @@
                                     <tr>
                                         <th scope="col">房型介紹 (house)</th>
                                         <th scope="col">房間照片 (photo) </th>
-                                        <th scope="col">容納人數 (beds) </th>
-                                        <th scope="col">選擇間數 (room) </th>
+                                        <th scope="col">尚可容納人數 (beds) </th>
+                                        <th scope="col">選擇住宿人數 (room) </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -327,7 +327,7 @@
                                                     </button> -->
                                                 <!-- </div> -->
 
-                                                
+
                                                 <swiper :style="{
                                                     '--swiper-navigation-color': '#fff',
                                                     '--swiper-pagination-color': '#fff',
@@ -335,8 +335,8 @@
                                                     :modules="modules" :pagination="{ clickable: true }"
                                                     class="mySwiper col-md-12">
                                                     <swiper-slide v-show="item.id == house_type.houseid"
-                                                    v-for=" photo in item.housephoto" :key="photo" >
-                                                        <img :src="photo"  class="d-block w-100"
+                                                        v-for=" photo in item.housephoto" :key="photo">
+                                                        <img :src="photo" class="d-block w-100"
                                                             :alt="item.id"></swiper-slide>
                                                 </swiper>
                                             </div>
@@ -344,29 +344,31 @@
                                         <td class=" align-middle col-md-1 text-center">{{ house_type.beds }}</td>
 
                                         <td class=" align-middle  col-md-1"
-                                            :class="{ 'is-invalid': isInvalid(), 'is-valid': isValid() }"> <select
-                                                class=" form-select col-md-12" v-model="selectedRooms[house_type.houseid]"
-                                                @change="roomValidate()">
+                                            :class="{ 'is-invalid': isInvalid(), 'is-valid': isValid() }">
+                                            <select class=" form-select col-md-12"
+                                                v-model="selectedRooms[house_type.houseid]" @change="roomValidate()"
+                                                required>
                                                 <option value="" selected>Choose...</option>
                                                 <option value="0">0</option>
                                                 <option id="room" v-for="room in house_type.beds" :key="room" :value="room">
                                                     {{ room }}</option>
                                             </select>
+                                            <div class="invalid-feedback ">
+                                                請選擇人數。
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <div v-if="totalRooms() > selectedAccomodator" class="text-danger text-end text-secondary">
-                                錯誤訊息：所選房間間數大於報名人數，請重新選擇。
+                            <div v-if="totalRooms() > selectedAccomodator" class="text-danger text-end text-secondary  ">
+                              <i class="bi bi-exclamation-circle"></i>   錯誤訊息：所選房間住宿人數「大於」報名人數。
+                            </div>
+                            <div v-if="totalRooms() < selectedAccomodator" class="text-danger text-end text-secondary">
+                                 <i class="bi bi-exclamation-circle"></i>  錯誤訊息：所選房間住宿人數「小於」報名人數。
                             </div>
 
-                            <!-- <div v-if="totalRooms() == 0" class="text-danger ">
-                                                請選擇間數。
-                                            </div> -->
 
-                            <div class="room-select-error  text-secondary text-end">
 
-                            </div>
 
                             <!-- ====================================================================== -->
 
@@ -687,11 +689,11 @@ const validateAndGoToOrder2 = (event) => {
     // 使用 Bootstrap 驗證的結果
     const form = document.querySelector('.needs-validation');
 
-    roomValidate();
+    // roomValidate();
     // 自定义验证逻辑，假設存在带有 text-danger 类的元素
     const customValidationFailed = document.querySelector('.text-danger');
     const customValidationFailed2 = document.querySelector('.has-error');
-    const customValidationFailed3 = document.querySelector('.room-select-error');
+    // const customValidationFailed3 = document.querySelector('.room-select-error');
 
     // if(totalRooms() == 0){
     //     var roomSelectError = form.querySelector('.room-select-error');
@@ -701,7 +703,7 @@ const validateAndGoToOrder2 = (event) => {
     //     roomSelectError.innerText = '';
     // }
 
-    if (isFormValid && form.checkValidity() && !customValidationFailed && !customValidationFailed2 && customValidationFailed3.innerHTML == '') {
+    if (isFormValid && form.checkValidity() && !customValidationFailed && !customValidationFailed2) {
 
         goToOrder2();
 
@@ -730,6 +732,8 @@ const validation = () => {
             // Find the associated form
             var form = button.closest('.needs-validation');
 
+
+
             if (form && !form.checkValidity()) {
                 event.preventDefault();
                 event.stopPropagation();
@@ -746,11 +750,11 @@ const validation = () => {
 };
 
 
-const isInvalid = () => totalRooms() > selectedAccomodator.value || totalRooms() == 0;
+const isInvalid = () => totalRooms() > selectedAccomodator.value || totalRooms() < selectedAccomodator.value;
 
 const isValid = () => totalRooms() <= selectedAccomodator.value && totalRooms() > 0;
 
-const notValid = () => totalRooms() == null;
+const isNotValid = () => totalRooms() == 0;
 
 
 //============房間驗證============
@@ -768,13 +772,14 @@ const roomValidate = function () {
         roomSelectError.innerText = '錯誤訊息：請選擇間數。';
         roomSelectElement.classList.add('is-invalid'); // 添加 is-invalid 
 
-
-    } else {
+    }
+    else {
         roomSelectError.innerText = null;
         roomSelectElement.classList.remove('is-invalid'); // 移除 is-invalid 
         roomSelectElement.classList.add('is-valid'); // 添加 is-valid 
-
     }
+
+
 }
 
 
@@ -896,9 +901,9 @@ onMounted(async () => {
         for (const house_type in housedetail) {
             console.log(housedetail[house_type])
             showImage(housedetail[house_type].houseid)
-            selectedRooms.value[housedetail[house_type].houseid] = 0
+            selectedRooms.value[housedetail[house_type].houseid] = ''
         }
-        isInvalid.value = false
+
 
 
     }
@@ -1013,9 +1018,6 @@ input:invalid {
 }
 
 
-
-
-
 .is-invalid .form-select {
     /* background-image: none; */
     border: 1px solid red !important;
@@ -1023,18 +1025,6 @@ input:invalid {
 }
 
 
-
-
-
-/* .form-select .is-valid::after {
-    font-family: 'Font Awesome 5 Free';
-    content: '\f00c';
-    color: green;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-} */
 
 .has-error {
     border: 1px solid red;
@@ -1168,20 +1158,25 @@ input:not([required]):valid {
 
 
 .photo-container {
-    width: 100%; /* 设置包装容器宽度为 100%，占满表格列 */
-    max-width: 400px; /* 设置包装容器最大宽度，调整根据需求 */
-    margin: auto; /* 水平居中 */
-    overflow: hidden; /* 隐藏溢出的图像部分 */
+    width: 100%;
+    /* 设置包装容器宽度为 100%，占满表格列 */
+    max-width: 400px;
+    /* 设置包装容器最大宽度，调整根据需求 */
+    margin: auto;
+    /* 水平居中 */
+    overflow: hidden;
+    /* 隐藏溢出的图像部分 */
 }
 
 
 .swiper {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .swiper-slide img {
-  display: block;
-  max-height: 100%;
-  object-fit: cover;}
+    display: block;
+    height: 100%;
+    object-fit: contain;
+}
 </style>

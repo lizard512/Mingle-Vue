@@ -276,7 +276,7 @@
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
-                                                <h6 class="my-0">容納人數</h6>
+                                                <h6 class="my-0">尚可容納人數</h6>
                                                 <small class="text-muted">house capacity</small>
                                             </div>
                                             <span class="text-muted margin-left">{{ housedetails[key] ?
@@ -285,7 +285,7 @@
 
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
-                                                <h6 class="my-0">間數</h6>
+                                                <h6 class="my-0">住宿人數</h6>
                                                 <small class="text-muted margin-left">room number</small>
                                             </div>
                                             <span class="text-muted margin-left">{{ value }} 間</span>
@@ -603,6 +603,13 @@ const goToOrder3 = async () => {
         }
       await axios.post(AccommodatorCreate_API_URL, orderAccommodator.value)
     }
+
+
+    
+
+
+
+
 
     if (orderResponse) {
         router.push(
