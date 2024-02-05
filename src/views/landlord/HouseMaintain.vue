@@ -260,9 +260,6 @@
 </template>
 
 <script setup>
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { ref, onMounted, computed } from 'vue';
 import Swal from 'sweetalert2';
 import axios, { getAdapter } from 'axios';

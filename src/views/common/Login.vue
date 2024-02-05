@@ -75,7 +75,7 @@ const route = useRoute();
 const userStore = useUserStore();
 const router = useRouter();
 
-function gotGoogleLoginPage() {
+async function gotGoogleLoginPage() {
     window.location.href = `${import.meta.env.VITE_APP_API_URL}/google-login`;
 }
 
@@ -159,24 +159,24 @@ const login = function () {
 };
 
 const autoLogin1 = () => {
-    userid.value = '1@gmail.com';
-    password.value = '1';
+    userid.value = 'alice@gmail.com';
+    password.value = '20000322';
 };
 const autoLogin2 = () => {
-    userid.value = '2@gmail.com';
-    password.value = '2';
+    userid.value = 'bob@gmail.com';
+    password.value = '19750920';
 };
 const autoLogin3 = () => {
-    userid.value = '3@gmail.com';
-    password.value = '3';
+    userid.value = 'charlie@gmail.com';
+    password.value = '19950210';
 }
 const autoLogin4 = () => {
-    userid.value = '4@gmail.com';
-    password.value = '4';
+    userid.value = 'diana@gmail.com';
+    password.value = '19881130';
 }
 const autoLogin5 = () => {
-    userid.value = '5@gmail.com';
-    password.value = '5';
+    userid.value = 'eva@gmail.com';
+    password.value = '19920725';
 }
 const autoLoginAdmin = () => {
     userid.value = 'test@gmail.com';

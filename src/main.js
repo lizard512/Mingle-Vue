@@ -4,7 +4,6 @@ import router from './router/router'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { useUserStore } from '@store/userStore-session.js';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import axios from 'axios';

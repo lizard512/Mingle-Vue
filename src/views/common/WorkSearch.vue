@@ -7,7 +7,7 @@
                     <div class="col-xxl-6 col-md-0 hide-on-small">
                         <div class="text-start mx-auto wow animate__animated animate__slideInLeft inline-flex"
                             data-wow-delay="0.1s">
-                            <h2 class="mx-3">打工機會</h2>
+                            <h3 class="mx-3">打工機會</h3>
                             <span class="badge bg-danger">正在徵求幫助者的項目！</span>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                             </optgroup>
                         </select>
                         <div class="input-group w-50">
-                            <input type="text" class="form-control" placeholder="用關鍵字查詢" v-model="filters.keyword">
+                            <input type="text" class="form-control" placeholder="關鍵字查詢" v-model="filters.keyword">
                             <button class="btn btn-success" @click="reloadWork()"><i
                                     class="fa fa-search text-white"></i></button>
                         </div>
@@ -36,7 +36,7 @@
                         data-wow-delay="0.1s">
                         <div class="btn-group" role="group">
                             <template v-for="(worktypeID, index) in worktypeIDs" :key="worktypeID.worktypeID">
-                                <input type="checkbox"  class="btn-check" :id="index"
+                                <input type="checkbox" class="btn-check" :id="index"
                                     @click="toggleWorkType(worktypeID.worktypeID)">
                                 <label class="btn btn-outline-info" :for="index">{{ worktypeID.worktypeID }}</label>
                                 <!-- <img :src="`/src/assets/images/icon-${worktypeID.worktypeID}.png`" width="25px" height="25px"> -->
@@ -83,8 +83,9 @@
                         <div class="m-0">請向下滾動以瀏覽更多項目</div>
                     </div>
                     <div class="col-xxl-7 col-md-0 d-flex justify-content-xxl-start justify-content-center hide-on-small">
-                        <div><el-date-picker v-model="filters.workperiod" type="daterange" start-placeholder="起始日期"
-                                end-placeholder="結束日期" format="YYYY-MM-DD ddd" value-format="YYYY-MM-DD" size="large"/></div>
+                        <div><el-date-picker v-model="filters.workPeriod" type="daterange" start-placeholder="起始日期"
+                                end-placeholder="結束日期" format="YYYY-MM-DD ddd" value-format="YYYY-MM-DD" size="large"
+                                :disabled-date="daterule" /></div>
                     </div>
                 </div>
             </div>
@@ -195,7 +196,6 @@ onMounted(async () => {
 onUnmounted(() => {
     window.removeEventListener('scroll', infiniteScroll);
     window.removeEventListener('scroll', checkSticky);
-    window.scrollTo(0, 0);
     // document.body.classList.remove('no-scroll');
 });
 
@@ -268,7 +268,6 @@ const reloadWork = () => {
     isEnd.value = false; // 重設結束標記
     window.scrollTo(0, 0); // 將頁面滾動到最上方
     loadWork();
-    console.log(filters.value.workperiod);
 }
 
 // 無限卷軸功能
@@ -309,9 +308,16 @@ const toggleSortByAttendance = () => {
 }
 
 // 格式化日期為"YYYY/MM/DD"
-const formatDate = (dateString) => {
-    let date = new Date(dateString);
-    return `${date.getFullYear()}/${("0" + (date.getMonth() + 1)).slice(-2)}/${("0" + date.getDate()).slice(-2)}`;
+// const formatDate = (dateString) => {
+//     let date = new Date(dateString);
+//     return `${date.getFullYear()}/${("0" + (date.getMonth() + 1)).slice(-2)}/${("0" + date.getDate()).slice(-2)}`;
+// }
+
+// 日期規則
+function daterule(time) {
+    let today = new Date();
+    today.setHours(0, 0, 0, 0); // 將時間設為當天的午夜
+    return time.getTime() < today.getTime();
 }
 
 // Sticky Header

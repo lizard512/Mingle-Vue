@@ -81,16 +81,13 @@
 
 <script setup>
 //// 引用函式庫
-import { ref, watch, onMounted, computed } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { toast } from 'vue3-toastify';
 import axios from 'axios';
 import { useUserStore } from '@store/userStore-localStorage.js';
 const userStore = useUserStore();
 
 //// 生命週期
-onMounted(async () => {
-
-});
 
 /// 定義props
 const props = defineProps({
@@ -109,7 +106,6 @@ let lastFilp = ref(0); // 保存上一次翻開的進度
 
 //// 監聽變數
 watch(() => props.works.length, (newLength) => {// 翻牌模擬器好難玩OAQ
-    console.log('works:', props.works);
     if (newLength < lastFilp.value) {
         lastFilp.value = 0;
         isFliping.value = [];
