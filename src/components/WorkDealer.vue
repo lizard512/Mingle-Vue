@@ -81,16 +81,13 @@
 
 <script setup>
 //// 引用函式庫
-import { ref, watch, onMounted, computed } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { toast } from 'vue3-toastify';
 import axios from 'axios';
 import { useUserStore } from '@store/userStore-localStorage.js';
 const userStore = useUserStore();
 
 //// 生命週期
-onMounted(async () => {
-
-});
 
 /// 定義props
 const props = defineProps({

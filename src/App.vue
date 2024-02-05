@@ -9,6 +9,7 @@
 </template>
 
 <script setup>
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 // 內部元件
 import Navbar from '@components/Navbar.vue'
 import Footer from '@components/Footer.vue'
