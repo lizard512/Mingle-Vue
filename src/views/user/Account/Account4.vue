@@ -89,11 +89,7 @@ const submitChanges = () => {
         cancelButtonText: "再想想",
     }).then(function (result) {
         if (result.isConfirmed) {
-            console.log("按下確定");
             updateDetail();
-        } else if (result.isDismissed) {
-            console.log("按下取消");
-
         }
     });
 
@@ -101,9 +97,8 @@ const submitChanges = () => {
 }
 
 const updateDetail = async () => {
-
     const data = {
-        userid: localStorage.getItem('userID'),
+        update: "introductions",
         introduction: props.userdetails.introduction,
         background: props.userdetails.background,
         language: props.userdetails.language,
@@ -111,7 +106,7 @@ const updateDetail = async () => {
     }
     console.log(data);
 
-    await axios.patch(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/update/introductions`, data).then(function (response) {
+    await axios.patch(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/update/details/${localStorage.getItem('userID')}`, data).then(function (response) {
         console.log("我傳回成功啦")
         console.log(response.data)
         if (response.data.success) {
@@ -125,7 +120,7 @@ const updateDetail = async () => {
             Swal.fire({
                 icon: "warning",
                 title: "哎呀...",
-                text: "更新失敗" + response.data.error,
+                text: response.data.message,
                 confirmButtonText: "確認"
             })
         }

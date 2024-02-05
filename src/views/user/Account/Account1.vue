@@ -182,10 +182,11 @@ import { onMounted, ref, reactive } from 'vue'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import bootstrapBundleMin from 'bootstrap/dist/js/bootstrap.bundle.min';
+import { toRef } from 'vue';
 //============從父層傳值============
 //============查詢會員資料============
 const props = defineProps({
-    userdetails: Object,
+    userdetails: toRef(Object),
 })
 
 // 格式化日期為"YYYY/MM/DD"
@@ -227,32 +228,8 @@ const ToBirth = () => {
     }
     console.log(birth)
 }
-
-const submitChanges = (event) => {
-    // 阻止表单的默认提交行为
-    //event.preventDefault();
-    console.log("這是要傳的檔案");
-    const data = {
-        name: props.userdetails.name,
-        email: props.userdetails.email,
-        phone: props.userdetails.phone,
-        gender: props.userdetails.gender,
-        country: props.userdetails.country,
-        birth: birth.year + '-' + birth.month + '-' + birth.day,
-    }
-    console.log(data);
-    // enterimput();
-}
-
-const ChangesPassword = () => {
-    Swal.fire({
-        icon: 'question',
-        text: '是否要修改密碼',
-        confirmButtonText: '好的',
-    });
-}
-
 //使用bootstrap驗證
+let felg = false;
 const bookStrapValidation = () => {
     let forms = document.querySelectorAll('.needs-validation');
 
@@ -265,8 +242,82 @@ const bookStrapValidation = () => {
             }
             form.classList.add('was-validated');
         });
+        return form.checkValidity();
     });
 }
+
+const submitChanges = async (event) => {
+    // 阻止表单的默认提交行为
+    event.preventDefault();
+
+    // 使用 Bootstrap 驗證的結果
+    const formcheck = document.querySelector('.needs-validation');
+    const isFormValid = formcheck.checkValidity();
+
+    if (isFormValid) {
+        console.log("表單驗證成功");
+    } else if (!isFormValid) {
+        console.log("表單驗證失敗");
+    } else {
+
+
+
+
+
+        console.log("這是要傳的檔案");
+        const data = {
+            update: "details",
+            name: props.userdetails.name,
+            email: props.userdetails.email,
+            phone: props.userdetails.phone,
+            gender: props.userdetails.gender,
+            country: props.userdetails.country,
+            birth: birth.year + '-' + birth.month + '-' + birth.day,
+        }
+        console.log(data);
+        if (felg) {
+            console.log("我要傳了");
+            await axios.patch(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/update/details/${localStorage.getItem('userID')}`, data).then(function (response) {
+                console.log("我傳回成功啦")
+                console.log(response.data)
+                if (response.data.success) {
+                    Swal.fire({
+                        icon: "success",
+                        text: "更新成功",
+                        confirmButtonText: "確定"
+                    })
+                    props.userdetails.birth = formatDate(birth.year + '-' + birth.month + '-' + birth.day);
+                    changeVeiw();
+                } else {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "哎呀...",
+                        text: response.data.message,
+                        confirmButtonText: "確認"
+                    })
+                }
+            }).catch(function () {
+                Swal.fire({
+                    icon: "error",
+                    title: "糟糕...",
+                    text: "操作失敗",
+                    confirmButtonText: "確認"
+                })
+            })
+        }
+
+        // enterimput();  
+    }
+}
+
+const ChangesPassword = () => {
+    Swal.fire({
+        icon: 'question',
+        text: '是否要修改密碼',
+        confirmButtonText: '好的',
+    });
+}
+
 
 
 //上傳圖片
