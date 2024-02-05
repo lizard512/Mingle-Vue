@@ -771,7 +771,7 @@ const roomValidate = function () {
 
 
 
-import axios from 'axios';
+import axios from 'axios'; 
 
 //===========取得使用者ID============
 
@@ -799,15 +799,20 @@ const loaduserDetail = async () => {
 
 //============查詢工作、房間資料============
 
+import { useRoute } from 'vue-router';
+const route = useRoute();
+const workID = route.query.workID;
+console.log(workID);
+
 
 const workdetail = reactive({})
 
 const housedetail = reactive({})
 
 
-const Work_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/` + 3;
+const Work_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/` + workID;
 
-const WorkHouse_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/house/` + 3;
+const WorkHouse_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/house/` + workID;
 
 const loadworkDetail = async () => {
     const workResponse = await axios.post(Work_API_URL);

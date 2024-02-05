@@ -166,7 +166,7 @@ const checkIfWorkIsKept = async (workId) => {
 
 const Apply = async () => {
     try {
-        router.push({ name: 'Order', query: { workID: workID } });
+        router.push({ name: 'Order1', query: { workID: workID } });
     } catch (error) {
         console.error('Failed to apply', error);
     }

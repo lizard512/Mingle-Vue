@@ -68,12 +68,35 @@
 
                             <div class="input-group col-12" v-if="!item.reply">
                                 <el-input v-model="landlordReplies[item.reviewid]" :autosize="{ minRows: 5, maxRows: 10 }"
-                                    type="textarea" placeholder="請輸入" show-word-limit maxlength="500" />
-                                <input type="file" id="imageInput" accept="image/*" style="display: none;">
-                                <button class="btn btn-secondary" onclick="document.getElementById('imageInput').click();">
-                                    <i class="bi bi-image"></i></button>
-                                <button class="btn btn-primary dol-1  col-md-2"
-                                    @click="submitReply( item.reviewid)">送出</button>
+                                    type="textarea" placeholder="請輸入" show-word-limit maxlength="500">
+                                </el-input>
+                                <!-- 上傳圖片 start -->
+                                <div class="col-12">
+                                    <el-upload action="#" list-type="picture-card" :auto-upload="false" :limit="6" multiple>
+                                        <el-icon>
+                                            <Plus />
+                                        </el-icon>
+                                        <template #file="{ file }">
+                                            <div>
+                                                <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                                                <span class="el-upload-list__item-actions">
+                                                    <span v-if="!disabled" class="el-upload-list__item-delete"
+                                                        @click="handleRemove(file)">
+                                                        <el-icon>
+                                                            <Delete />
+                                                        </el-icon>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </template>
+                                    </el-upload>
+                                    <el-dialog v-model="dialogVisible">
+                                        <img :src="dialogImageUrl" alt="Preview Image" />
+                                    </el-dialog>
+                                    <!-- 上傳圖片 end -->
+                                </div>
+                                <div><button class="btn btn-primary dol-1  col-12"
+                                        @click="submitReply(item.reviewid)">送出</button></div>
                             </div>
                             <!-- ---- -->
                         </div>
@@ -83,11 +106,29 @@
         </div>
     </div>
 </template>
-    
-<script setup>
 
-import { onMounted, reactive, ref } from 'vue'
+
+
+    
+<script lang="ts"  setup>
+
+
 import axios from 'axios';
+import { onMounted, reactive, ref } from 'vue';
+
+
+import { Delete, Plus } from '@element-plus/icons-vue'
+
+import type { UploadFile } from 'element-plus'
+
+const dialogImageUrl = ref('')
+const dialogVisible = ref(false)
+const disabled = ref(false)
+
+const handleRemove = (file: UploadFile) => {
+
+    console.log(file)
+}
 
 const userID = ref('');
 const landlordID = ref('');
@@ -218,4 +259,5 @@ onMounted(async () => {
 .btn-color {
     background-color: #ffc107;
     border: none;
-}</style>
+}
+</style>
