@@ -88,6 +88,7 @@ const work = ref({});
 
 
 onMounted(async () => {
+    window.scrollTo(0, 0);
     await checkIfWorkIsKept(workID);
     await loadWorkData();
     await increaseViewCount();

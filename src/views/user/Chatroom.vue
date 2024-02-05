@@ -125,7 +125,7 @@ onMounted(async () => {
     // messageEnd();
 });
 onUnmounted(() => {
-    chatStore.$reset();
+    // chatStore.$reset();
 
 })
 // 初始賦值(確定使用者)
