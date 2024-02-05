@@ -51,13 +51,14 @@
                 </div>
                 <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
             </div>
+            <button class="btn btn-light" @click="Apply">報名</button>
         </div>
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { toast } from 'vue3-toastify';
 
@@ -79,9 +80,10 @@ const setThumbsSwiper = (swiper) => {
 
 
 const isKept = ref(false);
-const route = useRoute()
+const route = useRoute();
 const userID = localStorage.getItem('userID');
-const workID = route.params.id
+const workID = route.params.id;
+const router = useRouter();
 const work = ref({});
 
 
@@ -161,6 +163,14 @@ const checkIfWorkIsKept = async (workId) => {
         console.error('Failed to check if work is kept:', error);
     }
 }
+
+const Apply = async () => {
+    try {
+        router.push({ name: 'Order', query: { workID: workID } });
+    } catch (error) {
+        console.error('Failed to apply', error);
+    }
+}
 </script>
 
 <style scoped>
@@ -213,6 +223,7 @@ const checkIfWorkIsKept = async (workId) => {
 .keep-btn.active {
     color: var(--danger);
 }
+
 .keep-btn {
     border: 0;
 }
