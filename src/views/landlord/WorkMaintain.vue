@@ -418,6 +418,9 @@
                                                     <img v-if="photo != null" :src="photo" class="d-block w-100">
                                                     <img v-else src="@images/ImageNotFound.jpg" class="d-block w-100">
                                                 </swiper-slide>
+                                                <swiper-slide v-if="house.photosBase64 == null" :key="house.id">
+                                                    <img src="@images/ImageNotFound.jpg" class="d-block w-100">
+                                                </swiper-slide>
                                             </swiper>
                                         </div>
                                     </td>
