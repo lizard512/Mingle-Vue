@@ -53,15 +53,11 @@ const closeShow = () => {
 }
 
 //============查詢會員資料============
-
-// import { useUserStore } from '@store/userStore-localStorage.js';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router'
 const user = ref({})
 const userdetails = ref({})
-
-// const userStore = useUserStore();
 const getuserid =
     () => {
         const sessionToken = localStorage.getItem('sessionToken');
