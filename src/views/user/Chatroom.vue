@@ -84,14 +84,16 @@
 let global = globalThis; // 因應stomp及sockjs-client所設
 import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
+import { useRoute } from 'vue-router';
 import { useUserStore } from '@store/userStore-localStorage.js';
 import Swal from 'sweetalert2'
 
-// 引用 store
-import { useStore } from '@store/chatStore.js'
-const chatStore = useStore()
-const externalID = chatStore.externalID
-const externalName = chatStore.externalName
+// 接收 router.push query的值
+// import { useStore } from '@store/chatStore.js'
+// const chatStore = useStore()
+const route = useRoute()
+const externalID = route.query.externalID
+const externalName = route.query.externalName
 
 // Stomp & Sockjs-client
 import SockJS from 'sockjs-client/dist/sockjs.min.js';
@@ -123,7 +125,7 @@ onMounted(async () => {
     // messageEnd();
 });
 onUnmounted(() => {
-    chatStore.$reset();
+    // chatStore.$reset();
 
 })
 // 初始賦值(確定使用者)

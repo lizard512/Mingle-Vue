@@ -196,7 +196,6 @@ onMounted(async () => {
 onUnmounted(() => {
     window.removeEventListener('scroll', infiniteScroll);
     window.removeEventListener('scroll', checkSticky);
-    window.scrollTo(0, 0);
     // document.body.classList.remove('no-scroll');
 });
 
