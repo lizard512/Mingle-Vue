@@ -2,11 +2,6 @@
     <div class="vh-100">
         <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
             <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Company name</a>
-            <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="navbar-nav">
                 <div class="nav-item text-nowrap">
                     <RouterLink to="/" class="nav-link px-3">退出管理者介面</RouterLink>
@@ -16,18 +11,24 @@
 
         <div class="container-fluid">
             <div class="row">
-                <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
                     <div class="position-sticky pt-3">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <RouterLink class="nav-link active" :to="{name: 'AdminHome'}">
-                                    <span class="fa fa-home"></span>
+                                <RouterLink class="nav-link active" :to="{ name: 'AdminHome' }">
+                                    <span class="fa fa-solid fa-database"></span>
                                     Dashboard
                                 </RouterLink>
                             </li>
                             <li class="nav-item">
-                                <RouterLink class="nav-link" :to="{name: 'AdminWork'}">
-                                    <i class="fa fa-file"></i>
+                                <RouterLink class="nav-link" :to="{ name: 'AdminUser' }">
+                                    <i class="fa fa-solid fa-users"></i>
+                                    Users
+                                </RouterLink>
+                            </li>
+                            <li class="nav-item">
+                                <RouterLink class="nav-link" :to="{ name: 'AdminWork' }">
+                                    <i class="fa fa-solid fa-briefcase"></i>
                                     Works
                                 </RouterLink>
                             </li>
@@ -56,22 +57,28 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
                                     <span class="fa fa-file-text"></span>
-                                    Last quarter
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span class="fa fa-file-text"></span>
-                                    Social engagement
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span class="fa fa-file-text"></span>
                                     Year-end sale
                                 </a>
                             </li>
                         </ul>
+                        <hr>
+                        <div class="dropdown">
+                            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="https://github.com/mdo.png" alt="" width="32" height="32"
+                                    class="rounded-circle me-2">
+                                <strong>mdo</strong>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                                <li><a class="dropdown-item" href="#">New project...</a></li>
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Sign out</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </nav>
 
@@ -87,7 +94,6 @@
 </script>
     
 <style scoped>
-
 /*
  * Sidebar
  */
@@ -126,7 +132,7 @@
 
 .sidebar .nav-link {
     font-weight: 500;
-    color: #333;
+    color: var(--light);
 }
 
 .sidebar .nav-link .fa {
@@ -165,20 +171,4 @@
     right: 1rem;
 }
 
-.navbar .form-control {
-    padding: .75rem 1rem;
-    border-width: 0;
-    border-radius: 0;
-}
-
-.form-control-dark {
-    color: #fff;
-    background-color: rgba(255, 255, 255, .1);
-    border-color: rgba(255, 255, 255, .1);
-}
-
-.form-control-dark:focus {
-    border-color: transparent;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
-}
 </style>

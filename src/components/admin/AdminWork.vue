@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h2>Works</h2>
         <div v-for="work in works" :key="work.id">
             {{ work.name }}
             <button @click="editWork(work.id)">Edit</button>

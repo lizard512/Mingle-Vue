@@ -2,6 +2,8 @@
 import AdminCenter from "@views/admin/AdminCenter.vue";
 import AdminHome from '@components/admin/AdminHome.vue';
 import AdminWork from '@components/admin/AdminWork.vue';
+import AdminUser from '@components/admin/AdminUser.vue';
+
 
 // 2. 匯出子路由
 export default [
@@ -20,6 +22,11 @@ export default [
                 path: 'home',
                 name: 'AdminHome',
                 component: AdminHome
+            },
+            {
+                path: 'user',
+                name: 'AdminUser',
+                component: AdminUser
             },
             {
                 path: 'work',
