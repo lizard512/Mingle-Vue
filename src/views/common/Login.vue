@@ -75,7 +75,7 @@ const route = useRoute();
 const userStore = useUserStore();
 const router = useRouter();
 
-function gotGoogleLoginPage() {
+async function gotGoogleLoginPage() {
     window.location.href = `${import.meta.env.VITE_APP_API_URL}/google-login`;
 }
 
