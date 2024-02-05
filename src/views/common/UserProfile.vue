@@ -125,13 +125,13 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useRoute } from 'vue-router'
 // 引用 store
-import { useStore } from '@store/chatStore.js'
+// import { useStore } from '@store/chatStore.js'
 
 const route = useRoute()
 const userID = route.params.id
 const router = useRouter();
 const user = ref(null);
-const chatStore = useStore()
+// const chatStore = useStore()
 
 
 onMounted(async () => {
@@ -154,9 +154,9 @@ const loadUserData = async () => {
 }
 
 const navigateToChatroom = () => {
-    chatStore.setExternalID(userID)
-    chatStore.setExternalName(user.value.name)
-    router.push(`/chatroom`);
+    // chatStore.setExternalID(userID)
+    // chatStore.setExternalName(user.value.name)
+    router.push({name: "Chatroom", query: {externalID: userID, externalName: user.value.name}});
 };
 
 const showAlert = () => {
