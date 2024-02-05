@@ -106,7 +106,6 @@ let lastFilp = ref(0); // 保存上一次翻開的進度
 
 //// 監聽變數
 watch(() => props.works.length, (newLength) => {// 翻牌模擬器好難玩OAQ
-    console.log('works:', props.works);
     if (newLength < lastFilp.value) {
         lastFilp.value = 0;
         isFliping.value = [];
