@@ -303,30 +303,6 @@
                                         </td>
                                         <td class="align-middle col-md-3">
                                             <div v-for="item in housephotodetail" :key="item" class="photo-container">
-                                                <!-- <div id="carouselExampleControlsNoTouching" class="carousel slide"
-                                                    data-bs-touch="false" data-bs-interval="false"
-                                                    v-show="item.id == house_type.houseid">
-
-                                                    <div class="carousel-inner">
-                                                        <div class="carousel-item active" v-for=" photo in item.housephoto"
-                                                            :key="photo">
-                                                            <img :src="photo" class="img-fluid img-center" :alt="item.id">
-                                                        </div>
-                                                    </div>
-                                                    <button class="carousel-control-prev" type="button"
-                                                        data-bs-target="#carouselExampleControlsNoTouching"
-                                                        data-bs-slide="prev">
-                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Previous</span>
-                                                    </button>
-                                                    <button class="carousel-control-next" type="button"
-                                                        data-bs-target="#carouselExampleControlsNoTouching"
-                                                        data-bs-slide="next">
-                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Next</span>
-                                                    </button> -->
-                                                <!-- </div> -->
-
 
                                                 <swiper :style="{
                                                     '--swiper-navigation-color': '#fff',
@@ -343,11 +319,13 @@
                                         </td>
                                         <td class=" align-middle col-md-1 text-center">{{ house_type.beds }}</td>
 
+                                        <!-- 房間未額滿 -->
+   
                                         <td class=" align-middle  col-md-1"
-                                            :class="{ 'is-invalid': isInvalid(), 'is-valid': isValid() }">
+                                            :class="{ 'is-invalid': isInvalid(), 'is-valid': isValid() }"    v-show="house_type.beds > 0" >
                                             <select class=" form-select col-md-12"
                                                 v-model="selectedRooms[house_type.houseid]" @change="roomValidate()"
-                                                required>
+                                              required >
                                                 <option value="" selected>Choose...</option>
                                                 <option value="0">0</option>
                                                 <option id="room" v-for="room in house_type.beds" :key="room" :value="room">
@@ -357,18 +335,27 @@
                                                 請選擇人數。
                                             </div>
                                         </td>
+
+                                        <!-- 房間額滿 -->
+
+                                        <td class=" align-middle  col-md-1"
+                                            v-show="house_type.beds==0" >
+                                            <select class=" form-select col-md-12"
+                                                v-model="selectedRooms[house_type.houseid]" @change="roomValidate()"
+                                                disabled required >
+                                                <option value="0">已額滿</option>
+                                            </select>
+                                        </td>
+
                                     </tr>
                                 </tbody>
                             </table>
                             <div v-if="totalRooms() > selectedAccomodator" class="text-danger text-end text-secondary  ">
-                              <i class="bi bi-exclamation-circle"></i>   錯誤訊息：所選房間住宿人數「大於」報名人數。
+                                <i class="bi bi-exclamation-circle"></i> 錯誤訊息：所選房間住宿人數「大於」報名人數。
                             </div>
                             <div v-if="totalRooms() < selectedAccomodator" class="text-danger text-end text-secondary">
-                                 <i class="bi bi-exclamation-circle"></i>  錯誤訊息：所選房間住宿人數「小於」報名人數。
+                                <i class="bi bi-exclamation-circle"></i> 錯誤訊息：所選房間住宿人數「小於」報名人數。
                             </div>
-
-
-
 
                             <!-- ====================================================================== -->
 
@@ -901,7 +888,10 @@ onMounted(async () => {
         for (const house_type in housedetail) {
             console.log(housedetail[house_type])
             showImage(housedetail[house_type].houseid)
-            selectedRooms.value[housedetail[house_type].houseid] = ''
+            if(housedetail[house_type].beds == 0){
+                selectedRooms.value[housedetail[house_type].houseid] = 0
+            }else{
+            selectedRooms.value[housedetail[house_type].houseid] = ''}
         }
 
 
