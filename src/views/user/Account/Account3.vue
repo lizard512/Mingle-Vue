@@ -70,6 +70,31 @@
 </template>
     
 <script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
+
+// const loaduserDetail = async () => {
+//     const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/` + getuserid());
+//     // Object.assign(userdetails, response.data);
+//     userdetails.value = response.data
+//     console.log(userdetails)
+//     // if (userdetails.isDeleted) {
+//     //     Swal.fire({
+//     //         icon: 'warning',
+//     //         text: '此帳號已被停權，重新登入或註冊會員',
+//     //         confirmButtonText: '好的',
+//     //     });
+//     //     const router = useRouter();
+//     //     router.push({
+//     //         name: "Login",
+//     //     });
+//     //     return;
+//     // }
+// }
+// onMounted(async () => {
+//     await loaduserDetail();
+// });
 
 </script>
     

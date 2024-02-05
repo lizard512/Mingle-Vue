@@ -33,8 +33,7 @@ const clickHandler = showVeiw => {
     
 <style scoped>
 .styleColor {
-    color: tomato;
-    color: chocolate;
+    color: black;
     text-align: center;
 }
 </style>

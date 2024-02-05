@@ -11,10 +11,10 @@
 
     
 <script setup >
-import { useRoute } from 'vue-router';
-const route = useRoute();
-const workID = route.query.workID;
-console.log(workID);
+// import { useRoute } from 'vue-router';
+// const route = useRoute();
+// const workID = route.query.workID;
+// console.log(workID);
 </script>
     
 <style></style>
