@@ -3,7 +3,7 @@
         <div class="col-lg-4 login-frame">
             <div class="container-xxl bg-white p-5 login-form">
                 <div class="login-icon">
-                    <img src="@images/icon-main.png" width="50px">
+                    <img src="@images/icon-mingle-bold.png" width="50px">
                 </div>
                 <br>
                 <div class="accountDiv">
