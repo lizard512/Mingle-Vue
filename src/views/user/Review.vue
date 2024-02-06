@@ -71,17 +71,24 @@
                                     type="textarea" placeholder="請輸入" show-word-limit maxlength="500">
                                 </el-input>
                                 <!-- 上傳圖片 start -->
+
                                 <div class="col-12">
-                                    <el-upload action="#" list-type="picture-card" :auto-upload="false" :limit="6" multiple>
+                                    <el-upload v-model:file-list="fileList" action="#" list-type="picture-card"
+                                        :auto-upload="false" 
+                                        :limit="6" 
+                                        :on-remove="handleRemove" 
+                                        accept=".jpg,.jpeg,.webp,.png"
+
+                                       multiple drag>
                                         <el-icon>
                                             <Plus />
                                         </el-icon>
-                                        <template #file="{ file }">
+                                        <template #file="{ file }"  >
                                             <div>
-                                                <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                                                <img :src="file.url" alt="" class=" el-upload-list__item-thumbnail "  />
                                                 <span class="el-upload-list__item-actions">
                                                     <span v-if="!disabled" class="el-upload-list__item-delete"
-                                                        @click="handleRemove(file)">
+                                                        @click.stop="handleRemove(file)">
                                                         <el-icon>
                                                             <Delete />
                                                         </el-icon>
@@ -89,12 +96,17 @@
                                                 </span>
                                             </div>
                                         </template>
+                                        <template #tip>
+                                            <div class="el-upload__tip secondary">
+                                              圖片只允許 .jpg,.jpeg,.webp,.png，最多6張
+                                            </div>
+                                        </template>
+
                                     </el-upload>
-                                    <el-dialog v-model="dialogVisible">
-                                        <img :src="dialogImageUrl" alt="Preview Image" />
-                                    </el-dialog>
-                                    <!-- 上傳圖片 end -->
+
                                 </div>
+
+
                                 <div><button class="btn btn-primary dol-1  col-12"
                                         @click="submitReply(item.reviewid)">送出</button></div>
                             </div>
@@ -110,25 +122,23 @@
 
 
     
-<script lang="ts"  setup>
-
+<script  setup>
 
 import axios from 'axios';
 import { onMounted, reactive, ref } from 'vue';
-
-
 import { Delete, Plus } from '@element-plus/icons-vue'
 
-import type { UploadFile } from 'element-plus'
-
-const dialogImageUrl = ref('')
-const dialogVisible = ref(false)
 const disabled = ref(false)
+const fileList = ref([])
+const handleRemove = (file) => {
+    const index = fileList.value.findIndex((f) => f === file);
+    if (index !== -1) {
+        fileList.value.splice(index, 1);
+        console.log(fileList.value);
+    }
+};
 
-const handleRemove = (file: UploadFile) => {
 
-    console.log(file)
-}
 
 const userID = ref('');
 const landlordID = ref('');
@@ -205,7 +215,6 @@ const submitReply = async (item_reviewid) => {
 
     const response = await axios.post(
         Reply_API_URL, replyCreateDTO.value);
-
     console.log(response.data)
     await getReview();
 
@@ -259,5 +268,26 @@ onMounted(async () => {
 .btn-color {
     background-color: #ffc107;
     border: none;
+}
+
+.avatar-uploader .el-upload {
+    border: 1px dashed var(--el-border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+    border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    text-align: center;
 }
 </style>

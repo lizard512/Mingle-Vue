@@ -288,7 +288,7 @@
                                                 <h6 class="my-0">住宿人數</h6>
                                                 <small class="text-muted margin-left">room number</small>
                                             </div>
-                                            <span class="text-muted margin-left">{{ value }} 間</span>
+                                            <span class="text-muted margin-left">{{ value }} 人</span>
                                         </li>
 
                                     </ul>
@@ -401,6 +401,13 @@ const orderAccommodator = ref(
 
 )
 
+const orderBeds = ref(
+    {
+        "houseid": 0,
+        "attendance": 0
+    }
+)
+
 
 
 
@@ -430,9 +437,9 @@ const loaddata = () => {
         "endDate": dataForOrder2.value.endDate,
         "isCancelled": 0,
         "isRefunded": 0,
-        "isUserAttend": 0,
+        "isUserAttend": dataForOrder2.value.orderby == 'myself' ? 0 : 1,
         "businessId": "",
-        "invoiceDate": new Date().toISOString(),
+        "invoiceDate":"",
         "invoiceNumber": ""
     }
 
@@ -562,6 +569,9 @@ const OrderCreate_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/create`;
 
 const goToOrder3 = async () => {
 
+
+    // 創建訂單
+
     const orderResponse = await axios.post(OrderCreate_API_URL, orderdata.value);
 
     const houseValues = Object.values(housedetails);
@@ -582,7 +592,10 @@ const goToOrder3 = async () => {
         })
     };
 
+    // 創建住客
+
     const AccommodatorCreate_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/create/accommodator`;
+
     dataForOrder2.value.accomodatorData.forEach(async (element) => {
         orderAccommodator.value = {
         "orderid": orderResponse.data.orderid,
@@ -605,9 +618,20 @@ const goToOrder3 = async () => {
     }
 
 
-    
+    // 刪除房間容納人數
+    // const HouseBeds_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/updateBeds`;
+
+    // dataForOrder2.value.selectedRooms.forEach(async (element) => {
+    //     console.log(element)
+    //     orderBeds.value = {
+    //     "houseid": dataForOrder2.value.selectedRooms[element].key,
+    //     "attendance": dataForOrder2.value.selectedRooms[element].value
+    //     }
 
 
+    //    await axios.post(HouseBeds_API_URL, orderBeds.value) 
+    // });
+   
 
 
 

@@ -324,7 +324,7 @@
                                         <td class=" align-middle  col-md-1"
                                             :class="{ 'is-invalid': isInvalid(), 'is-valid': isValid() }"    v-show="house_type.beds > 0" >
                                             <select class=" form-select col-md-12"
-                                                v-model="selectedRooms[house_type.houseid]" @change="roomValidate()"
+                                                v-model="selectedRooms[house_type.houseid]"
                                               required >
                                                 <option value="" selected>Choose...</option>
                                                 <option value="0">0</option>
@@ -746,28 +746,28 @@ const isNotValid = () => totalRooms() == 0;
 
 //============房間驗證============
 
-const roomValidate = function () {
+// const roomValidate = function () {
 
-    const selectedRoomCount = totalRooms();
-    const form = document.querySelector('.needs-validation');
+//     const selectedRoomCount = totalRooms();
+//     const form = document.querySelector('.needs-validation');
 
-    const roomSelectError = form.querySelector('.room-select-error');
-    const roomSelectElement = form.querySelector('#room'); // 通过ID拿<select>
+//     const roomSelectError = form.querySelector('.room-select-error');
+//     const roomSelectElement = form.querySelector('#room'); // 通过ID拿<select>
 
-    if (selectedRoomCount == 0) {
+//     if (selectedRoomCount == 0) {
 
-        roomSelectError.innerText = '錯誤訊息：請選擇間數。';
-        roomSelectElement.classList.add('is-invalid'); // 添加 is-invalid 
+//         roomSelectError.innerText = '錯誤訊息：請選擇間數。';
+//         roomSelectElement.classList.add('is-invalid'); // 添加 is-invalid 
 
-    }
-    else {
-        roomSelectError.innerText = null;
-        roomSelectElement.classList.remove('is-invalid'); // 移除 is-invalid 
-        roomSelectElement.classList.add('is-valid'); // 添加 is-valid 
-    }
+//     }
+//     else {
+//         roomSelectError.innerText = null;
+//         roomSelectElement.classList.remove('is-invalid'); // 移除 is-invalid 
+//         roomSelectElement.classList.add('is-valid'); // 添加 is-valid 
+//     }
 
 
-}
+// }
 
 
 
