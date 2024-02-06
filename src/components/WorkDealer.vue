@@ -7,7 +7,7 @@
                     <!-- 開牌 -->
                     <div v-if="!isFliping[index]" class="list-item overflow-hidden"
                         :class="isAnimationEnabled ? 'animate__animated animate__flipInY' : ''">
-                        <div class="position-relative overflow-hidden">
+                        <div class="overflow-hidden position-relative">
                             <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64"
                                 :alt="work.name">
                             <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">

@@ -54,10 +54,10 @@
                         </h6>
                         <ul class="nav flex-column mb-2">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <RouterLink class="nav-link" :to="{ name: 'AdminWorkReview' }">
                                     <i class="fa fa-solid fa-check-to-slot"></i>
-                                    處理工作檢舉
-                                </a>
+                                    審核工作檢舉
+                                </RouterLink>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
@@ -79,7 +79,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket me-2"></i>登出</a></li>
+                                <RouterLink to="#" class="dropdown-item" @click="resetStore"><i class="fa-solid fa-right-from-bracket me-2"></i>登出</RouterLink>
                                 <li class="nav-item text-nowrap">
                     <RouterLink to="/" class="nav-link px-3"><i class="fa-solid fa-person-through-window me-2"></i>退出管理者介面</RouterLink>
                 </li>
@@ -99,6 +99,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useUserStore } from '@store/userStore-localStorage.js';
 
 onMounted(async () => {
 
@@ -107,6 +108,7 @@ onMounted(async () => {
 
 const userID = localStorage.getItem('userID');
 const user = ref({});
+const userStore = useUserStore();
 
 const loadUserData = async () => {
     try {
@@ -117,6 +119,15 @@ const loadUserData = async () => {
     }
 }
 
+// 清除使用者localStorage資料
+const resetStore = () => {
+    userStore.$reset()
+    localStorage.removeItem('user')
+    localStorage.removeItem('sessionToken');
+    localStorage.removeItem('userID');
+    localStorage.removeItem('lordID');
+}
+
 </script>
     
 <style scoped>
@@ -125,19 +136,7 @@ const loadUserData = async () => {
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 100;
     padding: 48px 0 0;
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-}
-
-.sidebar-sticky {
-    position: relative;
-    top: 0;
-    height: calc(100vh - 48px);
-    padding-top: .5rem;
-    overflow-x: hidden;
-    overflow-y: auto;
-    /* Scrollable contents if viewport is shorter than content. */
 }
 
 .sidebar .nav-link {
@@ -163,20 +162,6 @@ const loadUserData = async () => {
     color: var(--secondary);
 }
 
-
-
-.navbar-brand {
-    padding-top: .75rem;
-    padding-bottom: .75rem;
-    font-size: 1rem;
-    background-color: rgba(0, 0, 0, .25);
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
-}
-
-.navbar .navbar-toggler {
-    top: .25rem;
-    right: 1rem;
-}
 
 .user-info {
     position: fixed;
