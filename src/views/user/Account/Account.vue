@@ -60,8 +60,8 @@ const user = ref({})
 const userdetails = ref({})
 const getuserid =
     () => {
-        const sessionToken = localStorage.getItem('sessionToken');
-        if (sessionToken === null || sessionToken === undefined || sessionToken === "") {
+        const id = localStorage.getItem('userID');
+        if (id === null || id === undefined || id === "") {
             Swal.fire({
                 icon: 'warning',
                 text: '請先登入才能使用會員管理',
@@ -73,8 +73,7 @@ const getuserid =
             });
             return;
         }
-        const userid = String(sessionToken).substring(32, sessionToken.length);
-        return userid
+        return id;
     }
 const loaduserDetail = async () => {
     const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/` + getuserid());

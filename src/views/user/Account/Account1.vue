@@ -2,7 +2,7 @@
     <div class="my-5 animate__animated animate__rollIn animate__slow">
         <div class="row align-items-start">
             <h3 class="col-2" />
-            <h3 class="col-6">歡迎回來 </h3>
+            <h3 class="col-4">歡迎回來 </h3>
             <h3 class="col-3"> {{ userdetails.name }}</h3>
         </div>
         <br><br>
@@ -57,12 +57,14 @@
             <div class="container">
                 <!-- 大頭貼上傳和預覽 -->
                 <div class="col-6 float-end">
-                    <label for="formFile" class="form-label">點我上傳大頭貼<br></label><br>
+                    <label for="formFile" class="form-label">點我上傳新大頭貼<br></label><br>
 
-                    <img v-if="true" :src="props.userdetails.image" class="img-fluid float-end rounded-circle" width="300"
-                        height="300">
+                    <img v-if="image" :src="image" class="img-fluid float-end rounded-circle" width="300" height="300">
 
                     <input type="file" class="imagefile" id="formFile" @change="fileSelected">
+                    <br>
+                    <button v-show="isShowSubmitPhotoButton" class="btn btn-lg btn-info btn-block" type="button"
+                        @click="submitPhoto">確認上傳</button>
                 </div>
                 <div class="col-3">
                     <!-- 使用者設定名稱 -->
@@ -251,19 +253,6 @@ const submitChanges = async (event) => {
     const formcheck = document.querySelector('.needs-validation');
     bookStrapValidation();
 
-
-    // const re =  /^(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/;
-    // if (!re.test(props.userdetails.email)) {
-    //     Swal.fire({
-    //         icon: "warning",
-    //         title: "不對喔...",
-    //         text: "請輸入正確的電子郵件",
-    //         confirmButtonText: "確認"
-    //     })
-    //     felg = false;
-    // };
-
-
     if (!felg) {
         Swal.fire({
             icon: "warning",
@@ -283,7 +272,6 @@ const submitChanges = async (event) => {
             birth: birth.year + '-' + birth.month + '-' + birth.day,
         }
         console.log(data);
-        console.log("我要傳了");
         await axios.patch(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/update/details/${localStorage.getItem('userID')}`, data).then(function (response) {
             console.log("我傳回成功啦")
             console.log(response.data)
@@ -317,6 +305,21 @@ const submitChanges = async (event) => {
     // enterimput();  
 }
 
+const submitPhoto = () => {
+    Swal.fire({
+        icon: "info",
+        text: "確認要上傳這張大頭照嗎?",
+        allowOutsideClick: false,
+        confirmButtonText: "確定",
+        showCancelButton: true,
+        cancelButtonText: "再想想",
+    }).then(function (result) {
+        if (result.isConfirmed) {
+            upload();
+        }
+    });
+}
+
 const ChangesPassword = () => {
     Swal.fire({
         icon: 'question',
@@ -326,15 +329,21 @@ const ChangesPassword = () => {
 }
 
 
-
+const isShowSubmitPhotoButton = ref(false);
 //上傳圖片
 const image = ref('');
+const upPhoto = ref('');
 function fileSelected(e) {
     console.log(e)
     const file = e.target.files.item(0);
     const reader = new FileReader();
     reader.addEventListener('load', imageLoaded);
     reader.readAsDataURL(file);
+
+    const contentType = file.type;
+    upPhoto.value = contentType.split('/');
+    upPhoto.value[2] = file.size;
+    isShowSubmitPhotoButton.value = true;
 }
 function imageLoaded(e) {
     console.log(e.target.result)
@@ -342,14 +351,50 @@ function imageLoaded(e) {
 }
 
 
-// upload() {
-//     // 用base64字串的方式上傳
-//     axios.post('/upload', { image: this.image });
-//     // 用FormData這種非字串的方式上傳
-//     //const form = new formData();
-//     //form.append(this.file, this.file.name)
+const upload = async () => {
+    // //用base64字串的方式上傳
+    // axios.post('/upload',data );
+    // // 用FormData這種非字串的方式上傳
+    // const form = new formData();
+    // form.append(this.file, this.file.name)
+    console.log("照片測試")
+    const pdata = {
+        update: "photo",
+        photo: image.value.split(",")[1],
+        photoType: upPhoto.value[1],
+        photoSize: upPhoto.value[2],
+    }
+    console.log(pdata);
 
-// }
+    await axios.patch(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/update/details/${localStorage.getItem('userID')}`, pdata).then(function (response) {
+        console.log("我傳回成功啦")
+        isShowSubmitPhotoButton.value = false;
+        console.log(response.data)
+        if (response.data.success) {
+            Swal.fire({
+                icon: "success",
+                text: "更新成功",
+                confirmButtonText: "確定"
+            })
+
+
+        } else {
+            Swal.fire({
+                icon: "warning",
+                title: "哎呀...",
+                text: response.data.message,
+                confirmButtonText: "確認"
+            })
+        }
+    }).catch(function () {
+        Swal.fire({
+            icon: "error",
+            title: "糟糕...",
+            text: "操作失敗",
+            confirmButtonText: "確認"
+        })
+    })
+}
 
 
 
@@ -360,13 +405,6 @@ onMounted(async () => {
 </script>
     
 <style scoped>
-.blueUnderline {
-    color: blue;
-    padding-left: 50px;
-    font-size: larger;
-    text-decoration: underline;
-}
-
 select {
     width: 150px;
     height: 40px;
@@ -377,9 +415,6 @@ select {
 .large {
     font-size: large;
 }
-
-
-
 
 .imagefile {
     display: none;
