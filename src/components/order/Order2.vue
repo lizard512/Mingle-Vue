@@ -1,7 +1,7 @@
 <template>
     <!-- form start -->
 
-    <div class="container " >
+    <div class="container ">
         <main>
 
 
@@ -439,7 +439,7 @@ const loaddata = () => {
         "isRefunded": 0,
         "isUserAttend": dataForOrder2.value.orderby == 'myself' ? 0 : 1,
         "businessId": "",
-        "invoiceDate":"",
+        "invoiceDate": "",
         "invoiceNumber": ""
     }
 
@@ -551,7 +551,7 @@ const showRoom = function (key) {
 
 
 onMounted(() => {
-    window.scrollTo({top: 0, behavior :'smooth'});
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     loaddata();
     showDetails();
 });
@@ -589,6 +589,22 @@ const goToOrder3 = async () => {
                 }
                 await axios.post(OrderWorkHouse_API_URL, orderAndWorkHouse.value)
             }
+
+
+            // 刪除房間容納人數
+            const HouseBeds_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/updateBeds`;
+
+            for( const [key, value] in  dataForOrder2.value.selectedRooms){
+
+                await axios.post(HouseBeds_API_URL, {
+                params:{
+                    "houseid": key,
+                    "attendance": value
+
+                }}
+                )
+            }
+
         })
     };
 
@@ -598,42 +614,24 @@ const goToOrder3 = async () => {
 
     dataForOrder2.value.accomodatorData.forEach(async (element) => {
         orderAccommodator.value = {
-        "orderid": orderResponse.data.orderid,
-        "name": element.AccomodatorfullName,
-        "phone": element.Accomodatorphone,
-        "email": element.Accomodatoremail
+            "orderid": orderResponse.data.orderid,
+            "name": element.AccomodatorfullName,
+            "phone": element.Accomodatorphone,
+            "email": element.Accomodatoremail
         }
-       await axios.post(AccommodatorCreate_API_URL, orderAccommodator.value) 
+        await axios.post(AccommodatorCreate_API_URL, orderAccommodator.value)
     });
 
-    if(dataForOrder2.value.orderby == 'myself'){
+    if (dataForOrder2.value.orderby == 'myself') {
 
         orderAccommodator.value = {
-        "orderid": orderResponse.data.orderid,
-        "name": dataForOrder2.value.orderbyselfname,
-        "phone": dataForOrder2.value.orderbyselfphone,
-        "email": dataForOrder2.value.orderbyselfemail
+            "orderid": orderResponse.data.orderid,
+            "name": dataForOrder2.value.orderbyselfname,
+            "phone": dataForOrder2.value.orderbyselfphone,
+            "email": dataForOrder2.value.orderbyselfemail
         }
-      await axios.post(AccommodatorCreate_API_URL, orderAccommodator.value)
+        await axios.post(AccommodatorCreate_API_URL, orderAccommodator.value)
     }
-
-
-    // 刪除房間容納人數
-    // const HouseBeds_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/updateBeds`;
-
-    // dataForOrder2.value.selectedRooms.forEach(async (element) => {
-    //     console.log(element)
-    //     orderBeds.value = {
-    //     "houseid": dataForOrder2.value.selectedRooms[element].key,
-    //     "attendance": dataForOrder2.value.selectedRooms[element].value
-    //     }
-
-
-    //    await axios.post(HouseBeds_API_URL, orderBeds.value) 
-    // });
-   
-
-
 
     if (orderResponse) {
         router.push(
@@ -647,8 +645,8 @@ const goToOrder1 = function () {
     )
 }
 
-onMounted( () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+onMounted(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 })
 
 
