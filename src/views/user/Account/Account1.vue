@@ -181,7 +181,6 @@
 import { onMounted, ref, reactive } from 'vue'
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import bootstrapBundleMin from 'bootstrap/dist/js/bootstrap.bundle.min';
 import { toRef } from 'vue';
 //============從父層傳值============
 //============查詢會員資料============
