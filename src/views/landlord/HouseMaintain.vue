@@ -268,8 +268,12 @@ let path = import.meta.env.VITE_APP_API_URL;
 const houses = ref([]);
 const isUpdateModalVisible = ref(false);
 
+const getLordID = () => {
+  return {"lordID": localStorage.getItem("lordID")};
+};
+
 const fetchHouses = () => {
-  fetch(`${path}/api/house/findAllHousesWithPhotos`)
+  fetch(`${path}/api/house/findAllHousesWithPhotos/` + getLordID().lordID)
     .then((response) => response.json())
     .then((data) => {
       houses.value = data;

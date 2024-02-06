@@ -120,8 +120,8 @@ const login = function () {
                 })
                 document.cookie = `sessionToken=${response.data.sessionToken}; path=/`;
                 localStorage.setItem('sessionToken', response.data.sessionToken)
-                if (response.data.username) {
-                    localStorage.setItem('username', response.data.username);
+                if (response.data.userID) {
+                    localStorage.setItem('userID', response.data.userID);
                 }
                 if (response.data.lordID) {
                     localStorage.setItem('lordID', response.data.lordID);
