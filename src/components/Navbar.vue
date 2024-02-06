@@ -6,7 +6,7 @@
                 <div class="icon p-2 me-2">
                     <img class="img-fluid" src="@images/icon-main.png" alt="Icon" style="width: 30px; height: 27px;">
                 </div>
-                <h1 class="m-0 link-secondary">Mingle 名狗</h1>
+                <h1 class="m-0 link-secondary">Mingle 打工換宿平台</h1>
             </RouterLink>
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
