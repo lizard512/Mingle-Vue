@@ -14,7 +14,7 @@
           '--swiper-navigation-color': '#fff',
           '--swiper-pagination-color': '#fff',
         }" :centeredSlides="true" :loop="true" :navigation="true" :modules="modules" :pagination="{ clickable: true }"
-          :autoplay="{ delay: 2500, disableOnInteraction: true }" class="mySwiper">
+          :autoplay="{ disableOnInteraction: true }" class="mySwiper">
           <swiper-slide><img src="@images/carousel-1.jpg" alt="..."></swiper-slide>
           <swiper-slide><img src="@images/carousel-2.jpg" alt="..."></swiper-slide>
         </swiper>
@@ -27,19 +27,19 @@
     <div class="row">
       <div class="col-xxl-3 col-lg-6 work-deck text-center h-100 px-4 py-3">
         <h2>最多人看</h2>
-        <WorkDeck />
+        <WorkDeck autoplayDelay="2500"/>
       </div>
       <div class="col-xxl-3 col-lg-6 text-center h-100 px-4 py-3">
         <h2>最新上架</h2>
-        <WorkDeck property="createdAt" />
+        <WorkDeck property="createdAt" autoplayDelay="3500"/>
       </div>
       <div class="col-xxl-3 col-lg-6 text-center h-100 px-4 py-3">
         <h2>即將截止</h2>
-        <WorkDeck property="endDate" direction="ASC" />
+        <WorkDeck property="endDate" direction="ASC" autoplayDelay="2500"/>
       </div>
       <div class="col-xxl-3 col-lg-6 text-center h-100 px-4 py-3">
         <h2>搶手項目</h2>
-        <WorkDeck property="attendance" />
+        <WorkDeck property="attendance" autoplayDelay="3500"/>
       </div>
     </div>
   </div>
