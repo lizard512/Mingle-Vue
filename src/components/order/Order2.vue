@@ -401,12 +401,6 @@ const orderAccommodator = ref(
 
 )
 
-const orderBeds = ref(
-    {
-        "houseid": 0,
-        "attendance": 0
-    }
-)
 
 
 
@@ -590,21 +584,17 @@ const goToOrder3 = async () => {
                 await axios.post(OrderWorkHouse_API_URL, orderAndWorkHouse.value)
             }
 
-
             // 刪除房間容納人數
             const HouseBeds_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/updateBeds`;
-
-            for( const [key, value] in  dataForOrder2.value.selectedRooms){
-
-                await axios.post(HouseBeds_API_URL, {
-                params:{
-                    "houseid": key,
-                    "attendance": value
-
-                }}
-                )
+            console.log(dataForOrder2.value.selectedRooms)
+            for (const [key, value] of Object.entries(dataForOrder2.value.selectedRooms)) {
+                console.log(key, value)
+                if (house.houseid == key) {
+                    console.log(key, value)
+                    const response = await axios.get(HouseBeds_API_URL, { params: { attendance: value, houseid: key } })
+                    console.log(response.data)
+                }
             }
-
         })
     };
 
@@ -633,10 +623,17 @@ const goToOrder3 = async () => {
         await axios.post(AccommodatorCreate_API_URL, orderAccommodator.value)
     }
 
+    // 增加報名人數
+    const OrderPepole_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/updateAttendee`;
+    await axios.get(OrderPepole_API_URL, { params: { attendance: dataForOrder2.value.selectedAccomodator, workid: dataForOrder2.value.workid } })
+
+
     if (orderResponse) {
         router.push(
             '/order/order3')
     }
+
+
 }
 
 const goToOrder1 = function () {
