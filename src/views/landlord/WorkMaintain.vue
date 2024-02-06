@@ -424,7 +424,22 @@
                                             </swiper>
                                         </div>
                                     </td>
-                                    <td>還在想</td>
+                                    <td class="mx-3">
+                                        <div class="d-flex justify-content-center">
+                                            <!-- <Toggle :isChecked="toggleStates[house.houseid]" bgColor="black"
+                                                ballColor="white" iconClass1="fa-solid fa-circle-check"
+                                                iconClass2="fa-solid fa-circle-xmark" color1="green" color2="red"
+                                                @change="updateBindingStatus(house.houseid)" /> -->
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                    :id="`flexSwitchCheckChecked${house.houseid}`"
+                                                    :checked="toggleStates[house.houseid]"
+                                                    @change="updateBindingStatus(house.houseid)">
+                                                <label class="form-check-label"
+                                                    :for="`flexSwitchCheckChecked${house.houseid}`"></label>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                             </template>
                         </tbody>
@@ -439,12 +454,12 @@
                         <span class="mx-3 col-1 align-self-center">上架狀態：</span>
                         <div class="mx-3 col-1">
                             <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off"
-                                v-model="workstatus" value="上架中" checked>
+                                v-model="onShelf" value="true" checked>
                             <label class="btn btn-outline-primary" for="option1">上架</label>
                         </div>
                         <div class="mx-3 col-1">
                             <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off"
-                                v-model="workstatus" value="未上架">
+                                v-model="onShelf" value="false">
                             <label class="btn btn-outline-secondary" for="option2">下架</label>
                         </div>
                     </div>
@@ -481,6 +496,7 @@ import 'swiper/css/navigation';
 // import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 const modules = [Autoplay, Pagination, Navigation];
+import Toggle from '@components/Toggle.vue';
 
 const isShowList = ref(false);
 const isShowModify = ref(true);
@@ -513,6 +529,8 @@ const languageRestriction = ref('');    // 語言
 const licenseRestriction = ref('');     // 證照
 const workstatus = ref('');             // 狀態
 const worknote = ref('');               // 備註
+
+// 工作照片相關
 const totalList = ref([]);              // [總]渲染用
 const fileList = ref([]);               // [傳]上傳
 const idList = ref([]);                 // [ID]舊照片ID
@@ -522,6 +540,18 @@ const newList = ref([]);                // [新]新照片(file)
 
 // 房
 const houseDetail = ref([]);
+const bindingHousesID = ref([]);        // [綁ID]初始
+
+// 创建一个 ref 变量来存储每个 toggle 的状态
+const toggleStates = ref({});
+
+
+const onShelf = ref(true);              // 上架狀態
+const updateBindingStatus = (houseid) => {
+    // 切换 toggle 状态
+    toggleStates.value[houseid] = !toggleStates.value[houseid];
+    console.log("toggleStates", toggleStates.value);
+};
 
 // 生命週期
 onMounted(() => {
@@ -537,7 +567,7 @@ async function preEnter() {
 // 進編輯
 async function enterModify() {
     await preEnter();
-    await axios.get(`${path}/api/work/modifyWork/show/76`)
+    axios.get(`${path}/api/work/modifyWork/show/76`)
         .then(function (response) {
             console.log(response.data);
             worktype.value = response.data.worktype;
@@ -561,9 +591,20 @@ async function enterModify() {
             totalList.value = response.data.photosBase64;
             idList.value = response.data.photosID;
             oldList.value = [...totalList.value];   // 添加方式，不跟總陣列共用物件來源(會變更)
+            onShelf.value = response.data.onShelf;
+
+        });
+    await axios.get(`${path}/api/work/modifyWork/showHouse/76`)
+        .then(function (response) {
+            bindingHousesID.value = response.data.bindingHousesID;
             houseDetail.value = response.data.houseDetail;
-            console.log(houseDetail.value);
-        })
+            console.log("houseDetail", houseDetail.value);
+        });
+    houseDetail.value.forEach((house) => {
+        // 将每个 house.houseid 作为 key，将初始的绑定状态（true/false）存储到 toggleStates 中
+        toggleStates.value[house.houseid] = bindingHousesID.value.includes(house.houseid);
+    })
+    console.log("toggleStates", toggleStates.value);
 }
 
 // (預覽)新增
