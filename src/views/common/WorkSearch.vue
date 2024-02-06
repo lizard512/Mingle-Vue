@@ -171,8 +171,9 @@ let filters = ref({
     hideFull: false,
     showKeptWorkOnly: false,
     // 自定義條件
-    hideDeleted: true,
     showOnShelfOnly: true,
+    // workStatus: ["已上架"],
+    hideDeleted: true,
     hideExpired: true,
 });
 // 其他

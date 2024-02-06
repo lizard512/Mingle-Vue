@@ -125,19 +125,7 @@ const loadUserData = async () => {
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 100;
     padding: 48px 0 0;
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-}
-
-.sidebar-sticky {
-    position: relative;
-    top: 0;
-    height: calc(100vh - 48px);
-    padding-top: .5rem;
-    overflow-x: hidden;
-    overflow-y: auto;
-    /* Scrollable contents if viewport is shorter than content. */
 }
 
 .sidebar .nav-link {
@@ -163,20 +151,6 @@ const loadUserData = async () => {
     color: var(--secondary);
 }
 
-
-
-.navbar-brand {
-    padding-top: .75rem;
-    padding-bottom: .75rem;
-    font-size: 1rem;
-    background-color: rgba(0, 0, 0, .25);
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
-}
-
-.navbar .navbar-toggler {
-    top: .25rem;
-    right: 1rem;
-}
 
 .user-info {
     position: fixed;
