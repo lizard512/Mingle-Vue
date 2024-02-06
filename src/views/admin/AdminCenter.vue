@@ -99,27 +99,44 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+//// 引用函式庫
+import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 import { useUserStore } from '@store/userStore-localStorage.js';
 
+//// 生命週期
 onMounted(async () => {
-
     await loadUserData();
+    // await countPendingReview();
 });
 
+
+
+//// 初始化變數
 const userID = localStorage.getItem('userID');
 const user = ref({});
 const userStore = useUserStore();
+const router = useRouter();
 
 const pendingReviewCount = ref(0);
 
+//// 定義方法
 const loadUserData = async () => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/${userID}`);
         user.value = response.data;
     } catch (error) {
         console.error('Failed to fetch user data:', error);
+    }
+}
+
+const countPendingReview = async () => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/work/countPendingReview`);
+        pendingReviewCount.value = response.data;
+    } catch (error) {
+        console.error('Failed to fetch pending review count:', error);
     }
 }
 
@@ -131,6 +148,12 @@ const resetStore = () => {
     localStorage.removeItem('userID');
     localStorage.removeItem('lordID');
 }
+
+
+//// 監聽路由
+watch(router.currentRoute, async () => {
+    await countPendingReview();
+}, { immediate: true });
 
 </script>
     
