@@ -85,7 +85,7 @@ let property = 'createdAt'; // 排序屬性
 // 篩選相關
 let filters = ref({
     // 自定義條件
-    workStatus: ["審核中"],
+    workStatus: ["待審核"],
 });
 
 
