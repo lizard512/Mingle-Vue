@@ -5,9 +5,9 @@
             <img src="@images/icon-progress1.png" width="100px">
         </div>
         <br>
-        <p style="color: black;">請輸入Email及密碼</p>
+        <p style="color: black;">請輸入使用者名稱及密碼</p>
         <div class="accountDiv">
-            <input type="email" class="account" v-model="userid" name="account" placeholder="Email" required autofocus>
+            <input type="email" class="account" v-model="username" name="account" placeholder="使用者名稱" required autofocus>
         </div>
         <br>
         <div class="passwordDiv">
@@ -35,7 +35,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import axios from 'axios';
 
-let userid = ref('');
+let username = ref('');
 let password = ref('');
 let loading = false;
 
@@ -49,20 +49,20 @@ const register = async function () {
         showConfirmButton: false
     });
 
-    if (userid === "") {
-        userid = null;
+    if (username === "") {
+        username = null;
     }
     if (password === "") {
         password = null;
     }
     let request = {
-        userid: userid.value,
+        username: username.value,
         password: password.value,
     }
     await axios.post("http://localhost:8080/register.controller", request)
         .then( function (response) {
             console.log(response);
-            if (request.userid.valueOf == null || request.password.valueOf == null) {
+            if (request.username.valueOf == null || request.password.valueOf == null) {
                 console.log(response.data.message);
                 Swal.fire({
                     icon: "error",
