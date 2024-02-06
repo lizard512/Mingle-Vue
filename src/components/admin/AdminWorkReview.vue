@@ -1,19 +1,19 @@
 <template>
     <div>
-        <div class="d-flex align-items-center">
+        <div class="">
             <h2>Work Review</h2>
-            <span>待審核的工作：{{currentIndex}} / {{ total }}</span>
         </div>
 
         <div>
             <div class="row">
-                <div class="col-xxl-2 col-xl-3 col-lg-4 col-sm-6" v-for="(work, index) in works" :key="work.workid"
+                <span>審核進度：{{currentIndex}} / {{ total }}</span>
+                <div class="col-4" v-for="(work, index) in works" :key="work.workid"
                     v-show="index === currentIndex">
                     <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                         <!-- <transition name="flip"> -->
                         <!-- 開牌 -->
                         <div class="list-item overflow-hidden">
-                            <div class="overflow-hidden">
+                            <div class="overflow-hidden position-relative">
                                 <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64"
                                     :alt="work.name">
                                 <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
@@ -43,11 +43,15 @@
                         </div>
                     </router-link>
                     <div class="d-flex justify-content-center">
-                        <button class="btn btn-success me-2" @click="showNextWork">通過</button>
-                        <button class="btn btn-danger" @click="showNextWork">不通過</button>
+                        <button class="btn btn-success me-2" @click="showNext">通過</button>
+                        <button class="btn btn-danger" @click="showNext">不通過</button>
                     </div>
                 </div>
-
+                <div>
+                    <div v-if="reportEnds" class="text-center">
+                        <p>審核已完成！做的好</p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -74,6 +78,7 @@ const currentPage = ref(0); // 當前頁數
 const size = 99; // 每次載入的數量
 const isLoading = ref(false); //避免重複載入
 const isEnd = ref(false);
+const reportEnds = ref(false);
 // 排序相關
 let direction = 'DESC'; // 排序方向
 let property = 'createdAt'; // 排序屬性
@@ -114,9 +119,12 @@ const loadWork = async () => {
     }
 };
 
-const showNextWork = () => {
-    if (currentIndex.value < works.value.length - 1) {
+const showNext = () => {
+    if (currentIndex.value < works.value.length) {
         currentIndex.value++;
+    }
+    if (currentIndex.value == works.value.length){
+        reportEnds.value = true;
     }
 };
 

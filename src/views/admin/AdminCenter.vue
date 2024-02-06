@@ -56,7 +56,7 @@
                             <li class="nav-item">
                                 <RouterLink class="nav-link" :to="{ name: 'AdminWorkReview' }">
                                     <i class="fa fa-solid fa-check-to-slot"></i>
-                                    處理工作檢舉
+                                    審核工作檢舉
                                 </RouterLink>
                             </li>
                             <li class="nav-item">
@@ -79,7 +79,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket me-2"></i>登出</a></li>
+                                <RouterLink to="#" class="dropdown-item" @click="resetStore"><i class="fa-solid fa-right-from-bracket me-2"></i>登出</RouterLink>
                                 <li class="nav-item text-nowrap">
                     <RouterLink to="/" class="nav-link px-3"><i class="fa-solid fa-person-through-window me-2"></i>退出管理者介面</RouterLink>
                 </li>
@@ -99,6 +99,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useUserStore } from '@store/userStore-localStorage.js';
 
 onMounted(async () => {
 
@@ -107,6 +108,7 @@ onMounted(async () => {
 
 const userID = localStorage.getItem('userID');
 const user = ref({});
+const userStore = useUserStore();
 
 const loadUserData = async () => {
     try {
@@ -115,6 +117,15 @@ const loadUserData = async () => {
     } catch (error) {
         console.error('Failed to fetch user data:', error);
     }
+}
+
+// 清除使用者localStorage資料
+const resetStore = () => {
+    userStore.$reset()
+    localStorage.removeItem('user')
+    localStorage.removeItem('sessionToken');
+    localStorage.removeItem('userID');
+    localStorage.removeItem('lordID');
 }
 
 </script>

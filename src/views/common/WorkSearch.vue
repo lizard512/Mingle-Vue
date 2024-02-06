@@ -70,6 +70,11 @@
         <!--Work Cards Start-->
         <WorkDealer :works="works" :isAnimationEnabled="isAnimationEnabled" />
         <!--Work Cards End-->
+        <div v-if="isLoading" class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
         <div class="the-end text-center m-5" v-if="isEnd">已經到底啦~~</div>
 
         <!-- Sticky Footer Start-->
