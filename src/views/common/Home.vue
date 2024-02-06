@@ -1,9 +1,9 @@
 <template>
   <!-- Header Start -->
   <div class="container p-0">
-    <div class="row g-0 align-items-center title-text">
-      <div class="col-xl-6 p-5 text-center animate__animated animate__fadeIn">
-        <h1 class="display-5 mb-4 text-black-var">一點 <span class="text-info">幫助</span>
+    <div class="row g-0 align-items-center header">
+      <div class="col-xl-6 text-center animate__animated animate__fadeIn">
+        <h1 class="display-5 mb-4 title-text">一點 <span class="text-info">幫助</span>
           ，一晚<span class="text-info"> 住宿。</span>
         </h1>
         <p class="display-6 mb-4 pb-2 text-dark-var">全台 26 縣市提供打工換宿</p>
@@ -15,8 +15,8 @@
           '--swiper-pagination-color': '#fff',
         }" :centeredSlides="true" :loop="true" :navigation="true" :modules="modules" :pagination="{ clickable: true }"
           :autoplay="{ delay: 2500, disableOnInteraction: true }" class="mySwiper">
-          <swiper-slide><img src="@images/carousel-1.jpg" class="w-100" alt="..."></swiper-slide>
-          <swiper-slide><img src="@images/carousel-2.jpg" class="w-100" alt="..."></swiper-slide>
+          <swiper-slide><img src="@images/carousel-1.jpg" alt="..."></swiper-slide>
+          <swiper-slide><img src="@images/carousel-2.jpg" alt="..."></swiper-slide>
         </swiper>
       </div>
     </div>
@@ -25,19 +25,19 @@
   <!--Work Card Start-->
   <div class="container">
     <div class="row">
-      <div class="col-xxl-3 col-lg-6 text-center h-100 p-5">
+      <div class="col-xxl-3 col-lg-6 work-deck text-center h-100 px-4 py-3">
         <h2>最多人看</h2>
         <WorkDeck />
       </div>
-      <div class="col-xxl-3 col-lg-6 text-center h-100 p-5">
+      <div class="col-xxl-3 col-lg-6 text-center h-100 px-4 py-3">
         <h2>最新上架</h2>
         <WorkDeck property="createdAt" />
       </div>
-      <div class="col-xxl-3 col-lg-6 text-center h-100 p-5">
+      <div class="col-xxl-3 col-lg-6 text-center h-100 px-4 py-3">
         <h2>即將截止</h2>
         <WorkDeck property="endDate" direction="ASC" />
       </div>
-      <div class="col-xxl-3 col-lg-6 text-center h-100 p-5">
+      <div class="col-xxl-3 col-lg-6 text-center h-100 px-4 py-3">
         <h2>搶手項目</h2>
         <WorkDeck property="attendance" />
       </div>
@@ -65,26 +65,29 @@ import WorkDeck from '@components/WorkDeck.vue';
 
 <!-- Customized CSS -->
 <style scoped>
-.title-text {
+.header {
   background-color: var(--light);
 }
 
-.text-black-var {
+.title-text {
   color: var(--black);
 }
 
+.work-deck{
+text-align: center;
+padding: 12px 16px;
+
+}
 .swiper {
-  width: 100%;
-  height: 50%;
+
 }
 
 .swiper-slide img {
-  max-height: 100%;
-  object-fit: contain;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 .swiper-slide {
-  align-items: center;
-  /* add this will all relevant prefixes */
 }
 </style>
