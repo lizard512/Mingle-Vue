@@ -54,9 +54,11 @@
                         </h6>
                         <ul class="nav flex-column mb-2">
                             <li class="nav-item">
-                                <RouterLink class="nav-link" :to="{ name: 'AdminWorkReview' }">
+                                <RouterLink class="nav-link d-flex justify-content-between" :to="{ name: 'AdminWorkReview' }">
+                                    <span>
                                     <i class="fa fa-solid fa-check-to-slot"></i>
-                                    審核工作檢舉
+                                    審核工作檢舉</span>
+                                    <span class="badge bg-danger ml-2 d-flex align-items-center">{{ pendingReviewCount }}</span>
                                 </RouterLink>
                             </li>
                             <li class="nav-item">
@@ -110,6 +112,8 @@ const userID = localStorage.getItem('userID');
 const user = ref({});
 const userStore = useUserStore();
 
+const pendingReviewCount = ref(0);
+
 const loadUserData = async () => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/${userID}`);
@@ -161,7 +165,6 @@ const resetStore = () => {
 .sidebar .nav-link:hover {
     color: var(--secondary);
 }
-
 
 .user-info {
     position: fixed;

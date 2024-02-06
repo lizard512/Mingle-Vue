@@ -7,7 +7,7 @@
         <div>
             <div class="row">
                 <span>審核進度：{{currentIndex}} / {{ total }}</span>
-                <div class="col-4" v-for="(work, index) in works" :key="work.workid"
+                <div class="col-4 p-3" v-for="(work, index) in works" :key="work.workid"
                     v-show="index === currentIndex">
                     <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                         <!-- <transition name="flip"> -->
@@ -42,13 +42,13 @@
                             </div>
                         </div>
                     </router-link>
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center mt-2">
                         <button class="btn btn-success me-2" @click="showNext">通過</button>
                         <button class="btn btn-danger" @click="showNext">不通過</button>
                     </div>
                 </div>
                 <div>
-                    <div v-if="reportEnds" class="text-center">
+                    <div v-if="reportEnds">
                         <p>審核已完成！做的好</p>
                     </div>
                 </div>
