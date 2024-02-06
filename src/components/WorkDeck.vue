@@ -75,7 +75,6 @@ const isEnd = ref(false); // 停止載入工作
 // 篩選相關
 let filters = ref({
     showOnShelfOnly: true,
-    // workStatus: ["已上架"],
     hideFull: true,
     hideDeleted: true,
     hideExpired: true,

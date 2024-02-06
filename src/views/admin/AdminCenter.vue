@@ -54,10 +54,10 @@
                         </h6>
                         <ul class="nav flex-column mb-2">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <RouterLink class="nav-link" :to="{ name: 'AdminWorkReview' }">
                                     <i class="fa fa-solid fa-check-to-slot"></i>
                                     處理工作檢舉
-                                </a>
+                                </RouterLink>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
