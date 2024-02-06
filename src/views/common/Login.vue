@@ -7,7 +7,7 @@
                 </div>
                 <br>
                 <div class="accountDiv">
-                    <input id="userid" v-model="userid" type="email" class="account" name="account" placeholder="Email/電話號碼"
+                    <input id="username" v-model="username" type="email" class="account" name="account" placeholder="使用者名稱"
                         required autofocus>
                 </div>
                 <br>
@@ -79,7 +79,7 @@ async function gotGoogleLoginPage() {
     window.location.href = `${import.meta.env.VITE_APP_API_URL}/google-login`;
 }
 
-let userid = ref('');
+let username = ref('');
 let password = ref('');
 let redirect = route.query.redirect;
 console.log(redirect)
@@ -99,14 +99,14 @@ const login = function () {
         showConfirmButton: false
     });
 
-    if (userid === "") {
-        userid = null;
+    if (username === "") {
+        username = null;
     }
     if (password === "") {
         password = null;
     }
     let request = {
-        userid: userid.value,
+        username: username.value,
         password: password.value,
     }
     axios.post(`${import.meta.env.VITE_APP_API_URL}/login.controller`, request)
@@ -120,8 +120,8 @@ const login = function () {
                 })
                 document.cookie = `sessionToken=${response.data.sessionToken}; path=/`;
                 localStorage.setItem('sessionToken', response.data.sessionToken)
-                if (response.data.userID) {
-                    localStorage.setItem('userID', response.data.userID);
+                if (response.data.username) {
+                    localStorage.setItem('username', response.data.username);
                 }
                 if (response.data.lordID) {
                     localStorage.setItem('lordID', response.data.lordID);
@@ -159,27 +159,27 @@ const login = function () {
 };
 
 const autoLogin1 = () => {
-    userid.value = 'alice@gmail.com';
+    username.value = 'alice0322';
     password.value = '20000322';
 };
 const autoLogin2 = () => {
-    userid.value = 'bob@gmail.com';
+    username.value = 'bob0920';
     password.value = '19750920';
 };
 const autoLogin3 = () => {
-    userid.value = 'charlie@gmail.com';
+    username.value = 'charlie0210';
     password.value = '19950210';
 }
 const autoLogin4 = () => {
-    userid.value = 'diana@gmail.com';
+    username.value = 'diana1130';
     password.value = '19881130';
 }
 const autoLogin5 = () => {
-    userid.value = 'eva@gmail.com';
+    username.value = 'eva0725';
     password.value = '19920725';
 }
 const autoLoginAdmin = () => {
-    userid.value = 'test@gmail.com';
+    username.value = 'test';
     password.value = 'P@ssw0rd';
 }
 

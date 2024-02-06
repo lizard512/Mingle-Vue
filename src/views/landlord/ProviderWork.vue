@@ -487,35 +487,17 @@ const getSelectedRadioLabel = (groupName) => {
 
 const submit = async () => {
 
-
-  // Proceed with form submission
   Data.value.worktype = getSelectedRadioLabel("fkWorkType");
   Data.value.city = addressValue.value[0];
   Data.value.districtName = addressValue.value[1];
-  Data.value.workName = Data.value.workName;
-  Data.value.address = Data.value.address; // Assuming workName is your input's v-model
   Data.value.startDate = dateValue1.value[0];
   Data.value.endDate = dateValue1.value[1];
-  Data.value.workTime = Data.value.workTime; // Replace with your input's v-model
-  Data.value.minPeriod = Data.value.minPeriod; // Replace with your input's v-model
-  Data.value.ageRestriction = Data.value.ageRestriction; // Replace with your input's v-model
-  Data.value.genderRestriction = Data.value.genderRestriction; // Replace with your input's v-model
-  Data.value.educationRestriction = Data.value.educationRestriction; // Replace with your input's v-model
-  Data.value.languageRestriction = Data.value.languageRestriction; // Assuming acceptLanguage is your input's v-model
-  Data.value.vacation = Data.value.vacation;
-  Data.value.benefits = Data.value.benefits;
-  Data.value.description = Data.value.description;
-  Data.value.experienceRestriction = Data.value.experienceRestriction;
-  Data.value.licenseRestriction = Data.value.licenseRestriction;
   Data.value.fkLandlordID = localStorage.getItem('lordID');
-  Data.value.maxAttendance = Data.value.maxAttendance;
   Data.value.sessionToken = getToken().sessionToken;
   Data.value.images = fl.value.map((file) => file.url);
 
-  // Debugging: Log the submitted data
   // console.log(Data.value);
 
-  // Perform form validation
   if (!Data.value.worktype ||
       !addressValue.value.length ||
       !Data.value.workName ||
@@ -534,7 +516,6 @@ const submit = async () => {
       !Data.value.experienceRestriction ||
       !Data.value.languageRestriction ||
       !Data.value.maxAttendance) {
-    // Show an error message or handle the validation failure as per your requirement
     Swal.fire({
       icon: 'error',
       title: '請填寫所有必填欄位',
@@ -615,13 +596,13 @@ function fullData() {
   Data.value.benefits = '無';
   Data.value.description = '一直打code';
   Data.value.experienceRestriction = '10年以上';
-  // Data.value.licenseRestriction = '無';
+  Data.value.licenseRestriction = '無';
   Data.value.fkLandlordID = localStorage.getItem('lordID');
   Data.value.maxAttendance = '6';
   Data.value.sessionToken = getToken().sessionToken;
   currentPage.value = 4;
   barValue = 100;
-  submitData();
+  // submitData();
 }
 
 </script>

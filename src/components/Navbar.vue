@@ -39,7 +39,7 @@
                                 <RouterLink class="dropdown-item" to="/providerHouse">建立房源</RouterLink>
                                 <RouterLink class="dropdown-item" to="/houseMaintain">房源維護</RouterLink>
                                 <RouterLink class="dropdown-item" to="/WorkMaintain">工作管理</RouterLink>
-                                <RouterLink class="dropdown-item" to="#">訂單管理</RouterLink>
+                                <RouterLink class="dropdown-item" to="/landlordOrder">訂單管理</RouterLink>
                                 <RouterLink class="dropdown-item" to="/analyze">後臺數據</RouterLink>
                                 <RouterLink class="dropdown-item" to="/review">房東評價</RouterLink>
                                 <RouterLink class="dropdown-item" to="#" @click="userStore.removePermission('lord')">我不當房東了！
@@ -215,7 +215,7 @@ const checkSticky = () => {
     }
 
     .navbar-light .navbar-nav .nav-link {
-        margin-right: 5;
+        margin-right: 5px;
         padding: 0;
     }
 

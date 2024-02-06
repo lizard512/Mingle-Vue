@@ -31,6 +31,7 @@ import ProviderWork from "@/views/landlord/ProviderWork.vue";
 import routerAdmin from "./router-admin.js";
 import routerRegister from "./router-register.js";
 import routerOrder from "./router-order.js";
+import LandlordOrderCenter from "@/views/landlord/LandlordOrderCenter.vue";
 
 // 2. 定義路由
 // 如果頁面不需要某些元件，請在導向該頁面的routes加入對應的meta屬性
@@ -146,6 +147,12 @@ const routes = [
     path: "/analyze",
     name: "Analyze",
     component: Analyze,
+    meta: { requiresAuth: true , permissions: ['lord']},
+  },
+  {
+    path: "/landlordOrder",
+    name: "LandlordOrderCenter",
+    component: LandlordOrderCenter,
     meta: { requiresAuth: true , permissions: ['lord']},
   },
   // admin 管理者身分
