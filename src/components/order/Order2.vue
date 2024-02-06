@@ -583,9 +583,10 @@ const goToOrder3 = async () => {
                 }
                 await axios.post(OrderWorkHouse_API_URL, orderAndWorkHouse.value)
             }
-
-            // 刪除房間容納人數
-            const HouseBeds_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/updateBeds`;
+        })
+        
+          // 刪除房間容納人數
+          const HouseBeds_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/updateBeds`;
             console.log(dataForOrder2.value.selectedRooms)
             for (const [key, value] of Object.entries(dataForOrder2.value.selectedRooms)) {
                 console.log(key, value)
@@ -595,7 +596,7 @@ const goToOrder3 = async () => {
                     console.log(response.data)
                 }
             }
-        })
+
     };
 
     // 創建住客
