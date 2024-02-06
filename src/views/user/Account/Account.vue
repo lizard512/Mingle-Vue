@@ -32,7 +32,7 @@ import FinshWork from './Account3.vue';
 import Introduction from './Account4.vue';
 import test from './test.vue'
 import { onMounted, reactive, ref } from 'vue';
-import 'animate.css';
+
 const isShowAccount = ref(true);
 const isShowLikeWork = ref(false);
 const isShowFinshWork = ref(false);
