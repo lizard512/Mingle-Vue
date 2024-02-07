@@ -454,7 +454,7 @@
                         <span class="mx-3 col-1 align-self-center">上架狀態：</span>
                         <div class="mx-3 col-1">
                             <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off"
-                                v-model="onShelf" value="true" checked>
+                                v-model="onShelf" value="true">
                             <label class="btn btn-outline-primary" for="option1">上架</label>
                         </div>
                         <div class="mx-3 col-1">
@@ -545,8 +545,8 @@ const bindingHousesID = ref([]);        // [綁ID]初始
 // 创建一个 ref 变量来存储每个 toggle 的状态
 const toggleStates = ref({});
 
-
 const onShelf = ref(true);              // 上架狀態
+
 const updateBindingStatus = (houseid) => {
     // 切换 toggle 状态
     toggleStates.value[houseid] = !toggleStates.value[houseid];
@@ -638,14 +638,13 @@ async function addToTotal(e) {
 // 刪除
 function deletePhoto(item) {
     // 判斷是否為舊照片，添加到【刪】
-    // console.log("oldList.value", oldList.value);
-    // console.log("item", item);
-    // console.log("=============")
     const isOldPhoto = oldList.value.includes(item);
     if (isOldPhoto) {
         let oldNoIndex = oldList.value.indexOf(item);
         deleteList.value.push(idList.value[oldNoIndex]);
         // console.log("(刪)刪", deleteList.value);
+    } else {
+        newList.value.splice(item);
     }
     // 刪【總】
     const index = totalList.value.indexOf(item);
@@ -674,19 +673,114 @@ function daterule(time) {
 // 驗證
 function validate(event) {
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.querySelectorAll('.needs-validation')
+    var forms = document.querySelectorAll('.needs-validation');
     // Loop over them and prevent submission
     Array.prototype.slice.call(forms)
         .forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-                form.classList.add('was-validated')
-            }, false)
-        })
+            // 移除現有的 submit 事件監聽器
+            form.removeEventListener('submit', submitHandler);
+            // 添加新的 submit 事件監聽器
+            form.addEventListener('submit', submitHandler);
+        });
 }
+async function submitHandler(event) {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var form = event.currentTarget;
+    // Loop over them and prevent submission
+    if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+    } else {
+        event.preventDefault();
+        Swal.fire({
+            title: '處理中',
+            text: '請稍候...',
+            icon: 'info',
+            showCancelButton: false,
+            showConfirmButton: false,
+            allowOutsideClick: false
+        });
+        await submitWork();
+        await submitHouse();
+        Swal.close();
+        Swal.fire({
+            title: '成功',
+            text: '請求已成功處理',
+            icon: 'success',
+            showCancelButton: false,
+            confirmButtonText: '返回',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 確認按鈕被點擊後返回上一頁
+                // window.history.back();
+            }
+        });
+
+        // });
+    }
+    form.classList.add('was-validated')
+}
+// 提交工作 (路徑要改)
+async function submitWork() {
+    let requestWork = {
+        "workid": 76,
+        "worktype": worktype.value,
+        "name": workname.value,
+        "notes": worknote.value,
+        "city": workcity.value,
+        "address": workaddress.value,
+        "startDate": workperiod.value[0],
+        "endDate": workperiod.value[1],
+        "minPeriod": workminperiod.value,
+        "maxAttendance": workmaxattendance.value,
+        "description": workdescription.value,
+        "workTime": worktime.value,
+        "vacation": workvacation.value,
+        "ageRestriction": ageRestriction.value,
+        "genderRestriction": genderRestriction.value,
+        "educationRestriction": educationRestriction.value,
+        "experienceRestriction": experienceRestriction.value,
+        "languageRestriction": languageRestriction.value,
+        "licenseRestriction": licenseRestriction.value,
+        "benefits": workbenefits.value,
+        "updatedAt": new Date(),
+        "isOnShelf": onShelf.value
+    }
+    try {
+        await axios.post(`${path}/api/work/modifyWork/submitWork/76`, requestWork)
+        console.log(onShelf.value)
+        console.log("Work submitted successfully!");
+    } catch (error) {
+        console.error("Error submitting work:", error);
+    }
+}
+// 提交房子 (路徑要改)
+async function submitHouse() {
+    try {
+        const formData = new FormData();
+        for (const file of newList.value) {
+            console.log(file)
+            formData.append('newList', file);
+        }
+        // const toggleStatesMap = Object.fromEntries(Object.entries(toggleStates.value));
+        // console.log(toggleStatesMap);
+        // formData.append('deleteList', deleteList.value);
+        // formData.append('toggleStatesMap', JSON.stringify(toggleStatesMap));
+        await axios.post(`${path}/api/work/modifyWork/submitHouse/76`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+            // params: {
+            //     deleteList: deleteList.value,
+            //     toggleStatesMap: JSON.stringify(toggleStatesMap)
+            // }
+        });
+    } catch (error) {
+        console.error("Error submitting house:", error);
+    }
+}
+
 // 取消修改
 function cancelModify() {
     Swal.fire({
