@@ -3,7 +3,7 @@
         <div class="col-lg-4 login-frame">
             <div class="container-xxl bg-white p-5 login-form">
                 <div class="login-icon">
-                    <img src="@images/icon-main.png" width="50px">
+                    <img src="@images/icon-mingle-bold.png" width="50px">
                 </div>
                 <br>
                 <div class="accountDiv">
@@ -32,7 +32,7 @@
                 <br>
                 <br>
                 <div class="login-btn">
-                    <button @click="login" class="btn btn-lg btn-warning btn-block" type="submit">登入</button>
+                    <button @click="login" class="btn btn-lg btn-secondary btn-block" type="submit">登入</button>
                 </div>
                 <br>
                 <p class="or">或</p>
@@ -48,8 +48,6 @@
                     <button class="btn btn-primary" @click="autoLogin3">Charlie</button>
                     <button class="btn btn-success" @click="autoLogin4">Diana</button>
                     <button class="btn btn-dark" @click="autoLogin5">Eva</button>
-                </div>
-                <div class="text-center mt-2">
                     <button class="btn btn-light" @click="autoLoginAdmin">Admin</button>
                 </div>
 
@@ -251,7 +249,7 @@ input {
     text-align: center;
 }
 
-.login-btn .btn-warning {
+.login-btn .btn-secondary {
     border-radius: 50px;
     color: white;
 }
@@ -272,6 +270,6 @@ input {
 
 .autoLogin-btn .btn {
     margin: 10px;
-    color: white;
+    border: #ffc107 2px solid;
 }
 </style>

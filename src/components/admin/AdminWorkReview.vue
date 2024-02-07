@@ -7,7 +7,7 @@
         <div>
             <div class="row">
                 <span>審核進度：{{currentIndex}} / {{ total }}</span>
-                <div class="col-4 p-3" v-for="(work, index) in works" :key="work.workid"
+                <div class=" col-xxl-4 col-lg-6 col-12 p-3" v-for="(work, index) in works" :key="work.workid"
                     v-show="index === currentIndex">
                     <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                         <!-- <transition name="flip"> -->

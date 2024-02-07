@@ -3,7 +3,7 @@
         '--swiper-navigation-color': '#fff',
         '--swiper-pagination-color': '#fff',
     }" :effect="'cards'" :grabCursor="true" :navigation="true" :modules="modules"
-        :autoplay="{ delay: 2500, disableOnInteraction: true }" class="mySwiper">
+        :autoplay = "{ delay: autoplayDelay, disableOnInteraction: true }" class="mySwiper">
         <swiper-slide class="list-item overflow-hidden" v-for="work in works" :key="work.workid">
             <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                 <div class="position-relative overflow-hidden">
@@ -55,7 +55,7 @@ const modules = [Autoplay, EffectCards, Navigation];
 
 
 //// 引用函式庫
-import { ref, onMounted, computed} from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import { useUserStore } from '@store/userStore-localStorage.js';
 
@@ -80,6 +80,8 @@ let filters = ref({
     hideExpired: true,
 });
 
+let autoplay = ref(true);
+
 // Define props
 const props = defineProps({
     size: {
@@ -94,6 +96,10 @@ const props = defineProps({
         type: String,
         default: 'views'
     },
+    autoplayDelay: {
+        type: Number,
+        default: 1000
+    }
 });
 
 //// 生命週期
@@ -170,7 +176,7 @@ const toggleKeepWork = (workId, kept) => {
         toast("已新增至心願清單", {})
     }
     // 更新 work.kept 的值
-        const work = works.value.find(work => work.workid === workId);
+    const work = works.value.find(work => work.workid === workId);
     if (work) {
         work.kept = !kept;
     }

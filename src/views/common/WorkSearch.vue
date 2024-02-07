@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid vh-100">
         <!--Search Header Start-->
-        <div class="row g-2 d-flex align-items-center py-3 bg-light-var" :class="{ 'sticky-header': isSticky }">
+        <div class="row g-2 d-flex align-items-center py-3 pe-3 bg-light-var" :class="{ 'fixed-top': isSticky }">
             <div class="col-md-5">
                 <div class="row g-2">
                     <div class="col-xxl-6 col-md-0 hide-on-small">
@@ -79,15 +79,15 @@
 
         <!-- Sticky Footer Start-->
         <footer
-            class="sticky-footer mt-auto py-3 bg-light-var animate__animated animate__slideInUp row d-flex align-items-center"
+            class="fixed-bottom text-center mt-auto py-3 bg-light-var animate__animated animate__slideInUp row d-flex align-items-center"
             data-wow-delay="0.1s">
             <div class="col-md-5 col-6">
                 <div class="row g-4">
                     <div class="col-xxl-5 col-0">
-                        <div class="m-0">共有 {{ total }} 筆相符的結果</div>
+                        <div class="m-0">共有<strong class="h3 mx-3">{{ total }}</strong>筆相符的結果</div>
                         <div class="m-0">請向下滾動以瀏覽更多項目</div>
                     </div>
-                    <div class="col-xxl-7 col-md-0 d-flex justify-content-xxl-start justify-content-center hide-on-small">
+                    <div class="col-xxl-7 col-md-0 d-flex justify-content-xxl-start justify-content-center align-items-center hide-on-small">
                         <div><el-date-picker v-model="filters.workPeriod" type="daterange" start-placeholder="起始日期"
                                 end-placeholder="結束日期" format="YYYY-MM-DD ddd" value-format="YYYY-MM-DD" size="large"
                                 :disabled-date="daterule" /></div>
@@ -371,22 +371,22 @@ const checkSticky = () => {
     align-items: baseline;
 }
 
-.sticky-header {
+/* .sticky-header {
     position: sticky;
     top: 0;
     z-index: 1000;
-}
+} */
 
-.sticky-footer {
+/* .sticky-footer {
     position: fixed;
     bottom: 0;
     width: 100%;
     text-align: center;
     z-index: 1000;
-}
+} */
 
 .the-end {
-    height: 100px
+    height: 150px
 }
 
 .fa {
