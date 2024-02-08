@@ -18,8 +18,8 @@
                     <div class="nav-item dropdown">
                         <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#">打工換宿資訊</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <RouterLink class="dropdown-item" to="/work-search">瀏覽打工項目</RouterLink>
-                            <RouterLink class="dropdown-item" to="/map">依地圖檢視</RouterLink>
+                            <RouterLink class="dropdown-item" to="/work-search"><i class="fa fa-solid fa-briefcase"></i>瀏覽打工項目</RouterLink>
+                            <RouterLink class="dropdown-item" to="/map"><i class="fa fa-solid fa-map"></i>依地圖檢視</RouterLink>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -46,7 +46,7 @@
                                 </RouterLink>
                             </div>
                         </div>
-                        <RouterLink v-else class="btn btn-secondary px-3" to="#" @click="userStore.addPermission('lord')">
+                        <RouterLink v-else class="btn btn-secondary px-3" to="/provider-form" > <!--@click="userStore.addPermission('lord')"-->
                             成為提供者
                         </RouterLink>
                         <div class="nav-item dropdown">
@@ -80,11 +80,9 @@
 <script setup>
 
 //// 引用函式庫
-import { ref, onMounted, onBeforeUnmount, watchEffect } from 'vue';
+import { ref, onMounted, onBeforeUnmount, watchEffect, computed } from 'vue';
 import router from '@router/router'
 import { useUserStore } from '@store/userStore-localStorage.js';
-import { computed } from 'vue';
-
 
 //// 引用元件
 import Toggle from '@components/Toggle.vue';
@@ -209,22 +207,14 @@ const checkSticky = () => {
 }
 
 @media (max-width: 1591.98px) {
-    .nav-bar {
-        margin: 0;
-        padding: 0;
-    }
 
     .navbar-light .navbar-nav .nav-link {
         margin-right: 5px;
-        padding: 0;
     }
 
-    .navbar-light .navbar-nav {
-        border-top: 1px solid #EEEEEE;
-    }
 }
 
-.navbar-light .navbar-brand {
+.navbar-light {
     height: 75px;
 }
 
