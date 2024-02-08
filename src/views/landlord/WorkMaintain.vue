@@ -51,7 +51,7 @@
                             <td
                                 :class="{ 'text-danger': work.attendance == work.maxAttendance, 'text-primary': work.maxAttendance - work.attendance < 5, 'text-success': work.maxAttendance - work.attendance >= 5 }">
                                 {{ work.attendance }}/{{ work.maxAttendance }}</td>
-                            <td :class="{ 'text-danger': work.onShelf, 'text-success': !work.onShelf }">{{ work.isOnShelf }}
+                            <td :class="{ 'text-danger': !work.onShelf, 'text-success': work.onShelf }">{{ work.isOnShelf }}
                             </td>
                             <td><button type="button" class="btn btn-primary btn-sm"
                                     @click="enterModify(work.workid)">編輯</button>
@@ -420,12 +420,12 @@
                         <span class="mx-3 col-1 align-self-center">上架狀態：</span>
                         <div class="mx-3 col-1">
                             <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off"
-                                v-model="onShelf" value="false">
+                                v-model="onShelf" value="true">
                             <label class="btn btn-outline-primary" for="option1">上架</label>
                         </div>
                         <div class="mx-3 col-1">
                             <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off"
-                                v-model="onShelf" value="true">
+                                v-model="onShelf" value="false">
                             <label class="btn btn-outline-secondary" for="option2">下架</label>
                         </div>
                     </div>
@@ -551,9 +551,9 @@ async function enterList() {
                 item.modifiedDate = `${modifyDay.getFullYear()}-${('0' + (modifyDay.getMonth() + 1)).slice(-2)}-${('0' + modifyDay.getDate()).slice(-2)}`;
                 // 狀態
                 if (item.onShelf) {
-                    item.isOnShelf = "未上架"
-                } else {
                     item.isOnShelf = "上架中"
+                } else {
+                    item.isOnShelf = "未上架"
                 }
             });
             workList.value = response.data;
@@ -604,9 +604,12 @@ async function enterModify(workid) {
         });
     houseDetail.value.forEach((house) => {
         // 将每个 house.houseid 作为 key，将初始的绑定状态（true/false）存储到 toggleStates 中
-        toggleStates.value[house.houseid] = bindingHousesID.value.includes(house.houseid);
+        if (bindingHousesID.value != null) {
+            toggleStates.value[house.houseid] = bindingHousesID.value.includes(house.houseid);
+        }
     })
-    // console.log("toggleStates", toggleStates.value);
+    console.log("toggleStates", toggleStates.value);
+    console.log("workid", workid)
 }
 
 // (預覽)新增
