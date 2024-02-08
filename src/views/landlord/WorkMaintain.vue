@@ -63,74 +63,8 @@
                                                     class="ms-2 text-dark">無</span></li>
                                             <li class="m-2 fw-bold"><i class="fa-solid fa-language me-2"></i>(限)語言：<span
                                                     class="ms-2 text-dark">會寫就好</span></li>
-
-                                        </ul>
-                                    </div>
-                                    <div class="col-3 m-3 detailed-ul text-start">
-                                        <ul class="detailed-ul text-start">
-                                            <li class="m-2 fw-bold"><i class="fa-solid fa-graduation-cap me-2"></i>教育程度：
-                                                <span class="ms-2 text-dark">頂大頂碩</span>
-                                            </li>
-                                            <li class="m-2 fw-bold"><i class="fa-solid fa-briefcase me-2"></i>工作經驗：<span
-                                                    class="ms-2 text-dark">新鮮的肝就好</span></li>
-                                            <li class="m-2 fw-bold"><i class="fa-regular fa-address-card me-2"></i>證照：<span
-                                                    class="ms-2 text-dark">無</span></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- note -->
-                                <div class="row">
-                                    <div class="col-4 mx-5 mb-3 detailed-ul text-start">
-                                        <li class="m-2 fw-bold"><i class="fa-solid fa-note-sticky me-2"></i>備註：<span
-                                                class="ms-2 text-dark">測試排版，資料都是假的</span>
-                                        </li>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td><img class="rounded-3 work-photo" src="https://picsum.photos/150/150"></td>
-                        <td class="text-danger">詐騙</td>
-                        <td>新春放炮</td>
-                        <td>台北市</td>
-                        <td>2024-01-28</td>
-                        <td>2024-06-28</td>
-                        <td>{{ modifiedDate }}</td>
-                        <td>2/12</td>
-                        <td class="text-danger">測試而已</td>
-                        <td><button type="button" class="btn btn-primary btn-sm" @click="enterModify">編輯</button> <button
-                                type="button" class="btn btn-danger btn-sm">刪除</button></td>
-                        <td><button class="accordion-button collapsed acco-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#toggle2" aria-expanded="false"></button></td>
-                    </tr>
-                    <tr>
-                        <td class="p-0" colspan="12">
-                            <div class="accordion-body collapse bg-light animate__animated animate__fadeIn" id="toggle2"
-                                data-bs-parent="#accordion-main">
-                                <div class="row">
-                                    <div class="col-4 mx-5 my-3 detailed-ul text-start">
-                                        <li class="m-2 fw-bold"><i class="fa-solid fa-briefcase me-2"></i>工作時間：<span
-                                                class="ms-2 text-dark">爆肝吧</span>
-                                        </li>
-                                        <li class="m-2 fw-bold"><i class="fa-solid fa-champagne-glasses me-2"></i>休假：<span
-                                                class="ms-2 text-dark">看你時數剩多少</span></li>
-                                        <li class="m-2 fw-bold"><i class="fa-solid fa-star me-2"></i>福利：<span
-                                                class="ms-2 text-dark">茶水、餐巾紙白瞟</span></li>
-                                        <li class="m-2 fw-bold"><i class="fa-regular fa-calendar-check me-2"></i>最短工期：<span
-                                                class="ms-2 text-dark">結訓前</span></li>
-                                    </div>
-                                    <div class="col-3 m-3 detailed-ul text-start">
-                                        <ul class="detailed-ul text-start">
-                                            <li class="m-2 fw-bold"><i class="fa-solid fa-user-clock me-2"></i>(限)年齡：<span
-                                                    class="ms-2 text-dark">無</span></li>
-                                            <li class="m-2 fw-bold"><i class="fa-solid fa-venus-mars me-2"></i>(限)性別：<span
-                                                    class="ms-2 text-dark">無</span></li>
-                                            <li class="m-2 fw-bold"><i class="fa-solid fa-language me-2"></i>(限)語言：<span
+                                            <li class="m-2 fw-bold"> <i class="fa-solid fa-eye me-2"></i>瀏覽量：<span
                                                     class="ms-2 text-dark">會寫就好</span></li>
-
                                         </ul>
                                     </div>
                                     <div class="col-3 m-3 detailed-ul text-start">
@@ -151,6 +85,10 @@
                                         <li class="m-2 fw-bold"><i class="fa-solid fa-note-sticky me-2"></i>備註：<span
                                                 class="ms-2 text-dark">測試排版，資料都是假的</span>
                                         </li>
+                                    </div>
+                                    <div class="col-4 mx-5 mb-3 detailed-ul text-start">
+                                        <li class="m-2 fw-bold"><i class="fa-solid fa-house-chimney me-2"></i>地址：<span
+                                                class="ms-2 text-dark">天球</span></li>
                                     </div>
                                 </div>
 
@@ -426,10 +364,6 @@
                                     </td>
                                     <td class="mx-3">
                                         <div class="d-flex justify-content-center">
-                                            <!-- <Toggle :isChecked="toggleStates[house.houseid]" bgColor="black"
-                                                ballColor="white" iconClass1="fa-solid fa-circle-check"
-                                                iconClass2="fa-solid fa-circle-xmark" color1="green" color2="red"
-                                                @change="updateBindingStatus(house.houseid)" /> -->
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input" type="checkbox" role="switch"
                                                     :id="`flexSwitchCheckChecked${house.houseid}`"
@@ -454,7 +388,7 @@
                         <span class="mx-3 col-1 align-self-center">上架狀態：</span>
                         <div class="mx-3 col-1">
                             <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off"
-                                v-model="onShelf" value="true" checked>
+                                v-model="onShelf" value="true">
                             <label class="btn btn-outline-primary" for="option1">上架</label>
                         </div>
                         <div class="mx-3 col-1">
@@ -496,11 +430,10 @@ import 'swiper/css/navigation';
 // import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 const modules = [Autoplay, Pagination, Navigation];
-import Toggle from '@components/Toggle.vue';
 
-const isShowList = ref(false);
-const isShowModify = ref(true);
-// const fl = ref<UploadUserFile[]>([])
+const isShowList = ref(true);
+const isShowModify = ref(false);
+
 // lordID 初始化賦值
 const lordID = localStorage.getItem('lordID');
 // 指定path
@@ -541,22 +474,34 @@ const newList = ref([]);                // [新]新照片(file)
 // 房
 const houseDetail = ref([]);
 const bindingHousesID = ref([]);        // [綁ID]初始
+const bindingChangeHouse = [];          // [綁ID]變化
 
 // 创建一个 ref 变量来存储每个 toggle 的状态
 const toggleStates = ref({});
 
-
 const onShelf = ref(true);              // 上架狀態
+
 const updateBindingStatus = (houseid) => {
     // 切换 toggle 状态
     toggleStates.value[houseid] = !toggleStates.value[houseid];
-    console.log("toggleStates", toggleStates.value);
+    // console.log("toggleStates", toggleStates.value);
+    if (bindingChangeHouse.includes(houseid)) {
+        let index = bindingChangeHouse.indexOf(houseid)
+        bindingChangeHouse.splice(index, 1);
+    } else {
+        bindingChangeHouse.push(houseid);
+    }
 };
 
 // 生命週期
 onMounted(() => {
-    enterModify();
+    enterList();
 })
+// 進列表
+async function enterList() {
+    axios.get()
+}
+
 
 // 進編輯前
 async function preEnter() {
@@ -569,7 +514,7 @@ async function enterModify() {
     await preEnter();
     axios.get(`${path}/api/work/modifyWork/show/76`)
         .then(function (response) {
-            console.log(response.data);
+            // console.log(response.data);
             worktype.value = response.data.worktype;
             workname.value = response.data.name;
             workcity.value = response.data.city;
@@ -604,7 +549,7 @@ async function enterModify() {
         // 将每个 house.houseid 作为 key，将初始的绑定状态（true/false）存储到 toggleStates 中
         toggleStates.value[house.houseid] = bindingHousesID.value.includes(house.houseid);
     })
-    console.log("toggleStates", toggleStates.value);
+    // console.log("toggleStates", toggleStates.value);
 }
 
 // (預覽)新增
@@ -638,14 +583,13 @@ async function addToTotal(e) {
 // 刪除
 function deletePhoto(item) {
     // 判斷是否為舊照片，添加到【刪】
-    // console.log("oldList.value", oldList.value);
-    // console.log("item", item);
-    // console.log("=============")
     const isOldPhoto = oldList.value.includes(item);
     if (isOldPhoto) {
         let oldNoIndex = oldList.value.indexOf(item);
         deleteList.value.push(idList.value[oldNoIndex]);
         // console.log("(刪)刪", deleteList.value);
+    } else {
+        newList.value.splice(item);
     }
     // 刪【總】
     const index = totalList.value.indexOf(item);
@@ -674,19 +618,109 @@ function daterule(time) {
 // 驗證
 function validate(event) {
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.querySelectorAll('.needs-validation')
+    var forms = document.querySelectorAll('.needs-validation');
     // Loop over them and prevent submission
     Array.prototype.slice.call(forms)
         .forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-                form.classList.add('was-validated')
-            }, false)
-        })
+            // 移除現有的 submit 事件監聽器
+            form.removeEventListener('submit', submitHandler);
+            // 添加新的 submit 事件監聽器
+            form.addEventListener('submit', submitHandler);
+        });
 }
+async function submitHandler(event) {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var form = event.currentTarget;
+    // Loop over them and prevent submission
+    if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+    } else {
+        event.preventDefault();
+        Swal.fire({
+            title: '處理中',
+            text: '請稍候...',
+            icon: 'info',
+            showCancelButton: false,
+            showConfirmButton: false,
+            allowOutsideClick: false
+        });
+        await submitWork();
+        await submitHouse();
+        Swal.close();
+        Swal.fire({
+            title: '成功',
+            text: '請求已成功處理',
+            icon: 'success',
+            showCancelButton: false,
+            confirmButtonText: '返回',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 確認按鈕被點擊後返回上一頁
+                exitModify();
+            }
+        });
+
+        // });
+    }
+    form.classList.add('was-validated')
+}
+// 提交工作 (路徑要改)
+async function submitWork() {
+    let requestWork = {
+        "workid": 76,
+        "worktype": worktype.value,
+        "name": workname.value,
+        "notes": worknote.value,
+        "city": workcity.value,
+        "address": workaddress.value,
+        "startDate": workperiod.value[0],
+        "endDate": workperiod.value[1],
+        "minPeriod": workminperiod.value,
+        "maxAttendance": workmaxattendance.value,
+        "description": workdescription.value,
+        "workTime": worktime.value,
+        "vacation": workvacation.value,
+        "ageRestriction": ageRestriction.value,
+        "genderRestriction": genderRestriction.value,
+        "educationRestriction": educationRestriction.value,
+        "experienceRestriction": experienceRestriction.value,
+        "languageRestriction": languageRestriction.value,
+        "licenseRestriction": licenseRestriction.value,
+        "benefits": workbenefits.value,
+        "updatedAt": new Date(),
+        "isOnShelf": onShelf.value,
+        "deletePhotoID": deleteList.value,
+        "bindingChangeHouse": bindingChangeHouse
+    }
+    try {
+        await axios.post(`${path}/api/work/modifyWork/submitWork/76`, requestWork)
+        // console.log(onShelf.value)
+        console.log("Work submitted successfully!");
+    } catch (error) {
+        console.error("Error submitting work:", error);
+    }
+}
+// 提交房子 (路徑要改)
+async function submitHouse() {
+    try {
+        const formData = new FormData();
+        for (const file of newList.value) {
+            console.log(file)
+            formData.append('newList', file);
+        }
+        await axios.post(`${path}/api/work/modifyWork/submitHouse/76`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        console.log("Work submitted successfully!");
+    } catch (error) {
+        console.error("Error submitting house:", error);
+    }
+}
+
 // 取消修改
 function cancelModify() {
     Swal.fire({
@@ -699,13 +733,15 @@ function cancelModify() {
         allowOutsideClick: false
     }).then(function (response) {
         if (response.isConfirmed) {
-            isShowList.value = true;
-            isShowModify.value = false;
+            exitModify();
         }
     })
 }
-
-
+// 離開修改
+function exitModify() {
+    isShowList.value = true;
+    isShowModify.value = false;
+}
 let current = new Date();
 let modifiedDate = current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + current.getDate() + ' ' + current.getHours() + ':' + current.getMinutes() + ':' + current.getSeconds();
 
