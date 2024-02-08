@@ -323,7 +323,6 @@ import {Plus} from '@element-plus/icons-vue'
 import {UploadProps, UploadUserFile} from "element-plus";
 import Swal from "sweetalert2";
 import VueCookies from "vue-cookies";
-
 const age = ['不拘', '青壯年', '壯年', '老年']
 const gender = ['男', '女', '不限制']
 const education = ['國小', '國中', '高中職', '學士', '碩士', '博士']
@@ -331,7 +330,7 @@ let maxValue = 100 / 3;
 let barValue = 0;
 let currentPage = ref(1);
 
-const dateValue1 = ref('')
+let dateValue1: string[] = ref('')
 const fl = ref<UploadUserFile[]>([])
 const dialogImager = ref('')
 const dialogVisible = ref(false)
@@ -406,6 +405,7 @@ function next() {
   if (currentPage.value <= 4) {
     currentPage.value++;
     barValue += maxValue;
+    console.log(dateValue1)
   }
 }
 
@@ -577,6 +577,7 @@ function getRandomWorkType() {
 
 function fullData() {
   getRandomWorkType()
+  let date = new Date();
   Data.value.worktype = getSelectedRadioLabel("fkWorkType");
   addressValue.value[0] = '臺北市';
   addressValue.value[1] = '大安區';
@@ -584,8 +585,9 @@ function fullData() {
   Data.value.districtName = '大安區';
   Data.value.workName = '血汗碼農';
   Data.value.address = '復興南路一段390號2樓'; // Assuming workName is your input's v-model
-  Data.value.startDate = '2024-02-22';
-  Data.value.endDate = '2024-05-22';
+  Data.value.startDate = date.toISOString();
+  Data.value.endDate = new Date(date.getTime() + (180 * 24 * 60 * 60 * 1000)).toISOString();
+  dateValue1 = [Data.value.startDate, Data.value.endDate]
   Data.value.workTime = '10hr' // Replace with your input's v-model
   Data.value.minPeriod = '180' // Replace with your input's v-model
   Data.value.ageRestriction = '不拘' // Replace with your input's v-model
