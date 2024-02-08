@@ -22,79 +22,110 @@
                 </thead>
                 <tbody class="accordion align-middle animate__animated animate__fadeIn" id="accordion-main">
                     <!-- line -->
-                    <tr>
-                        <td>1</td>
-                        <td><img class="rounded-3 work-photo" src="https://picsum.photos/150/150"></td>
-                        <td class="text-info">演戲</td>
-                        <td>開天窗部隊之在劫難逃</td>
-                        <td>台北市</td>
-                        <td>2024-01-28</td>
-                        <td>2024-06-28</td>
-                        <td>{{ modifiedDate }}</td>
-                        <td>2/12</td>
-                        <td class="text-danger">別急，還沒好</td>
-                        <td><button type="button" class="btn btn-primary btn-sm" @click="enterModify">編輯</button> <button
-                                type="button" class="btn btn-danger btn-sm">刪除</button></td>
-                        <td><button class="accordion-button collapsed acco-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#toggle1" aria-expanded="false"></button></td>
-                    </tr>
-                    <!-- toggle-line -->
-                    <tr>
-                        <td class="p-0" colspan="12">
-                            <div class="accordion-body collapse bg-light animate__animated animate__fadeIn" id="toggle1"
-                                data-bs-parent="#accordion-main">
-                                <div class="row">
-                                    <div class="col-4 mx-5 my-3 detailed-ul text-start">
-                                        <li class="m-2 fw-bold"><i class="fa-solid fa-briefcase me-2"></i>工作時間：<span
-                                                class="ms-2 text-dark">爆肝吧</span>
-                                        </li>
-                                        <li class="m-2 fw-bold"><i class="fa-solid fa-champagne-glasses me-2"></i>休假：<span
-                                                class="ms-2 text-dark">看你時數剩多少</span></li>
-                                        <li class="m-2 fw-bold"><i class="fa-solid fa-star me-2"></i>福利：<span
-                                                class="ms-2 text-dark">茶水、餐巾紙白瞟</span></li>
-                                        <li class="m-2 fw-bold"><i class="fa-regular fa-calendar-check me-2"></i>最短工期：<span
-                                                class="ms-2 text-dark">結訓前</span></li>
-                                    </div>
-                                    <div class="col-3 m-3 detailed-ul text-start">
-                                        <ul class="detailed-ul text-start">
-                                            <li class="m-2 fw-bold"><i class="fa-solid fa-user-clock me-2"></i>(限)年齡：<span
-                                                    class="ms-2 text-dark">無</span></li>
-                                            <li class="m-2 fw-bold"><i class="fa-solid fa-venus-mars me-2"></i>(限)性別：<span
-                                                    class="ms-2 text-dark">無</span></li>
-                                            <li class="m-2 fw-bold"><i class="fa-solid fa-language me-2"></i>(限)語言：<span
-                                                    class="ms-2 text-dark">會寫就好</span></li>
-                                            <li class="m-2 fw-bold"> <i class="fa-solid fa-eye me-2"></i>瀏覽量：<span
-                                                    class="ms-2 text-dark">會寫就好</span></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-3 m-3 detailed-ul text-start">
-                                        <ul class="detailed-ul text-start">
-                                            <li class="m-2 fw-bold"><i class="fa-solid fa-graduation-cap me-2"></i>教育程度：
-                                                <span class="ms-2 text-dark">頂大頂碩</span>
+                    <template v-for="work, index in workList" :key="index">
+                        <tr>
+                            <td>{{ index + 1 }}</td>
+                            <td>
+                                <div class="photo-container">
+                                    <swiper :style="{
+                                        '--swiper-navigation-color': '#fff',
+                                        '--swiper-pagination-color': '#fff',
+                                    }" :centeredSlides="true" :loop="true" :navigation="true" :modules="modules"
+                                        :pagination="{ clickable: true }" class="mySwiper col-md-12">
+                                        <swiper-slide v-for="photo in work.photosBase64">
+                                            <img v-if="photo != null" :src="photo" class="d-block w-100">
+                                            <img v-else src="@images/ImageNotFound.jpg" class="d-block w-100">
+                                        </swiper-slide>
+                                        <swiper-slide v-if="work.photosBase64 == null" :key="work.id">
+                                            <img src="@images/ImageNotFound.jpg" class="d-block w-100">
+                                        </swiper-slide>
+                                    </swiper>
+                                </div>
+                            </td>
+                            <td class="text-info">{{ work.worktype }}</td>
+                            <td>{{ work.name }}</td>
+                            <td>{{ work.city }}</td>
+                            <td>{{ work.startDate }}</td>
+                            <td>{{ work.endDate }}</td>
+                            <td>{{ work.modifiedDate }}</td>
+                            <td
+                                :class="{ 'text-danger': work.attendance == work.maxAttendance, 'text-primary': work.maxAttendance - work.attendance < 5, 'text-success': work.maxAttendance - work.attendance >= 5 }">
+                                {{ work.attendance }}/{{ work.maxAttendance }}</td>
+                            <td :class="{ 'text-danger': work.onShelf, 'text-success': !work.onShelf }">{{ work.isOnShelf }}
+                            </td>
+                            <td><button type="button" class="btn btn-primary btn-sm"
+                                    @click="enterModify(work.workid)">編輯</button>
+                                <button type="button" class="btn btn-danger btn-sm">刪除</button>
+                            </td>
+                            <td><button class="accordion-button collapsed acco-button" type="button"
+                                    data-bs-toggle="collapse" :data-bs-target="'#item' + index"
+                                    aria-expanded="false"></button></td>
+                        </tr>
+                        <!-- toggle-line -->
+                        <tr>
+                            <td class="p-0" colspan="12">
+                                <div class="accordion-body collapse bg-light animate__animated animate__fadeIn"
+                                    :id="'item' + index" data-bs-parent="#accordion-main">
+                                    <div class="row">
+                                        <div class="col-4 mx-5 my-3 detailed-ul text-start">
+                                            <li class="m-2 fw-bold"><i class="fa-solid fa-briefcase me-2"></i>工作時間：<span
+                                                    class="ms-2 text-dark">{{ work.workTime }}</span>
                                             </li>
-                                            <li class="m-2 fw-bold"><i class="fa-solid fa-briefcase me-2"></i>工作經驗：<span
-                                                    class="ms-2 text-dark">新鮮的肝就好</span></li>
-                                            <li class="m-2 fw-bold"><i class="fa-regular fa-address-card me-2"></i>證照：<span
-                                                    class="ms-2 text-dark">無</span></li>
-                                        </ul>
+                                            <li class="m-2 fw-bold"><i
+                                                    class="fa-solid fa-champagne-glasses me-2"></i>休假：<span
+                                                    class="ms-2 text-dark">{{ work.vacation }}</span></li>
+                                            <li class="m-2 fw-bold"><i class="fa-solid fa-star me-2"></i>福利：<span
+                                                    class="ms-2 text-dark">{{ work.benefits }}</span></li>
+                                            <li class="m-2 fw-bold"><i
+                                                    class="fa-regular fa-calendar-check me-2"></i>最短工期：<span
+                                                    class="ms-2 text-dark">{{ work.minPeriod }}</span></li>
+                                        </div>
+                                        <div class="col-3 m-3 detailed-ul text-start">
+                                            <ul class="detailed-ul text-start">
+                                                <li class="m-2 fw-bold"><i
+                                                        class="fa-solid fa-user-clock me-2"></i>(限)年齡：<span
+                                                        class="ms-2 text-dark">{{ work.ageRestriction }}</span></li>
+                                                <li class="m-2 fw-bold"><i
+                                                        class="fa-solid fa-venus-mars me-2"></i>(限)性別：<span
+                                                        class="ms-2 text-dark">{{ work.genderRestriction }}</span></li>
+                                                <li class="m-2 fw-bold"><i class="fa-solid fa-language me-2"></i>(限)語言：<span
+                                                        class="ms-2 text-dark">{{ work.languageRestriction }}</span></li>
+                                                <li class="m-2 fw-bold"> <i class="fa-solid fa-eye me-2"></i>瀏覽量：<span
+                                                        class="ms-2 text-dark">{{ work.views }}</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-3 m-3 detailed-ul text-start">
+                                            <ul class="detailed-ul text-start">
+                                                <li class="m-2 fw-bold"><i class="fa-solid fa-graduation-cap me-2"></i>教育程度：
+                                                    <span class="ms-2 text-dark">{{ work.educationRestriction }}</span>
+                                                </li>
+                                                <li class="m-2 fw-bold"><i class="fa-solid fa-briefcase me-2"></i>工作經驗：<span
+                                                        class="ms-2 text-dark">{{ work.experienceRestriction }}</span></li>
+                                                <li class="m-2 fw-bold"><i
+                                                        class="fa-regular fa-address-card me-2"></i>證照：<span
+                                                        class="ms-2 text-dark">{{ work.licenseRestriction }}</span></li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- note -->
-                                <div class="row">
-                                    <div class="col-4 mx-5 mb-3 detailed-ul text-start">
-                                        <li class="m-2 fw-bold"><i class="fa-solid fa-note-sticky me-2"></i>備註：<span
-                                                class="ms-2 text-dark">測試排版，資料都是假的</span>
-                                        </li>
+                                    <!-- note -->
+                                    <div class="row">
+                                        <div class="col-4 mx-5 mb-3 detailed-ul text-start">
+                                            <li class="m-2 fw-bold"><i class="fa-solid fa-note-sticky me-2"></i>備註：<span
+                                                    class="ms-2 text-dark">{{ work.notes }}</span>
+                                            </li>
+                                        </div>
+                                        <div class="col-4 mx-5 mb-3 detailed-ul text-start">
+                                            <li class="m-2 fw-bold"><i class="fa-solid fa-house-chimney me-2"></i>地址：<span
+                                                    class="ms-2 text-dark">{{ work.city }}{{
+                                                        work.address }}</span>
+                                            </li>
+                                        </div>
                                     </div>
-                                    <div class="col-4 mx-5 mb-3 detailed-ul text-start">
-                                        <li class="m-2 fw-bold"><i class="fa-solid fa-house-chimney me-2"></i>地址：<span
-                                                class="ms-2 text-dark">天球</span></li>
-                                    </div>
-                                </div>
 
-                            </div>
-                        </td>
-                    </tr>
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
                 </tbody>
             </table>
             <!-- main-form -->
@@ -277,9 +308,10 @@
                     </div>
                     <!-- preview -->
                     <div class="row g-0 mx-3 my-5">
-                        <div v-for="item in totalList" class="col d-flex justify-content-center">
+                        <div v-for="item, index in totalList" class="col d-flex justify-content-center" :key="index">
                             <figcaption class="position-relative">
-                                <i class="fa-solid fa-xmark fa-2xl position-absolute xmark" @click="deletePhoto(item)"></i>
+                                <i class="fa-solid fa-xmark fa-2xl position-absolute xmark"
+                                    @click="deletePhoto(item, index)"></i>
                                 <img :src="item"
                                     class="border border-3 border-primary rounded previewPhoto animate__animated animate__fadeIn">
                             </figcaption>
@@ -388,12 +420,12 @@
                         <span class="mx-3 col-1 align-self-center">上架狀態：</span>
                         <div class="mx-3 col-1">
                             <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off"
-                                v-model="onShelf" value="true">
+                                v-model="onShelf" value="false">
                             <label class="btn btn-outline-primary" for="option1">上架</label>
                         </div>
                         <div class="mx-3 col-1">
                             <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off"
-                                v-model="onShelf" value="false">
+                                v-model="onShelf" value="true">
                             <label class="btn btn-outline-secondary" for="option2">下架</label>
                         </div>
                     </div>
@@ -430,16 +462,21 @@ import 'swiper/css/navigation';
 // import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 const modules = [Autoplay, Pagination, Navigation];
-
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const isShowList = ref(true);
 const isShowModify = ref(false);
 
-// lordID 初始化賦值
-const lordID = localStorage.getItem('lordID');
+// lordid 初始化賦值
+const lordid = localStorage.getItem('lordID');
 // 指定path
 let path = import.meta.env.VITE_APP_API_URL;
 
+// 列表資料
+const workList = ref([]);
 
+// workid，進編輯後賦值
+const workID = ref([]);
 // 表單資料
 const worktypeList = ["人力", "旅店", "活動", "銷售", "辦公", "餐飲", "補教", "其他"]
 const city = ["基隆市", "嘉義市", "臺北市", "嘉義縣", "新北市", "臺南市", "桃園縣", "高雄市", "新竹市", "屏東縣", "新竹縣", "臺東縣", "苗栗縣", "花蓮縣", "臺中市", "宜蘭縣", "彰化縣", "澎湖縣", "南投縣", "金門縣", "雲林縣", "連江縣"]
@@ -499,22 +536,43 @@ onMounted(() => {
 })
 // 進列表
 async function enterList() {
-    axios.get()
+    axios.get(`${path}/api/work/modifyWork/workList/${lordid}`)
+        .then(function (response) {
+            console.log(response.data)
+            response.data.forEach(function (item) {
+                // 開始日
+                let startDay = new Date(item.startDate);
+                item.startDate = `${startDay.getFullYear()}-${('0' + (startDay.getMonth() + 1)).slice(-2)}-${('0' + startDay.getDate()).slice(-2)}`;
+                // 結束日
+                let endDay = new Date(item.endDate);
+                item.endDate = `${endDay.getFullYear()}-${('0' + (endDay.getMonth() + 1)).slice(-2)}-${('0' + endDay.getDate()).slice(-2)}`;
+                // 修改日
+                let modifyDay = new Date(item.updatedAt);
+                item.modifiedDate = `${modifyDay.getFullYear()}-${('0' + (modifyDay.getMonth() + 1)).slice(-2)}-${('0' + modifyDay.getDate()).slice(-2)}`;
+                // 狀態
+                if (item.onShelf) {
+                    item.isOnShelf = "未上架"
+                } else {
+                    item.isOnShelf = "上架中"
+                }
+            });
+            workList.value = response.data;
+        })
 }
 
 
 // 進編輯前
-async function preEnter() {
+async function preEnter(workid) {
     isShowList.value = false;
     isShowModify.value = true;
+    workID.value = workid;
 }
 
 // 進編輯
-async function enterModify() {
-    await preEnter();
-    axios.get(`${path}/api/work/modifyWork/show/76`)
+async function enterModify(workid) {
+    await preEnter(workid);
+    axios.get(`${path}/api/work/modifyWork/show/${workid}`)
         .then(function (response) {
-            // console.log(response.data);
             worktype.value = response.data.worktype;
             workname.value = response.data.name;
             workcity.value = response.data.city;
@@ -539,11 +597,10 @@ async function enterModify() {
             onShelf.value = response.data.onShelf;
 
         });
-    await axios.get(`${path}/api/work/modifyWork/showHouse/76`)
+    await axios.get(`${path}/api/work/modifyWork/showHouse/${workid}`)
         .then(function (response) {
             bindingHousesID.value = response.data.bindingHousesID;
             houseDetail.value = response.data.houseDetail;
-            console.log("houseDetail", houseDetail.value);
         });
     houseDetail.value.forEach((house) => {
         // 将每个 house.houseid 作为 key，将初始的绑定状态（true/false）存储到 toggleStates 中
@@ -581,20 +638,23 @@ async function addToTotal(e) {
     }
 }
 // 刪除
-function deletePhoto(item) {
+function deletePhoto(item, index) {
     // 判斷是否為舊照片，添加到【刪】
     const isOldPhoto = oldList.value.includes(item);
     if (isOldPhoto) {
-        let oldNoIndex = oldList.value.indexOf(item);
-        deleteList.value.push(idList.value[oldNoIndex]);
+        // let oldNoIndex = oldList.value.indexOf(item);    
+        // 上面一行是陷阱，由於oldList都是Base64，假設使用者有一樣的base64，永遠只抓其中第一個。使用者刪哪一張都指向同一個index
+        deleteList.value.push(idList.value[index]);
+        idList.value.splice(index, 1);
         // console.log("(刪)刪", deleteList.value);
+        // console.log("(刪)id", idList.value);
     } else {
         newList.value.splice(item);
     }
     // 刪【總】
-    const index = totalList.value.indexOf(item);
-    if (index !== -1) {
-        totalList.value.splice(index, 1);
+    const totalindex = totalList.value.indexOf(item);
+    if (totalindex !== -1) {
+        totalList.value.splice(totalindex, 1);
         // console.log("(刪)總", totalList.value);
         // console.log("(刪)刪", deleteList.value);
     }
@@ -669,7 +729,7 @@ async function submitHandler(event) {
 // 提交工作 (路徑要改)
 async function submitWork() {
     let requestWork = {
-        "workid": 76,
+        "workid": workID.value,
         "worktype": worktype.value,
         "name": workname.value,
         "notes": worknote.value,
@@ -695,7 +755,7 @@ async function submitWork() {
         "bindingChangeHouse": bindingChangeHouse
     }
     try {
-        await axios.post(`${path}/api/work/modifyWork/submitWork/76`, requestWork)
+        await axios.post(`${path}/api/work/modifyWork/submitWork/${workID.value}`, requestWork)
         // console.log(onShelf.value)
         console.log("Work submitted successfully!");
     } catch (error) {
@@ -707,10 +767,10 @@ async function submitHouse() {
     try {
         const formData = new FormData();
         for (const file of newList.value) {
-            console.log(file)
+            // console.log(file)
             formData.append('newList', file);
         }
-        await axios.post(`${path}/api/work/modifyWork/submitHouse/76`, formData, {
+        await axios.post(`${path}/api/work/modifyWork/submitHouse/${workID.value}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -739,11 +799,12 @@ function cancelModify() {
 }
 // 離開修改
 function exitModify() {
-    isShowList.value = true;
-    isShowModify.value = false;
+    try {
+        router.go(0);
+    } catch (error) {
+        console.error('Failed to apply', error);
+    }
 }
-let current = new Date();
-let modifiedDate = current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + current.getDate() + ' ' + current.getHours() + ':' + current.getMinutes() + ':' + current.getSeconds();
 
 </script>
     
@@ -812,7 +873,7 @@ figcaption:hover img {
 .photo-container {
     width: 100%;
     /* 设置包装容器宽度为 100%，占满表格列 */
-    max-width: 400px;
+    max-width: 300px;
     /* 设置包装容器最大宽度，调整根据需求 */
     margin: auto;
     /* 水平居中 */
@@ -822,13 +883,13 @@ figcaption:hover img {
 
 
 .swiper {
-    width: 100%;
+    width: 50%;
     height: 100%;
 }
 
 .swiper-slide img {
     display: block;
-    height: 300px;
+    height: 150px;
     object-fit: contain;
 }
 </style>

@@ -51,7 +51,7 @@
                 </div>
                 <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
             </div>
-            <button class="btn btn-light" @click="Apply">報名</button>
+            <button class="btn btn-light" @click="apply">報名</button>
         </div>
     </div>
 </template>
@@ -165,7 +165,7 @@ const checkIfWorkIsKept = async (workId) => {
     }
 }
 
-const Apply = async () => {
+const apply = async () => {
     try {
         router.push({ name: 'Order1', query: { workID: workID } });
     } catch (error) {
