@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid vh-100">
         <!--Search Header Start-->
-        <div class="row g-2 d-flex align-items-center py-3 pe-3 bg-light-var" :class="{ 'fixed-top': isSticky }">
+        <div class="row d-flex align-items-center py-3 pe-2 bg-light-var" :class="{ 'fixed-top': isSticky }">
             <div class="col-md-5">
                 <div class="row g-2">
                     <div class="col-xxl-6 col-md-0 hide-on-small">

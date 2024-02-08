@@ -6,13 +6,14 @@ import { createRouter, createWebHistory } from "vue-router";
 // commmon 無須權限
 import ContactUs from "@views/common/ContactUs.vue";
 import Home from "@views/common/Home.vue";
-import Login from "@views/common/Login.vue";
-import NotFound from "@views/common/NotFound.vue";
 import WorkSearch from "@views/common/WorkSearch.vue";
 import WorkDetail from "@views/common/WorkDetail.vue";
-import UserProfile from "@views/common/UserProfile.vue";
-import ThankYou from "@components/ThankYou.vue";
 import Map from "@components/Map.vue";
+import ProviderForm from "@views/common/ProviderForm.vue";
+import UserProfile from "@views/common/UserProfile.vue";
+import Login from "@views/common/Login.vue";
+import NotFound from "@views/common/NotFound.vue";
+import ThankYou from "@components/ThankYou.vue";
 // user 一般使用者
 import Chatroom from "@views/user/Chatroom.vue";
 import Order from "@views/user/Order.vue";
@@ -52,11 +53,6 @@ const routes = [
     meta: { hideFooter: true },
   },
   {
-    path: "/user-profile/:id",
-    name: "UserProfile",
-    component: UserProfile,
-  },
-  {
     path: "/work-detail/:id",
     name: "WorkDetail",
     component: WorkDetail,
@@ -67,9 +63,19 @@ const routes = [
     component: NotFound,
   },
   {
+    path: "/user-profile/:id",
+    name: "UserProfile",
+    component: UserProfile,
+  },
+  {
     path: "/contact-us",
     name: "ContactUs",
     component: ContactUs,
+  },
+  {
+    path: "/provider-form",
+    name: "ProviderForm",
+    component: ProviderForm,
   },
   {
     path: "/login",
@@ -77,6 +83,7 @@ const routes = [
     component: Login,
     meta:{ noEntryWithAuth: true}
   },
+  
   {
     path: "/thankyou",
     name: "ThankYou",
