@@ -21,8 +21,8 @@
                     </tr>
                 </thead>
                 <tbody class="accordion align-middle animate__animated animate__fadeIn" id="accordion-main">
-                    <!-- line -->
-                    <template v-for="work, index in workList" :key="index">
+                    <template v-for="work, index in  workList " :key="index">
+                        <!-- main-line  -->
                         <tr>
                             <td>{{ index + 1 }}</td>
                             <td>
@@ -42,7 +42,14 @@
                                     </swiper>
                                 </div>
                             </td>
-                            <td class="text-info">{{ work.worktype }}</td>
+                            <td>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="badge text-wrap type-badge fs-6" :class="{
+                                        'bg-success': work.worktype == '人力', 'bg-warning': work.worktype == '旅店', 'bg-primary': work.worktype == '活動', 'bg-danger': work.worktype == '銷售', 'bg-dark': work.worktype == '辦公', 'bg-secondary': work.worktype == '餐飲', 'bg-info': work.worktype == '補教' || work.worktype == '其他'
+                                    }">
+                                        {{ work.worktype }}</div>
+                                </div>
+                            </td>
                             <td>{{ work.name }}</td>
                             <td>{{ work.city }}</td>
                             <td>{{ work.startDate }}</td>
@@ -53,14 +60,26 @@
                                 {{ work.attendance }}/{{ work.maxAttendance }}</td>
                             <td :class="{ 'text-danger': !work.onShelf, 'text-success': work.onShelf }">{{ work.isOnShelf }}
                             </td>
-                            <td><button type="button" class="btn btn-primary btn-sm"
-                                    @click="enterModify(work.workid)">編輯</button>
-                                <button type="button" class="btn btn-danger btn-sm">刪除</button>
+                            <td>
+                                <div class="my-3"><button type="button" class="btn btn-primary btn-sm"
+                                        @click="enterModify(work.workid)">編輯</button>
+                                </div>
+                                <div class="my-3">
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        @click="deleteWork(work.workid)">刪除</button>
+                                </div>
+                                <div class="my-3">
+                                    <button type="button" class="btn btn-success btn-sm" @click="previewWork(work.workid)">
+                                        預覽
+                                    </button>
+                                </div>
                             </td>
-                            <td><button class="accordion-button collapsed acco-button" type="button"
+                            <td><button class=" accordion-button collapsed acco-button" type="button"
                                     data-bs-toggle="collapse" :data-bs-target="'#item' + index"
-                                    aria-expanded="false"></button></td>
+                                    aria-expanded="false"></button>
+                            </td>
                         </tr>
+                        <!-- main-line end -->
                         <!-- toggle-line -->
                         <tr>
                             <td class="p-0" colspan="12">
@@ -125,9 +144,11 @@
                                 </div>
                             </td>
                         </tr>
+                        <!-- toggle-line end -->
                     </template>
                 </tbody>
             </table>
+            <!-- main-list end -->
             <!-- main-form -->
             <form class="p-4 animate__animated animate__fadeIn needs-validation" novalidate v-show="isShowModify">
                 <!-- basic -->
@@ -139,7 +160,7 @@
                         <div class="form-floating mx-3 col">
                             <select class="form-control" id="formWorktype" v-model="worktype" required>
                                 <!-- <option selected disabled value="">Choose...</option> -->
-                                <option v-for="item in worktypeList" :value="item">{{
+                                <option v-for=" item  in  worktypeList " :value="item">{{
                                     item }}
                                 </option>
                             </select>
@@ -162,7 +183,7 @@
                         <div class="form-floating mx-3 col-3">
                             <select class="form-control" id="formWorkcity" v-model="workcity" required>
                                 <option selected disabled value=""></option>
-                                <option v-for=" item  in  city " :value="item">{{ item }}</option>
+                                <option v-for="  item   in   city  " :value="item">{{ item }}</option>
                             </select>
                             <label for="formWorkcity">打工縣市(必填)</label>
                             <div class="invalid-feedback">
@@ -186,7 +207,7 @@
                                 end-placeholder="結束日期" format="YYYY-MM-DD ddd" date-format="YYYY/MM/DD ddd" size="large"
                                 :disabled-date="daterule" />
                         </div>
-                        <div class="form-floating mx-4 my-2 col-4">
+                        <div class="form-floating mx-4 my-2 col-3">
                             <input type="number" class="form-control" id="formWorkminperiod" placeholder="打工最短期間(天數)"
                                 v-model="workminperiod" required>
                             <label for="formWorkminperiod">打工最短天數 (必填)</label>
@@ -194,13 +215,17 @@
                                 請點選打工最短期間(或輸入阿拉伯數字)
                             </div>
                         </div>
-                        <div class="form-floating mx-3 my-2 col-4">
+                        <div class="form-floating mx-4 my-2 col-3">
                             <input type="number" class="form-control" id="formWorkmaxattendance" placeholder="打工最小期間(天數)"
                                 v-model="workmaxattendance" required>
                             <label for="formWorkminperiod">打工需求人數(必填)</label>
                             <div class="invalid-feedback">
                                 請點選需求人數(或輸入阿拉伯數字)
                             </div>
+                        </div>
+                        <div class="form-floating mx-5 my-2 col-1">
+                            <input type="number" class="form-control" v-model="workattendance" disabled>
+                            <label for="formWorkminperiod">目前報名人數</label>
                         </div>
                     </div>
                 </div>
@@ -308,7 +333,7 @@
                     </div>
                     <!-- preview -->
                     <div class="row g-0 mx-3 my-5">
-                        <div v-for="item, index in totalList" class="col d-flex justify-content-center" :key="index">
+                        <div v-for=" item, index  in  totalList " class="col d-flex justify-content-center" :key="index">
                             <figcaption class="position-relative">
                                 <i class="fa-solid fa-xmark fa-2xl position-absolute xmark"
                                     @click="deletePhoto(item, index)"></i>
@@ -328,14 +353,15 @@
                             <tr>
                                 <th>房屋資訊</th>
                                 <th>房屋圖片</th>
+                                <th>剩餘床位</th>
                                 <th>是否綁定</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <template v-for="house in houseDetail">
+                            <template v-for=" house  in  houseDetail ">
                                 <tr>
                                     <td class="align-middle col-5">
-                                        <h6>{{ house.houseType }}-{{ house.name }}</h6>
+                                        <h5>{{ house.houseType }}-{{ house.name }}</h5>
                                         <div>地址:{{ house.postCode }}{{ house.city }}-{{ house.address }}
                                         </div>
                                         <div>
@@ -376,15 +402,16 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="mx-3 col-5 align-middle">
+                                    <td class="mx-3 col-4 align-middle">
                                         <div class="photo-container">
                                             <swiper :style="{
                                                 '--swiper-navigation-color': '#fff',
                                                 '--swiper-pagination-color': '#fff',
-                                            }" :centeredSlides="true" :loop="true" :navigation="true"
+                                            }
+                                                " :centeredSlides="true" :loop="true" :navigation="true"
                                                 :modules="modules" :pagination="{ clickable: true }"
                                                 class="mySwiper col-md-12">
-                                                <swiper-slide v-for="photo in house.photosBase64" :key="photo">
+                                                <swiper-slide v-for=" photo  in  house.photosBase64 " :key="photo">
                                                     <img v-if="photo != null" :src="photo" class="d-block w-100">
                                                     <img v-else src="@images/ImageNotFound.jpg" class="d-block w-100">
                                                 </swiper-slide>
@@ -393,6 +420,15 @@
                                                 </swiper-slide>
                                             </swiper>
                                         </div>
+                                    </td>
+                                    <td class="mx-3">
+                                        <div class="d-flex justify-content-center fs-5" :class="{
+                                            'text-primary': house.beds <= 10
+                                                && house.beds >= 5
+                                            , 'text-danger': house.beds < 5
+                                        }
+                                            ">
+                                            {{ house.beds }}</div>
                                     </td>
                                     <td class="mx-3">
                                         <div class="d-flex justify-content-center">
@@ -440,9 +476,12 @@
                 </div>
                 <div class="col-12 d-flex justify-content-center">
                     <button class="btn btn-danger m-2" type="submit" @click="validate">確認</button>
+                    <div></div>
                     <button class="btn btn-primary m-2" type="button" @click="cancelModify">取消</button>
+                    <div></div>
                 </div>
             </form>
+            <!-- main-form end-->
         </div>
 
     </div>
@@ -487,6 +526,7 @@ const workaddress = ref('');            // 住址
 const workperiod = ref([]);             // 期間(預填時須留意加總，傳入時須留意拆分)
 const workminperiod = ref();            // 打工最小期間
 const workmaxattendance = ref();        // 需求人數(最大)
+const workattendance = ref();           // 已報名人數
 const worktime = ref('');               // 工作時間
 const workvacation = ref('');           // 休假
 const workbenefits = ref('');           // 福利
@@ -538,7 +578,6 @@ onMounted(() => {
 async function enterList() {
     axios.get(`${path}/api/work/modifyWork/workList/${lordid}`)
         .then(function (response) {
-            console.log(response.data)
             response.data.forEach(function (item) {
                 // 開始日
                 let startDay = new Date(item.startDate);
@@ -580,6 +619,7 @@ async function enterModify(workid) {
             workperiod.value = [response.data.startDate, response.data.endDate];
             workminperiod.value = response.data.minPeriod;
             workmaxattendance.value = response.data.maxAttendance;
+            workattendance.value = response.data.attendance;
             worktime.value = response.data.workTime;
             workvacation.value = response.data.vacation;
             workbenefits.value = response.data.benefits;
@@ -706,26 +746,26 @@ async function submitHandler(event) {
             icon: 'info',
             showCancelButton: false,
             showConfirmButton: false,
-            allowOutsideClick: false
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
         });
         await submitWork();
         await submitHouse();
         Swal.close();
         Swal.fire({
-            title: '成功',
-            text: '請求已成功處理',
+            title: '完成',
+            text: '已完成您的修改，點擊按鈕返回',
             icon: 'success',
             showCancelButton: false,
-            confirmButtonText: '返回',
+            confirmButtonText: '返回列表',
             allowOutsideClick: false
         }).then((result) => {
             if (result.isConfirmed) {
-                // 確認按鈕被點擊後返回上一頁
                 exitModify();
             }
         });
-
-        // });
     }
     form.classList.add('was-validated')
 }
@@ -758,7 +798,7 @@ async function submitWork() {
         "bindingChangeHouse": bindingChangeHouse
     }
     try {
-        await axios.post(`${path}/api/work/modifyWork/submitWork/${workID.value}`, requestWork)
+        await axios.put(`${path}/api/work/modifyWork/submitWork/${workID.value}`, requestWork)
         // console.log(onShelf.value)
         console.log("Work submitted successfully!");
     } catch (error) {
@@ -773,7 +813,7 @@ async function submitHouse() {
             // console.log(file)
             formData.append('newList', file);
         }
-        await axios.post(`${path}/api/work/modifyWork/submitHouse/${workID.value}`, formData, {
+        await axios.put(`${path}/api/work/modifyWork/submitHouse/${workID.value}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -791,8 +831,8 @@ function cancelModify() {
         icon: "warning",
         text: "系統不會儲存您填寫的資料",
         showCancelButton: true,
-        confirmButtonText: "對，快讓我走",
-        cancelButtonText: "等等，我怕",
+        confirmButtonText: "確定",
+        cancelButtonText: "取消",
         allowOutsideClick: false
     }).then(function (response) {
         if (response.isConfirmed) {
@@ -808,6 +848,54 @@ function exitModify() {
         console.error('Failed to apply', error);
     }
 }
+// 刪除
+function deleteWork(workid) {
+    Swal.fire({
+        title: "您確定要刪除此筆工作嗎?",
+        icon: "warning",
+        text: "此動作將無法復原，原本成立的訂單不受影響",
+        showCancelButton: true,
+        confirmButtonText: "確定",
+        cancelButtonText: "取消",
+        allowOutsideClick: false
+    }).then(function (response) {
+        if (response.isConfirmed) {
+            axios.put(`${path}/api/work/modifyWork/delete/${workid}`)
+                .then(function (response) {
+                    Swal.close();
+                    Swal.fire({
+                        title: '完成',
+                        text: '已完成刪除，點擊按鈕返回',
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonText: '返回列表',
+                        allowOutsideClick: false
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            router.go(0);
+                        }
+                    });
+                })
+        }
+    })
+}
+// 預覽
+function previewWork(workid) {
+    Swal.fire({
+        title: "是否瀏覽工作頁面",
+        icon: "question",
+        text: "即將離開此頁，並前往工作頁面",
+        showCancelButton: true,
+        confirmButtonText: "確定",
+        cancelButtonText: "取消",
+        allowOutsideClick: false
+    }).then(function (response) {
+        if (response.isConfirmed) {
+            router.push({ path: `/work-detail/${workid}` })
+        }
+    })
+}
+
 
 </script>
     
@@ -823,6 +911,10 @@ function exitModify() {
     border-color: transparent !important;
     box-shadow: none !important;
     color: inherit !important;
+}
+
+.type-badge {
+    width: 3.3rem;
 }
 
 .detailed-ul {
