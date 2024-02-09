@@ -20,6 +20,7 @@
                     <!-- City inputs -->
                     <div class="form-floating mb-3">
                         <select class="form-select">
+                            <option value="" disabled selected>請選擇</option>
                             <optgroup v-for="(group, area) in groupedCities" :label="area" :key="area">
                                 <option v-for="city in group" :value="city.city" :key="city.city">
                                     {{ city.city }}
@@ -30,19 +31,19 @@
                     </div>
                     <!-- Address inputs -->
                     <div class="form-floating mb-3">
-                        <input class="form-control border-0 border-bottom" name="address" id="address" required>
+                        <input class="form-control border-0 border-bottom" name="address" id="address" placeholder="address" required>
                         <label for="address">所在地址</label>
                     </div>
                     <!-- Feature inputs below-->
                     <div class="form-floating mb-3">
-                        <input class="form-control border-0 border-bottom" name="feature" id="feature">
+                        <input class="form-control border-0 border-bottom" name="feature" id="feature" placeholder="feature">
                         <label for="feature">
                             地點特色
                         </label>
                     </div>
                     <!-- Pet options start-->
                     <div class="form-floating mb-3">
-                        <input class="form-control border-0 border-bottom" name="number" id="number">
+                        <input class="form-control border-0 border-bottom" name="pet" id="pet" placeholder="pet">
                         <label for="age">
                             寵物(如有可詳加說明)
                         </label>
