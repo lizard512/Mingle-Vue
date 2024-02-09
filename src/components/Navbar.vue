@@ -14,7 +14,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto d-flex align-items-center">
                     <RouterLink class="nav-item nav-link" to="/"><i class="fa fa-solid fa-house"></i>首頁</RouterLink>
-                    <RouterLink class="nav-item nav-link" to="#"><i class="fa fa-solid fa-circle-info"></i>關於Mingle</RouterLink>
+                    <RouterLink class="nav-item nav-link" to="/about"><i class="fa fa-solid fa-circle-info"></i>關於Mingle</RouterLink>
                     <div class="nav-item dropdown">
                         <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#"><i class="fa fa-solid fa-mountain-sun"></i>打工換宿資訊</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
