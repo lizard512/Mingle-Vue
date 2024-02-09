@@ -330,7 +330,7 @@ let maxValue = 100 / 3;
 let barValue = 0;
 let currentPage = ref(1);
 
-let dateValue1: string[] = ref('')
+let dateValue1= ref<String[]>([])
 const fl = ref<UploadUserFile[]>([])
 const dialogImager = ref('')
 const dialogVisible = ref(false)
@@ -587,7 +587,13 @@ function fullData() {
   Data.value.address = '復興南路一段390號2樓'; // Assuming workName is your input's v-model
   Data.value.startDate = date.toISOString();
   Data.value.endDate = new Date(date.getTime() + (180 * 24 * 60 * 60 * 1000)).toISOString();
-  dateValue1 = [Data.value.startDate, Data.value.endDate]
+  const data = reactive({
+    value: {
+      startDate: Data.value.startDate,
+      endDate:Data.value.endDate
+    }
+  })
+  dateValue1 = ref([data.value.startDate, data.value.endDate]);
   Data.value.workTime = '10hr' // Replace with your input's v-model
   Data.value.minPeriod = '180' // Replace with your input's v-model
   Data.value.ageRestriction = '不拘' // Replace with your input's v-model
