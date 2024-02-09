@@ -27,19 +27,19 @@
     <div class="row">
       <div class="col-xxl-3 col-lg-6 work-deck h-100">
         <h2>最多人看</h2>
-        <WorkDeck autoplayDelay="2500"/>
+        <WorkDeck :autoplayDelay="2600"/>
       </div>
       <div class="col-xxl-3 col-lg-6 work-deck h-100">
         <h2>最新上架</h2>
-        <WorkDeck property="createdAt" autoplayDelay="3500"/>
+        <WorkDeck property="createdAt" :autoplayDelay="2700"/>
       </div>
       <div class="col-xxl-3 col-lg-6 work-deck  h-100">
         <h2>即將截止</h2>
-        <WorkDeck property="endDate" direction="ASC" autoplayDelay="2500"/>
+        <WorkDeck property="endDate" direction="ASC" :autoplayDelay="2800"/>
       </div>
       <div class="col-xxl-3 col-lg-6 work-deck h-100">
         <h2>搶手項目</h2>
-        <WorkDeck property="attendance" autoplayDelay="3500"/>
+        <WorkDeck property="attendance" :autoplayDelay="2900"/>
       </div>
     </div>
   </div>
@@ -78,9 +78,9 @@ text-align: center;
 padding: 12px 32px;
 
 }
-.swiper {
+/* .swiper {
 
-}
+} */
 
 .swiper-slide img {
   height: 100%;
@@ -88,6 +88,6 @@ padding: 12px 32px;
   object-fit: cover;
 }
 
-.swiper-slide {
-}
+/* .swiper-slide {
+} */
 </style>
