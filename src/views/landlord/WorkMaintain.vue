@@ -1,7 +1,11 @@
 <template>
     <div class="container-fluid bg-white d-flex flex-column">
-        <div class=" col-11 align-self-center ">
-            <h3 class="my-5 text-center animate__animated animate__flipInX">工作管理</h3>
+        <div class="col-11 align-self-center">
+            <div class="position-relative">
+                <h3 class="my-5 text-center animate__animated animate__flipInX">工作管理</h3>
+                <RouterLink class="btn btn-warning text-white position-absolute top-0 end-0" to="/providerWork"><i
+                        class="fa fa-plus me-2"></i>新建工作</RouterLink>
+            </div>
             <!-- main-list -->
             <table class="my-5 table table-striped table-hover align-middle text-center" v-show="isShowList">
                 <thead class="table-dark">

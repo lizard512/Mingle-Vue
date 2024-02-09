@@ -265,7 +265,7 @@
       <div v-show="currentPage === 4" class="page4" id="page">
 
         <div style="width: 40rem; font-size: large" class="animate__animated animate__fadeInDown">
-          <h1>太酷了！讓使用者更容易找到你！</h1>
+          <h1>太酷了！上傳幾張照片，<br>讓使用者更了解這項工作吧！</h1>
 
           <el-upload
               v-model:file-list="fl"
@@ -324,8 +324,8 @@ import {UploadProps, UploadUserFile} from "element-plus";
 import Swal from "sweetalert2";
 import VueCookies from "vue-cookies";
 const age = ['不拘', '青壯年', '壯年', '老年']
-const gender = ['男', '女', '不限制']
-const education = ['國小', '國中', '高中職', '學士', '碩士', '博士']
+const gender = ['不限制', '男', '女']
+const education = ['不拘', '國小', '國中', '高中職', '學士', '碩士', '博士']
 let maxValue = 100 / 3;
 let barValue = 0;
 let currentPage = ref(1);

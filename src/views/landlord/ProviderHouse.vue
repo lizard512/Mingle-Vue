@@ -138,7 +138,7 @@
       <div v-show="currentPage === 3" class="page4" id="page">
 
         <div style="width: 40rem; font-size: large" class="animate__animated animate__fadeInDown">
-          <h1>太酷了！讓使用者更容易找到你！</h1>
+          <h1>太酷了！上傳幾張照片，<br>讓使用者更了解這間房屋吧！</h1>
 
           <el-upload
               v-model:file-list="fl"
