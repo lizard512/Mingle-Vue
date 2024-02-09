@@ -163,6 +163,21 @@ import { useRouter } from 'vue-router';
 //// 生命週期
 onMounted(async () => {
     await loadCity();
+    if (isLandlord) {
+        Swal.fire({
+            icon: 'info',
+            text: '您已是房東，3秒後自動導向至工作管理',
+            allowOutsideClick: false,
+            timer: 3000,  // 3 秒後自動導向
+            willClose: () => {
+                router.push('/workMaintain');
+            },
+            confirmButtonText: '點此立即前往',
+            preConfirm: () => {
+                router.push('/workMaintain');
+            }
+        });
+    }
 });
 
 //// 初始化變數
@@ -200,8 +215,8 @@ const submitForm = async () => {
                     confirmButtonText: '點此前往新增房源',
                     allowOutsideClick: false,
                     preConfirm: () => {
-                    router.push('/houseMaintain');
-                }
+                        router.push('/houseMaintain');
+                    }
                 });
             }
         })
