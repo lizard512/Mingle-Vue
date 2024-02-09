@@ -25,19 +25,19 @@
   <!--Work Card Start-->
   <div class="container">
     <div class="row">
-      <div class="col-xxl-3 col-lg-6 work-deck text-center h-100 px-4 py-3">
+      <div class="col-xxl-3 col-lg-6 work-deck h-100">
         <h2>最多人看</h2>
         <WorkDeck autoplayDelay="2500"/>
       </div>
-      <div class="col-xxl-3 col-lg-6 text-center h-100 px-4 py-3">
+      <div class="col-xxl-3 col-lg-6 work-deck h-100">
         <h2>最新上架</h2>
         <WorkDeck property="createdAt" autoplayDelay="3500"/>
       </div>
-      <div class="col-xxl-3 col-lg-6 text-center h-100 px-4 py-3">
+      <div class="col-xxl-3 col-lg-6 work-deck  h-100">
         <h2>即將截止</h2>
         <WorkDeck property="endDate" direction="ASC" autoplayDelay="2500"/>
       </div>
-      <div class="col-xxl-3 col-lg-6 text-center h-100 px-4 py-3">
+      <div class="col-xxl-3 col-lg-6 work-deck h-100">
         <h2>搶手項目</h2>
         <WorkDeck property="attendance" autoplayDelay="3500"/>
       </div>
@@ -75,7 +75,7 @@ import WorkDeck from '@components/WorkDeck.vue';
 
 .work-deck{
 text-align: center;
-padding: 12px 16px;
+padding: 12px 32px;
 
 }
 .swiper {
