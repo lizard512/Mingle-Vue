@@ -51,7 +51,7 @@
                             寵物(如有可詳加說明)
                         </label>
                     </div>
-                    <!-- terms textarea` below -->
+                    <!-- terms textarea below -->
                     <div class="form-floating mt-4 terms">
                         <textarea name="terms" id="terms" class="form-control h-100" readonly>
 當您註冊完成或開始使用本服務時，即表示您已閱讀、了解並同意接受本服務條款之所有內容。如果您不同意本服務條款的內容，或者您所屬的國家或地域排除本服務條款內容之全部或部分時，您應立即停止使用本服務。此外，當您使用本服務之特定功能時，可能會依據該特定功能之性質，而須遵守本服務所另行公告之服務條款或相關規定。此另行公告之服務條款或相關規定亦均併入屬於本服務條款之一部分。本公司有權於任何時間修改或變更本服務條款之內容，並公告於本服務網站上，請您隨時注意該等修改或變更。若您於任何修改或變更後繼續使用本服務，則視為您已閱讀、了解並同意接受該等修改或變更。
@@ -130,7 +130,7 @@
                         </label>
 
                     </div>
-                    <div class="form-check ">
+                    <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="agree" id="agree" required>
                         <label class="form-check-label" for="agree">
                             我已閱讀完畢，並同意以上條款
@@ -196,8 +196,8 @@ const submitForm = async () => {
                 userStore.addPermission('lord');
                 Swal.fire({
                     icon: 'success',
-                    text: '您已成為房東',
-                    confirmButtonText: '前往房東中心',
+                    text: '恭喜！您已成為房東',
+                    confirmButtonText: '點此前往新增房源',
                     allowOutsideClick: false,
                     preConfirm: () => {
                     router.push('/houseMaintain');
