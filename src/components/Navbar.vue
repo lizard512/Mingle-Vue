@@ -212,7 +212,7 @@ const checkSticky = () => {
 
 }
 
-.navbar-light {
+.navbar-light .navbar-brand {
     height: 75px;
 }
 
