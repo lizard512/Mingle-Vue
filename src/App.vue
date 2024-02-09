@@ -52,17 +52,6 @@ import BackToTopButton from '@components/BackToTopButton.vue'
     color: #FFFFFF;
 } */
 
-/*** Icon ***/
-.icon {
-    padding: 15px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #FFFFFF;
-    border-radius: 50px;
-    border: 1px dashed var(--primary);
-}
-
 
 
 

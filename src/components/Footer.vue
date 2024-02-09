@@ -9,10 +9,10 @@
           <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>02 6631 6588</p>
           <p class="mb-2"><i class="fa fa-envelope me-3"></i>Mingle.org@gmail.com</p>
           <div class="d-flex pt-2">
-            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
+            <a class="btn btn-outline-light btn-social" href="https://github.com/lizard512/Mingle-Vue" target="_blank"><i class="fab fa-github"></i></a>
             <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
             <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
-            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a class="btn btn-outline-light btn-social" href="#"><i class="fa-brands fa-instagram"></i></a>
           </div>
         </div>
         <div class="col-lg-4 col-md-6">

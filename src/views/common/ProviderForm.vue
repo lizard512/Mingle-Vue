@@ -27,29 +27,25 @@
                                 </option>
                             </optgroup>
                         </select>
-                        <label for="name" id="name-label">所在地區 *</label>
+                        <label for="name" id="name-label"><i class="fa fa-solid fa-map"></i>所在地區 *</label>
                     </div>
                     <!-- Address inputs -->
                     <div class="form-floating mb-3">
                         <input class="form-control border-0 border-bottom" name="address" id="address" placeholder="address"
                             v-model="landlordBean.address" required>
-                        <label for="address">所在地址 *</label>
+                        <label for="address"><i class="fa fa-solid fa-map-location"></i>所在地址 *</label>
                     </div>
                     <!-- Feature inputs below-->
                     <div class="form-floating mb-3">
                         <input class="form-control border-0 border-bottom" name="feature" id="feature" placeholder="feature"
                             v-model="landlordBean.feature">
-                        <label for="feature">
-                            地點特色
-                        </label>
+                        <label for="feature"><i class="fa fa-solid fa-mountain-city"></i>地點特色</label>
                     </div>
                     <!-- Pet inputs start-->
                     <div class="form-floating mb-3">
                         <input class="form-control border-0 border-bottom" name="pet" id="pet" placeholder="pet"
                             v-model="landlordBean.pet">
-                        <label for="age">
-                            寵物(如有可詳加說明)
-                        </label>
+                        <label for="pet"><i class="fa fa-solid fa-paw"></i>寵物(如有可詳加說明)</label>
                     </div>
                     <!-- terms textarea below -->
                     <div class="form-floating mt-4 terms">
@@ -163,7 +159,7 @@ import { useRouter } from 'vue-router';
 //// 生命週期
 onMounted(async () => {
     await loadCity();
-    if (isLandlord) {
+    if (lordID) {
         Swal.fire({
             icon: 'info',
             text: '您已是房東，3秒後自動導向至工作管理',
@@ -183,8 +179,7 @@ onMounted(async () => {
 //// 初始化變數
 // user登入狀態
 const userID = localStorage.getItem('userID');
-const userStore = useUserStore();
-const isLandlord = computed(() => userStore.permissions.includes('lord'));
+const lordID = localStorage.getItem('lordID');
 // 城市資料
 const cities = ref([]);
 const areaOrder = ['北部區域', '中部區域', '南部區域', '東部區域', '外島區域'];
@@ -209,6 +204,7 @@ const submitForm = async () => {
         .then(response => {
             if (response.data.landlordid) {
                 userStore.addPermission('lord');
+                localStorage.setItem('lordID', response.data.landlordid);
                 Swal.fire({
                     icon: 'success',
                     text: '恭喜！您已成為房東',
@@ -246,6 +242,20 @@ const groupedCities = computed(() => {
 </script>
     
 <style scoped>
+/*** Icon ***/
+.icon {
+    padding: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    border-radius: 50px;
+    border: 1px dashed var(--primary);
+}
+.form .fa{
+    margin-right: 8px;
+}
+
 .terms {
     height: 300px;
 }
