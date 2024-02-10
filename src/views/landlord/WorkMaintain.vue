@@ -209,22 +209,31 @@
                             <span class="ms-2 work-period-title">打工期間(必填)</span>
                             <el-date-picker v-model="workperiod" type="daterange" start-placeholder="開始日期"
                                 end-placeholder="結束日期" format="YYYY-MM-DD ddd" date-format="YYYY/MM/DD ddd" size="large"
-                                :disabled-date="daterule" />
+                                @change="workPeriodChange()" :disabled-date="daterule" />
+                            <!--切換時，計算"今日"與"結束日"之時間差，最小天數不得超過時間差-->
+                            <!--若時間差隨著時間經過，已低於資料庫的最小區間，使用者載入後要重選-->
                         </div>
                         <div class="form-floating mx-4 my-2 col-3">
-                            <input type="number" class="form-control" id="formWorkminperiod" placeholder="打工最短期間(天數)"
-                                v-model="workminperiod" required>
+                            <select class="form-control" id="formWorkminperiod" v-model="workminperiod" required>
+                                <option selected disabled value="">Choose...</option>
+                                <option v-for=" item  in  workdatelimit ">{{
+                                    item }}
+                                </option>
+                            </select>
                             <label for="formWorkminperiod">打工最短天數 (必填)</label>
                             <div class="invalid-feedback">
-                                請點選打工最短期間(或輸入阿拉伯數字)
+                                請點選打工最短期間
                             </div>
                         </div>
                         <div class="form-floating mx-4 my-2 col-3">
-                            <input type="number" class="form-control" id="formWorkmaxattendance" placeholder="打工最小期間(天數)"
-                                v-model="workmaxattendance" required>
-                            <label for="formWorkminperiod">打工需求人數(必填)</label>
+                            <select class="form-control" id="formWorkmaxattendance" v-model="workmaxattendance" required>
+                                <option selected disabled value="">Choose...</option>
+                                <option v-for=" item  in  100 ">{{ item + workattendance }}</option>
+                                <!--可選範圍→已報名人數開始往上100-->
+                            </select>
+                            <label for="formWorkmaxattendance">打工需求人數(必填)</label>
                             <div class="invalid-feedback">
-                                請點選需求人數(或輸入阿拉伯數字)
+                                請點選需求人數
                             </div>
                         </div>
                         <div class="form-floating mx-5 my-2 col-1">
@@ -460,14 +469,18 @@
                         <span class="mx-3 col-1 align-self-center">上架狀態：</span>
                         <div class="mx-3 col-1">
                             <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off"
-                                v-model="onShelf" value="true">
-                            <label class="btn btn-outline-primary" for="option1">上架</label>
+                                v-model="onShelf" value="true" :disabled="disabledShelf">
+                            <label class="btn btn-outline-primary" for="option1"
+                                :class="{ 'btn-outline-dark': disabledShelf }">上架</label>
                         </div>
                         <div class="mx-3 col-1">
                             <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off"
                                 v-model="onShelf" value="false">
                             <label class="btn btn-outline-secondary" for="option2">下架</label>
                         </div>
+                        <span v-if="disabledShelf"
+                            class="mx-3 col-4 align-self-center text-danger fs-5 animate__animated animate__fadeInUp"><i
+                                class="fa-solid fa-circle-exclamation me-3"></i>請留意，需至少綁定一間房屋才可上架</span>
                     </div>
                     <!-- notes -->
                     <div class="row g-0 mx-3 my-5">
@@ -528,6 +541,7 @@ const workname = ref('');               // 名稱
 const workcity = ref('');               // 城市
 const workaddress = ref('');            // 住址
 const workperiod = ref([]);             // 期間(預填時須留意加總，傳入時須留意拆分)
+const workdatelimit = ref([]);          // 結束日期與當下日期之天數差(最小區間不得大於此數字)
 const workminperiod = ref();            // 打工最小期間
 const workmaxattendance = ref();        // 需求人數(最大)
 const workattendance = ref();           // 已報名人數
@@ -559,20 +573,8 @@ const bindingChangeHouse = [];          // [綁ID]變化
 
 // 创建一个 ref 变量来存储每个 toggle 的状态
 const toggleStates = ref({});
-
 const onShelf = ref(true);              // 上架狀態
-
-const updateBindingStatus = (houseid) => {
-    // 切换 toggle 状态
-    toggleStates.value[houseid] = !toggleStates.value[houseid];
-    // console.log("toggleStates", toggleStates.value);
-    if (bindingChangeHouse.includes(houseid)) {
-        let index = bindingChangeHouse.indexOf(houseid)
-        bindingChangeHouse.splice(index, 1);
-    } else {
-        bindingChangeHouse.push(houseid);
-    }
-};
+const disabledShelf = ref(false)        // 控管是否可上架
 
 // 生命週期
 onMounted(() => {
@@ -622,6 +624,10 @@ async function enterModify(workid) {
             workaddress.value = response.data.address;
             workperiod.value = [response.data.startDate, response.data.endDate];
             workminperiod.value = response.data.minPeriod;
+
+            // 計算當前日期與工作結束日期之時間差
+            workdatelimit.value = calculateDays(new Date(), new Date(response.data.endDate));
+
             workmaxattendance.value = response.data.maxAttendance;
             workattendance.value = response.data.attendance;
             worktime.value = response.data.workTime;
@@ -652,11 +658,27 @@ async function enterModify(workid) {
             toggleStates.value[house.houseid] = bindingHousesID.value.includes(house.houseid);
         }
     })
-    console.log("toggleStates", toggleStates.value);
-    console.log("workid", workid)
+    checkAllBinding();
+    // console.log("workid", workid)
+}
+// 日期規則
+function daterule(time) {
+    let today = new Date();
+    today.setHours(0, 0, 0, 0); // 將時間設為當天的午夜
+    return time.getTime() < today.getTime();
+}
+// 日期差
+function calculateDays(startDate, endDate) {
+    startDate.setHours(0, 0, 0, 0);
+    let timeDifference = endDate.getTime() - startDate.getTime();
+    return workdatelimit.value = Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + 1;   // 今天也算1天
+}
+// 選時間影響最小區間 (計算結束日期與現在日期，兩者的天數差。此數值為最小區間的最大值)
+function workPeriodChange() {
+    workdatelimit.value = calculateDays(new Date(), workperiod.value[1]);
 }
 
-// (預覽)新增
+// 預覽照片
 async function addToTotal(e) {
     if (totalList.value.length <= 5) {
         await totalList.value.push(e.url);
@@ -684,7 +706,7 @@ async function addToTotal(e) {
         })
     }
 }
-// 刪除
+// 刪除照片
 function deletePhoto(item, index) {
     // 判斷是否為舊照片，添加到【刪】
     const isOldPhoto = oldList.value.includes(item);
@@ -716,12 +738,33 @@ const nofacilates = function (house_type) {
         return false
     }
 }
-// 日期規則
-function daterule(time) {
-    let today = new Date();
-    today.setHours(0, 0, 0, 0); // 將時間設為當天的午夜
-    return time.getTime() < today.getTime();
+// 綁定房屋
+const updateBindingStatus = (houseid) => {
+    // 切换 toggle 状态
+    toggleStates.value[houseid] = !toggleStates.value[houseid];
+    // console.log("toggleStates", toggleStates.value);
+    if (bindingChangeHouse.includes(houseid)) {
+        let index = bindingChangeHouse.indexOf(houseid)
+        bindingChangeHouse.splice(index, 1);
+    } else {
+        bindingChangeHouse.push(houseid);
+    }
+    checkAllBinding();  // 檢查綁定，沒綁定就不能上架
+};
+// 檢查是否「完全沒有」綁定
+function checkAllBinding() {
+    // 提取toggleStates對象的所有值為一個陣列
+    let values = Object.values(toggleStates.value);
+    // 檢查陣列中的每個值是否都是false
+    let allFalse = values.every(value => value === false);
+    if (allFalse) {
+        onShelf.value = false;
+        disabledShelf.value = true;
+    } else {
+        disabledShelf.value = false; // 若有綁定，解除鎖定狀態
+    }
 }
+
 // 驗證
 function validate(event) {
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -740,8 +783,25 @@ async function submitHandler(event) {
     var form = event.currentTarget;
     // Loop over them and prevent submission
     if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
+        event.preventDefault();
+        event.stopPropagation();
+        Swal.mixin({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 3000,
+            padding: 10,
+            width: 310,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+                toast.style.bottom = '120px';
+            }
+        }).fire({
+            icon: "error",
+            title: "請確認所有必填欄位是否填寫完畢"
+        })
     } else {
         event.preventDefault();
         Swal.fire({
