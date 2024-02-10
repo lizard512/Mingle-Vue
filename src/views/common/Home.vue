@@ -2,7 +2,7 @@
   <!-- Header Start -->
   <div class="container p-0">
     <div class="row g-0 align-items-center header">
-      <div class="col-xl-6 text-center animate__animated animate__fadeIn">
+      <div class="col-xl-6 p-5 text-center animate__animated animate__fadeIn">
         <h1 class="display-5 mb-4 title-text">一點 <span class="text-info">幫助</span>
           ，一晚<span class="text-info"> 住宿。</span>
         </h1>
@@ -25,21 +25,21 @@
   <!--Work Card Start-->
   <div class="container">
     <div class="row">
-      <div class="col-xxl-3 col-lg-6 work-deck h-100">
-        <h2>最多人看</h2>
-        <WorkDeck autoplayDelay="2500"/>
+      <div class="col-xxl-3 col-lg-5 col-10 mx-auto work-deck">
+        <h3>最多人看</h3>
+        <WorkDeck :autoplayDelay="2600"/>
       </div>
-      <div class="col-xxl-3 col-lg-6 work-deck h-100">
-        <h2>最新上架</h2>
-        <WorkDeck property="createdAt" autoplayDelay="3500"/>
+      <div class="col-xxl-3 col-lg-5 col-10 mx-auto work-deck">
+        <h3>最新上架</h3>
+        <WorkDeck property="createdAt" :autoplayDelay="2700"/>
       </div>
-      <div class="col-xxl-3 col-lg-6 work-deck  h-100">
-        <h2>即將截止</h2>
-        <WorkDeck property="endDate" direction="ASC" autoplayDelay="2500"/>
+      <div class="col-xxl-3 col-lg-5 col-10 mx-auto work-deck">
+        <h3>即將截止</h3>
+        <WorkDeck property="endDate" direction="ASC" :autoplayDelay="2800"/>
       </div>
-      <div class="col-xxl-3 col-lg-6 work-deck h-100">
-        <h2>搶手項目</h2>
-        <WorkDeck property="attendance" autoplayDelay="3500"/>
+      <div class="col-xxl-3 col-lg-5 col-10 mx-auto work-deck">
+        <h3>搶手項目</h3>
+        <WorkDeck property="attendance" :autoplayDelay="2900"/>
       </div>
     </div>
   </div>
@@ -74,13 +74,14 @@ import WorkDeck from '@components/WorkDeck.vue';
 }
 
 .work-deck{
+height: 100%;
 text-align: center;
 padding: 12px 32px;
 
 }
-.swiper {
+/* .swiper {
 
-}
+} */
 
 .swiper-slide img {
   height: 100%;
@@ -88,6 +89,6 @@ padding: 12px 32px;
   object-fit: cover;
 }
 
-.swiper-slide {
-}
+/* .swiper-slide {
+} */
 </style>

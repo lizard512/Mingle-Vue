@@ -194,9 +194,13 @@ const toggleKeepWork = (workId, kept) => {
 
 <style scoped>
 .list-item {
-    box-shadow: 0 0 12px rgba(0, 0, 0, .5);
-    background-color: var(--white);
+    background-color: rgba(205, 205, 205, 0.3);
     border-radius: 15px;
+}
+
+.list-item:hover  {
+    background-color: var(--white);
+    box-shadow: 0 0 12px var(--black); 
 }
 
 .list-item img {
@@ -215,11 +219,11 @@ const toggleKeepWork = (workId, kept) => {
 }
 
 .list-item .border-top {
-    border-top: 1px dashed rgba(0, 185, 142, .3) !important;
+    border-top: 1px dashed var(--white);
 }
 
 .list-item .border-end {
-    border-right: 1px dashed rgba(0, 185, 142, .3) !important;
+    border-right: 1px dashed var(--white) !important;
 }
 
 .list-item .btn:hover,

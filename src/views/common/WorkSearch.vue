@@ -102,13 +102,16 @@
                             iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green"
                             color2="red" v-model="filters.hideFull" />
                     </div>
-                    <div class="col-xxl-6 col-0 d-flex justify-content-xxl-end justify-content-center">
+                    <div v-if="isLoggedIn" class="col-xxl-6 col-0 d-flex justify-content-xxl-end justify-content-center">
                         <div class="me-2">顯示收藏清單</div>
                         <Toggle id="toggleKeptwork" :isChecked=false bgColor="black" ballColor="white"
                             iconClass1="fa-solid fa-circle-check" iconClass2="fa-solid fa-circle-xmark" color1="green"
                             color2="red" v-model="filters.showKeptWorkOnly" />
                     </div>
-                </div>
+                    <div v-else class="col-xxl-6 col-0 d-flex justify-content-xxl-end justify-content-center">
+                        <div class="m-0">登入即可收藏工作！</div>
+                    </div>
+                </div> 
             </div>
             <div class="col-md-4 hide-on-small">
                 <div class="row g-4">
@@ -132,15 +135,12 @@
     
 <script setup>
 
-//// 引用函示庫
+//// 引用函示庫、元件、STORE
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import axios from 'axios';
-
-
-//// 引用元件
+import { useUserStore } from '@store/userStore-localStorage.js';
 import WorkDealer from '@components/WorkDealer.vue';
 import Toggle from '@components/Toggle.vue';
-// import { useWorkStore } from '@store/workStore';
 
 
 //// 接收資料
@@ -149,13 +149,12 @@ let total = ref(0);
 const worktypeIDs = ref([]);
 const cities = ref([]);
 const userID = localStorage.getItem('userID');
-
-//// 接收元件傳值
-// const store = useWorkStore();
-// store.setWorks(works);
+const userStore = useUserStore();
 
 
 //// 初始化變數
+// 使用者狀態
+const isLoggedIn = computed(() => userStore.isLoggedIn);
 // 載入相關
 const currentPage = ref(0); // 當前頁數
 const size = 12; // 每次載入的數量

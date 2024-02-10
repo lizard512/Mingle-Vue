@@ -9,19 +9,20 @@ import Home from "@views/common/Home.vue";
 import WorkSearch from "@views/common/WorkSearch.vue";
 import WorkDetail from "@views/common/WorkDetail.vue";
 import Map from "@components/Map.vue";
-import ProviderForm from "@views/common/ProviderForm.vue";
 import UserProfile from "@views/common/UserProfile.vue";
 import Login from "@views/common/Login.vue";
 import NotFound from "@views/common/NotFound.vue";
 import ThankYou from "@components/ThankYou.vue";
 // user 一般使用者
+import ProviderForm from "@views/user/ProviderForm.vue";
 import Chatroom from "@views/user/Chatroom.vue";
 import Order from "@views/user/Order.vue";
 import Account from "@views/user/Account/Account.vue";
-import Review from "@views/user/Review.vue";
 import Payment from "@views/user/Payment.vue";
 // landlord 房東身分
+import LandlordOrderCenter from "@/views/landlord/LandlordOrderCenter.vue";
 import Analyze from "@views/landlord/Analyze.vue";
+import Review from "@views/landlord/Review.vue";
 import HouseMaintain from "@views/landlord/HouseMaintain.vue";
 import WorkMaintain from "@views/landlord/WorkMaintain.vue";
 import ProviderHouse from "@views/landlord/ProviderHouse.vue";
@@ -32,7 +33,7 @@ import ProviderWork from "@/views/landlord/ProviderWork.vue";
 import routerAdmin from "./router-admin.js";
 import routerRegister from "./router-register.js";
 import routerOrder from "./router-order.js";
-import LandlordOrderCenter from "@/views/landlord/LandlordOrderCenter.vue";
+
 
 // 2. 定義路由
 // 如果頁面不需要某些元件，請在導向該頁面的routes加入對應的meta屬性
@@ -45,6 +46,11 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/about",
+    name: "About",
+    component: () => import("@views/common/About.vue"),
   },
   {
     path: "/work-search",
@@ -73,17 +79,12 @@ const routes = [
     component: ContactUs,
   },
   {
-    path: "/provider-form",
-    name: "ProviderForm",
-    component: ProviderForm,
-  },
-  {
     path: "/login",
     name: "Login",
     component: Login,
-    meta:{ noEntryWithAuth: true}
+    meta: { noEntryWithAuth: true }
   },
-  
+
   {
     path: "/thankyou",
     name: "ThankYou",
@@ -96,6 +97,12 @@ const routes = [
   },
   // user 一般使用者
   {
+    path: "/provider-form",
+    name: "ProviderForm",
+    component: ProviderForm,
+    meta: { requiresAuth: true },
+  },
+  {
     path: "/account",
     name: "Account",
     component: Account,
@@ -105,7 +112,7 @@ const routes = [
     path: "/chatroom",
     name: "Chatroom",
     component: Chatroom,
-    meta: { hideFooter: true, hideBTTB:true, requiresAuth: true },
+    meta: { hideFooter: true, hideBTTB: true, requiresAuth: true },
   },
   {
     path: "/order",
@@ -124,43 +131,43 @@ const routes = [
     path: "/houseMaintain",
     name: "HouseMaintain",
     component: HouseMaintain,
-    meta: { requiresAuth: true , permissions: ['lord']},
+    meta: { requiresAuth: true, permissions: ['lord'] },
   },
   {
     path: "/workMaintain",
     name: "WorkMaintain",
     component: WorkMaintain,
-    meta: { requiresAuth: true , permissions: ['lord']},
+    meta: { requiresAuth: true, permissions: ['lord'] },
   },
   {
     path: "/review",
     name: "Review",
     component: Review,
-    meta: { requiresAuth: true , permissions: ['lord']},
+    meta: { requiresAuth: true, permissions: ['lord'] },
   },
   {
     path: "/providerHouse",
     name: "ProviderHouse",
     component: ProviderHouse,
-    meta: {hideFooter: true, hideBTTB:true, requiresAuth: true , permissions: ['lord']},
+    meta: { hideFooter: true, hideBTTB: true, requiresAuth: true, permissions: ['lord'] },
   },
   {
     path: "/providerWork",
     name: "ProviderWork",
     component: ProviderWork,
-    meta: {hideFooter: true, hideBTTB:true, requiresAuth: true , permissions: ['lord']},
+    meta: { hideFooter: true, hideBTTB: true, requiresAuth: true, permissions: ['lord'] },
   },
   {
     path: "/analyze",
     name: "Analyze",
     component: Analyze,
-    meta: { requiresAuth: true , permissions: ['lord']},
+    meta: { requiresAuth: true, permissions: ['lord'] },
   },
   {
     path: "/landlordOrder",
     name: "LandlordOrderCenter",
     component: LandlordOrderCenter,
-    meta: { requiresAuth: true , permissions: ['lord']},
+    meta: { requiresAuth: true, permissions: ['lord'] },
   },
   // admin 管理者身分
   // {

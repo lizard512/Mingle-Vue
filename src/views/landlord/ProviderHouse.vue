@@ -1,6 +1,6 @@
 <template>
   <button type="button" class="btn btn-outline-success animate__animated animate__fadeInDown"
-          style="position:absolute; top:50%; left:0;" @click="fullData">
+    style="position:absolute; top:50%; left:0;" @click="fullData">
     一鍵填表
   </button>
   <div class="container">
@@ -97,13 +97,8 @@
               </div>
               <div class="row g-2">
                 <div class="form-floating mb-3 col-3">
-                  <el-cascader
-                      size="large"
-                      placeholder="市/區"
-                      v-model="addressValue"
-                      :options="addressOptions"
-                      :props="addressProps"
-                  />
+                  <el-cascader size="large" placeholder="市/區" v-model="addressValue" :options="addressOptions"
+                    :props="addressProps" />
                 </div>
                 <div class="form-floating mb-3 col-md">
                   <input v-model="raw.address" type="text" class="form-control" id="floatingInput" placeholder="">
@@ -113,23 +108,19 @@
             </div>
           </div>
           <div class="form-floating">
-            <textarea v-model="Data.description" class="form-control" placeholder=""
-                      id="floatingTextarea2" style="height: 100px"></textarea>
+            <textarea v-model="Data.description" class="form-control" placeholder="" id="floatingTextarea2"
+              style="height: 100px"></textarea>
             <label for="floatingTextarea2">房屋內容：</label>
           </div>
 
           <el-select style="margin-top: 1.4vh" v-model="SelectedOption" multiple placeholder="福利設施："
-                     @change="handleSelectChange">
-            <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+            @change="handleSelectChange">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
           <div class="form-floating mb-3" style="margin-top: 1.4vh">
             <input type="text" v-model="Data.beds" class="form-control" id="floatingInput" placeholder=""
-                   @input="handleInput('beds')">
+              @input="handleInput('beds')">
             <label for="floatingInput">剩餘床位 :</label>
           </div>
         </div>
@@ -140,30 +131,18 @@
         <div style="width: 40rem; font-size: large" class="animate__animated animate__fadeInDown">
           <h1>太酷了！上傳幾張照片，<br>讓使用者更了解這間房屋吧！</h1>
 
-          <el-upload
-              v-model:file-list="fl"
-              list-type="picture-card"
-              :auto-upload="true"
-              :on-preview="handlePictureCardPreview"
-              :on-remove="handleRemove"
-              accept=".jpg,.jpeg,.webp,.png"
-              :limit="6"
-              :multiple="true"
-              drag
-              :headers="upload.headers"
-              :on-change="handleChange"
-              :action=actionUrl
-          >
+          <el-upload v-model:file-list="fl" list-type="picture-card" :auto-upload="true"
+            :on-preview="handlePictureCardPreview" :on-remove="handleRemove" accept=".jpg,.jpeg,.webp,.png" :limit="6"
+            :multiple="true" drag :headers="upload.headers" :on-change="handleChange" :action=actionUrl>
 
             <el-icon>
-              <Plus/>
+              <Plus />
             </el-icon>
           </el-upload>
           <div class="el-upload__tip" slot="tip">只能上傳jpg/jpeg/webp/png格式的圖片<br>且檔案應小於50MB</div>
         </div>
 
-        <el-dialog v-model="dialogVisible"
-                   width="30%">
+        <el-dialog v-model="dialogVisible" width="30%">
           <img width="100%" :src="dialogImager">
         </el-dialog>
       </div>
@@ -173,31 +152,30 @@
 
   <div class="animate__animated animate__bounceInUp row justify-content-between progress-bar-container fixed-bottom">
     <div class="progress">
-      <div class="progress-bar" role="progressbar" v-bind:style="{width: barValue + '%'}"
-           style=" background-color: #ffb4aa"
-           aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress-bar" role="progressbar" v-bind:style="{ width: barValue + '%' }"
+        style=" background-color: #ffb4aa" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
       </div>
     </div>
     <button type="button" class="btn btn-outline-primary prev col-1 " @click="prev" :disabled="currentPage <= 1">Prev
       Step
     </button>
     <button type="button" class="btn btn-outline-primary next col-1 " v-show="currentPage != 3" @click="next"
-            :disabled="currentPage > 3">Next
+      :disabled="currentPage > 3">Next
       Step
     </button>
     <button type="button" class="btn btn-outline-primary next col-1 " v-show="currentPage == 3" @click="submit">送出
     </button>
   </div>
-
 </template>
 
 <script lang="ts" setup>
-import {ref, reactive} from 'vue'
-import {Plus} from "@element-plus/icons-vue";
+import { ref, reactive } from 'vue'
+import { Plus } from "@element-plus/icons-vue";
 import original from "@Alladdress/Address.json"
-import {onMounted} from "vue";
-import {UploadProps, UploadUserFile} from "element-plus";
+import { onMounted } from "vue";
+import { UploadProps, UploadUserFile } from "element-plus";
 import Swal from "sweetalert2";
+import { useRouter } from 'vue-router';
 
 
 
@@ -213,31 +191,33 @@ let maxValue = 100 / 2;
 let barValue = 0;
 let currentPage = ref(1);
 const Data = ref({
-      lordid: '',
-      houseType: '',
-      address: '',
-      name: '',
-      postCode: '',
-      description: '',
-      beds: '',
-      hasWifi: '0',
-      hasTV: '0',
-      hasKitchen: '0',
-      hasLaundry: '0',
-      hasParkingLot: '0',
-      hasAirconditioner: '0',
-      hasPersonalSpace: '0',
-      hasPool: '0',
-      hasGym: '0',
-      city: '',
-      sessionToken: '',
-    }
+  lordid: '',
+  houseType: '',
+  address: '',
+  name: '',
+  postCode: '',
+  description: '',
+  beds: '',
+  hasWifi: '0',
+  hasTV: '0',
+  hasKitchen: '0',
+  hasLaundry: '0',
+  hasParkingLot: '0',
+  hasAirconditioner: '0',
+  hasPersonalSpace: '0',
+  hasPool: '0',
+  hasGym: '0',
+  city: '',
+  sessionToken: '',
+}
 )
 const addressValue = ref([])
 const addressProps = {
   expandTrigger: 'hover' as const,
 
 }
+// 路由
+const router = useRouter();
 
 const addressOptions = original.map(city => ({
   value: city.name,
@@ -249,15 +229,15 @@ const addressOptions = original.map(city => ({
 }));
 
 const options = [
-  {value: 'hasTV', label: '電視'},
-  {value: 'hasWifi', label: 'WIFI'},
-  {value: 'hasKitchen', label: '廚房'},
-  {value: 'hasLaundry', label: '洗衣機'},
-  {value: 'hasParkingLot', label: '停車場'},
-  {value: 'hasAirconditioner', label: '冷氣'},
-  {value: 'hasPersonalSpace', label: '私人空間'},
-  {value: 'hasPool', label: '泳池'},
-  {value: 'hasGym', label: '健身房'}
+  { value: 'hasTV', label: '電視' },
+  { value: 'hasWifi', label: 'WIFI' },
+  { value: 'hasKitchen', label: '廚房' },
+  { value: 'hasLaundry', label: '洗衣機' },
+  { value: 'hasParkingLot', label: '停車場' },
+  { value: 'hasAirconditioner', label: '冷氣' },
+  { value: 'hasPersonalSpace', label: '私人空間' },
+  { value: 'hasPool', label: '泳池' },
+  { value: 'hasGym', label: '健身房' }
 ]
 
 const handleSelectChange = () => {
@@ -334,7 +314,7 @@ const handleChange: UploadProps['onChange'] = (file, fl) => {
 }
 
 function getToken() {
-  return {"sessionToken": localStorage.getItem("sessionToken")}
+  return { "sessionToken": localStorage.getItem("sessionToken") }
 }
 
 const upload = reactive({
@@ -420,6 +400,11 @@ async function goData() {
       Swal.fire({
         icon: 'success',
         title: '新增成功',
+        confirmButtonText: '前往房源管理',
+        allowOutsideClick: false,
+        preConfirm: () => {
+          router.push('/houseMaintain');
+        }
       })
     } else {
       throw new Error("新增失敗")
@@ -447,26 +432,26 @@ function getRandomWorkType() {
 
 function fullData() {
   getRandomWorkType();
-      Data.value.lordid = localStorage.getItem('lordID');
-      Data.value.houseType = getSelectedRadioLabel('fkHouseType');
-      Data.value.address = '臺北市大安區復興南路一段';
-      raw.value.address = '臺北市大安區復興南路一段';
-      Data.value.name = '超讚套房';
-      addressValue.value = ['臺北市',['大安區','106']];
-      Data.value.city = addressValue.value[0];
-      Data.value.postCode = '106';
-      Data.value.description = '這是間超讚房子';
-      Data.value. beds = '3';
-      SelectedOption.value = ['hasWifi','hasKitchen'];
-      Data.value. hasWifi = '0';
-      Data.value.hasTV = '0';
-      Data.value.hasKitchen = '1';
-      Data.value. hasLaundry = '0';
-      Data.value. hasParkingLot = '1';
-      Data.value. hasAirconditioner = '0';
-      Data.value.hasPersonalSpace = '1';
-      Data.value.hasPool = '0';
-      Data.value.hasGym = '1';
+  Data.value.lordid = localStorage.getItem('lordID');
+  Data.value.houseType = getSelectedRadioLabel('fkHouseType');
+  Data.value.address = '臺北市大安區復興南路一段';
+  raw.value.address = '臺北市大安區復興南路一段';
+  Data.value.name = '超讚套房';
+  addressValue.value = ['臺北市', ['大安區', '106']];
+  Data.value.city = addressValue.value[0];
+  Data.value.postCode = '106';
+  Data.value.description = '這是間超讚房子';
+  Data.value.beds = '3';
+  SelectedOption.value = ['hasWifi', 'hasKitchen'];
+  Data.value.hasWifi = '0';
+  Data.value.hasTV = '0';
+  Data.value.hasKitchen = '1';
+  Data.value.hasLaundry = '0';
+  Data.value.hasParkingLot = '1';
+  Data.value.hasAirconditioner = '0';
+  Data.value.hasPersonalSpace = '1';
+  Data.value.hasPool = '0';
+  Data.value.hasGym = '1';
 
 }
 </script>
@@ -504,7 +489,7 @@ h1 {
   --bs-btn-active-border-color: black;
 }
 
-.cusbtn > img {
+.cusbtn>img {
   width: 4vh;
   height: 4vh;
 }
@@ -514,7 +499,7 @@ h1 {
 
 }
 
-.progress-bar-container > button {
+.progress-bar-container>button {
   width: 8rem;
   height: 3rem;
   margin: 2rem 3rem;
@@ -575,7 +560,7 @@ h1 {
   --el-tag-font-size: 15px;
 }
 
-:deep(.el-select__selected-item.el-select__placeholder.is-transparent) > span {
+:deep(.el-select__selected-item.el-select__placeholder.is-transparent)>span {
   font-size: 1rem;
 }
 
@@ -606,6 +591,4 @@ h1 {
 :deep(.el-dialog) {
   width: 50%;
 }
-
-
 </style>
