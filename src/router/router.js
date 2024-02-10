@@ -9,20 +9,20 @@ import Home from "@views/common/Home.vue";
 import WorkSearch from "@views/common/WorkSearch.vue";
 import WorkDetail from "@views/common/WorkDetail.vue";
 import Map from "@components/Map.vue";
-import ProviderForm from "@views/common/ProviderForm.vue";
 import UserProfile from "@views/common/UserProfile.vue";
 import Login from "@views/common/Login.vue";
 import NotFound from "@views/common/NotFound.vue";
 import ThankYou from "@components/ThankYou.vue";
 // user 一般使用者
+import ProviderForm from "@views/user/ProviderForm.vue";
 import Chatroom from "@views/user/Chatroom.vue";
 import Order from "@views/user/Order.vue";
 import Account from "@views/user/Account/Account.vue";
-import Review from "@views/user/Review.vue";
 import Payment from "@views/user/Payment.vue";
 // landlord 房東身分
 import LandlordOrderCenter from "@/views/landlord/LandlordOrderCenter.vue";
 import Analyze from "@views/landlord/Analyze.vue";
+import Review from "@views/landlord/Review.vue";
 import HouseMaintain from "@views/landlord/HouseMaintain.vue";
 import WorkMaintain from "@views/landlord/WorkMaintain.vue";
 import ProviderHouse from "@views/landlord/ProviderHouse.vue";
@@ -79,11 +79,6 @@ const routes = [
     component: ContactUs,
   },
   {
-    path: "/provider-form",
-    name: "ProviderForm",
-    component: ProviderForm,
-  },
-  {
     path: "/login",
     name: "Login",
     component: Login,
@@ -101,6 +96,12 @@ const routes = [
     component: Map,
   },
   // user 一般使用者
+  {
+    path: "/provider-form",
+    name: "ProviderForm",
+    component: ProviderForm,
+    meta: { requiresAuth: true },
+  },
   {
     path: "/account",
     name: "Account",

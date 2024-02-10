@@ -15,16 +15,16 @@
                         <div class="row mb-3 mt-3">
                             <div class="col">
                                 <h6 class="text-muted">最後上線時間</h6>
-                                <div class="text-black">8小時前 {{ user.lastLogin }}</div>
+                                <div class="text-black text-decoration-underline">{{ user.lastLogin }} 小時前</div>
                             </div>
                             <div class="col mx-auto">
                                 <div class="d-flex justify-content-between">
                                     <h6 class="text-muted">回覆率</h6>
-                                    <h6 class="">95%</h6>
+                                    <h6 class="">100%</h6>
                                 </div>
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
-                                        role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0"
+                                        role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0"
                                         aria-valuemax="100"></div>
                                 </div>
                             </div>

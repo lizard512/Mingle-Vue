@@ -8,7 +8,7 @@
                             style="width: 30px; height: 27px;">
                     </div>
                     <h2>讓其他使用者更了解你！</h2>
-                    <p id="description" class="lead">日後如有需要，仍可至房東中心修改資料</p>
+                    <p v-if="!lordID" id="description" class="lead">日後如有需要，仍可至房東中心修改資料</p>
                 </div>
             </div>
             <div class="col-md-8">
@@ -48,7 +48,7 @@
                         <label for="pet"><i class="fa fa-solid fa-paw"></i>寵物(如有可詳加說明)</label>
                     </div>
                     <!-- terms textarea below -->
-                    <div class="form-floating mt-4 terms">
+                    <div v-if="!lordID" class="form-floating mt-4 terms">
                         <textarea name="terms" id="terms" class="form-control h-100" readonly>
 當您註冊完成或開始使用本服務時，即表示您已閱讀、了解並同意接受本服務條款之所有內容。如果您不同意本服務條款的內容，或者您所屬的國家或地域排除本服務條款內容之全部或部分時，您應立即停止使用本服務。此外，當您使用本服務之特定功能時，可能會依據該特定功能之性質，而須遵守本服務所另行公告之服務條款或相關規定。此另行公告之服務條款或相關規定亦均併入屬於本服務條款之一部分。本公司有權於任何時間修改或變更本服務條款之內容，並公告於本服務網站上，請您隨時注意該等修改或變更。若您於任何修改或變更後繼續使用本服務，則視為您已閱讀、了解並同意接受該等修改或變更。
 
@@ -126,8 +126,8 @@
                         </label>
 
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="agree" id="agree" required>
+                    <div v-if="!lordID" class="form-check">
+                        <input class="form-check-input" type="checkbox" name="agree" id="agree" :required="!lordID">
                         <label class="form-check-label" for="agree">
                             我已閱讀完畢，並同意以上條款
                         </label>
@@ -135,9 +135,9 @@
 
                     <!-- Submit button below -->
                     <div class="d-grid mt-4">
-                        <button class="btn btn-dark border-0 py-3 fw-bolder" type="submit"
-                            @click="userStore.addPermission('lord')">
-                            成為房東，開始在Mingle上架工作
+                        <button class="btn btn-dark border-0 py-3 fw-bolder" type="submit">
+                            <span v-if="!lordID">確認成為房東</span>
+                            <span v-else>確認修改資料</span>
                         </button>
                     </div>
                 </form>
@@ -150,34 +150,42 @@
 <script setup>
 //// 引用函示庫
 import { ref, computed, onMounted } from 'vue';
-import { useUserStore } from '@store/userStore-localStorage.js';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@store/userStore-localStorage.js';
 
 
 //// 生命週期
 onMounted(async () => {
     await loadCity();
     if (lordID) {
-        Swal.fire({
-            icon: 'info',
-            text: '您已是房東，3秒後自動導向至工作管理',
-            allowOutsideClick: false,
-            timer: 3000,  // 3 秒後自動導向
-            willClose: () => {
-                router.push('/workMaintain');
-            },
-            confirmButtonText: '點此立即前往',
-            preConfirm: () => {
-                router.push('/workMaintain');
-            }
+        await axios.get(`${import.meta.env.VITE_APP_API_URL}/landlord/getLandlordById/${lordID}`)
+        .then(response => {
+            landlordBean.value = response.data;
+        })
+        .catch(error => {
+            console.log(error);
         });
+        // Swal.fire({
+        //     icon: 'info',
+        //     text: '您已是房東，3秒後自動導向至工作管理',
+        //     allowOutsideClick: false,
+        //     timer: 3000,  // 3 秒後自動導向
+        //     willClose: () => {
+        //         router.push('/workMaintain');
+        //     },
+        //     confirmButtonText: '點此立即前往',
+        //     preConfirm: () => {
+        //         router.push('/workMaintain');
+        //     }
+        // });
     }
 });
 
 //// 初始化變數
 // user登入狀態
+const userStore = useUserStore();
 const userID = localStorage.getItem('userID');
 const lordID = localStorage.getItem('lordID');
 // 城市資料
@@ -202,7 +210,7 @@ const submitForm = async () => {
 
     await axios.post(`${import.meta.env.VITE_APP_API_URL}/landlord/createOrUpdateLandlord`, landlordBean.value)
         .then(response => {
-            if (response.data.landlordid) {
+            if (!response.data.updatedAt) {
                 userStore.addPermission('lord');
                 localStorage.setItem('lordID', response.data.landlordid);
                 Swal.fire({
@@ -214,9 +222,21 @@ const submitForm = async () => {
                         router.push('/houseMaintain');
                     }
                 });
+            }else{
+                Swal.fire({
+                    icon: 'success',
+                    text: '資料已更新',
+                    confirmButtonText: '確認',
+                });
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            Swal.fire({
+                icon: 'warning',
+                text: error,
+                confirmButtonText: '重新嘗試',
+            });
+        });
 }
 
 // 載入城市
@@ -252,7 +272,8 @@ const groupedCities = computed(() => {
     border-radius: 50px;
     border: 1px dashed var(--primary);
 }
-.form .fa{
+
+.form .fa {
     margin-right: 8px;
 }
 

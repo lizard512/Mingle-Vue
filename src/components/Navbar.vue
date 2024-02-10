@@ -14,12 +14,16 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto d-flex align-items-center">
                     <RouterLink class="nav-item nav-link" to="/"><i class="fa fa-solid fa-house"></i>首頁</RouterLink>
-                    <RouterLink class="nav-item nav-link" to="/about"><i class="fa fa-solid fa-circle-info"></i>關於Mingle</RouterLink>
+                    <RouterLink class="nav-item nav-link" to="/about"><i class="fa fa-solid fa-circle-info"></i>關於Mingle
+                    </RouterLink>
                     <div class="nav-item dropdown">
-                        <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#"><i class="fa fa-solid fa-mountain-sun"></i>打工換宿資訊</RouterLink>
+                        <RouterLink class="nav-link dropdown-toggle" data-bs-toggle="dropdown" to="#"><i
+                                class="fa fa-solid fa-mountain-sun"></i>打工換宿資訊</RouterLink>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <RouterLink class="dropdown-item" to="/work-search"><i class="fa fa-solid fa-briefcase"></i>瀏覽打工項目</RouterLink>
-                            <RouterLink class="dropdown-item" to="/map"><i class="fa fa-solid fa-map-location-dot"></i>依地圖檢視</RouterLink>
+                            <RouterLink class="dropdown-item" to="/work-search"><i
+                                    class="fa fa-solid fa-briefcase"></i>瀏覽打工項目</RouterLink>
+                            <RouterLink class="dropdown-item" to="/map"><i class="fa fa-solid fa-map-location-dot"></i>依地圖檢視
+                            </RouterLink>
                         </div>
                     </div>
                     <!-- <div class="nav-item dropdown">
@@ -29,33 +33,47 @@
                             <RouterLink class="dropdown-item" to="#">打工日誌</RouterLink>
                         </div>
                     </div> -->
-                    <RouterLink class="nav-item nav-link" to="/contact-Us"><i class="fa fa-solid fa-phone"></i>聯絡我們</RouterLink>
+                    <RouterLink class="nav-item nav-link" to="/contact-Us"><i class="fa fa-solid fa-phone"></i>聯絡我們
+                    </RouterLink>
                     <template v-if="isLoggedIn">
                         <div v-if="isLandlord" class="nav-item dropdown">
                             <RouterLink class=" btn btn-secondary px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="/lord-center">房東中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <RouterLink class="dropdown-item" to="/houseMaintain"><i class="fa fa-solid fa-house-laptop"></i>房源維護</RouterLink>
-                                <RouterLink class="dropdown-item" to="/WorkMaintain"><i class="fa fa-solid fa-laptop-file"></i>工作管理</RouterLink>
-                                <RouterLink class="dropdown-item" to="/landlordOrder"><i class="fa fa-solid fa-cash-register"></i>訂單管理</RouterLink>
-                                <RouterLink class="dropdown-item" to="/analyze"><i class="fa fa-solid fa-chart-column"></i>後臺數據</RouterLink>
-                                <RouterLink class="dropdown-item" to="/review"><i class="fa fa-solid fa-ranking-star"></i>房東評價</RouterLink>
+                                <RouterLink class="dropdown-item" to="/houseMaintain"><i
+                                        class="fa fa-solid fa-house-laptop"></i>房源管理</RouterLink>
+                                <RouterLink class="dropdown-item" to="/WorkMaintain"><i
+                                        class="fa fa-solid fa-laptop-file"></i>工作管理</RouterLink>
+                                <RouterLink class="dropdown-item" to="/landlordOrder"><i
+                                        class="fa fa-solid fa-cash-register"></i>訂單管理</RouterLink>
+                                <RouterLink class="dropdown-item" to="/analyze"><i
+                                        class="fa fa-solid fa-chart-column"></i>後臺數據</RouterLink>
+                                <RouterLink class="dropdown-item" to="/review"><i
+                                        class="fa fa-solid fa-ranking-star"></i>房東評價</RouterLink>
+                                <RouterLink class="dropdown-item" to="/provider-form"><i
+                                        class="fa fa-solid fa-user-gear"></i>房東資料維護</RouterLink>
                                 <RouterLink class="dropdown-item" to="#" @click="userStore.removePermission('lord')">我不當房東了！
                                 </RouterLink>
                             </div>
                         </div>
-                        <RouterLink v-else class="btn btn-secondary px-3" to="/provider-form" > <!--@click="userStore.addPermission('lord')"-->
+                        <RouterLink v-else class="btn btn-secondary px-3" to="/provider-form">
+                            <!--@click="userStore.addPermission('lord')"-->
                             成為提供者
                         </RouterLink>
                         <div class="nav-item dropdown">
                             <RouterLink class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown" to="#">會員中心
                             </RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i class="fa fa-solid fa-id-card"></i>個人頁面</RouterLink>
-                                <RouterLink class="dropdown-item" to="/account"><i class="fa fa-solid fa-user-gear"></i>會員資料維護</RouterLink>
-                                <RouterLink class="dropdown-item" to="/chatroom"><i class="fa fa-solid fa-comments"></i>聊天室</RouterLink>
-                                <RouterLink to="#" class="dropdown-item" @click="resetStore()"><i class="fa fa-solid fa-right-from-bracket"></i>登出</RouterLink>
-                                <RouterLink v-if="isAdmin" class="dropdown-item" to="/admin-center"><i class="fa fa-solid fa-user-secret"></i>管理者平台</RouterLink>
+                                <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i
+                                        class="fa fa-solid fa-id-card"></i>個人頁面</RouterLink>
+                                <RouterLink class="dropdown-item" to="/chatroom"><i class="fa fa-solid fa-comments"></i>聊天室
+                                </RouterLink>
+                                <RouterLink class="dropdown-item" to="/account"><i
+                                        class="fa fa-solid fa-user-gear"></i>會員資料維護</RouterLink>
+                                <RouterLink to="#" class="dropdown-item" @click="resetStore()"><i
+                                        class="fa fa-solid fa-right-from-bracket"></i>登出</RouterLink>
+                                <RouterLink v-if="isAdmin" class="dropdown-item" to="/admin-center"><i
+                                        class="fa fa-solid fa-user-secret"></i>管理者平台</RouterLink>
                             </div>
                         </div>
 
@@ -63,10 +81,11 @@
                     <template v-else>
                         <RouterLink class="btn btn-dark px-3" to="/register/register4">成為幫助者</RouterLink>
                         <p class="m-3">已有帳戶? </p>
-                        <RouterLink class="btn btn-dark px-3 me-3" :to="{ name: 'Login', query: { redirect: router.currentRoute.value.fullPath } }">登入</RouterLink>
+                        <RouterLink class="btn btn-dark px-3 me-3"
+                            :to="{ name: 'Login', query: { redirect: router.currentRoute.value.fullPath } }">登入</RouterLink>
                     </template>
-                    <Toggle id="toggleDarkMode" :isChecked=false bgColor="black" ballColor="white"
-                    iconClass1="fas fa-moon" iconClass2="fas fa-sun" color1="yellow" color2="orangered" v-model="darkMode" class="my-2"/>
+                    <Toggle id="toggleDarkMode" :isChecked=false bgColor="black" ballColor="white" iconClass1="fas fa-moon"
+                        iconClass2="fas fa-sun" color1="yellow" color2="orangered" v-model="darkMode" class="my-2" />
                 </div>
             </div>
         </nav>
@@ -181,7 +200,7 @@ const checkSticky = () => {
     z-index: 9999;
 }
 
-.navbar-nav .fa{
+.navbar-nav .fa {
     margin-right: 24px;
     height: 3px;
     width: 3px;

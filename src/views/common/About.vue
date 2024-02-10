@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 text-md-start text-center py-6">
-                    <h1 class="mb-4 fs-9 fw-bold">沒有時間想文案了，<br>所以我放了一頁垃圾在這</h1>
+                    <h1 class="mb-4  fw-bold">好像沒有時間想文案了，<br>所以我放了一頁垃圾在這</h1>
                     <p class="mb-6 lead text-secondary">Tools tutorials, design and innovation experts, all<br
                             class="d-none d-xl-block" />in one place! The most intuitive way to imagine<br
                             class="d-none d-xl-block" />your next user experience.</p>
@@ -29,7 +29,7 @@
         <!--/.bg-holder-->
 
         <div class="container">
-            <h1 class="fs-9 fw-bold mb-4 text-center"> We design tools to unveil <br class="d-none d-xl-block" />your
+            <h1 class=" fw-bold mb-4 text-center"> We design tools to unveil <br class="d-none d-xl-block" />your
                 superpowers</h1>
             <div class="row">
                 <div class="col-lg-3 col-sm-6 mb-2"> <img class="mb-3 ms-n3" src="@images/about/category/icon1.png" width="75"
@@ -71,18 +71,18 @@
             <div class="row">
                 <div class="col-lg-6">
                     <h5 class="text-secondary">Effortless Validation for</h5>
-                    <h2 class="mb-2 fs-7 fw-bold">Design Professionals</h2>
+                    <h2 class="mb-2  fw-bold">Design Professionals</h2>
                     <p class="mb-4 fw-medium text-secondary">
                         The Myspace page defines the individual,his or her
                         characteristics, traits, personal choices and the overall<br />personality of the person.
                     </p>
-                    <h4 class="fs-1 fw-bold">Accessory makers</h4>
+                    <h6 class=" fw-bold">Accessory makers</h6>
                     <p class="mb-4 fw-medium text-secondary">While most people enjoy casino gambling, sports
                         betting,<br />lottery and bingo playing for the fun</p>
-                    <h4 class="fs-1 fw-bold">Alterationists</h4>
+                    <h6 class=" fw-bold">Alterationists</h6>
                     <p class="mb-4 fw-medium text-secondary">If you are looking for a new way to promote your
                         business<br />that won't cost you money,</p>
-                    <h4 class="fs-1 fw-bold">Custom Design designers</h4>
+                    <h6 class=" fw-bold">Custom Design designers</h6>
                     <p class="mb-4 fw-medium text-secondary">If you are looking for a new way to promote your
                         business<br />that won't cost you more money,</p>
                 </div>
@@ -106,7 +106,7 @@
                 <div class="col-lg-6"><img class="img-fluid" src="@images/about/manager/manager.png" alt="" /></div>
                 <div class="col-lg-6">
                     <h5 class="text-secondary">Easier decision making for</h5>
-                    <p class="fs-7 fw-bold mb-2">Product Managers</p>
+                    <p class=" fw-bold mb-2">Product Managers</p>
                     <p class="mb-4 fw-medium text-secondary">
                         The Myspace page defines the individual,his or her
                         characteristics, traits, personal choices and the overall<br />personality of the person.
@@ -145,17 +145,17 @@
             <div class="row">
                 <div class="col-lg-6">
                     <h5 class="text-secondary">Optimisation for</h5>
-                    <p class="mb-2 fs-8 fw-bold">Marketers</p>
+                    <p class="mb-2  fw-bold">Marketers</p>
                     <p class="mb-4 fw-medium text-secondary">Few would argue that, despite the advancements of<br />feminism
                         over the past three decades, women still face a<br />double standard when it comes to their
                         behavior.</p>
-                    <h4 class="fw-bold fs-1">Accessory makers</h4>
+                    <h4 class="fw-bold ">Accessory makers</h4>
                     <p class="mb-4 fw-medium text-secondary">While most people enjoy casino gambling, sports
                         betting,<br />lottery and bingo playing for the fun</p>
-                    <h4 class="fw-bold fs-1">Alterationists</h4>
+                    <h4 class="fw-bold ">Alterationists</h4>
                     <p class="mb-4 fw-medium text-secondary">If you are looking for a new way to promote your
                         business<br />that won't cost you money,</p>
-                    <h4 class="fw-bold fs-1">Custom Design designers</h4>
+                    <h4 class="fw-bold ">Custom Design designers</h4>
                     <p class="mb-4 fw-medium text-secondary">If you are looking for a new way to promote your
                         business<br />that won't cost you more money,</p>
                 </div>
@@ -182,7 +182,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6 text-center">
-                    <h1 class="fw-bold mb-4 fs-7">Need a super hero?</h1>
+                    <h1 class="fw-bold mb-4 ">Need a super hero?</h1>
                     <p class="mb-5 text-info fw-medium">Do you require some help for your project: Conception
                         workshop,<br />prototyping, marketing strategy, landing page, Ux/UI?</p>
                     <button class="btn btn-warning btn-md">Contact our expert</button>
@@ -202,7 +202,7 @@
     <section class="pt-5" id="marketing">
 
         <div class="container">
-            <h1 class="fw-bold fs-6 mb-3">Marketing Strategies</h1>
+            <h1 class="fw-bold  mb-3">Marketing Strategies</h1>
             <p class="mb-6 text-secondary">Join 40,000+ other marketers and get proven strategies on email marketing</p>
             <div class="row">
                 <div class="col-md-4 mb-4">
