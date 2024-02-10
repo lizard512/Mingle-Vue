@@ -243,7 +243,8 @@ const options = [
 const handleSelectChange = () => {
   options.forEach(option => {
     const isSelected = SelectedOption.value.indexOf(option.value) !== -1;
-    Data.value[option.value] = isSelected;
+    const value = isSelected ? '1' : '0';
+    Data.value[option.value] = value;
   });
 }
 
