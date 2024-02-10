@@ -167,11 +167,15 @@ const acceptOrder = async (orderId) => {
     }
 
     const updatedOrderWithDetails = await response.json();
-    updateOrderInArray(updatedOrderWithDetails);
-    // console.log(updatedOrderWithDetails)
-
-
-  } catch (error) {
+    if (Array.isArray(updatedOrderWithDetails)) {
+      updatedOrderWithDetails.forEach(updatedOrder => {
+        if (updatedOrder && updatedOrder.order) {
+          updateOrderInArray(updatedOrder);
+        }
+        // console.log(updatedOrderWithDetails)
+      })
+    }
+  }catch (error) {
     console.error('Error accepting order:', error);
   }
 };
@@ -192,9 +196,14 @@ const rejectOrder = async (orderId) => {
     }
 
     const updatedOrderWithDetails = await response.json();
-    updateOrderInArray(updatedOrderWithDetails);
-    // console.log(updatedOrderWithDetails)
-
+    if (Array.isArray(updatedOrderWithDetails)) {
+      updatedOrderWithDetails.forEach(updatedOrder => {
+        if (updatedOrder && updatedOrder.order) {
+          updateOrderInArray(updatedOrder);
+        }
+        // console.log(updatedOrderWithDetails)
+      })
+    }
   } catch (error) {
     console.error('Error rejecting order:', error);
   }
@@ -206,7 +215,6 @@ function updateOrderInArray(updatedOrder) {
 
   if (index !== -1) {
     order.value[index] = updatedOrder;
-
   }
 }
 </script>
