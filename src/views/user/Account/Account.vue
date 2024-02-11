@@ -5,7 +5,8 @@
         <!-- left Start -->
         <div class="col-2  bg-primary justify-content-center">
             <div class="dropdown rounded-circle text-center">
-                <img src="@images/user-3.jpg" style="width: 50px" class="rounded-circle">{{ userdetails.name }}
+                <img v-if="userdetails.photoBase64" :src=userdetails.photoBase64 style="width: 50px"
+                    class="rounded-circle">{{ userdetails.name }}
             </div>
         </div>
         <div class="col-10"></div>
@@ -76,7 +77,7 @@ const getuserid =
         return id;
     }
 const loaduserDetail = async () => {
-    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/` + getuserid());
+    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/Base64/` + getuserid());
     // Object.assign(userdetails, response.data);
     userdetails.value = response.data
     console.log(userdetails)

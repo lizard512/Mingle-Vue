@@ -10,7 +10,7 @@
             <!-- 大頭貼上傳和預覽 -->
             <div class="col-6 float-end">
                 <a href="#" class="btn">
-                    <img src="@images/user-3.jpg" class="img-fluid float-end rounded-circle" width="300" for="formFile">
+                    <img v-if="image" :src="image" class="img-fluid float-end rounded-circle" width="300" for="formFile">
                 </a>
             </div>
             <div class="col-3">
@@ -57,9 +57,10 @@
             <div class="container">
                 <!-- 大頭貼上傳和預覽 -->
                 <div class="col-6 float-end">
-                    <label for="formFile" class="form-label">點我上傳新大頭貼<br></label><br>
+                    <label for="formFile" class="form-label btn btn-lg btn-info btn-block">點我上傳新大頭貼<br></label><br>
 
-                    <img v-if="image" :src="image" class="img-fluid float-end rounded-circle" width="300" height="300">
+                    <img v-if="image" :src="image" class="img-fluid float-end rounded-circle" width="300" height="300"
+                        accept=".jpg,.jpeg,.webp,.png">
 
                     <input type="file" class="imagefile" id="formFile" @change="fileSelected">
                     <br>
@@ -180,14 +181,13 @@
 </template>
     
 <script setup>
-import { onMounted, ref, reactive } from 'vue'
+import { onMounted, ref, reactive, watch } from 'vue'
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { toRef } from 'vue';
 //============從父層傳值============
 //============查詢會員資料============
 const props = defineProps({
-    userdetails: toRef(Object),
+    userdetails: Object,
 })
 
 // 格式化日期為"YYYY/MM/DD"
@@ -227,7 +227,6 @@ const ToBirth = () => {
     if (formatDate(props.userdetails.birth) !== "尚未設定生日") {
         birth.year = formatDate(props.userdetails.birth).split("/")[0]; birth.month = formatDate(props.userdetails.birth).split("/")[1]; birth.day = formatDate(props.userdetails.birth).split("/")[2];
     }
-    console.log(birth)
 }
 //使用bootstrap驗證
 let felg = false;
@@ -272,33 +271,10 @@ const submitChanges = async (event) => {
             birth: birth.year + '-' + birth.month + '-' + birth.day,
         }
         console.log(data);
-        await axios.patch(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/update/details/${localStorage.getItem('userID')}`, data).then(function (response) {
-            console.log("我傳回成功啦")
-            console.log(response.data)
-            if (response.data.success) {
-                Swal.fire({
-                    icon: "success",
-                    text: "更新成功",
-                    confirmButtonText: "確定"
-                })
-                props.userdetails.birth = formatDate(birth.year + '-' + birth.month + '-' + birth.day);
-                changeVeiw();
-            } else {
-                Swal.fire({
-                    icon: "warning",
-                    title: "哎呀...",
-                    text: response.data.message,
-                    confirmButtonText: "確認"
-                })
-            }
-        }).catch(function () {
-            Swal.fire({
-                icon: "error",
-                title: "糟糕...",
-                text: "操作失敗",
-                confirmButtonText: "確認"
-            })
-        })
+        if (updateDetails(data)) {
+            props.userdetails.birth = formatDate(birth.year + '-' + birth.month + '-' + birth.day);
+            changeVeiw();
+        }
     }
     // 阻止表单的默认提交行为
     // event.preventDefault();
@@ -334,7 +310,7 @@ const isShowSubmitPhotoButton = ref(false);
 const image = ref('');
 const upPhoto = ref('');
 function fileSelected(e) {
-    console.log(e)
+    // console.log(e)
     const file = e.target.files.item(0);
     const reader = new FileReader();
     reader.addEventListener('load', imageLoaded);
@@ -346,7 +322,7 @@ function fileSelected(e) {
     isShowSubmitPhotoButton.value = true;
 }
 function imageLoaded(e) {
-    console.log(e.target.result)
+    // console.log(e.target.result)
     image.value = e.target.result;
 }
 
@@ -357,18 +333,21 @@ const upload = async () => {
     // // 用FormData這種非字串的方式上傳
     // const form = new formData();
     // form.append(this.file, this.file.name)
-    console.log("照片測試")
-    const pdata = {
+    const data = {
         update: "photo",
         photo: image.value.split(",")[1],
         photoType: upPhoto.value[1],
         photoSize: upPhoto.value[2],
     }
-    console.log(pdata);
-
-    await axios.patch(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/update/details/${localStorage.getItem('userID')}`, pdata).then(function (response) {
-        console.log("我傳回成功啦")
+    if (updateDetails(data)) {
         isShowSubmitPhotoButton.value = false;
+        props.userdetails.photoBase64 = image.value;
+    }
+}
+
+const updateDetails = async (data) => {
+    await axios.patch(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/update/details/${localStorage.getItem('userID')}`, data).then(function (response) {
+        console.log("我傳回成功啦")
         console.log(response.data)
         if (response.data.success) {
             Swal.fire({
@@ -376,8 +355,7 @@ const upload = async () => {
                 text: "更新成功",
                 confirmButtonText: "確定"
             })
-
-
+            return true;
         } else {
             Swal.fire({
                 icon: "warning",
@@ -385,6 +363,7 @@ const upload = async () => {
                 text: response.data.message,
                 confirmButtonText: "確認"
             })
+            return false;
         }
     }).catch(function () {
         Swal.fire({
@@ -393,14 +372,19 @@ const upload = async () => {
             text: "操作失敗",
             confirmButtonText: "確認"
         })
+        return false;
     })
 }
 
+watch(() => props.userdetails.photoBase64, (newValue, oldValue) => {
+    if (newValue !== undefined) {
+        image.value = newValue;
+    }
+});
 
 
 onMounted(async () => {
     bookStrapValidation();
-    formatDate(props.userdetails.birth);
 });
 </script>
     

@@ -9,11 +9,24 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title">打工項目1</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural
-                            lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small>
-                        </p>
+                        <div class="card-header bg-transparent">打工項目1</div>
+                        <div class="card-body text-success">
+                            <h5 class="card-title">Success card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural
+                                lead-in to additional content. This content is a little bit longer.</p>
+                        </div>
+                        <div class="card-footer bg-transparent"><small class="text-body-secondary">Last updated 3 mins
+                                ago</small>
+
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">9 mins</small>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                <button type="button" class="btn btn-lg btn-outline-secondary" :class="{ 'active': isKept }"
+                                    @click.stop.prevent="toggleKeepWork"><i class="fa-brands fa-gratipay"></i></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -98,4 +111,8 @@ import { useRouter } from 'vue-router';
 
 </script>
     
-<style></style>
+<style scoped>
+.btn.active {
+    color: var(--danger);
+}
+</style>
