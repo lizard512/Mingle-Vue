@@ -23,7 +23,8 @@
 #               菩提本無樹 明鏡亦非台
 #               本來無BUG 何必常修改
 <template>
-  <button type="button" class="btn btn-outline-success animate__animated animate__fadeInDown" style="position:absolute; top:50%; left:0;" @click="fullData">
+  <button type="button" class="btn btn-outline-success animate__animated animate__fadeInDown"
+    style="position:absolute; top:50%; left:0;" @click="fullData">
     一鍵填表
   </button>
   <div class="container">
@@ -33,7 +34,7 @@
         <div style="font-size: large" class="animate__animated animate__fadeInDown">
           <div>
             <div class="row row-cols-3 gx-0 gy-3 justify-content-around" style="" role="group"
-                 aria-label="Basic radio toggle button group">
+              aria-label="Basic radio toggle button group">
             </div>
           </div>
 
@@ -126,13 +127,8 @@
               </div>
               <div class="row g-2">
                 <div class="form-floating mb-3 col-3">
-                  <el-cascader
-                      size="large"
-                      placeholder="市/區"
-                      v-model="addressValue"
-                      :options="addressOptions"
-                      :props="addressProps"
-                  />
+                  <el-cascader size="large" placeholder="市/區" v-model="addressValue" :options="addressOptions"
+                    :props="addressProps" />
                 </div>
                 <div class="form-floating mb-3 col-md">
                   <input v-model="Data.address" type="text" class="form-control" id="floatingInput" placeholder="">
@@ -143,16 +139,15 @@
           </div>
           <div class="form-floating">
             <textarea v-model="Data.description" class="form-control" placeholder="Leave a comment here"
-                      id="floatingTextarea2" style="height: 100px"></textarea>
+              id="floatingTextarea2" style="height: 100px"></textarea>
             <label for="floatingTextarea2">工作內容：</label>
           </div>
-          <div style="margin: 10px 0"/>
+          <div style="margin: 10px 0" />
           <div class="form-floating">
-            <input v-model="Data.benefits" type="text" class="form-control" id="floatingInputGrid"
-                   placeholder="福利內容：">
+            <input v-model="Data.benefits" type="text" class="form-control" id="floatingInputGrid" placeholder="福利內容：">
             <label for="floatingInputGrid">福利內容：</label>
           </div>
-          <div style="margin: 10px 0"/>
+          <div style="margin: 10px 0" />
         </div>
       </div>
       <div v-show="currentPage === 3" class="page3" id="page">
@@ -162,35 +157,25 @@
             <div class="demo-date-picker">
               <div class="block">
                 <span class="demonstration">開放時間：</span>
-                <el-date-picker
-                    v-model="dateValue1"
-                    type="daterange"
-                    range-separator="到"
-                    start-placeholder="開始時間"
-                    end-placeholder="結束時間"
-                    format="YYYY-MM-DD"
-                    value-format="YYYY-MM-DD"
-                />
+                <el-date-picker v-model="dateValue1" type="daterange" range-separator="到" start-placeholder="開始時間"
+                  end-placeholder="結束時間" format="YYYY-MM-DD" value-format="YYYY-MM-DD" />
               </div>
             </div>
           </div>
           <div class="row g-2">
             <div class="form-floating col">
-              <input v-model="Data.workTime" type="text" class="form-control" id="floatingInput"
-                     placeholder="workTime">
+              <input v-model="Data.workTime" type="text" class="form-control" id="floatingInput" placeholder="workTime">
               <label for="floatingInput">工作時間 :</label>
             </div>
             <div class="form-floating col">
-              <input v-model="Data.minPeriod" type="text" class="form-control" id="floatingInput"
-                     placeholder="minPeriod">
+              <input v-model="Data.minPeriod" type="text" class="form-control" id="floatingInput" placeholder="minPeriod">
               <label for="floatingInput">可接受最小天數 :</label>
             </div>
           </div>
           <div class="row g-2">
             <div class="col-md">
               <div class="form-floating">
-                <select v-model="Data.ageRestriction" class="form-select" id="floatingSelectGrid"
-                        aria-label="accessAge">
+                <select v-model="Data.ageRestriction" class="form-select" id="floatingSelectGrid" aria-label="accessAge">
                   <option selected>請選擇</option>
                   <option v-for="item in age" :key="item">
                     {{ item }}
@@ -201,8 +186,7 @@
             </div>
             <div class="col-md">
               <div class="form-floating">
-                <select v-model="Data.genderRestriction" class="form-select" id="floatingSelectGrid"
-                        aria-label="gender">
+                <select v-model="Data.genderRestriction" class="form-select" id="floatingSelectGrid" aria-label="gender">
                   <option selected>請選擇</option>
                   <option v-for="item in gender" :key="item">
                     {{ item }}
@@ -216,7 +200,7 @@
           <div class="row g-2" style="margin-top: 0.1vh">
             <div class="form-floating col-md">
               <select v-model="Data.educationRestriction" class="form-select col" id="floatingSelectGrid"
-                      aria-label="education">
+                aria-label="education">
                 <option selected>請選擇</option>
                 <option v-for="item in education" :key="item">
                   {{ item }}
@@ -228,7 +212,7 @@
               <div class="form-floating col-md">
                 <div class="form-floating col">
                   <input v-model="Data.experienceRestriction" type="text" class="form-control" id="floatingInput"
-                         placeholder="">
+                    placeholder="">
                   <label for="floatingInput">工作經驗 :</label>
                 </div>
 
@@ -248,14 +232,12 @@
             </div>
           </div>
           <div class="form-floating col">
-            <input v-model="Data.languageRestriction" type="text" class="form-control" id="floatingInput"
-                   placeholder="">
+            <input v-model="Data.languageRestriction" type="text" class="form-control" id="floatingInput" placeholder="">
             <label for="floatingInput">可接受語言 :</label>
           </div>
 
           <div class="form-floating col">
-            <input v-model="Data.licenseRestriction" type="text" class="form-control" id="floatingInput"
-                   placeholder="">
+            <input v-model="Data.licenseRestriction" type="text" class="form-control" id="floatingInput" placeholder="">
             <label for="floatingInput">證照要求 :</label>
           </div>
 
@@ -265,31 +247,20 @@
       <div v-show="currentPage === 4" class="page4" id="page">
 
         <div style="width: 40rem; font-size: large" class="animate__animated animate__fadeInDown">
-          <h1>太酷了！讓使用者更容易找到你！</h1>
+          <h1>太酷了！上傳幾張照片，<br>讓使用者更了解這項工作吧！</h1>
 
-          <el-upload
-              v-model:file-list="fl"
-              list-type="picture-card"
-              :auto-upload="true"
-              :on-preview="handlePictureCardPreview"
-              :on-remove="handleRemove"
-              accept=".jpg,.jpeg,.webp,.png"
-              :limit="6"
-              :multiple="true"
-              :headers="upload.headers"
-              :on-change="handleChange"
-              :action=actionUrl
-          >
+          <el-upload v-model:file-list="fl" list-type="picture-card" :auto-upload="true"
+            :on-preview="handlePictureCardPreview" :on-remove="handleRemove" accept=".jpg,.jpeg,.webp,.png" :limit="6"
+            :multiple="true" :headers="upload.headers" :on-change="handleChange" :action=actionUrl>
 
             <el-icon>
-              <Plus/>
+              <Plus />
             </el-icon>
           </el-upload>
           <div class="el-upload__tip" slot="tip">只能上傳jpg/jpeg/webp/png格式的圖片<br>且檔案應小於50MB</div>
         </div>
 
-        <el-dialog v-model="dialogVisible"
-                   width="30%">
+        <el-dialog v-model="dialogVisible" width="30%">
           <img width="100%" :src="dialogImager">
         </el-dialog>
       </div>
@@ -299,46 +270,47 @@
 
   <div class="animate__animated animate__bounceInUp row justify-content-between progress-bar-container fixed-bottom">
     <div class="progress">
-      <div class="progress-bar" role="progressbar" v-bind:style="{width: barValue + '%'}"
-           style=" background-color: #ffb4aa"
-           aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress-bar" role="progressbar" v-bind:style="{ width: barValue + '%' }"
+        style=" background-color: #ffb4aa" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
       </div>
     </div>
     <button type="button" class="btn btn-outline-primary prev col-1 " @click="prev" :disabled="currentPage <= 1">Prev
       Step
     </button>
     <button type="button" class="btn btn-outline-primary next col-1 " v-show="currentPage != 4" @click="next"
-            :disabled="currentPage > 4">Next
+      :disabled="currentPage > 4">Next
       Step
     </button>
     <button type="button" class="btn btn-outline-primary next col-1 " v-show="currentPage == 4" @click="submit">送出
     </button>
   </div>
-
 </template>
 
 <script lang="ts" setup>
-import {reactive, onMounted, ref} from 'vue'
-import {Plus} from '@element-plus/icons-vue'
-import {UploadProps, UploadUserFile} from "element-plus";
+import { reactive, onMounted, ref } from 'vue'
+import { Plus } from '@element-plus/icons-vue'
+import { UploadProps, UploadUserFile } from "element-plus";
 import Swal from "sweetalert2";
 import VueCookies from "vue-cookies";
+import { useRouter } from 'vue-router';
 
 const age = ['不拘', '青壯年', '壯年', '老年']
-const gender = ['男', '女', '不限制']
-const education = ['國小', '國中', '高中職', '學士', '碩士', '博士']
+const gender = ['不限制', '男', '女']
+const education = ['不拘', '國小', '國中', '高中職', '學士', '碩士', '博士']
 let maxValue = 100 / 3;
 let barValue = 0;
 let currentPage = ref(1);
 
-const dateValue1 = ref('')
+let dateValue1 = ref<String[]>([])
 const fl = ref<UploadUserFile[]>([])
 const dialogImager = ref('')
 const dialogVisible = ref(false)
 const actionUrl = import.meta.env.VITE_APP_API_URL + '/api/upload/photoUploadControl'
 let lordID;
+// 路由
+const router = useRouter();
 
-onMounted( () => {
+onMounted(() => {
   initAssign();
 })
 
@@ -406,6 +378,7 @@ function next() {
   if (currentPage.value <= 4) {
     currentPage.value++;
     barValue += maxValue;
+    console.log(dateValue1)
   }
 }
 
@@ -421,7 +394,7 @@ function prev() {
 }
 
 function getToken() {
-  return {"sessionToken": localStorage.getItem("sessionToken")}
+  return { "sessionToken": localStorage.getItem("sessionToken") }
 }
 
 const upload = reactive({
@@ -443,7 +416,7 @@ const addressProps = {
 const addressValue = ref([])
 
 import original from "@Alladdress/Address.json"
-import {async} from "sockjs-client";
+import { async } from "sockjs-client";
 
 
 const addressOptions = original.map(city => ({
@@ -499,23 +472,23 @@ const submit = async () => {
   // console.log(Data.value);
 
   if (!Data.value.worktype ||
-      !addressValue.value.length ||
-      !Data.value.workName ||
-      !Data.value.description ||
-      !Data.value.vacation ||
-      !Data.value.benefits ||
-      !Data.value.address ||
-      !Data.value.startDate ||
-      !Data.value.endDate ||
-      !Data.value.workTime ||
-      !Data.value.minPeriod ||
-      Data.value.ageRestriction === '請選擇' ||
-      Data.value.genderRestriction === '請選擇' ||
-      Data.value.educationRestriction === '請選擇' ||
-      !Data.value.licenseRestriction ||
-      !Data.value.experienceRestriction ||
-      !Data.value.languageRestriction ||
-      !Data.value.maxAttendance) {
+    !addressValue.value.length ||
+    !Data.value.workName ||
+    !Data.value.description ||
+    !Data.value.vacation ||
+    !Data.value.benefits ||
+    !Data.value.address ||
+    !Data.value.startDate ||
+    !Data.value.endDate ||
+    !Data.value.workTime ||
+    !Data.value.minPeriod ||
+    Data.value.ageRestriction === '請選擇' ||
+    Data.value.genderRestriction === '請選擇' ||
+    Data.value.educationRestriction === '請選擇' ||
+    !Data.value.licenseRestriction ||
+    !Data.value.experienceRestriction ||
+    !Data.value.languageRestriction ||
+    !Data.value.maxAttendance) {
     Swal.fire({
       icon: 'error',
       title: '請填寫所有必填欄位',
@@ -551,6 +524,11 @@ async function submitData() {
       Swal.fire({
         icon: 'success',
         title: '新增成功',
+        allowOutsideClick: false,
+        confirmButtonText: '前往工作管理',
+        preConfirm: () => {
+          router.push('/workMaintain');
+        }
       })
     } else {
       throw new Error("新增失敗")
@@ -561,7 +539,8 @@ async function submitData() {
       icon: 'error',
       title: '發生錯誤',
       text: '新增失敗請重新嘗試。',
-    });};
+    });
+  };
 }
 
 function getRandomWorkType() {
@@ -577,6 +556,7 @@ function getRandomWorkType() {
 
 function fullData() {
   getRandomWorkType()
+  let date = new Date();
   Data.value.worktype = getSelectedRadioLabel("fkWorkType");
   addressValue.value[0] = '臺北市';
   addressValue.value[1] = '大安區';
@@ -584,8 +564,15 @@ function fullData() {
   Data.value.districtName = '大安區';
   Data.value.workName = '血汗碼農';
   Data.value.address = '復興南路一段390號2樓'; // Assuming workName is your input's v-model
-  Data.value.startDate = '2024-02-22';
-  Data.value.endDate = '2024-05-22';
+  Data.value.startDate = date.toISOString();
+  Data.value.endDate = new Date(date.getTime() + (180 * 24 * 60 * 60 * 1000)).toISOString();
+  const data = reactive({
+    value: {
+      startDate: Data.value.startDate,
+      endDate: Data.value.endDate
+    }
+  })
+  dateValue1 = ref([data.value.startDate, data.value.endDate]);
   Data.value.workTime = '10hr' // Replace with your input's v-model
   Data.value.minPeriod = '180' // Replace with your input's v-model
   Data.value.ageRestriction = '不拘' // Replace with your input's v-model
@@ -609,8 +596,6 @@ function fullData() {
 
 
 <style scoped>
-
-
 .container {
   margin: auto;
   height: 70vh;
@@ -642,7 +627,7 @@ function fullData() {
 
 }
 
-.progress-bar-container > button {
+.progress-bar-container>button {
   width: 8rem;
   height: 3rem;
   margin: 2rem 3rem;
@@ -687,9 +672,7 @@ function fullData() {
   margin-bottom: 0.7em;
 }
 
-h1 {
-
-}
+h1 {}
 
 :deep(.el-input--large) {
   height: calc(3.5rem + calc(var(--bs-border-width) * 2));

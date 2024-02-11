@@ -89,7 +89,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">
-                                <i class="fa fa-solid fa-user-check"></i><span>封鎖使用者帳戶</span>
+                                <i class="fa fa-solid fa-user-shield"></i><span>管理者權限控管</span>
                             </a>
                         </li>
                     </ul>
@@ -214,6 +214,16 @@ watch(router.currentRoute, async () => {
 </script>
     
 <style scoped>
+/*** Icon ***/
+.icon {
+    padding: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    border-radius: 50px;
+    border: 1px dashed var(--primary);
+}
 .navbar {
     height: 75px;
 }

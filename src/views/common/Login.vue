@@ -7,7 +7,7 @@
                 </div>
                 <br>
                 <div class="accountDiv">
-                    <input id="username" v-model="username" type="email" class="account" name="account" placeholder="使用者名稱"
+                    <input id="username" v-model="username" type="text" class="account" name="account" placeholder="使用者名稱"
                         required autofocus>
                 </div>
                 <br>

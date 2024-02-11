@@ -76,8 +76,7 @@
             <th>特殊需求</th>
             <th>開始時間</th>
             <th>結束時間</th>
-            <th>發票號碼</th>
-            <th>發票日期</th>
+            <th>下單時間</th>
             <th>狀態</th>
             <th>操作</th>
           </tr>
@@ -92,8 +91,7 @@
             <td>{{ singleOrder.order.needs }}</td>
             <td>{{ singleOrder.formatStartDate }}</td>
             <td>{{ singleOrder.formatEndDate }}</td>
-            <td>{{ singleOrder.order.invoiceNumber }}</td>
-            <td>{{ singleOrder.formatInvoiceDate }}</td>
+            <td>{{ singleOrder.formatCreatedAt }}</td>
             <td v-html="format(singleOrder.order.isCancelled, singleOrder.order.isRefunded, singleOrder.order.status)"></td>
             <td>
               <button v-if="singleOrder.order.status === '待房東確認'" type="button" style="margin-right: 1rem" class="btn btn-success"
@@ -167,11 +165,15 @@ const acceptOrder = async (orderId) => {
     }
 
     const updatedOrderWithDetails = await response.json();
-    updateOrderInArray(updatedOrderWithDetails);
-    // console.log(updatedOrderWithDetails)
-
-
-  } catch (error) {
+    if (Array.isArray(updatedOrderWithDetails)) {
+      updatedOrderWithDetails.forEach(updatedOrder => {
+        if (updatedOrder && updatedOrder.order) {
+          updateOrderInArray(updatedOrder);
+        }
+        // console.log(updatedOrderWithDetails)
+      })
+    }
+  }catch (error) {
     console.error('Error accepting order:', error);
   }
 };
@@ -192,9 +194,14 @@ const rejectOrder = async (orderId) => {
     }
 
     const updatedOrderWithDetails = await response.json();
-    updateOrderInArray(updatedOrderWithDetails);
-    // console.log(updatedOrderWithDetails)
-
+    if (Array.isArray(updatedOrderWithDetails)) {
+      updatedOrderWithDetails.forEach(updatedOrder => {
+        if (updatedOrder && updatedOrder.order) {
+          updateOrderInArray(updatedOrder);
+        }
+        // console.log(updatedOrderWithDetails)
+      })
+    }
   } catch (error) {
     console.error('Error rejecting order:', error);
   }
@@ -206,7 +213,6 @@ function updateOrderInArray(updatedOrder) {
 
   if (index !== -1) {
     order.value[index] = updatedOrder;
-
   }
 }
 </script>

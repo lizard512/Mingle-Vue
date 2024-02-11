@@ -1,7 +1,10 @@
 <template>
   <br>
-  <div class="tableDiv" id="app">
-    <h3>房源表</h3>
+  <div class="container-fuild tableDiv" id="app">
+    <div class="position-relative">
+      <h3>房源表</h3>
+      <RouterLink class="btn btn-warning text-white position-absolute top-0 end-0" to="/providerHouse"><i class="fa fa-plus me-2"></i>新建房源</RouterLink>
+    </div>
     <table class="table">
       <thead class="table-dark">
         <tr>
@@ -68,7 +71,8 @@
       </tbody>
     </table>
     <!-- Add the carousel modal (Simple Modal) -->
-    <div v-if="carouselData.showModal" class="modal" style="display: block; position: fixed; top: 65%; left: 50%; transform: translate(-50%, -50%);">
+    <div v-if="carouselData.showModal" class="modal"
+      style="display: block; position: fixed; top: 65%; left: 50%; transform: translate(-50%, -50%);">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-body">
@@ -269,7 +273,7 @@ const houses = ref([]);
 const isUpdateModalVisible = ref(false);
 
 const getLordID = () => {
-  return {"lordID": localStorage.getItem("lordID")};
+  return { "lordID": localStorage.getItem("lordID") };
 };
 
 const fetchHouses = () => {
@@ -413,8 +417,8 @@ const handleImageUpload = (event) => {
           photo: base64String,
           contentType: substringAfterSlash,
           photoSize: photoSize,
-          updatedAt: date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+ date.getHours()+":"+date.getMinutes()+":"+ date.getSeconds(),
-          createdAt: date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+ date.getHours()+":"+date.getMinutes()+":"+ date.getSeconds(),
+          updatedAt: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds(),
+          createdAt: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds(),
           isDeleted: '0',
         });
         console.log(updateFormData.value.housePhotos[0].updatedAt);
