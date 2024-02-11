@@ -26,7 +26,7 @@
                         </label>
                     </div>
                     <div class="forget-password">
-                        <a href="404.html">忘記密碼</a>
+                        <a href="/forgetpassword">忘記密碼</a>
                     </div>
                 </div>
                 <br>

@@ -13,6 +13,8 @@ import UserProfile from "@views/common/UserProfile.vue";
 import Login from "@views/common/Login.vue";
 import NotFound from "@views/common/NotFound.vue";
 import ThankYou from "@components/ThankYou.vue";
+import ForgetPassword from "@views/common/ForgetPassword.vue";
+import ResetPassword from "@views/common/ResetPassword.vue";
 // user 一般使用者
 import ProviderForm from "@views/user/ProviderForm.vue";
 import Chatroom from "@views/user/Chatroom.vue";
@@ -94,6 +96,16 @@ const routes = [
     path: "/map",
     name: "Map",
     component: Map,
+  },
+  {
+    path: "/forgetpassword",
+    name: "ForgetPassword",
+    component: ForgetPassword,
+  },
+  {
+    path: "/resetpassword",
+    name: "ResetPassword",
+    component: ResetPassword,
   },
   // user 一般使用者
   {
