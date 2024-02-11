@@ -137,7 +137,7 @@ const getReview = async () => {
 .work-deck {
   height: 100%;
   text-align: center;
-  padding: 12px 32px;
+  padding: 12px 40px;
 
 }
 
