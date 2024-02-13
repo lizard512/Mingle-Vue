@@ -4,7 +4,7 @@
         <nav class="navbar sticky-top bg-dark py-0 px-4">
             <RouterLink to="/admin-center" class="d-flex align-items-center">
                 <div class="icon p-2 me-2">
-                    <img class="img-fluid" src="@images/icon-mingle-bold.png" alt="Icon" style="width: 30px; height: 27px;">
+                    <img class="img-fluid" src="@icons/icon-mingle-bold.png" alt="Icon" style="width: 30px; height: 27px;">
                 </div>
                 <h1 class="m-0 link-primary">Mingle 管理者大平台</h1>
             </RouterLink>
@@ -12,7 +12,7 @@
                 <!-- Navbar user info -->
                 <div class="dropdown p-3 navbar-user-info">
                     <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="@images/user/woman.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <img :src="user.photoBase64" alt="" width="32" height="32" class="rounded-circle me-2">
                         <strong>{{ user.name }}</strong>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
@@ -96,7 +96,7 @@
                     <!-- Sidebar user info -->
                     <div class="dropdown dropup p-3 sidebar-user-info">
                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="@images/user/woman.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <img :src="user.photoBase64" alt="" width="32" height="32" class="rounded-circle me-2">
                             <strong>{{ user.name }}</strong>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
@@ -154,7 +154,7 @@ const isCollapse = ref(false);
 //// 定義方法
 const loadUserData = async () => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/${userID}`);
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/Base64/${userID}`);
         user.value = response.data;
     } catch (error) {
         console.error('Failed to fetch user data:', error);

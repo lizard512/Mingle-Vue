@@ -28,8 +28,8 @@
                 <p>週一~週五 14:00-22:00</p>
               </div>
               <div class="contact-icon">
-                <a href="#"><img src="@images/icon-fb.png" style="width: 50px;"></a>
-                <a href="#"><img src="@images/icon-line.png" style="width: 50px;"></a>
+                <a href="#"><img src="@icons/icon-fb.png" style="width: 50px;"></a>
+                <a href="#"><img src="@icons/icon-line.png" style="width: 50px;"></a>
               </div>
             </div>
           </div>

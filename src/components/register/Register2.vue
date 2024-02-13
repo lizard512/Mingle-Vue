@@ -2,7 +2,7 @@
     <div class="text-center">
         <p class="title">Email或手機驗證</p>
         <div class="register-icon">
-            <img src="@images/icon-progress2.png" width="100px">
+            <img src="@icons/icon-progress2.png" width="100px">
         </div>
         <br>
         <p style="color: black; font-weight: bold; font-size: 20px;">請輸入驗證碼</p>

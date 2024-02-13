@@ -55,7 +55,7 @@
       <swiper-slide v-for="(review, index) in firstHalf">
         <div class="scrolling-review p-4 my-5">
           <div class="d-flex">
-            <img class="img-fluid" src="@images/user/woman.png" style="width: 50px; height: 50px;">
+            <img class="img-fluid" src="@images/user-2.jpg" style="width: 50px; height: 50px;">
             <div class="">
               <h5 class="mb-1">工作名稱 {{ index + 1 }}</h5>
               <h6 class="card-title text-md-start text-secondary"> 評價分數: <span class="text-primary"
@@ -63,7 +63,7 @@
                   v-for="i in 5 - review.stars" :key="i"><i class="fa-regular fa-star"></i></span></h6>
             </div>
           </div>
-          <p class="text-truncate">{{ review.content }}</p>
+          <p class="my-text-truncate">{{ review.content }}</p>
         </div>
       </swiper-slide>
     </swiper>
@@ -72,7 +72,7 @@
       <swiper-slide v-for="(review, index) in secondHalf">
         <div class="scrolling-review p-4 my-5">
           <div class="d-flex">
-            <img class="img-fluid" src="@images/user/woman.png" style="width: 50px; height: 50px;">
+            <img class="img-fluid" src="@images/user-2.jpg" style="width: 50px; height: 50px;">
             <div class="">
               <h5 class="mb-1">工作名稱 {{ index + 1 }}</h5>
               <h6 class="card-title text-md-start text-secondary"> 評價分數: <span class="text-primary"
@@ -80,7 +80,7 @@
                   v-for="i in 5 - review.stars" :key="i"><i class="fa-regular fa-star"></i></span></h6>
             </div>
           </div>
-          <p class="text-truncate">{{ review.content }}</p>
+          <p class="my-text-truncate">{{ review.content }}</p>
         </div>
       </swiper-slide>
     </swiper>
@@ -142,7 +142,7 @@ const getReview = async () => {
 }
 
 .swiper-slide {
-  text-align: center;
+
 }
 
 .swiper-slide img {
@@ -152,6 +152,12 @@ const getReview = async () => {
   object-fit: cover;
 }
 
+.my-text-truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}
 
 .review-container {
 }

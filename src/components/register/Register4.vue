@@ -2,7 +2,7 @@
     <div class="text-center">
         <p class="title">設定登入帳號</p>
         <div class="register-icon">
-            <img src="@images/icon-progress1.png" width="100px">
+            <img src="@icons/icon-progress1.png" width="100px">
         </div>
         <br>
         <p style="color: black;">請輸入使用者名稱及密碼</p>
@@ -24,7 +24,7 @@
         <hr>
         <div class="google-btn">
             <button @click="gotGoogleLoginPage" class="btn btn-outline-dark" type="submit"><img
-                    src="@images/icon-google.png" width="25px">&nbsp;透過Google帳號登入</button>
+                    src="@icons/icon-google.png" width="25px">&nbsp;透過Google帳號登入</button>
         </div>
     </div>
 </template>

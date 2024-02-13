@@ -33,7 +33,7 @@
                         <hr>
                         <div class="my-2">
                             <span class="text-muted me-3 fa fa-star" v-if="true"> 打工換宿達人</span>
-                            <span class="text-muted  me-3 fa fa-solid fa-address-card" v-if="true"> 身分已驗證</span>
+                            <span class="text-muted  me-3 fa fa-solid fa-address-card" v-if="userDetail.email"> 身分已驗證</span>
                             <span class="text-primary me-3 fa fa-solid fa-medal" v-if="true"> 超讚房東</span>
                         </div>
                         <div class="d-flex justify-content-between text-center py-1">

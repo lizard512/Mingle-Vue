@@ -48,21 +48,21 @@
                   <div class="col">
                     <input type="radio" class="btn-check" name="fkWorkType" id="page1radio1" autocomplete="off">
                     <label class="btn btn-outline-primary cusbtn" for="page1radio1">
-                      <img src="@images/icon-人力.png">人力 </label>
+                      <img src="@icons/icon-人力.png">人力 </label>
                   </div>
                 </div>
                 <div class="col-md-4" style="">
                   <div class="col">
                     <input type="radio" class="btn-check" name="fkWorkType" id="page1radio2" autocomplete="off">
                     <label class="btn btn-outline-primary cusbtn" for="page1radio2">
-                      <img src="@images/icon-旅店.png">旅店</label>
+                      <img src="@icons/icon-旅店.png">旅店</label>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="col">
                     <input type="radio" class="btn-check" name="fkWorkType" id="page1radio3" autocomplete="off">
                     <label class="btn btn-outline-primary cusbtn" for="page1radio3">
-                      <img src="@images/icon-活動.png">活動</label>
+                      <img src="@icons/icon-活動.png">活動</label>
                   </div>
                 </div>
               </div>
@@ -71,21 +71,21 @@
                   <div class="col">
                     <input type="radio" class="btn-check" name="fkWorkType" id="page1radio4" autocomplete="off">
                     <label class="btn btn-outline-primary cusbtn" for="page1radio4">
-                      <img src="@images/icon-銷售.png">銷售</label>
+                      <img src="@icons/icon-銷售.png">銷售</label>
                   </div>
                 </div>
                 <div class="col-md-4" style="">
                   <div class="col">
                     <input type="radio" class="btn-check" name="fkWorkType" id="page1radio5" autocomplete="off">
                     <label class="btn btn-outline-primary cusbtn" for="page1radio5">
-                      <img src="@images/icon-辦公.png">辦公</label>
+                      <img src="@icons/icon-辦公.png">辦公</label>
                   </div>
                 </div>
                 <div class="col-md-4" style="">
                   <div class="col">
                     <input type="radio" class="btn-check" name="fkWorkType" id="page1radio6" autocomplete="off">
                     <label class="btn btn-outline-primary cusbtn" for="page1radio6">
-                      <img src="@images/icon-餐飲.png">餐飲</label>
+                      <img src="@icons/icon-餐飲.png">餐飲</label>
                   </div>
                 </div>
               </div>
@@ -94,14 +94,14 @@
                   <div class="col">
                     <input type="radio" class="btn-check" name="fkWorkType" id="page1radio8" autocomplete="off">
                     <label class="btn cusbtn" for="page1radio8">
-                      <img src="@images/icon-補教.png">補教</label>
+                      <img src="@icons/icon-補教.png">補教</label>
                   </div>
                 </div>
                 <div class="col-md-4" style="">
                   <div class="col">
                     <input type="radio" class="btn-check" name="fkWorkType" id="page1radio7" autocomplete="off">
                     <label class="btn btn-outline-primary cusbtn" for="page1radio7">
-                      <img src="@images/icon-其他.png">其他</label>
+                      <img src="@icons/icon-其他.png">其他</label>
                   </div>
                 </div>
                 <div class="col" style="">

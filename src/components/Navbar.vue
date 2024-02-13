@@ -4,7 +4,7 @@
         <nav class="navbar navbar-expand-xxl navbar-light py-0 px-4">
             <RouterLink to="/" class="navbar-brand d-flex align-items-center text-center">
                 <div class="icon p-2 me-2">
-                    <img class="img-fluid" src="@images/icon-mingle-bold.png" alt="Icon" style="width: 30px; height: 27px;">
+                    <img class="img-fluid" src="@icons/icon-mingle-bold.png" alt="Icon" style="width: 30px; height: 27px;">
                 </div>
                 <h1 class="m-0 link-secondary">Mingle 打工換宿平台</h1>
             </RouterLink>
@@ -37,7 +37,7 @@
                     </RouterLink>
                     <template v-if="isLoggedIn">
                         <div v-if="isLandlord" class="nav-item dropdown">
-                            <RouterLink class=" btn btn-secondary px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
+                            <RouterLink class=" btn btn-secondary px-3 m-2 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="#">房東中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" to="/houseMaintain"><i
@@ -61,11 +61,12 @@
                             成為提供者
                         </RouterLink>
                         <div class="nav-item dropdown">
-                            <RouterLink class="btn btn-dark m-3 dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" to="#">
+                            <RouterLink class="btn btn-dark m-2 dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" to="#">
                                 <div v-if="user" class="">
-                                    <img src="@images/user/woman.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                                    <img :src="user.photoBase64" alt="" width="32" height="32" class="rounded-circle me-2">
                                     <strong>{{ user.name }}</strong>
                                 </div>
+                                <span v-else>會員中心</span>
                             </RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i
@@ -165,7 +166,7 @@ watchEffect(() => {
 const loadUserData = async () => {
     try {
         const userID = localStorage.getItem('userID');
-        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/${userID}`);
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/Base64/${userID}`);
         user.value = response.data;
     } catch (error) {
         console.error('Failed to fetch user data:', error);
