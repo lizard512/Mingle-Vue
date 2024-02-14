@@ -16,7 +16,7 @@
         <div class="col-9">
             <Account1 v-show="isShowAccount" :userdetails="userdetails"></Account1>
             <introduction v-show="isShowIntroduction" :userdetails="userdetails"></introduction>
-            <LikeWork v-show="isShowLikeWork"></LikeWork>
+            <!-- <LikeWork v-show="isShowLikeWork"></LikeWork> -->
             <FinshWork v-show="isShowFinshWork"></FinshWork>
             <!-- <test :userdetails="userdetails"></test> -->
         </div>
@@ -28,8 +28,8 @@
 <script setup >
 import ANavbar from './AccountLeftNavBar.vue';
 import Account1 from './Account1.vue';
-import LikeWork from './Account2.vue';
-import FinshWork from './Account3.vue';
+import FinshWork from './Account2.vue';
+import LikeWork from './Account3.vue';
 import Introduction from './Account4.vue';
 import test from './test.vue'
 import { onMounted, reactive, ref } from 'vue';
@@ -41,8 +41,8 @@ const isShowIntroduction = ref(false);
 const clickHandler = showVeiw => {
     closeShow();
     if (showVeiw === 1) { isShowAccount.value = true }
-    else if (showVeiw === 2) { isShowLikeWork.value = true }
-    else if (showVeiw === 3) { isShowFinshWork.value = true }
+    else if (showVeiw === 2) { isShowFinshWork.value = true }
+    else if (showVeiw === 3) { isShowLikeWork.value = true }
     else if (showVeiw === 4) { isShowIntroduction.value = true }
     else console.log("error", showVeiw)
 }
@@ -57,42 +57,32 @@ const closeShow = () => {
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router'
+
 const user = ref({})
 const userdetails = ref({})
 const getuserid =
     () => {
         const id = localStorage.getItem('userID');
-        if (id === null || id === undefined || id === "") {
-            Swal.fire({
-                icon: 'warning',
-                text: '請先登入才能使用會員管理',
-                confirmButtonText: '好的',
-            });
-            const router = useRouter();
-            router.push({
-                name: "Login",
-            });
-            return;
-        }
         return id;
     }
 const loaduserDetail = async () => {
     const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/Base64/` + getuserid());
-    // Object.assign(userdetails, response.data);
-    userdetails.value = response.data
-    console.log(userdetails)
-    // if (userdetails.isDeleted) {
-    //     Swal.fire({
-    //         icon: 'warning',
-    //         text: '此帳號已被停權，重新登入或註冊會員',
-    //         confirmButtonText: '好的',
-    //     });
-    //     const router = useRouter();
-    //     router.push({
-    //         name: "Login",
-    //     });
-    //     return;
-    // }
+    console.log(response.data)
+    if (!response.data) {
+        Swal.fire({
+            icon: 'warning',
+            text: '此帳號已被刪除，重新登入或註冊新會員',
+            confirmButtonText: '好的',
+        });
+        const router = useRouter();
+        await router.push({
+            name: "Login",
+        });
+    } else {
+        // Object.assign(userdetails, response.data);
+        userdetails.value = response.data
+        console.log(userdetails)
+    }
 }
 onMounted(async () => {
     await loaduserDetail();

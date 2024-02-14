@@ -1,117 +1,235 @@
-
 <template>
-    <div class="my-5 animate__animated animate__rollIn animate__slow">
-        <div class="row align-items-start">
-            <h3 class="col-1" />
-            <h3 class="col-6">歡迎回來 </h3>
-            <h3 class="col-3"> {{ userdetails.name }}</h3>
-        </div>
-        <br><br>
-        <!-- 表單開始 -->
-        <form ref="form" class="needs-validation container-xxl" novalidate @submit.prevent="submitForm">
-            <div class="container">
-                <!-- 大頭貼上傳和預覽 -->
-                <div class="col-6 float-end">
-                    <a href="#" class="btn">
-                        <label for="formFile" class="form-label">點我上傳大頭貼<br></label>
-                        <img v-if="image" :src="image" width=300 alt="@images/user-3.jpg"
-                            class="img-fluid rounded float-end rounded-circle img1" for="formFile">
-                    </a>
-                    <input type="file" class="imagefile" id="formFile" @change="fileSelected">
+    <body class="bg-body-tertiary py-3">
+
+        <div class="container-fluid">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-body py-3">
+                    <form class="row row-cols-sm-auto g-3 align-items-center">
+                        <div class="col-12">
+                            <div class="row">
+                                <label for="username" class="col-sm-auto col-form-label">房客名稱</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="username" name="username">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <label for="phone" class="col-sm-auto col-form-label">電話</label>
+                                <div class="col">
+                                    <input type="email" class="form-control" id="phone" name="phone">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <label for="beginTime" class="col-sm-auto col-form-label">創建時間</label>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <input type="text" readonly class="form-control" aria-label="q" placeholder="開始時間"
+                                            name="beginTime" id="beginTime">
+                                        <span class="input-group-text"><i class="bi bi-arrow-left-right"></i></span>
+                                        <input type="text" readonly class="form-control" aria-label="q" placeholder="結束時間"
+                                            name="endTime" id="endTime">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <label for="status" class="col-sm-auto col-form-label ">訂單狀態</label>
+                                <div class="col">
+                                    <select class="selectpicker form-select">
+                                        <option value="0">所有</option>
+                                        <option value="1">正常</option>
+                                        <option value="2">停用</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 gap-2">
+
+                            <button type="button" class="btn btn-light bsa-querySearch-btn">
+                                <i class="bi bi-search"></i>查詢
+                            </button>
+                            <button type="button" class="btn btn-light bsa-reset-btn">
+                                <i class="bi bi-arrow-clockwise"></i>重置
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-3">
-                    <!-- 使用者設定名稱 -->
-                    <div class="row mb-3">
-                        <label for="validationCustomUsername" class="col-4 mb-4 col-form-label">暱稱</label>
-                        <div class="col-8"><input type="text" class="form-control" id="validationCustomUsername"
-                                placeholder="取一個響亮的名稱吧" aria-describedby="inputGroupPrepend" required>
-                            <div class="invalid-feedback ">
-                                請輸入名稱
-                            </div>
-                        </div>
-                    </div>
-                    <!-- email並驗證 -->
-                    <div class="row mb-3 position-relative">
-                        <label for="validationCustom02" class="col-4 mb-4 form-label">Email</label>
-                        <div class="col-8">
-                            <input type="email" class="form-control" id="validationCustom02"
-                                placeholder="your@example.email.com" required>
-                            <div class="valid-feedback">
-                                驗證成功!
-                            </div>
-                            <div class="invalid-feedback">
-                                請輸入 email並驗證
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 手機號碼(驗證) -->
-                    <div class="row mb-3">
-                        <label for="validationCustom05" class="col-sm-4 mb-4 col-form-label">手機號碼</label>
-                        <div class="col-sm-8">
-                            <input type="phone" class="form-control" id="validationCustom05" placeholder="0912345678"
-                                maxlength="20" required>
-                            <div class="invalid-feedback">
-                                請輸入手機號碼
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 性別 -->
-                    <div class="row mb-3">
-                        <label for="" class="col-sm-4 mb-4 col-form-label">性別</label>
-                        <div class="col-sm-8">
-                            <input type="radio" class="" name="gender" value="Male" v-model="userdetails.gender" required>男
-                            <input type="radio" class="" name="gender" value="Female" v-model="userdetails.gender">女
-                            <input type="radio" class="" name="gender" value="Other" v-model="userdetails.gender">保密(其他)
-                            <div class="invalid-feedback">請點選性別</div>
-                        </div>
-                    </div>
-                    <!-- 出生日期 -->
-                    <div class="row mb-3">
-                        <label for="colFormLabel" class="col-sm-3 mb-4 col-form-label">生日</label>
-                        <div class="col-sm-3 d-flex flex-wrap">
-                            <select class="form-select" id="" required>
-                                <option value="">日</option>
-                                <option v-for="i in 31" :key="i">{{ i }}日</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                請選取日期
-                            </div>
-                        </div>
-                        <div class="col-sm-3 d-flex flex-wrap">
-                            <select class="form-select" id="" required>
-                                <option value="">月</option>
-                                <option v-for="i in 12" :key="i">{{ i }}月</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                請選取月份
-                            </div>
-                        </div>
-                        <div class="col-sm-3 d-flex flex-wrap">
-                            <select class="form-select" id="" required>
-                                <option value="">年</option>
-                                <option v-for="i in 300" :key="i">{{ i + 1911 }}年</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                請選取年份
-                            </div>
-                        </div>
-                    </div>
+                <div class="card-body">
+                    <!--  訂單資料表格    -->
+                    <table id="table" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width: 8rem">訂單編號</th>
+                                <th>房客ID</th>
+                                <th>工作名稱</th>
+                                <th>房源名稱</th>
+                                <th>備註</th>
+                                <th>特殊需求</th>
+                                <th>開始時間</th>
+                                <th>結束時間</th>
+                                <th>下單時間</th>
+                                <th>狀態</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="singleOrder in order" :key="singleOrder.order.orderid">
+                                <td>{{ singleOrder.order.orderid }}</td>
+                                <td>{{ singleOrder.order.userid }}</td>
+                                <td>{{ singleOrder.workName }}</td>
+                                <td>{{ singleOrder.houseName }}</td>
+                                <td>{{ singleOrder.order.notes }}</td>
+                                <td>{{ singleOrder.order.needs }}</td>
+                                <td>{{ singleOrder.formatStartDate }}</td>
+                                <td>{{ singleOrder.formatEndDate }}</td>
+                                <td>{{ singleOrder.formatCreatedAt }}</td>
+                                <td
+                                    v-html="format(singleOrder.order.isCancelled, singleOrder.order.isRefunded, singleOrder.order.status)">
+                                </td>
+                                <td>
+                                    <button v-if="singleOrder.order.status === '待房東確認'" type="button"
+                                        style="margin-right: 1rem" class="btn btn-success"
+                                        @click="acceptOrder(singleOrder.order.orderid)">付款
+                                    </button>
+                                    <button v-if="singleOrder.order.status === '待房東確認'" type="button" class="btn btn-danger"
+                                        @click="rejectOrder(singleOrder.order.orderid)">拒絕</button>
+
+                                </td>
+                                <!-- Add more cells based on your data structure -->
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <!-- 按鈕 -->
-                <button class="btn btn-lg btn-danger btn-block float-end" type="submit" v-show="isShowToSubmit"
-                    @click="submitChanges">儲存</button>
-                <span class="btn btn-lg btn-primary btn-block float-end" @click="enterimput"
-                    v-show="isShowToChange">變更</span><br><br>
             </div>
-        </form>
-    </div>
+        </div>
+    </body>
 </template>
-
+  
 <script setup>
+import { onMounted, ref } from "vue";
+
+const order = ref({})
+
+onMounted(() => {
+    initAssign();
+});
+
+const getLordID = () => {
+    return { "lordID": localStorage.getItem("lordID") };
+};
+
+const initAssign = async () => {
+    try {
+        const lordID = getLordID().lordID;
+        const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/order/findAllOrder/${lordID}`);
+        const data = await response.json();
+        order.value = data;
+        // console.log(data)
+        // console.log(lordID)
+    } catch (error) {
+        console.error('獲取資料失敗:', error);
+    }
+};
+
+function format(isCancelled, isRefunded, status) {
+    if (isCancelled) {
+        return '<span class="badge text-bg-danger">已取消</span>';
+    } else if (isRefunded) {
+        return '<span class="badge text-bg-danger">已退款</span>';
+    } else if (status === "待房東確認") {
+        return '<span class="badge text-bg-danger">待確認</span>';
+    } else {
+        return '<span class="badge text-bg-success">已確認</span>'
+    }
+}
 
 
-const props = defineProps({
-    userdetails: Object,
-})
+const acceptOrder = async (orderId) => {
+    try {
+        // console.log(orderId)
+        const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/order/acceptOrder/${orderId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        // window.location.reload();
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
+        const updatedOrderWithDetails = await response.json();
+        if (Array.isArray(updatedOrderWithDetails)) {
+            updatedOrderWithDetails.forEach(updatedOrder => {
+                if (updatedOrder && updatedOrder.order) {
+                    updateOrderInArray(updatedOrder);
+                }
+                // console.log(updatedOrderWithDetails)
+            })
+        }
+    } catch (error) {
+        console.error('Error accepting order:', error);
+    }
+};
+
+const rejectOrder = async (orderId) => {
+    try {
+
+        // 發送 fetch 請求以更新訂單狀態
+        const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/order/rejectOrder/${orderId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const updatedOrderWithDetails = await response.json();
+        if (Array.isArray(updatedOrderWithDetails)) {
+            updatedOrderWithDetails.forEach(updatedOrder => {
+                if (updatedOrder && updatedOrder.order) {
+                    updateOrderInArray(updatedOrder);
+                }
+                // console.log(updatedOrderWithDetails)
+            })
+        }
+    } catch (error) {
+        console.error('Error rejecting order:', error);
+    }
+};
+
+function updateOrderInArray(updatedOrder) {
+
+    const index = order.value.findIndex(singleOrder => singleOrder.order.orderid === updatedOrder.order.orderid);
+
+    if (index !== -1) {
+        order.value[index] = updatedOrder;
+    }
+}
 </script>
+<style scoped>
+th {
+    text-align: center;
+}
+
+td {
+    text-align: center;
+}
+
+td>.btn {
+    width: 3.5rem;
+    height: 2rem;
+    font-size: 14px;
+
+}
+</style>
+  

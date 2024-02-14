@@ -47,7 +47,7 @@
                     <div class="col-sm-6"><span>{{ formatDate(props.userdetails.birth) }}</span></div>
                 </div>
                 <!-- 按鈕 -->
-                <span class="btn btn-lg btn-primary btn-block float-end" @click="enterimput">變更</span><br><br>
+                <span class="btn btn-lg btn-primary btn-block float-end" @click="enterToImput">變更</span><br><br>
             </div>
         </div>
 
@@ -181,7 +181,7 @@
 </template>
     
 <script setup>
-import { onMounted, ref, reactive, watch } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 //============從父層傳值============
@@ -189,6 +189,7 @@ import Swal from 'sweetalert2';
 const props = defineProps({
     userdetails: Object,
 })
+
 
 // 格式化日期為"YYYY/MM/DD"
 const formatDate = (dateString) => {
@@ -206,7 +207,7 @@ const changeVeiw = () => {
     isShowToChange.value = !isShowToChange.value;
     isShowToSubmit.value = !isShowToSubmit.value;
 }
-const enterimput = () => {
+const enterToImput = () => {
     changeVeiw();
     findcountry();
     ToBirth();
@@ -276,9 +277,6 @@ const submitChanges = async (event) => {
             changeVeiw();
         }
     }
-    // 阻止表单的默认提交行为
-    // event.preventDefault();
-    // enterimput();  
 }
 
 const submitPhoto = () => {
@@ -300,7 +298,43 @@ const ChangesPassword = () => {
     Swal.fire({
         icon: 'question',
         text: '是否要修改密碼',
-        confirmButtonText: '好的',
+        allowOutsideClick: false,
+        confirmButtonText: "確定",
+        showCancelButton: true,
+        cancelButtonText: "再想想",
+    }).then(function (result) {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "請輸入你的舊密碼",
+                input: "text",
+                inputAttributes: {
+                    autocapitalize: "off"
+                },
+                showCancelButton: true,
+                confirmButtonText: "Look up",
+                showLoaderOnConfirm: true,
+                preConfirm: async (login) => {
+                    try {
+                        const githubUrl = `https://api.github.com/users/${login}`;
+                        const response = await fetch(githubUrl);
+                        if (!response.ok) {
+                            return Swal.showValidationMessage(`${JSON.stringify(await response.json())}`);
+                        }
+                        return response.json();
+                    } catch (error) {
+                        Swal.showValidationMessage(`Request failed: ${error}`);
+                    }
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: `${result.value.login}'s avatar`,
+                        imageUrl: result.value.avatar_url
+                    });
+                }
+            });
+        }
     });
 }
 
@@ -313,13 +347,16 @@ function fileSelected(e) {
     // console.log(e)
     const file = e.target.files.item(0);
     const reader = new FileReader();
-    reader.addEventListener('load', imageLoaded);
-    reader.readAsDataURL(file);
+    //檔案是圖片檔才需要預覽和傳送
+    if (file && file.type.match('image.*')) {
+        reader.addEventListener('load', imageLoaded);
+        reader.readAsDataURL(file);
+        const contentType = file.type;
+        upPhoto.value = contentType.split('/');
+        upPhoto.value[2] = file.size;
+        isShowSubmitPhotoButton.value = true;
+    }
 
-    const contentType = file.type;
-    upPhoto.value = contentType.split('/');
-    upPhoto.value[2] = file.size;
-    isShowSubmitPhotoButton.value = true;
 }
 function imageLoaded(e) {
     // console.log(e.target.result)
@@ -382,10 +419,6 @@ watch(() => props.userdetails.photoBase64, (newValue, oldValue) => {
     }
 });
 
-
-onMounted(async () => {
-    bookStrapValidation();
-});
 </script>
     
 <style scoped>
