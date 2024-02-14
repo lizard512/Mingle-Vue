@@ -284,8 +284,8 @@
                     <!-- description -->
                     <div class="row g-0 mx-3 my-5">
                         <div class="form-floating mx-3 col">
-                            <textarea class="form-control" id="formWorkdescription" placeholder="工作內容"
-                                v-model.trim="workdescription" required></textarea>
+                            <textarea class="form-control workdescription-area" rows="10" id="formWorkdescription"
+                                placeholder="工作內容" v-model.trim="workdescription" required></textarea>
                             <label for="formWorkdescription">工作內容(必填)</label>
                             <div class="invalid-feedback">
                                 請填寫工作內容
@@ -586,7 +586,7 @@ const bindingChangeHouse = [];          // [綁ID]變化
 // 创建一个 ref 变量来存储每个 toggle 的状态
 const toggleStates = ref({});
 const onShelf = ref(true);              // 上架狀態
-const disabledShelf = ref(false)        // 控管是否可上架
+const disabledShelf = ref(false)        // 控管是否「禁用」上架
 
 // 生命週期
 onMounted(async () => {
@@ -629,7 +629,7 @@ async function preEnter(workid) {
 // 進編輯
 async function enterModify(workid) {
     await preEnter(workid);
-    axios.get(`${path}/api/work/modifyWork/show/${workid}`)
+    await axios.get(`${path}/api/work/modifyWork/show/${workid}`)
         .then(function (response) {
             worktype.value = response.data.worktype;
             workname.value = response.data.name;
@@ -770,7 +770,7 @@ function checkAllBinding() {
     let values = Object.values(toggleStates.value);
     // 檢查陣列中的每個值是否都是false
     let allFalse = values.every(value => value === false);
-    if (allFalse) {
+    if (allFalse || !bindingHousesID.value) {
         onShelf.value = false;
         disabledShelf.value = true;
     } else {
@@ -1016,6 +1016,10 @@ function previewWork(workid) {
 .work-period-title {
     color: grey;
     font-size: smaller;
+}
+
+.workdescription-area {
+    height: 100% !important;
 }
 
 .previewPhoto {
