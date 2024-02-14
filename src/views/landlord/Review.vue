@@ -73,38 +73,41 @@
                                 <!-- 上傳圖片 start -->
 
                                 <div class="col-12">
+                                    <div
+                                        class=" m-3 p-3 animate__animated animate__fadeInUp">
                                     <el-upload v-model:file-list="fileList" action="#" list-type="picture-card"
-                                        :auto-upload="false" 
-                                        :limit="6" 
-                                        :on-remove="handleRemove" 
-                                        accept=".jpg,.jpeg,.webp,.png"
-
-                                       multiple drag>
+                                        :auto-upload="false" :on-change="addToTotal" :show-file-list="false"
+                                        accept=".jpg,.jpeg,.webp,.png" multiple drag>
                                         <el-icon>
                                             <Plus />
                                         </el-icon>
-                                        <template #file="{ file }"  >
-                                            <div>
-                                                <img :src="file.url" alt="" class=" el-upload-list__item-thumbnail "  />
-                                                <span class="el-upload-list__item-actions">
-                                                    <span v-if="!disabled" class="el-upload-list__item-delete"
-                                                        @click.stop="handleRemove(file)">
-                                                        <el-icon>
-                                                            <Delete />
-                                                        </el-icon>
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </template>
                                         <template #tip>
                                             <div class="el-upload__tip secondary">
-                                              圖片只允許 .jpg,.jpeg,.webp,.png，最多6張
+                                                圖片只允許 .jpg,.jpeg,.webp,.png，最多6張
                                             </div>
                                         </template>
 
                                     </el-upload>
+                                        <!-- preview -->
+                                        <div class="row">
+                                            <div v-for=" item, index  in  totalList "
+                                                class="col d-flex justify-content-center" :key="index">
+                                                <figcaption class="position-relative">
+                                                    <i class="fa-solid fa-xmark fa-2xl position-absolute xmark"
+                                                        @click="deletePhoto(item, index)"></i>
+                                                    <img :src="item"
+                                                        class=" border-primary rounded previewPhoto animate__animated animate__fadeIn">
+                                                </figcaption>
+                                            </div>
+                                        </div>
+                                    </div>
+
 
                                 </div>
+
+                                <!-- <h4 class="text-center my-5 animate__animated animate__flipInX">上傳圖片</h4> -->
+
+
 
 
                                 <div><button class="btn btn-primary dol-1  col-12"
@@ -129,14 +132,77 @@ import { onMounted, reactive, ref } from 'vue';
 import { Delete, Plus } from '@element-plus/icons-vue'
 
 const disabled = ref(false)
-const fileList = ref([])
-const handleRemove = (file) => {
-    const index = fileList.value.findIndex((f) => f === file);
-    if (index !== -1) {
-        fileList.value.splice(index, 1);
-        console.log(fileList.value);
+
+// const handleRemove = (file) => {
+//     const index = fileList.value.findIndex((f) => f === file);
+//     if (index !== -1) {
+//         fileList.value.splice(index, 1);
+//         console.log(fileList.value);
+//     }
+// };
+
+
+// 工作照片相關
+const totalList = ref([]);              // [總]渲染用
+const fileList = ref([]);               // [傳]上傳
+const idList = ref([]);                 // [ID]舊照片ID
+const deleteList = ref([]);             // [刪]刪除照片ID
+const oldList = ref([]);                // [舊]舊照片(初始賦值，核對index用)
+const newList = ref([]);                // [新]新照片(file)
+
+
+
+// 預覽照片
+async function addToTotal(e) {
+    if (totalList.value.length <= 5) {
+        await totalList.value.push(e.url);
+        // console.log("(增)總", totalList.value);
+        // console.log("(增)舊", oldList.value);
+        await newList.value.push(e.raw);
+        // console.log(newList.value);
+    } else {
+        Swal.mixin({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 3000,
+            padding: 10,
+            width: 310,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+                toast.style.bottom = '120px';
+            }
+        }).fire({
+            icon: "error",
+            title: "照片最多為6張!"
+        })
     }
-};
+}
+// 刪除照片
+function deletePhoto(item, index) {
+    // 判斷是否為舊照片，添加到【刪】
+    const isOldPhoto = oldList.value.includes(item);
+    if (isOldPhoto) {
+        // let oldNoIndex = oldList.value.indexOf(item);    
+        // 上面一行是陷阱，由於oldList都是Base64，假設使用者有一樣的base64，永遠只抓其中第一個。使用者刪哪一張都指向同一個index
+        deleteList.value.push(idList.value[index]);
+        idList.value.splice(index, 1);
+        // console.log("(刪)刪", deleteList.value);
+        // console.log("(刪)id", idList.value);
+    } else {
+        newList.value.splice(item);
+    }
+    // 刪【總】
+    const totalindex = totalList.value.indexOf(item);
+    if (totalindex !== -1) {
+        totalList.value.splice(totalindex, 1);
+        // console.log("(刪)總", totalList.value);
+        // console.log("(刪)刪", deleteList.value);
+    }
+}
+
 
 
 
@@ -206,16 +272,32 @@ const replyCreateDTO = {
 const submitReply = async (item_reviewid) => {
 
     const Reply_API_URL = `${import.meta.env.VITE_APP_API_URL}/review/create/reply`
-    replyCreateDTO.value = {
-        reviewid: item_reviewid,
-        reply: landlordReplies[item_reviewid],
-        replyCreatedAt: new Date(),
-        replyUpdatedAt: new Date()
+
+    const formData = new FormData();
+    for (const file of newList.value) {
+        console.log(file)
+        formData.append('photo', file);
     }
 
+    formData.append('reviewid', item_reviewid);
+    formData.append('reply', landlordReplies[item_reviewid]);
+    formData.append('replyCreatedAt', new Date());
+    formData.append('replyUpdatedAt', new Date());
+    console.log(formData)
+
     const response = await axios.post(
-        Reply_API_URL, replyCreateDTO.value);
+        Reply_API_URL, formData, {
+
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+
+    }
+    );
+
     console.log(response.data)
+
+
     await getReview();
 
 }
@@ -290,4 +372,46 @@ onMounted(async () => {
     height: 178px;
     text-align: center;
 }
+
+
+.previewPhoto {
+    height: 125px;
+    width: 125px;
+    object-fit: contain;
+}
+
+.xmark {
+    top: 14px;
+    right: 7px;
+    z-index: 1000;
+}
+
+figcaption:hover .xmark {
+    transform: rotate(270deg);
+    /* 設置 xmark 的旋轉效果 */
+}
+
+figcaption:hover img {
+    transform: scale(1.1);
+    /* 設置圖片的縮放效果 */
+    transition: transform 0.3s ease;
+    /* 添加過渡效果，使縮放平滑過渡 */
+}
+
+.xmark {
+    transition: transform 0.3s ease;
+    /* 添加過渡效果，使旋轉平滑過渡 */
+}
+
+.photo-container {
+    width: 100%;
+    /* 设置包装容器宽度为 100%，占满表格列 */
+    max-width: 300px;
+    /* 设置包装容器最大宽度，调整根据需求 */
+    margin: auto;
+    /* 水平居中 */
+    overflow: hidden;
+    /* 隐藏溢出的图像部分 */
+}
+
 </style>
