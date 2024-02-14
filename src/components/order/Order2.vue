@@ -480,7 +480,6 @@ const showWorkHouse = async (houseid) => {
 
     const WorkHouse_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/workhouse/` + houseid
     const response = await axios.get(WorkHouse_API_URL)
-    console.log(response.data)
 
     workHouseDetail.value = response.data
 
@@ -563,6 +562,12 @@ const OrderCreate_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/create`;
 
 const goToOrder3 = async () => {
 
+    Swal.fire({
+                    icon: 'success',
+                    text: '完成訂購',
+                    confirmButtonText: '確認',
+                    allowOutsideClick: false,
+                });
 
     // 創建訂單
 
@@ -570,11 +575,12 @@ const goToOrder3 = async () => {
 
     const houseValues = Object.values(housedetails);
 
-    for (const house of houseValues) {
-        console.log(house.houseid)
-        await showWorkHouse(house.houseid);
-        workHouseDetail.value.forEach(async (element) => {
 
+    for (const [key, value] of Object.entries(dataForOrder2.value.selectedRooms)) {
+        await showWorkHouse(key);
+        if(value > 0){
+            
+        workHouseDetail.value.forEach(async (element) => {
             const OrderWorkHouse_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/create/orderworkhouse`;
             if (element.workid == dataForOrder2.value.workid) {
                 orderAndWorkHouse.value = {
@@ -584,19 +590,11 @@ const goToOrder3 = async () => {
                 await axios.post(OrderWorkHouse_API_URL, orderAndWorkHouse.value)
             }
         })
+    }
         
           // 刪除房間容納人數
           const HouseBeds_API_URL = `${import.meta.env.VITE_APP_API_URL}/order/updateBeds`;
-            console.log(dataForOrder2.value.selectedRooms)
-            for (const [key, value] of Object.entries(dataForOrder2.value.selectedRooms)) {
-                console.log(key, value)
-                if (house.houseid == key) {
-                    console.log(key, value)
                     const response = await axios.get(HouseBeds_API_URL, { params: { attendance: value, houseid: key } })
-                    console.log(response.data)
-                }
-            }
-
     };
 
     // 創建住客
