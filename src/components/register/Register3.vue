@@ -2,13 +2,13 @@
     <div class="text-center">
         <p class="title">設定登入密碼</p>
         <div class="register-icon">
-            <img src="@images/icon-progress3.png" width="100px">
+            <img src="@icons/icon-progress3.png" width="100px">
         </div>
         <br>
         <p style="text-align: center; color: black; font-weight: bold; font-size: 20px; margin-top: -20px;">您的帳號為
         </p>
         <div class="account-icon">
-            <img src="@images/icon-account2.png" width="50px">
+            <img src="@icons/icon-account2.png" width="50px">
         </div>
         <p id="accountID" style="text-align: center;">0975813702</p>
         <br>

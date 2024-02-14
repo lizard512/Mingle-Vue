@@ -27,6 +27,7 @@ export default defineConfig({
       // asset
       '@assets': fileURLToPath(new URL('./src/assets', import.meta.url)),
       '@fonts': fileURLToPath(new URL('./src/assets/fonts', import.meta.url)),
+      '@icons': fileURLToPath(new URL('./src/assets/icons', import.meta.url)),
       '@images': fileURLToPath(new URL('./src/assets/images', import.meta.url)),
       '@libs': fileURLToPath(new URL('./src/assets/libs', import.meta.url)),
       '@styles': fileURLToPath(new URL('./src/assets/styles', import.meta.url)),

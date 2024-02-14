@@ -1,21 +1,21 @@
 <template>
-    <div class="container py-5" v-if="user">
+    <div class="container py-5" v-if="userDetail">
         <div class="row">
             <div class="col-lg-4">
                 <div class="card mb-4">
                     <div class="card-body text-center position-relative">
                         <button type="button" class="btn btn-danger position-absolute" style="left: 5%; top: 75px;"
                             @click="showAlert"><i class="fa-solid fa-thumbs-down me-1"></i>超爛房東</button>
-                        <img src="@images/user-2.jpg" alt="user" class="rounded-circle img-fluid" style="width: 150px;">
+                        <img :src="userDetail.photoBase64" alt="user" class="rounded-circle img-fluid" style="width: 150px;">
                         <button type="button" class="btn btn-primary position-absolute" style="right: 5%; top: 75px;"
                             @click="navigateToChatroom"><i class="fa-solid fa-comment-dots me-1"></i>聯絡用戶</button>
-                        <h5 class="my-2">{{ user.name }}</h5>
-                        <span class="text-muted my-2">加入時間：{{ user.createdAt.toString().substring(0, 10) }}</span>
-                        <p class="text-muted my-2">{{ user.introduction }}</p>
+                        <h5 class="my-2">{{ userDetail.name }}</h5>
+                        <span class="text-muted my-2">加入時間：{{ userDetail.createdAt.toString().substring(0, 10) }}</span>
+                        <p class="text-muted my-2">{{ userDetail.introduction }}</p>
                         <div class="row mb-3 mt-3">
                             <div class="col">
                                 <h6 class="text-muted">最後上線時間</h6>
-                                <div class="text-black text-decoration-underline">{{ user.lastLogin }} 小時前</div>
+                                <div class="text-black text-decoration-underline">{{ userDetail.lastLogin }} 小時前</div>
                             </div>
                             <div class="col mx-auto">
                                 <div class="d-flex justify-content-between">
@@ -33,7 +33,7 @@
                         <hr>
                         <div class="my-2">
                             <span class="text-muted me-3 fa fa-star" v-if="true"> 打工換宿達人</span>
-                            <span class="text-muted  me-3 fa fa-solid fa-address-card" v-if="true"> 身分已驗證</span>
+                            <span class="text-muted  me-3 fa fa-solid fa-address-card" v-if="userDetail.email"> 身分已驗證</span>
                             <span class="text-primary me-3 fa fa-solid fa-medal" v-if="true"> 超讚房東</span>
                         </div>
                         <div class="d-flex justify-content-between text-center py-1">
@@ -63,7 +63,7 @@
                                 <p class="mb-0">Gender</p>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{ user.gender }}</p>
+                                <p class="text-muted mb-0">{{ userDetail.gender }}</p>
                             </div>
                         </div>
                         <hr>
@@ -72,7 +72,7 @@
                                 <p class="mb-0">Birth</p>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{ user.birth.toString().substring(0, 10) }}</p>
+                                <p class="text-muted mb-0">{{ userDetail.birth.toString().substring(0, 10) }}</p>
                             </div>
                         </div>
                         <hr>
@@ -81,7 +81,7 @@
                                 <p class="mb-0">Country</p>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{ user.country }}</p>
+                                <p class="text-muted mb-0">{{ userDetail.country }}</p>
                             </div>
                         </div>
                         <hr>
@@ -90,7 +90,7 @@
                                 <p class="mb-0">Background</p>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{ user.background }}</p>
+                                <p class="text-muted mb-0">{{ userDetail.background }}</p>
                             </div>
                         </div>
                         <hr>
@@ -99,7 +99,7 @@
                                 <p class="mb-0">Language</p>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{ user.language }}</p>
+                                <p class="text-muted mb-0">{{ userDetail.language }}</p>
                             </div>
                         </div>
                         <hr>
@@ -108,7 +108,7 @@
                                 <p class="mb-0">Hobby</p>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{ user.hobby }}</p>
+                                <p class="text-muted mb-0">{{ userDetail.hobby }}</p>
                             </div>
                         </div>
                     </div>
@@ -129,25 +129,31 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const userID = route.params.id
+const lordID = localStorage.getItem('lordID');
 const router = useRouter();
-const user = ref(null);
+const userDetail = ref(null);
+const landlordBean = ref(null);
 // const chatStore = useStore()
 
 
 onMounted(async () => {
-    // getUserID();
     await loadUserData();
+    if (lordID) {
+        await axios.get(`${import.meta.env.VITE_APP_API_URL}/landlord/getLandlordById/${lordID}`)
+        .then(response => {
+            landlordBean.value = response.data;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
 });
 
-// const getUserID = () => {
-//         const sessionToken = localStorage.getItem('sessionToken');
-//         userID = String(sessionToken).substring(32, sessionToken.length);
-// }
 
 const loadUserData = async () => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/${userID}`);
-        user.value = response.data;
+    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/Base64/${userID}`)
+        userDetail.value = response.data;
     } catch (error) {
         console.error('Failed to fetch user data:', error);
     }

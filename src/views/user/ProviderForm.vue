@@ -4,7 +4,7 @@
             <div class="col-md-4 d-flex align-items-center">
                 <div class="text-center">
                     <div class="icon">
-                        <img class="img-fluid" src="@images/icon-mingle-bold.png" alt="Icon"
+                        <img class="img-fluid" src="@icons/icon-mingle-bold.png" alt="Icon"
                             style="width: 30px; height: 27px;">
                     </div>
                     <h2>讓其他使用者更了解你！</h2>

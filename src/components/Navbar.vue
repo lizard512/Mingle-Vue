@@ -4,7 +4,7 @@
         <nav class="navbar navbar-expand-xxl navbar-light py-0 px-4">
             <RouterLink to="/" class="navbar-brand d-flex align-items-center text-center">
                 <div class="icon p-2 me-2">
-                    <img class="img-fluid" src="@images/icon-mingle-bold.png" alt="Icon" style="width: 30px; height: 27px;">
+                    <img class="img-fluid" src="@icons/icon-mingle-bold.png" alt="Icon" style="width: 30px; height: 27px;">
                 </div>
                 <h1 class="m-0 link-secondary">Mingle 打工換宿平台</h1>
             </RouterLink>
@@ -37,8 +37,8 @@
                     </RouterLink>
                     <template v-if="isLoggedIn">
                         <div v-if="isLandlord" class="nav-item dropdown">
-                            <RouterLink class=" btn btn-secondary px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown"
-                                to="/lord-center">房東中心</RouterLink>
+                            <RouterLink class=" btn btn-secondary px-3 m-2 dropdown-toggle" data-bs-toggle="dropdown"
+                                to="#">房東中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" to="/houseMaintain"><i
                                         class="fa fa-solid fa-house-laptop"></i>房源管理</RouterLink>
@@ -61,7 +61,12 @@
                             成為提供者
                         </RouterLink>
                         <div class="nav-item dropdown">
-                            <RouterLink class="btn btn-dark px-3 m-3 dropdown-toggle" data-bs-toggle="dropdown" to="#">會員中心
+                            <RouterLink class="btn btn-dark m-2 dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" to="#">
+                                <div v-if="user" class="">
+                                    <img :src="user.photoBase64" alt="" width="32" height="32" class="rounded-circle me-2">
+                                    <strong>{{ user.name }}</strong>
+                                </div>
+                                <span v-else>會員中心</span>
                             </RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i
@@ -76,7 +81,6 @@
                                         class="fa fa-solid fa-user-secret"></i>管理者平台</RouterLink>
                             </div>
                         </div>
-
                     </template>
                     <template v-else>
                         <RouterLink class="btn btn-dark px-3" to="/register/register4">成為幫助者</RouterLink>
@@ -96,7 +100,8 @@
 <script setup>
 
 //// 引用函式庫
-import { ref, onMounted, onBeforeUnmount, watchEffect, computed } from 'vue';
+import { ref, onMounted, onBeforeUnmount, watchEffect, computed, onBeforeUpdate } from 'vue';
+import axios from 'axios';
 import router from '@router/router'
 import { useUserStore } from '@store/userStore-localStorage.js';
 
@@ -105,7 +110,16 @@ import Toggle from '@components/Toggle.vue';
 
 
 //// 生命週期
+onBeforeUpdate(() => {
+    if (localStorage.getItem('userID')) {
+        loadUserData();
+    }
+});
+
 onMounted(() => {
+    if (localStorage.getItem('userID')) {
+        loadUserData();
+    }
     window.addEventListener('scroll', checkSticky);
 });
 
@@ -116,6 +130,7 @@ onBeforeUnmount(() => {
 
 //// 定義變數
 // user登入狀態處理
+const user = ref(null);
 const userStore = useUserStore();
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 const isLandlord = computed(() => userStore.permissions.includes('lord'));
@@ -147,6 +162,17 @@ watchEffect(() => {
 
 
 //// 定義方法
+
+const loadUserData = async () => {
+    try {
+        const userID = localStorage.getItem('userID');
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/Base64/${userID}`);
+        user.value = response.data;
+    } catch (error) {
+        console.error('Failed to fetch user data:', error);
+    }
+}
+
 
 // 清除使用者localStorage資料
 function resetStore() {

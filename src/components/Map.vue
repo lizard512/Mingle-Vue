@@ -7,7 +7,7 @@
         draggable: true,
         clickable: true,
       }" @click="openInfo(location)">
-        <img src="@images/icon-mapIcon.png" alt="Marker Icon" style="width: 30px; height: 30px;">
+        <img src="@icons/icon-mapIcon.png" alt="Marker Icon" style="width: 30px; height: 30px;">
       </CustomMarker>
       <!-- Modal component -->
       <div v-if="showInfo" class="modal-overlay">
