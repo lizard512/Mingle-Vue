@@ -18,7 +18,7 @@
             <introduction v-show="isShowIntroduction" :userdetails="userdetails"></introduction>
             <!-- <LikeWork v-show="isShowLikeWork"></LikeWork> -->
             <FinshWork v-show="isShowFinshWork"></FinshWork>
-            <!-- <test :userdetails="userdetails"></test> -->
+            <test v-show="isShowtest" :userdetails="userdetails"></test>
         </div>
         <!-- index End -->
 
@@ -38,12 +38,15 @@ const isShowAccount = ref(true);
 const isShowLikeWork = ref(false);
 const isShowFinshWork = ref(false);
 const isShowIntroduction = ref(false);
+const isShowtest = ref(false);
+
 const clickHandler = showVeiw => {
     closeShow();
     if (showVeiw === 1) { isShowAccount.value = true }
     else if (showVeiw === 2) { isShowFinshWork.value = true }
     else if (showVeiw === 3) { isShowLikeWork.value = true }
     else if (showVeiw === 4) { isShowIntroduction.value = true }
+    else if (showVeiw === 5) { isShowtest.value = true }
     else console.log("error", showVeiw)
 }
 const closeShow = () => {
