@@ -669,6 +669,8 @@ async function enterModify(workid) {
         // 将每个 house.houseid 作为 key，将初始的绑定状态（true/false）存储到 toggleStates 中
         if (bindingHousesID.value != null) {
             toggleStates.value[house.houseid] = bindingHousesID.value.includes(house.houseid);
+        } else {
+            toggleStates.value[house.houseid] = false;
         }
     })
     checkAllBinding();
@@ -770,7 +772,7 @@ function checkAllBinding() {
     let values = Object.values(toggleStates.value);
     // 檢查陣列中的每個值是否都是false
     let allFalse = values.every(value => value === false);
-    if (allFalse || !bindingHousesID.value) {
+    if (allFalse) {
         onShelf.value = false;
         disabledShelf.value = true;
     } else {

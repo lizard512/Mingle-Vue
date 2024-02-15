@@ -3,24 +3,26 @@
         <div class="row">
             <div class="card col-8">
                 <div class="card-body">
-                    <h5 class="card-title">{{ work.name }}</h5>
-                    <p class="card-text">{{ work.description }}</p>
+                    <h2 class="card-title">{{ work.name }}</h2>
+                    <h4 class="pt-3">工作內容</h4>
+                    <p class="card-text"> {{ work.description }}</p>
                     <p class="card-text">工作類型: {{ work.worktype }}</p>
-                    <p class="card-text">城市: {{ work.city }}</p>
-                    <p class="card-text">地址: {{ work.address }}</p>
-                    <p class="card-text">最小報名天數: {{ work.minPeriod }}</p>
-
+                    <p class="card-text">地址: {{ work.city }}{{ work.address }}</p>
+                    <h4 class="pt-3">報名資訊</h4>
                     <p class="card-text">開始日期: {{ work.startDate }}</p>
                     <p class="card-text">結束日期: {{ work.endDate }}</p>
+                    <p class="card-text">最小報名天數: {{ work.minPeriod }}</p>
                     <p class="card-text">工作時段: {{ work.workTime }}</p>
                     <p class="card-text">打工福利: {{ work.benefits }}</p>
                     <p class="card-text">休假制度: {{ work.vacation }}</p>
+
                     <p class="card-text">年齡限制: {{ work.ageRestriction }}</p>
                     <p class="card-text">性別限制: {{ work.genderRestriction }}</p>
                     <p class="card-text">學歷要求: {{ work.educationRestriction }}</p>
                     <p class="card-text">工作經歷要求: {{ work.experienceRestriction }}</p>
                     <p class="card-text">語言要求: {{ work.languageRestriction }}</p>
                     <p class="card-text">證照要求: {{ work.licenseRestriction }}</p>
+
                     <p class="card-text">備註: {{ work.notes }}</p>
                     <p class="card-text">建立時間: {{ work.createdAt }}</p>
                     <p class="card-text">更新時間: {{ work.updatedAt }}</p>
@@ -50,7 +52,7 @@
                 <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
                 <div class="card mb-4">
                     <div class="card-body text-center position-relative">
-                        <img v-if="userDetail.photoBase64 != undefined" :src="userDetail.photoBase64" alt="user"
+                        <img v-if="userDetail.photoBase64" :src="userDetail.photoBase64" alt="user"
                             class="rounded-circle img-fluid" style="width: 100px;">
                         <img v-else src="@images/ImageNotFound.jpg" alt="user" class="rounded-circle img-fluid"
                             style="width: 100px;">
@@ -130,10 +132,8 @@ const loadWorkData = async () => {
 const loadUserData = async () => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/lordinfo/${work.value.landlordid}`)
-        console.log("response.data", response.data)
         userDetail.value = response.data;
-        // console.log(userDetail.value);
-        // console.log("userDetail.value", userDetail.value);
+        console.log("userDetail.value", userDetail.value);
     } catch (error) {
         console.error('Failed to fetch user data:', error);
     }
