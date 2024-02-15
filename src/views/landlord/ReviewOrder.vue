@@ -34,12 +34,12 @@
                                         </el-upload>
                                         <!-- preview -->
                                         <div class="row">
-                                            <div v-for=" item, index  in  totalList "
+                                            <div v-for=" item, index  in  fileList "
                                                 class="col d-flex justify-content-center" :key="index">
                                                 <figcaption class="position-relative">
                                                     <i class="fa-solid fa-xmark fa-2xl position-absolute xmark"
                                                         @click="deletePhoto(item, index)"></i>
-                                                    <img :src="item"
+                                                    <img :src="item.url"
                                                         class=" border-primary rounded previewPhoto animate__animated animate__fadeIn">
                                                 </figcaption>
                                             </div>
@@ -72,8 +72,16 @@
 
 import axios from 'axios';
 import { onMounted, reactive, ref } from 'vue';
-import {  Plus } from '@element-plus/icons-vue'
-import { useRouter } from 'vue-router';
+import { Plus } from '@element-plus/icons-vue'
+import { useRouter, useRoute } from 'vue-router';
+
+const route = useRoute();
+const orderId = route.query.orderId;
+console.log(orderId);
+
+
+
+
 
 const router = useRouter();
 const goToIndex = () => {
@@ -89,23 +97,15 @@ const star = ref(0)
 const content = ref('')
 
 // 工作照片相關
-const totalList = ref([]);              // [總]渲染用
 const fileList = ref([]);               // [傳]上傳
-const idList = ref([]);                 // [ID]舊照片ID
-const deleteList = ref([]);             // [刪]刪除照片ID
-const oldList = ref([]);                // [舊]舊照片(初始賦值，核對index用)
 const newList = ref([]);                // [新]新照片(file)
 
 
 
 // 預覽照片
 async function addToTotal(e) {
-    if (totalList.value.length <= 5) {
-        await totalList.value.push(e.url);
-        // console.log("(增)總", totalList.value);
-        // console.log("(增)舊", oldList.value);
+    if (fileList.value.length <= 5) {
         await newList.value.push(e.raw);
-        // console.log(newList.value);
     } else {
         Swal.mixin({
             toast: true,
@@ -128,28 +128,9 @@ async function addToTotal(e) {
 }
 // 刪除照片
 function deletePhoto(item, index) {
-    // 判斷是否為舊照片，添加到【刪】
-    const isOldPhoto = oldList.value.includes(item);
-    if (isOldPhoto) {
-        // let oldNoIndex = oldList.value.indexOf(item);    
-        // 上面一行是陷阱，由於oldList都是Base64，假設使用者有一樣的base64，永遠只抓其中第一個。使用者刪哪一張都指向同一個index
-        deleteList.value.push(idList.value[index]);
-        idList.value.splice(index, 1);
-        // console.log("(刪)刪", deleteList.value);
-        // console.log("(刪)id", idList.value);
-    } else {
-        newList.value.splice(item);
-    }
-    // 刪【總】
-    const totalindex = totalList.value.indexOf(item);
-    if (totalindex !== -1) {
-        totalList.value.splice(totalindex, 1);
-        // console.log("(刪)總", totalList.value);
-        // console.log("(刪)刪", deleteList.value);
-    }
+    fileList.value.splice(index, 1);
 }
 
-const photos = ref([])
 
 const review = ref({
     "orderid": 0,
@@ -167,7 +148,7 @@ const submitReply = async () => {
     const Reply_API_URL = `${import.meta.env.VITE_APP_API_URL}/review/create/review`
 
     review.value = {
-        "orderid": 258,
+        "orderid": orderId,
         "content": content.value,
         "stars": star.value,
         "createdAt": new Date().toISOString(),
@@ -185,9 +166,9 @@ const submitReply = async () => {
     console.log(newList.value)
     // 添加每个文件到 formData 中
 
-    for(const file of newList.value){
+    for (const file of newList.value) {
         console.log(file)
-        formData.append('photo',file);
+        formData.append('photo', file);
     }
     formData.append('reviewid', replyresponse.data.reviewid);
     formData.append('replyCreatedAt', new Date());
@@ -213,6 +194,7 @@ const submitReply = async () => {
 
 onMounted(async () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    console.log(orderId)
 })
 
 

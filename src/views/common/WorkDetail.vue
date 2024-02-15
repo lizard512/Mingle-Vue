@@ -1,48 +1,31 @@
 <template>
     <div class="container py-5">
         <div class="row">
-            <div class="col-8">
-                <ul class="nav justify-content-evenly bg-warning">
-                    <li class="nav-item">
-                        <a class="nav-link text-white active" aria-current="page" href="#">施工中</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#">施工中</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#">施工中</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#">施工中</a>
-                    </li>
-                </ul>
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ work.name }}</h5>
-                        <p class="card-text">{{ work.description }}</p>
-                        <p class="card-text">工作類型: {{ work.worktype }}</p>
-                        <p class="card-text">城市: {{ work.city }}</p>
-                        <p class="card-text">地址: {{ work.address }}</p>
-                        <p class="card-text">最小報名天數: {{ work.minPeriod }}</p>
-                        <p class="card-text">已報名人數: {{ work.attendance }}</p>
-                        <p class="card-text">最高招募人數: {{ work.maxAttendance }}</p>
-                        <p class="card-text">開始日期: {{ work.startDate }}</p>
-                        <p class="card-text">結束日期: {{ work.endDate }}</p>
-                        <p class="card-text">工作時段: {{ work.workTime }}</p>
-                        <p class="card-text">打工福利: {{ work.benefits }}</p>
-                        <p class="card-text">休假制度: {{ work.vacation }}</p>
-                        <p class="card-text">年齡限制: {{ work.ageRestriction }}</p>
-                        <p class="card-text">性別限制: {{ work.genderRestriction }}</p>
-                        <p class="card-text">學歷要求: {{ work.educationRestriction }}</p>
-                        <p class="card-text">工作經歷要求: {{ work.experienceRestriction }}</p>
-                        <p class="card-text">語言要求: {{ work.languageRestriction }}</p>
-                        <p class="card-text">證照要求: {{ work.licenseRestriction }}</p>
-                        <p class="card-text">備註: {{ work.notes }}</p>
-                        <p class="card-text">建立時間: {{ work.createdAt }}</p>
-                        <p class="card-text">更新時間: {{ work.updatedAt }}</p>
-                        <p class="card-text">瀏覽量: {{ work.views }}</p>
-                        <p class="card-text">狀態: {{ work.status }}</p>
-                    </div>
+            <div class="card col-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ work.name }}</h5>
+                    <p class="card-text">{{ work.description }}</p>
+                    <p class="card-text">工作類型: {{ work.worktype }}</p>
+                    <p class="card-text">城市: {{ work.city }}</p>
+                    <p class="card-text">地址: {{ work.address }}</p>
+                    <p class="card-text">最小報名天數: {{ work.minPeriod }}</p>
+
+                    <p class="card-text">開始日期: {{ work.startDate }}</p>
+                    <p class="card-text">結束日期: {{ work.endDate }}</p>
+                    <p class="card-text">工作時段: {{ work.workTime }}</p>
+                    <p class="card-text">打工福利: {{ work.benefits }}</p>
+                    <p class="card-text">休假制度: {{ work.vacation }}</p>
+                    <p class="card-text">年齡限制: {{ work.ageRestriction }}</p>
+                    <p class="card-text">性別限制: {{ work.genderRestriction }}</p>
+                    <p class="card-text">學歷要求: {{ work.educationRestriction }}</p>
+                    <p class="card-text">工作經歷要求: {{ work.experienceRestriction }}</p>
+                    <p class="card-text">語言要求: {{ work.languageRestriction }}</p>
+                    <p class="card-text">證照要求: {{ work.licenseRestriction }}</p>
+                    <p class="card-text">備註: {{ work.notes }}</p>
+                    <p class="card-text">建立時間: {{ work.createdAt }}</p>
+                    <p class="card-text">更新時間: {{ work.updatedAt }}</p>
+                    <p class="card-text">瀏覽量: {{ work.views }}</p>
+                    <p class="card-text">狀態: {{ work.status }}</p>
                 </div>
             </div>
             <div class="col-4 text-center">
@@ -65,6 +48,20 @@
                     </swiper>
                 </div>
                 <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
+                <div class="card mb-4">
+                    <div class="card-body text-center position-relative">
+                        <img v-if="userDetail.photoBase64 != undefined" :src="userDetail.photoBase64" alt="user"
+                            class="rounded-circle img-fluid" style="width: 100px;">
+                        <img v-else src="@images/ImageNotFound.jpg" alt="user" class="rounded-circle img-fluid"
+                            style="width: 100px;">
+                        <button type="button" class="btn btn-primary position-absolute" style="right: 5%; top: 75px;"
+                            @click="navigateToChatroom"><i class="fa-solid fa-comment-dots me-1"></i>聯絡用戶</button>
+                        <p class="card-text">已報名人數: {{ work.attendance }} / {{ work.maxAttendance }}</p>
+                        <h5 class="my-2">{{ userDetail.name }}</h5>
+                        <p class="text-muted my-2">{{ userDetail.introduction }}</p>
+                        <hr>
+                    </div>
+                </div>
                 <button class="btn btn-light" @click="apply">報名</button>
             </div>
         </div>
@@ -100,24 +97,58 @@ const userID = localStorage.getItem('userID');
 const workID = route.params.id;
 const router = useRouter();
 const work = ref({});
+const userDetail = ref({});
 
 
 onMounted(async () => {
     window.scrollTo(0, 0);
     await checkIfWorkIsKept(workID);
     await loadWorkData();
+    await loadUserData();
     await increaseViewCount();
 });
-
 
 const loadWorkData = async () => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/work/getWork/${workID}`);
+        console.log(response)
+        // 開始日
+        response.data.startDate = dateFormat(new Date(response.data.startDate));
+        // 結束日
+        response.data.endDate = dateFormat(new Date(response.data.endDate));
+        // 創建日
+        response.data.createdAt = dateFormat(new Date(response.data.createdAt));
+        // 修改日
+        response.data.updatedAt = dateFormat(new Date(response.data.updatedAt));
         work.value = response.data;
+        console.log(work.value)
     } catch (error) {
         console.error('Failed to fetch work data:', error);
     }
 }
+
+const loadUserData = async () => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/lordinfo/${work.value.landlordid}`)
+        console.log("response.data", response.data)
+        userDetail.value = response.data;
+        // console.log(userDetail.value);
+        // console.log("userDetail.value", userDetail.value);
+    } catch (error) {
+        console.error('Failed to fetch user data:', error);
+    }
+}
+
+
+const dateFormat = (date) => {
+    return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
+}
+
+const navigateToChatroom = () => {
+    // chatStore.setExternalID(userID)
+    // chatStore.setExternalName(user.value.name)
+    router.push({ name: "Chatroom", query: { externalID: userDetail.value.userid, externalName: userDetail.value.name } });
+};
 
 const addWorkToKeepList = async () => {
     try {
