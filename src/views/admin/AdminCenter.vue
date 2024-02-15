@@ -154,9 +154,8 @@ onMounted(async () => {
 });
 
 
-
-//// 初始化變數
-const userID = localStorage.getItem('userID');
+//// 宣告變數
+const userID = computed(() => userStore.userID);
 const user = ref({});
 const userStore = useUserStore();
 const router = useRouter();
@@ -168,7 +167,7 @@ const isCollapse = ref(false);
 //// 定義方法
 const loadUserData = async () => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/Base64/${userID}`);
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/Base64/${userID.value}`);
         user.value = response.data;
     } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -185,8 +184,7 @@ const countPendingReview = async () => {
 }
 
 const getUserProfileLink = () => {
-    const userID = localStorage.getItem('userID');
-    return `/user-profile/${userID}`;
+    return `/user-profile/${userID.value}`;
 };
 
 // 清除使用者localStorage資料

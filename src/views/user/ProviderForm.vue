@@ -183,7 +183,7 @@ onMounted(async () => {
     }
 });
 
-//// 初始化變數
+//// 宣告變數
 // user登入狀態
 const userStore = useUserStore();
 const userID = localStorage.getItem('userID');

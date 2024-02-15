@@ -124,6 +124,7 @@ const login = function () {
                 localStorage.setItem('sessionToken', response.data.sessionToken)
                 if (response.data.userID) {
                     localStorage.setItem('userID', response.data.userID);
+                    userStore.login(response.data.userID); // reflect user permission on navbar
                 }
                 if (response.data.lordID) {
                     localStorage.setItem('lordID', response.data.lordID);
@@ -132,7 +133,7 @@ const login = function () {
                 if (response.data.adminPermission) {
                     userStore.addPermission('admin') // reflect admin permission on navbar
                 }
-                userStore.login(); // reflect user permission on navbar
+                
                 if (redirect) {
                     router.push(redirect);
                 } else {

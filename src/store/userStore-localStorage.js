@@ -7,10 +7,12 @@ export const useUserStore = defineStore({
         // 使用者登入狀態
         isLoggedIn: false,
         permissions: [],
+        userID: null,
     }),
     actions: {
-        login() {
+        login(id) {
             this.isLoggedIn = true;
+            this.userID = id;
         },
         addPermission(permission) {
             // 添加用戶身分組

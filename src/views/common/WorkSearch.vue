@@ -156,7 +156,7 @@ const userID = localStorage.getItem('userID');
 const userStore = useUserStore();
 
 
-//// 初始化變數
+//// 宣告變數
 // 使用者狀態
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 // 載入相關

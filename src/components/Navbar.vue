@@ -104,7 +104,7 @@
 <script setup>
 
 //// 引用套件
-import { ref, onMounted, onBeforeUnmount, watchEffect, computed, onBeforeUpdate } from 'vue';
+import { ref, onMounted, onUnmounted, watchEffect, computed, watch, onBeforeUpdate } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import router from '@router/router'
@@ -115,20 +115,20 @@ import Toggle from '@components/Toggle.vue';
 
 
 //// 生命週期
-onBeforeUpdate(() => {
-    if (localStorage.getItem('userID')) {
-        loadUserData();
-    }
-});
+// onBeforeUpdate(() => {
+//     if (localStorage.getItem('userID')) {
+//         loadUserData();
+//     }
+// });      
 
 onMounted(() => {
-    if (localStorage.getItem('userID')) {
+    if (userID.value) {
         loadUserData();
     }
     window.addEventListener('scroll', checkSticky);
 });
 
-onBeforeUnmount(() => {
+onUnmounted(() => {
     window.removeEventListener('scroll', checkSticky);
 });
 
@@ -137,6 +137,7 @@ onBeforeUnmount(() => {
 // user登入狀態處理
 const user = ref(null);
 const userStore = useUserStore();
+const userID = computed(() => userStore.userID);
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 const isLandlord = computed(() => userStore.permissions.includes('lord'));
 const isAdmin = computed(() => userStore.permissions.includes('admin'));
@@ -165,13 +166,19 @@ watchEffect(() => {
     }
 });
 
+watch(userID, (newVal, oldVal) => {
+    console.log(`userID changed from ${oldVal} to ${newVal}`);
+    if (newVal) {
+        loadUserData();
+    }
+});
+
 
 //// 定義方法
 
 const loadUserData = async () => {
     try {
-        const userID = localStorage.getItem('userID');
-        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/Base64/${userID}`);
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/Base64/${userID.value}`);
         user.value = response.data;
     } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -194,8 +201,7 @@ function resetStore() {
 }
 
 const getUserProfileLink = () => {
-    const userID = localStorage.getItem('userID');
-    return `/user-profile/${userID}`;
+    return `/user-profile/${userID.value}`;
 };
 
 const checkSticky = () => {

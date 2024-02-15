@@ -144,7 +144,7 @@ const props = defineProps({
 });
 
 
-//// 初始化變數
+//// 宣告變數
 const userID = localStorage.getItem('userID');
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 const userStore = useUserStore();

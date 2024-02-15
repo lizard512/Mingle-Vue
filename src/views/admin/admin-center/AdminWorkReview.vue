@@ -68,7 +68,7 @@ onMounted(async () => {
     await loadWork();
 });
 
-//// 初始化變數
+//// 宣告變數
 
 // 載入相關
 let works = ref([]);
