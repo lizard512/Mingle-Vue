@@ -73,7 +73,15 @@
 import axios from 'axios';
 import { onMounted, reactive, ref } from 'vue';
 import {  Plus } from '@element-plus/icons-vue'
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute  } from 'vue-router';
+
+const route = useRoute();
+const orderId = route.query.orderId;
+console.log(orderId);
+
+
+
+
 
 const router = useRouter();
 const goToIndex = () => {
@@ -149,7 +157,6 @@ function deletePhoto(item, index) {
     }
 }
 
-const photos = ref([])
 
 const review = ref({
     "orderid": 0,
@@ -167,7 +174,7 @@ const submitReply = async () => {
     const Reply_API_URL = `${import.meta.env.VITE_APP_API_URL}/review/create/review`
 
     review.value = {
-        "orderid": 258,
+        "orderid": orderId,
         "content": content.value,
         "stars": star.value,
         "createdAt": new Date().toISOString(),
@@ -213,6 +220,7 @@ const submitReply = async () => {
 
 onMounted(async () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    console.log(orderId)
 })
 
 
