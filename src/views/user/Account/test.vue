@@ -45,7 +45,8 @@
                                     </button>
                                     <button v-if="singleOrder.order.status === '待房東確認'" type="button" class="btn btn-danger"
                                         @click="rejectOrder(singleOrder.order.orderid)">拒絕</button>
-                                    <Payment :amount="singleOrder.order.numbers"></Payment>
+                                    <Payment :people="singleOrder.order.numbers" :orderid="singleOrder.order.orderid">
+                                    </Payment>
                                 </td>
                                 <td>
                                     <button v-if=true type="button" style="margin-right: 1rem" class="btn btn-success"
@@ -82,7 +83,7 @@ const initAssign = async () => {
         const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/order/findAllOrder/2`);
         const data = await response.json();
         details.value = data;
-        console.log(details.value[0].order.numbers)
+        console.log(details)
         // console.log(lordID)
     } catch (error) {
         console.error('獲取資料失敗:', error);

@@ -5,13 +5,17 @@
 <script setup>
 import { ref } from 'vue';
 let path = import.meta.env.VITE_APP_API_URL;
-const amount2 = ref(0);
+const amount = ref(0);
+const id = ref('');
 const props = defineProps({
-    amount: Number,
+    people: Number,
+    orderid: Number
 })
 function getPaid() {
-    amount2.value = props.amount * 300;
-    window.location.href = `${path}/ecpayCheckout/${amount2.value}`
+    amount.value = props.people * 300;
+    id.value = props.orderid
+    console.log(amount.value, id.value)
+    window.location.href = `${path}/ecpayCheckout/${amount.value}/${id.value}`
 }
 </script>
     

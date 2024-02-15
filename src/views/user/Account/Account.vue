@@ -64,6 +64,7 @@ import { useRouter } from 'vue-router'
 
 const user = ref({})
 const userdetails = ref({})
+const router = useRouter();
 const getuserid =
     () => {
         const id = localStorage.getItem('userID');
@@ -71,14 +72,12 @@ const getuserid =
     }
 const loaduserDetail = async () => {
     const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/Base64/` + getuserid());
-    console.log(response.data)
     if (!response.data) {
         Swal.fire({
             icon: 'warning',
             text: '此帳號已被刪除，重新登入或註冊新會員',
             confirmButtonText: '好的',
         });
-        const router = useRouter();
         await router.push({
             name: "Login",
         });
