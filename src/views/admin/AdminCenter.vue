@@ -12,7 +12,10 @@
                 <!-- Navbar user info -->
                 <div class="dropdown p-3 navbar-user-info">
                     <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img :src="user.photoBase64" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <img v-if="user.photoBase64" :src="user.photoBase64" alt="" width="32" height="32"
+                                        class="rounded-circle me-2">
+                                    <img v-else src="@images/empty-avatar.png" alt="" width="32" height="32"
+                                        class="rounded-circle me-2">
                         <strong>{{ user.name }}</strong>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
@@ -99,7 +102,10 @@
                     <!-- Sidebar user info -->
                     <div class="dropdown dropup p-3 sidebar-user-info">
                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img :src="user.photoBase64" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <img v-if="user.photoBase64" :src="user.photoBase64" alt="" width="32" height="32"
+                                        class="rounded-circle me-2">
+                                    <img v-else src="@images/empty-avatar.png" alt="" width="32" height="32"
+                                        class="rounded-circle me-2">
                             <strong>{{ user.name }}</strong>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">

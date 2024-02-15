@@ -70,7 +70,6 @@ import { useUserStore } from '@store/userStore-localStorage.js';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.min.css';
 import axios from 'axios';
 import { useRoute } from 'vue-router';
 
@@ -119,7 +118,7 @@ const login = function () {
                 Swal.fire({
                     icon: "success",
                     text: "登入成功",
-                    confirmButtonText: "確認",
+                    confirmButtonText: "OK",
                 })
                 document.cookie = `sessionToken=${response.data.sessionToken}; path=/`;
                 localStorage.setItem('sessionToken', response.data.sessionToken)

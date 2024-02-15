@@ -32,7 +32,6 @@
 <script setup>
 import { createApp, ref } from 'vue';
 import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.min.css';
 import axios from 'axios';
 
 let username = ref('');

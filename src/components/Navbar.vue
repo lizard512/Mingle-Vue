@@ -37,7 +37,8 @@
                     </RouterLink>
                     <template v-if="isLoggedIn">
                         <div v-if="isLandlord" class="nav-item dropdown">
-                            <a href="#" class="btn btn-secondary btn-custom px-3 dropdown-toggle" data-bs-toggle="dropdown">房東中心</a>
+                            <a href="#" class="btn btn-secondary btn-custom px-3 dropdown-toggle"
+                                data-bs-toggle="dropdown">房東中心</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" to="/houseMaintain"><i
                                         class="fa fa-solid fa-house-laptop"></i>房源管理</RouterLink>
@@ -105,6 +106,7 @@
 //// 引用函式庫
 import { ref, onMounted, onBeforeUnmount, watchEffect, computed, onBeforeUpdate } from 'vue';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import router from '@router/router'
 import { useUserStore } from '@store/userStore-localStorage.js';
 
@@ -184,6 +186,11 @@ function resetStore() {
     localStorage.removeItem('sessionToken');
     localStorage.removeItem('userID');
     localStorage.removeItem('lordID');
+    Swal.fire({
+        icon: "success",
+        text: "您已成功登出",
+        confirmButtonText: "OK",
+    })
 }
 
 const getUserProfileLink = () => {
