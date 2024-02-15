@@ -3,36 +3,43 @@
         <div class="row">
             <div class="card col-8">
                 <div class="card-body">
-                    <h2 class="card-title">{{ work.name }}</h2>
-                    <h4 class="pt-3">工作內容</h4>
-                    <p class="card-text"> {{ work.description }}</p>
-                    <p class="card-text">工作類型: {{ work.worktype }}</p>
-                    <p class="card-text">地址: {{ work.city }}{{ work.address }}</p>
-                    <h4 class="pt-3">報名資訊</h4>
-                    <p class="card-text">開始日期: {{ work.startDate }}</p>
-                    <p class="card-text">結束日期: {{ work.endDate }}</p>
-                    <p class="card-text">最小報名天數: {{ work.minPeriod }}</p>
-                    <p class="card-text">工作時段: {{ work.workTime }}</p>
-                    <p class="card-text">打工福利: {{ work.benefits }}</p>
-                    <p class="card-text">休假制度: {{ work.vacation }}</p>
+                    <h2 class="card-title text-center my-4">{{ work.name }}</h2>
+                    <h4 class="mt-4 text-center">工作內容</h4>
+                    <hr class="divider  rounded mb-4">
+                    <p class="card-text my-4">
+                    <p class="fw-bold">工作內容：</p> {{ work.description }}</p>
+                    <p class="card-text"><span class="fw-bold">工作類型：</span> {{ work.worktype }}</p>
+                    <p class="card-text"><span class="fw-bold">地址：</span> {{ work.city }}{{ work.address }}</p>
+                    <p class="card-text"><span class="fw-bold">工作時段：</span> {{ work.workTime }}</p>
+                    <p class="card-text"><span class="fw-bold">打工福利：</span> {{ work.benefits }}</p>
+                    <p class="card-text"><span class="fw-bold">休假制度：</span> {{ work.vacation }}</p>
+                    <h4 class="mt-4 text-center">報名資訊</h4>
+                    <hr class="divider rounded mb-4">
+                    <p class="card-text"><span class="fw-bold">開始日期：</span> {{ work.startDate }}
+                    </p>
+                    <p class="card-text"><span class="fw-bold">結束日期：</span> {{ work.endDate }}</p>
+                    <p class="card-text"><span class="fw-bold">最小報名天數：</span> {{ work.minPeriod }}</p>
+                    <p class="card-text"><span class="fw-bold">已報名人數：</span> {{ work.attendance }} / {{ work.maxAttendance
+                    }}</p>
 
-                    <p class="card-text">年齡限制: {{ work.ageRestriction }}</p>
-                    <p class="card-text">性別限制: {{ work.genderRestriction }}</p>
-                    <p class="card-text">學歷要求: {{ work.educationRestriction }}</p>
-                    <p class="card-text">工作經歷要求: {{ work.experienceRestriction }}</p>
-                    <p class="card-text">語言要求: {{ work.languageRestriction }}</p>
-                    <p class="card-text">證照要求: {{ work.licenseRestriction }}</p>
-
-                    <p class="card-text">備註: {{ work.notes }}</p>
-                    <p class="card-text">建立時間: {{ work.createdAt }}</p>
-                    <p class="card-text">更新時間: {{ work.updatedAt }}</p>
-                    <p class="card-text">瀏覽量: {{ work.views }}</p>
-                    <p class="card-text">狀態: {{ work.status }}</p>
+                    <h4 class="mt-4 text-center">工作要求</h4>
+                    <hr class="divider rounded mb-4">
+                    <p class="card-text"><span class="fw-bold">年齡限制：</span> {{ work.ageRestriction }}</p>
+                    <p class="card-text"><span class="fw-bold">性別限制：</span> {{ work.genderRestriction }}</p>
+                    <p class="card-text"><span class="fw-bold">學歷要求：</span> {{ work.educationRestriction }}</p>
+                    <p class="card-text"><span class="fw-bold">工作經歷要求：</span> {{ work.experienceRestriction }}</p>
+                    <p class="card-text"><span class="fw-bold">語言要求：</span> {{ work.languageRestriction }}</p>
+                    <p class="card-text"><span class="fw-bold">證照要求：</span> {{ work.licenseRestriction }}</p>
+                    <h4 class="mt-4 text-center">其他資訊</h4>
+                    <hr class="divider rounded mb-4">
+                    <p class="card-text"><span class="fw-bold">建立時間：</span> {{ work.createdAt }}</p>
+                    <p class="card-text"><span class="fw-bold">更新時間：</span> {{ work.updatedAt }}</p>
+                    <p class="card-text"><span class="fw-bold">瀏覽量：</span> {{ work.views }}</p>
+                    <p class="card-text"><span class="fw-bold">狀態：</span> {{ work.status }}</p>
                 </div>
             </div>
             <div class="col-4 text-center">
-                <button type="button" class="btn keep-btn" :class="{ 'active': isKept }"
-                    @click.stop.prevent="toggleKeepWork"><i class="fa-brands fa-gratipay"></i></button>
+
                 <div v-if="work.photosBase64 && work.photosBase64.length" style="max-heightht: 400px;">
                     <swiper :style="{
                         '--swiper-navigation-color': '#fff',
@@ -51,20 +58,25 @@
                 </div>
                 <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
                 <div class="card mb-4">
-                    <div class="card-body text-center position-relative">
+                    <div class="card-body text-center position-relative lord-info">
                         <img v-if="userDetail.photoBase64" :src="userDetail.photoBase64" alt="user"
                             class="rounded-circle img-fluid" style="width: 100px;">
                         <img v-else src="@images/ImageNotFound.jpg" alt="user" class="rounded-circle img-fluid"
                             style="width: 100px;">
                         <button type="button" class="btn btn-primary position-absolute" style="right: 5%; top: 75px;"
-                            @click="navigateToChatroom"><i class="fa-solid fa-comment-dots me-1"></i>聯絡用戶</button>
-                        <p class="card-text">已報名人數: {{ work.attendance }} / {{ work.maxAttendance }}</p>
+                            @click="navigateToChatroom"><i class="fa-solid fa-comment-dots me-1"></i>聯絡房東</button>
+
                         <h5 class="my-2">{{ userDetail.name }}</h5>
                         <p class="text-muted my-2">{{ userDetail.introduction }}</p>
                         <hr>
                     </div>
                 </div>
-                <button class="btn btn-light" @click="apply">報名</button>
+                <button type="button" class="btn keep-btn me-4" :class="{ 'active': isKept }"
+                    @click.stop.prevent="toggleKeepWork"><i class="fa-brands fa-gratipay"></i></button>
+                <button v-if="work.attendance < work.maxAttendance" class="btn btn-danger" @click="apply"><i
+                        class="fa-solid fa-screwdriver-wrench me-2"></i>報名</button>
+                <button v-else class="btn btn-danger" disabled><i
+                        class="fa-solid fa-screwdriver-wrench me-2"></i>已額滿</button>
             </div>
         </div>
     </div>
@@ -273,5 +285,13 @@ const apply = async () => {
 
 .keep-btn {
     border: 0;
+}
+
+.divider {
+    border: 2px solid
+}
+
+.lord-info {
+    background-color: aliceblue;
 }
 </style>
