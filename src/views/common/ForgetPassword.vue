@@ -43,8 +43,8 @@ const submitForm = async () => {
         console.error('Error sending password reset request:', error);
         Swal.fire({
             icon: 'error',
-            title: 'Error',
-            text: 'An error occurred while processing your request. Please try again later.'
+            title: '錯誤',
+            text: '您可能輸入了錯誤的信箱，請再試一次'
         });
     }
 };
