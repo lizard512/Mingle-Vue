@@ -342,12 +342,12 @@ container-fluid {
 }
 .search-header {
     background-color: var(--light);
-    border-bottom: 2px solid var(--black);
+    box-shadow: 0 8px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
 .search-footer {
     background-color: var(--light);
-    border-top: 2px solid var(--black);
+    box-shadow: 0 -8px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
 .spinner {

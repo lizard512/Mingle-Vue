@@ -65,7 +65,7 @@
                                 <template v-if="user && user.name" class="">
                                     <img v-if="user.photoBase64" :src="user.photoBase64" alt="" width="32" height="32"
                                         class="rounded-circle me-2">
-                                    <img v-else src="@images/grey.jpg" alt="" width="32" height="32"
+                                    <img v-else src="@images/empty-avatar.png" alt="" width="32" height="32"
                                         class="rounded-circle me-2">
                                     <strong>{{ user.name }}</strong>
                                 </template>

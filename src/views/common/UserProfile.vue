@@ -7,8 +7,8 @@
                         <button type="button" class="btn btn-danger position-absolute" style="left: 3%; top: 75px;"
                             @click="showAlert"><i class="fa-solid fa-thumbs-down me-1"></i>超爛房東</button>
                         <img v-if="userDetail.photoBase64" :src="userDetail.photoBase64" alt="user"
-                            class="rounded-circle img-fluid user-photo">
-                        <img v-else src="@images/grey.jpg" alt="user" class="rounded-circle img-fluid user-photo">
+                            class="rounded-circle img-fluid avatar">
+                        <img v-else src="@images/empty-avatar.png" alt="user" class="rounded-circle img-fluid avatar">
                         <button type="button" class="btn btn-primary position-absolute" style="right: 3%; top: 75px;"
                             @click="navigateToChatroom"><i class="fa-solid fa-comment-dots me-1"></i>聯絡用戶</button>
                         <h5 class="my-2">{{ userDetail.name }}</h5>
@@ -34,8 +34,8 @@
                         <hr>
                         <div class="my-2">
                             <span class="text-muted me-3 fa fa-star" v-if="true"> 打工換宿達人</span>
-                            <span class="text-muted  me-3 fa fa-solid fa-address-card" v-if="userDetail.email"> 身分已驗證</span>
-                            <span class="text-primary me-3 fa fa-solid fa-medal" v-if="true"> 超讚房東</span>
+                            <span class="text-muted me-3 fa fa-solid fa-address-card" v-if="userDetail.email"> 身分已驗證</span>
+                            <span class="text-muted me-3 fa fa-solid fa-medal" v-if="true"> 超讚房東</span>
                         </div>
                         <div class="d-flex justify-content-between text-center py-1">
                             <div>
@@ -186,26 +186,28 @@ const loadUserData = async () => {
                 }
             }
 
-            // 檢查 userDetail 的每個屬性是否為 null
-            for (let key in userDetail.value) {
-                if (userDetail.value[key] === null) {
-                    // 如果任何一個屬性為 null，則顯示 Swal
-                    const result = await Swal.fire({
-                        title: '提示',
-                        text: '你好像還有一些會員資料尚未設定，快去輸入吧',
-                        confirmButtonText: '前往更新會員資料',
-                        confirmButtonColor: 'var(--info)',
-                        showCloseButton: true
-                    });
+            // 暫緩，因為 lastLogin, status都可能為NULL
+            //
+            // // 檢查 userDetail 的每個屬性是否為 null
+            // for (let key in userDetail.value) {
+            //     if (userDetail.value[key] === null) {
+            //         // 如果任何一個屬性為 null，則顯示 Swal
+            //         const result = await Swal.fire({
+            //             title: '提示',
+            //             text: '你好像還有一些會員資料尚未設定，快去輸入吧',
+            //             confirmButtonText: '前往更新會員資料',
+            //             confirmButtonColor: 'var(--info)',
+            //             showCloseButton: true
+            //         });
 
-                    if (result.isConfirmed) {
-                        router.push('/account');
-                    }
+            //         if (result.isConfirmed) {
+            //             router.push('/account');
+            //         }
 
-                    // 找到任一 null 屬性，即跳出迴圈
-                    break;
-                }
-            }
+            //         // 找到任一 null 屬性，即跳出迴圈
+            //         break;
+            //     }
+            // }
         }
     } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -226,7 +228,7 @@ const showAlert = () => {
 </script>
 
 <style scoped>
-.user-photo {
+.avatar {
     height: 150px;
     width: 150px;
     object-fit: cover;
