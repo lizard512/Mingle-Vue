@@ -1,7 +1,9 @@
 <template>
     <Navbar v-if="!$route.meta.hideNavbar"></Navbar>
 
-    <RouterView></RouterView>
+    <div class="router-view">
+        <RouterView></RouterView>
+    </div>
 
     <Footer v-if="!$route.meta.hideFooter"></Footer>
 
@@ -51,9 +53,9 @@ import BackToTopButton from '@components/BackToTopButton.vue'
 .btn.btn-secondary {
     color: #FFFFFF;
 } */
-
-
-
-
-
+</style>
+<style scoped>
+.router-view {
+    min-height: 50.5vh;
+}
 </style>

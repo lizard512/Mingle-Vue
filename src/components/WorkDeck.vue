@@ -3,7 +3,7 @@
         '--swiper-navigation-color': '#fff',
         '--swiper-pagination-color': '#fff',
     }" :effect="'cards'" :grabCursor="true" :navigation="true" :modules="modules"
-        :autoplay = "{ delay: autoplayDelay, disableOnInteraction: true }" class="mySwiper">
+        :autoplay="{ delay: autoplayDelay, disableOnInteraction: true }" class="mySwiper">
         <swiper-slide class="list-item overflow-hidden" v-for="work in works" :key="work.workid">
             <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                 <div class="position-relative overflow-hidden">
@@ -13,9 +13,10 @@
                         {{ work.worktype }}</div>
                     <div class="bg-success rounded-top text-white position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
                         {{ work.city }}</div>
-                    <button v-if="isLoggedIn" type="button" class="btn position-absolute end-0 top-0 m-3"
+                    <button v-if="isLoggedIn" type="button"
+                        class="btn rounded-circle keep-btn position-absolute end-0 top-0 m-3"
                         :class="{ 'active': work.kept }" @click.stop.prevent="toggleKeepWork(work.workid, work.kept)"><i
-                            class="fa-brands fa-gratipay"></i></button>
+                            class="fa-solid fa-heart"></i></button>
                 </div>
                 <div class="p-4 pt-3 pb-0">
                     <p class="text-truncate h5">{{ work.name }}</p>
@@ -187,9 +188,9 @@ const toggleKeepWork = (workId, kept) => {
 
 <style scoped>
 .list-item {
-    box-shadow: 0 0 12px rgba(0, 0, 0, .5);
+    border: 2px solid var(--black) !important;
     background-color: var(--white);
-    border-radius: 15px;
+    border-radius: 12px;
 }
 
 .list-item img {
@@ -208,20 +209,33 @@ const toggleKeepWork = (workId, kept) => {
 }
 
 .list-item .border-top {
-    border-top: 1px dashed rgba(0, 185, 142, .3) !important;
+    border-top: 1px solid var(--black) !important;
 }
 
 .list-item .border-end {
-    border-right: 1px dashed rgba(0, 185, 142, .3) !important;
+    border-right: 1px solid var(--black) !important;
 }
 
-.list-item .btn:hover,
-.btn.active {
-    color: var(--danger);
+.list-item .btn .fa-solid {
+    height: 28px;
+    width: 16px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .list-item .btn {
     border: 0;
+    font-size: 1.25rem;
+    background-color: var(--white);
+    border: 1.5px solid var(--black) !important;
+}
+
+.keep-btn:hover,
+.keep-btn.active {
+    color: white;
+    background-color: var(--danger);
 }
 
 .router-link {

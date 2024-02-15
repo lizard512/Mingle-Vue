@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="">
-            <h2>Work Review</h2>
+            <h2>審核工作檢舉</h2>
         </div>
 
         <div>

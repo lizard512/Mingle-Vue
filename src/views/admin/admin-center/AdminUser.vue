@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <h2>Users</h2>
+        <h2>User</h2>
     </div>
 </template>
     
@@ -8,4 +8,4 @@
 
 </script>
     
-<style></style>
+<style scoped></style>

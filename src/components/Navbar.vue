@@ -37,8 +37,8 @@
                     </RouterLink>
                     <template v-if="isLoggedIn">
                         <div v-if="isLandlord" class="nav-item dropdown">
-                            <RouterLink class=" btn btn-secondary px-3 m-2 dropdown-toggle" data-bs-toggle="dropdown"
-                                to="#">房東中心</RouterLink>
+                            <a href="#" class="btn btn-secondary btn-custom px-3 dropdown-toggle"
+                                data-bs-toggle="dropdown">房東中心</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" to="/houseMaintain"><i
                                         class="fa fa-solid fa-house-laptop"></i>房源管理</RouterLink>
@@ -56,18 +56,22 @@
                                 </RouterLink>
                             </div>
                         </div>
-                        <RouterLink v-else class="btn btn-secondary px-3" to="/provider-form">
+                        <RouterLink v-else class="btn btn-secondary btn-custom px-3" to="/provider-form">
                             <!--@click="userStore.addPermission('lord')"-->
                             成為提供者
                         </RouterLink>
                         <div class="nav-item dropdown">
-                            <RouterLink class="btn btn-dark m-2 dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" to="#">
-                                <div v-if="user" class="">
-                                    <img :src="user.photoBase64" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <a href="#" class="btn btn-dark btn-custom m-3 dropdown-toggle d-flex align-items-center"
+                                data-bs-toggle="dropdown">
+                                <template v-if="user && user.name" class="">
+                                    <img v-if="user.photoBase64" :src="user.photoBase64" alt="" width="32" height="32"
+                                        class="rounded-circle me-2">
+                                    <img v-else src="@images/empty-avatar.png" alt="" width="32" height="32"
+                                        class="rounded-circle me-2">
                                     <strong>{{ user.name }}</strong>
-                                </div>
+                                </template>
                                 <span v-else>會員中心</span>
-                            </RouterLink>
+                            </a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i
                                         class="fa fa-solid fa-id-card"></i>個人頁面</RouterLink>
@@ -102,6 +106,7 @@
 //// 引用函式庫
 import { ref, onMounted, onBeforeUnmount, watchEffect, computed, onBeforeUpdate } from 'vue';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import router from '@router/router'
 import { useUserStore } from '@store/userStore-localStorage.js';
 
@@ -145,7 +150,7 @@ watchEffect(() => {
     const htmlTag = document.documentElement;
     if (darkMode.value) {
         htmlTag.setAttribute('data-bs-theme', 'dark');
-        htmlTag.style.setProperty('--primary', '#d29f05');
+        htmlTag.style.setProperty('--primary', '#DAA520');
         htmlTag.style.setProperty('--light', '#0E2E50');
         htmlTag.style.setProperty('--dark', '#EFFDF5');
         htmlTag.style.setProperty('--white', '#000000');
@@ -181,6 +186,11 @@ function resetStore() {
     localStorage.removeItem('sessionToken');
     localStorage.removeItem('userID');
     localStorage.removeItem('lordID');
+    Swal.fire({
+        icon: "success",
+        text: "您已成功登出",
+        confirmButtonText: "OK",
+    })
 }
 
 const getUserProfileLink = () => {
@@ -237,13 +247,13 @@ const checkSticky = () => {
     background-color: var(--primary);
 }
 
+.btn-custom {
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
 .navbar .dropdown-toggle::after {
-    border: none;
-    content: "\f107";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    vertical-align: middle;
-    margin-left: 5px;
     transition: .5s;
 }
 

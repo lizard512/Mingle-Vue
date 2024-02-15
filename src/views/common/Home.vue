@@ -141,9 +141,9 @@ const getReview = async () => {
 
 }
 
-.swiper-slide {
+/* .swiper-slide {
 
-}
+} */
 
 .swiper-slide img {
   display: block;
@@ -159,8 +159,8 @@ const getReview = async () => {
   overflow: hidden;
 }
 
-.review-container {
-}
+/* .review-container {
+} */
 
 .review-swiper {
   margin-top: -25px;

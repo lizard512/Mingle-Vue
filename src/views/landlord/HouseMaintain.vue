@@ -1,6 +1,6 @@
 <template>
   <br>
-  <div class="container-fuild tableDiv" id="app">
+  <div class="container-fluid tableDiv" id="app">
     <div class="position-relative">
       <h3>房源表</h3>
       <RouterLink class="btn btn-warning text-white position-absolute top-0 end-0" to="/providerHouse"><i class="fa fa-plus me-2"></i>新建房源</RouterLink>

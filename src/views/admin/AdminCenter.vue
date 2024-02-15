@@ -1,5 +1,5 @@
 <template>
-    <div class="vh-100">
+    <div class="container-fluid p-0">
         <!-- Navbar Start -->
         <nav class="navbar sticky-top bg-dark py-0 px-4">
             <RouterLink to="/admin-center" class="d-flex align-items-center">
@@ -12,12 +12,16 @@
                 <!-- Navbar user info -->
                 <div class="dropdown p-3 navbar-user-info">
                     <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img :src="user.photoBase64" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <img v-if="user.photoBase64" :src="user.photoBase64" alt="" width="32" height="32"
+                                        class="rounded-circle me-2">
+                                    <img v-else src="@images/empty-avatar.png" alt="" width="32" height="32"
+                                        class="rounded-circle me-2">
                         <strong>{{ user.name }}</strong>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear me-2"></i>設定</a></li>
-                        <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i class="fa-solid fa-id-card me-2"></i>個人頁面</RouterLink>
+                        <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i
+                                class="fa-solid fa-id-card me-2"></i>個人頁面</RouterLink>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -53,33 +57,34 @@
                         <li class="nav-item">
                             <RouterLink class="nav-link" active-class="active" :to="{ name: 'AdminUser' }">
                                 <i class="fa fa-solid fa-users"></i>
-                                <span>Users</span>
+                                <span>User</span>
                             </RouterLink>
                         </li>
                         <li class="nav-item">
                             <RouterLink class="nav-link" active-class="active" :to="{ name: 'AdminWork' }">
                                 <i class="fa fa-solid fa-briefcase"></i>
-                                <span>Works</span>
+                                <span>Work</span>
                             </RouterLink>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <RouterLink class="nav-link" active-class="active" :to="{ name: 'AdminHouse' }">
                                 <i class="fa fa-house"></i>
-                                <span>Houses</span>
-                            </a>
+                                <span>House</span>
+                            </RouterLink>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <RouterLink class="nav-link" active-class="active" :to="{ name: 'AdminOrder' }">
                                 <i class="fa fa-shopping-cart"></i>
-                                <span>Orders</span>
-                            </a>
+                                <span>Order</span>
+                            </RouterLink>
                         </li>
                     </ul>
                     <h6 class="sidebar-heading"><i class="fa fa-solid fa-screwdriver-wrench"></i><span>管理者功能</span>
                     </h6>
                     <ul class="nav flex-column mb-2">
                         <li class="nav-item">
-                            <RouterLink class="nav-link d-flex justify-content-between" active-class="active" :to="{ name: 'AdminWorkReview' }">
+                            <RouterLink class="nav-link d-flex justify-content-between" active-class="active"
+                                :to="{ name: 'AdminWorkReview' }">
                                 <div class="d-flex justify-content-between">
                                     <i class="fa fa-solid fa-check-to-slot"></i><span>審核工作檢舉</span>
                                 </div>
@@ -88,20 +93,25 @@
                             </RouterLink>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fa fa-solid fa-user-shield"></i><span>管理者權限控管</span>
-                            </a>
+                            <RouterLink class="nav-link" active-class="active" :to="{ name: 'AdminPermission' }">
+                                <i class="fa fa-solid fa-user-shield"></i>
+                                <span>管理者權限控管</span>
+                            </RouterLink>
                         </li>
                     </ul>
                     <!-- Sidebar user info -->
                     <div class="dropdown dropup p-3 sidebar-user-info">
                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img :src="user.photoBase64" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <img v-if="user.photoBase64" :src="user.photoBase64" alt="" width="32" height="32"
+                                        class="rounded-circle me-2">
+                                    <img v-else src="@images/empty-avatar.png" alt="" width="32" height="32"
+                                        class="rounded-circle me-2">
                             <strong>{{ user.name }}</strong>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                             <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear me-2"></i>設定</a></li>
-                            <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i class="fa-solid fa-id-card me-2"></i>個人頁面</RouterLink>
+                            <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i
+                                    class="fa-solid fa-id-card me-2"></i>個人頁面</RouterLink>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -116,7 +126,9 @@
                 </nav>
                 <!-- Sidebar End -->
                 <main class="col-xxl-10 col-xl-9 col-md-8 col-10">
-                    <RouterView></RouterView>
+                    <div class="p-5 router-view">
+                        <RouterView class=""></RouterView>
+                    </div>
                 </main>
             </div>
         </div>
@@ -214,6 +226,11 @@ watch(router.currentRoute, async () => {
 </script>
     
 <style scoped>
+.container-fluid {
+    height: 100vh;
+    overflow: hidden;
+}
+
 /*** Icon ***/
 .icon {
     padding: 15px;
@@ -224,8 +241,17 @@ watch(router.currentRoute, async () => {
     border-radius: 50px;
     border: 1px dashed var(--primary);
 }
+
 .navbar {
     height: 75px;
+}
+
+.navbar .dropdown-toggle::after {
+    transition: .5s;
+}
+
+.navbar .dropdown-toggle[aria-expanded=true]::after {
+    transform: rotate(-180deg);
 }
 
 .sidebar {
