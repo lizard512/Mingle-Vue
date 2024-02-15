@@ -25,6 +25,7 @@ import Payment from "@views/user/Payment.vue";
 import LandlordOrderCenter from "@/views/landlord/LandlordOrderCenter.vue";
 import Analyze from "@views/landlord/Analyze.vue";
 import Review from "@views/landlord/Review.vue";
+import ReviewOrder from "@views/landlord/ReviewOrder.vue";
 import HouseMaintain from "@views/landlord/HouseMaintain.vue";
 import WorkMaintain from "@views/landlord/WorkMaintain.vue";
 import ProviderHouse from "@views/landlord/ProviderHouse.vue";
@@ -155,6 +156,12 @@ const routes = [
     path: "/review",
     name: "Review",
     component: Review,
+    meta: { requiresAuth: true, permissions: ['lord'] },
+  },
+  {
+    path: "/reviewOrder",
+    name: "ReviewOrder",
+    component: ReviewOrder,
     meta: { requiresAuth: true, permissions: ['lord'] },
   },
   {

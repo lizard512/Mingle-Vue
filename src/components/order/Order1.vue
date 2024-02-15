@@ -303,7 +303,6 @@
                                         </td>
                                         <td class="align-middle col-md-3">
                                             <div v-for="item in housephotodetail" :key="item" class="photo-container">
-
                                                 <swiper :style="{
                                                     '--swiper-navigation-color': '#fff',
                                                     '--swiper-pagination-color': '#fff',

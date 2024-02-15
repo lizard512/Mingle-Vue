@@ -9,7 +9,7 @@
                     <div class="col-2 text-center">
                         <br>
                         <a href="#">
-                            <img class="card-img" src="/person.png" alt="image" style="width: 80px;">
+                            <img class="card-img" :src="orderDetail[index]?.image" alt="image" style="width: 80px;">
                         </a>
                     </div>
                     <div class="col-3 text-md-start">
@@ -66,30 +66,30 @@
                                 </p>
                             </div>
 
+
                             <div class="input-group col-12" v-if="!item.reply">
                                 <el-input v-model="landlordReplies[item.reviewid]" :autosize="{ minRows: 5, maxRows: 10 }"
                                     type="textarea" placeholder="請輸入" show-word-limit maxlength="500">
                                 </el-input>
                                 <!-- 上傳圖片 start -->
 
-                                <div class="col-12">
-                                    <div
-                                        class=" m-3 p-3 animate__animated animate__fadeInUp">
-                                    <el-upload v-model:file-list="fileList" action="#" list-type="picture-card"
-                                        :auto-upload="false" :on-change="addToTotal" :show-file-list="false"
-                                        accept=".jpg,.jpeg,.webp,.png" multiple drag>
-                                        <el-icon>
-                                            <Plus />
-                                        </el-icon>
-                                        <template #tip>
-                                            <div class="el-upload__tip secondary">
-                                                圖片只允許 .jpg,.jpeg,.webp,.png，最多6張
-                                            </div>
-                                        </template>
+                                <!-- <div class="col-12">
+                                    <div class=" m-3 p-3 animate__animated animate__fadeInUp">
+                                        <el-upload v-model:file-list="fileList" action="#" list-type="picture-card"
+                                            :auto-upload="false" :on-change="addToTotal" :show-file-list="false"
+                                            accept=".jpg,.jpeg,.webp,.png" multiple drag>
+                                            <el-icon>
+                                                <Plus />
+                                            </el-icon>
+                                            <template #tip>
+                                                <div class="el-upload__tip secondary">
+                                                    圖片只允許 .jpg,.jpeg,.webp,.png，最多6張
+                                                </div>
+                                            </template>
 
-                                    </el-upload>
-                                        <!-- preview -->
-                                        <div class="row">
+                                        </el-upload> -->
+                                <!-- preview -->
+                                <!-- <div class="row">
                                             <div v-for=" item, index  in  totalList "
                                                 class="col d-flex justify-content-center" :key="index">
                                                 <figcaption class="position-relative">
@@ -103,7 +103,7 @@
                                     </div>
 
 
-                                </div>
+                                </div> -->
 
                                 <!-- <h4 class="text-center my-5 animate__animated animate__flipInX">上傳圖片</h4> -->
 
@@ -133,84 +133,20 @@ import { Delete, Plus } from '@element-plus/icons-vue'
 
 const disabled = ref(false)
 
-// const handleRemove = (file) => {
-//     const index = fileList.value.findIndex((f) => f === file);
-//     if (index !== -1) {
-//         fileList.value.splice(index, 1);
-//         console.log(fileList.value);
-//     }
-// };
-
-
-// 工作照片相關
-const totalList = ref([]);              // [總]渲染用
-const fileList = ref([]);               // [傳]上傳
-const idList = ref([]);                 // [ID]舊照片ID
-const deleteList = ref([]);             // [刪]刪除照片ID
-const oldList = ref([]);                // [舊]舊照片(初始賦值，核對index用)
-const newList = ref([]);                // [新]新照片(file)
-
-
-
-// 預覽照片
-async function addToTotal(e) {
-    if (totalList.value.length <= 5) {
-        await totalList.value.push(e.url);
-        // console.log("(增)總", totalList.value);
-        // console.log("(增)舊", oldList.value);
-        await newList.value.push(e.raw);
-        // console.log(newList.value);
-    } else {
-        Swal.mixin({
-            toast: true,
-            position: 'bottom-end',
-            showConfirmButton: false,
-            timer: 3000,
-            padding: 10,
-            width: 310,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-                toast.style.bottom = '120px';
-            }
-        }).fire({
-            icon: "error",
-            title: "照片最多為6張!"
-        })
-    }
-}
-// 刪除照片
-function deletePhoto(item, index) {
-    // 判斷是否為舊照片，添加到【刪】
-    const isOldPhoto = oldList.value.includes(item);
-    if (isOldPhoto) {
-        // let oldNoIndex = oldList.value.indexOf(item);    
-        // 上面一行是陷阱，由於oldList都是Base64，假設使用者有一樣的base64，永遠只抓其中第一個。使用者刪哪一張都指向同一個index
-        deleteList.value.push(idList.value[index]);
-        idList.value.splice(index, 1);
-        // console.log("(刪)刪", deleteList.value);
-        // console.log("(刪)id", idList.value);
-    } else {
-        newList.value.splice(item);
-    }
-    // 刪【總】
-    const totalindex = totalList.value.indexOf(item);
-    if (totalindex !== -1) {
-        totalList.value.splice(totalindex, 1);
-        // console.log("(刪)總", totalList.value);
-        // console.log("(刪)刪", deleteList.value);
-    }
-}
-
-
-
 
 const userID = ref('');
 const landlordID = ref('');
 const review = ref([]);
 const orderDetail = ref([]);
 const landlordReplies = reactive({});
+const photos = ref([])
+
+const reply = ref({
+    "reviewid": 0,
+    "reply": "",
+    "replyCreatedAt": new Date().toISOString(),
+    "replyUpdatedAt": new Date().toISOString()
+})
 
 
 //===========取得使用者ID============
@@ -255,17 +191,28 @@ const getOrderDetail = async (review_orderid) => {
         ...response.data
     })
 
+
     return orderDetail.value
 
 }
 
-const replyCreateDTO = {
-    reviewid: 0,
-    reply: '',
-    replyCreatedAt: '',
-    replyUpdatedAt: '',
+// =========取得評價照片============
+// const getReviewPhoto = async (item_reviewid) => {
 
-}
+//     const ReviewPhoto_API_URL = `${import.meta.env.VITE_APP_API_URL}/review/findReviewPhotos`
+//     const response = await axios.get(
+//         ReviewPhoto_API_URL, {
+//         params:
+//             { reviewId: item_reviewid }
+//     });
+
+//     photos.value.push({
+//         ...response.data
+//     })
+
+//     console.log(photos.value)
+//     return photos.value
+// }
 
 // =========送出房東回應request============
 
@@ -273,26 +220,17 @@ const submitReply = async (item_reviewid) => {
 
     const Reply_API_URL = `${import.meta.env.VITE_APP_API_URL}/review/create/reply`
 
-    const formData = new FormData();
-    for (const file of newList.value) {
-        console.log(file)
-        formData.append('photo', file);
+    reply.value = {
+        "reviewid": item_reviewid,
+        "reply": landlordReplies[item_reviewid],
+        "replyCreatedAt": new Date().toISOString(),
+        "replyUpdatedAt": new Date().toISOString()
     }
 
-    formData.append('reviewid', item_reviewid);
-    formData.append('reply', landlordReplies[item_reviewid]);
-    formData.append('replyCreatedAt', new Date());
-    formData.append('replyUpdatedAt', new Date());
-    console.log(formData)
+    console.log(reply.value)
 
     const response = await axios.post(
-        Reply_API_URL, formData, {
-
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-
-    }
+        Reply_API_URL, reply.value
     );
 
     console.log(response.data)
@@ -312,6 +250,7 @@ onMounted(async () => {
     for (const item of review.value) {
         await getOrderDetail(item.orderid);
         landlordReplies[item.reviewid] = ref('');
+        // await getReviewPhoto(item.reviewid)
     }
 })
 
@@ -414,4 +353,26 @@ figcaption:hover img {
     /* 隐藏溢出的图像部分 */
 }
 
+.photo-container {
+    width: 100%;
+    /* 设置包装容器宽度为 100%，占满表格列 */
+    max-width: 400px;
+    /* 设置包装容器最大宽度，调整根据需求 */
+    margin: auto;
+    /* 水平居中 */
+    overflow: hidden;
+    /* 隐藏溢出的图像部分 */
+}
+
+
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide img {
+    display: block;
+    height: 100%;
+    object-fit: contain;
+}
 </style>
