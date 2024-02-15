@@ -45,10 +45,12 @@
                                     </button>
                                     <button v-if="singleOrder.order.status === '待房東確認'" type="button" class="btn btn-danger"
                                         @click="rejectOrder(singleOrder.order.orderid)">拒絕</button>
-
+                                    <Payment :amount="singleOrder.order.numbers"></Payment>
                                 </td>
                                 <td>
-                                    <Payment :details="details.order.numbers"></Payment>
+                                    <button v-if=true type="button" style="margin-right: 1rem" class="btn btn-success"
+                                        @click="toReviewOrder(singleOrder.order.orderid)">評價
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -62,7 +64,9 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import Payment from "../Payment.vue";
+import { useRouter } from 'vue-router';
 const details = ref({})
+
 
 onMounted(() => {
     initAssign();
@@ -78,7 +82,7 @@ const initAssign = async () => {
         const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/order/findAllOrder/2`);
         const data = await response.json();
         details.value = data;
-        console.log(order)
+        console.log(details.value[0].order.numbers)
         // console.log(lordID)
     } catch (error) {
         console.error('獲取資料失敗:', error);
@@ -147,14 +151,21 @@ const rejectOrder = async (orderId) => {
 };
 
 function updateOrderInArray(updatedOrder) {
-
     const index = details.value.findIndex(singleOrder => singleOrder.order.orderid === updatedOrder.order.orderid);
-
     if (index !== -1) {
         details.value[index] = updatedOrder;
-
     }
 }
+
+const router = useRouter();
+const toReviewOrder = async (orderId) => {
+    try {
+        router.push({ name: 'ReviewOrder', query: { orderId: orderId } });
+    } catch (error) {
+        console.error('Failed to apply', error);
+    }
+}
+
 </script>
 <style scoped>
 th {
