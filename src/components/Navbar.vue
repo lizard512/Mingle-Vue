@@ -37,8 +37,7 @@
                     </RouterLink>
                     <template v-if="isLoggedIn">
                         <div v-if="isLandlord" class="nav-item dropdown">
-                            <RouterLink class="btn btn-secondary btn-custom px-3 dropdown-toggle" data-bs-toggle="dropdown"
-                                to="#">房東中心</RouterLink>
+                            <a href="#" class="btn btn-secondary btn-custom px-3 dropdown-toggle" data-bs-toggle="dropdown">房東中心</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" to="/houseMaintain"><i
                                         class="fa fa-solid fa-house-laptop"></i>房源管理</RouterLink>
@@ -61,17 +60,17 @@
                             成為提供者
                         </RouterLink>
                         <div class="nav-item dropdown">
-                            <RouterLink class="btn btn-dark btn-custom m-3 dropdown-toggle d-flex align-items-center"
-                                data-bs-toggle="dropdown" to="#">
-                                <div v-if="user && user.name" class="">
+                            <a href="#" class="btn btn-dark btn-custom m-3 dropdown-toggle d-flex align-items-center"
+                                data-bs-toggle="dropdown">
+                                <template v-if="user && user.name" class="">
                                     <img v-if="user.photoBase64" :src="user.photoBase64" alt="" width="32" height="32"
                                         class="rounded-circle me-2">
                                     <img v-else src="@images/grey.jpg" alt="" width="32" height="32"
                                         class="rounded-circle me-2">
                                     <strong>{{ user.name }}</strong>
-                                </div>
+                                </template>
                                 <span v-else>會員中心</span>
-                            </RouterLink>
+                            </a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i
                                         class="fa fa-solid fa-id-card"></i>個人頁面</RouterLink>
@@ -248,12 +247,6 @@ const checkSticky = () => {
 }
 
 .navbar .dropdown-toggle::after {
-    border: none;
-    content: "\f107";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    vertical-align: middle;
-    margin-left: 5px;
     transition: .5s;
 }
 
@@ -306,4 +299,5 @@ const checkSticky = () => {
         transition: .5s;
         opacity: 1;
     }
-}</style>
+}
+</style>

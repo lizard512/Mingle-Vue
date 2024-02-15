@@ -1,5 +1,5 @@
 <template>
-    <div class="vh-100">
+    <div class="container-fluid p-0">
         <!-- Navbar Start -->
         <nav class="navbar sticky-top bg-dark py-0 px-4">
             <RouterLink to="/admin-center" class="d-flex align-items-center">
@@ -17,7 +17,8 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear me-2"></i>設定</a></li>
-                        <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i class="fa-solid fa-id-card me-2"></i>個人頁面</RouterLink>
+                        <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i
+                                class="fa-solid fa-id-card me-2"></i>個人頁面</RouterLink>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -79,7 +80,8 @@
                     </h6>
                     <ul class="nav flex-column mb-2">
                         <li class="nav-item">
-                            <RouterLink class="nav-link d-flex justify-content-between" active-class="active" :to="{ name: 'AdminWorkReview' }">
+                            <RouterLink class="nav-link d-flex justify-content-between" active-class="active"
+                                :to="{ name: 'AdminWorkReview' }">
                                 <div class="d-flex justify-content-between">
                                     <i class="fa fa-solid fa-check-to-slot"></i><span>審核工作檢舉</span>
                                 </div>
@@ -102,7 +104,8 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                             <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear me-2"></i>設定</a></li>
-                            <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i class="fa-solid fa-id-card me-2"></i>個人頁面</RouterLink>
+                            <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i
+                                    class="fa-solid fa-id-card me-2"></i>個人頁面</RouterLink>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -117,8 +120,8 @@
                 </nav>
                 <!-- Sidebar End -->
                 <main class="col-xxl-10 col-xl-9 col-md-8 col-10">
-                    <div class="p-5">
-                    <RouterView></RouterView>
+                    <div class="p-5 router-view">
+                        <RouterView class=""></RouterView>
                     </div>
                 </main>
             </div>
@@ -217,6 +220,11 @@ watch(router.currentRoute, async () => {
 </script>
     
 <style scoped>
+.container-fluid {
+    height: 100vh;
+    overflow: hidden;
+}
+
 /*** Icon ***/
 .icon {
     padding: 15px;
@@ -227,8 +235,17 @@ watch(router.currentRoute, async () => {
     border-radius: 50px;
     border: 1px dashed var(--primary);
 }
+
 .navbar {
     height: 75px;
+}
+
+.navbar .dropdown-toggle::after {
+    transition: .5s;
+}
+
+.navbar .dropdown-toggle[aria-expanded=true]::after {
+    transform: rotate(-180deg);
 }
 
 .sidebar {

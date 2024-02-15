@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fuild">
+    <div class="container-fluid">
         <h2>管理者權限控管</h2>
         <table class="table">
             <thead>
