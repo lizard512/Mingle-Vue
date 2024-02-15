@@ -117,7 +117,9 @@
                 </nav>
                 <!-- Sidebar End -->
                 <main class="col-xxl-10 col-xl-9 col-md-8 col-10">
+                    <div class="p-5">
                     <RouterView></RouterView>
+                    </div>
                 </main>
             </div>
         </div>

@@ -37,7 +37,7 @@
                     </RouterLink>
                     <template v-if="isLoggedIn">
                         <div v-if="isLandlord" class="nav-item dropdown">
-                            <RouterLink class=" btn btn-secondary px-3 m-2 dropdown-toggle" data-bs-toggle="dropdown"
+                            <RouterLink class="btn btn-secondary btn-custom px-3 dropdown-toggle" data-bs-toggle="dropdown"
                                 to="#">房東中心</RouterLink>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <RouterLink class="dropdown-item" to="/houseMaintain"><i
@@ -56,14 +56,18 @@
                                 </RouterLink>
                             </div>
                         </div>
-                        <RouterLink v-else class="btn btn-secondary px-3" to="/provider-form">
+                        <RouterLink v-else class="btn btn-secondary btn-custom px-3" to="/provider-form">
                             <!--@click="userStore.addPermission('lord')"-->
                             成為提供者
                         </RouterLink>
                         <div class="nav-item dropdown">
-                            <RouterLink class="btn btn-dark m-2 dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" to="#">
-                                <div v-if="user" class="">
-                                    <img :src="user.photoBase64" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <RouterLink class="btn btn-dark btn-custom m-3 dropdown-toggle d-flex align-items-center"
+                                data-bs-toggle="dropdown" to="#">
+                                <div v-if="user && user.name" class="">
+                                    <img v-if="user.photoBase64" :src="user.photoBase64" alt="" width="32" height="32"
+                                        class="rounded-circle me-2">
+                                    <img v-else src="@images/grey.jpg" alt="" width="32" height="32"
+                                        class="rounded-circle me-2">
                                     <strong>{{ user.name }}</strong>
                                 </div>
                                 <span v-else>會員中心</span>
@@ -237,6 +241,12 @@ const checkSticky = () => {
     background-color: var(--primary);
 }
 
+.btn-custom {
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
 .navbar .dropdown-toggle::after {
     border: none;
     content: "\f107";
@@ -296,5 +306,4 @@ const checkSticky = () => {
         transition: .5s;
         opacity: 1;
     }
-}
-</style>
+}</style>

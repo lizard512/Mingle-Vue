@@ -1,14 +1,12 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fuild">
         <h2>管理者權限控管</h2>
-    </div>
-    <div class="table-responsive">
-        <table>
+        <table class="table">
             <thead>
                 <tr>
                     <th>使用者ID</th>
                     <th>使用者名稱</th>
-                    <th>管理員</th>
+                    <th>管理者權限</th>
                 </tr>
             </thead>
             <tbody>
@@ -16,8 +14,13 @@
                     <td>{{ user.userid }}</td>
                     <td>{{ user.username }}</td>
                     <td>
-                        <input type="checkbox" v-model="user.isAdmin" @change="updateUser(user)">
+                        <div class="form-check form-switch">
+                            <input v-model="user.isAdmin" class="form-check-input" type="checkbox"
+                                id="flexSwitchCheck" @change="updateUser(user)">
+                            <label class="form-check-label" for="flexSwitchCheck"></label>
+                        </div>
                     </td>
+
                 </tr>
             </tbody>
         </table>
@@ -28,6 +31,7 @@
 //// 引用函示庫
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
+import { ElTable, ElTableColumn } from 'element-plus';
 
 //// 生命週期
 onMounted(async () => {
@@ -38,11 +42,11 @@ onMounted(async () => {
 const users = ref([]);
 
 //// 定義方法
-const loadUsers = async() => {
+const loadUsers = async () => {
     try {
-        const response  = await axios.get('/api/volunteer/getAllVolunteers') 
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteer/getAllVolunteers`)
         users.value = response.data;
-    }catch (error) {
+    } catch (error) {
         console.error(error);
     }
 };
@@ -53,4 +57,4 @@ const updateUser = (user) => {
 };
 </script>
     
-<style></style>
+<style scoped></style>

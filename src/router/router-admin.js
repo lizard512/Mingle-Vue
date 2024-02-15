@@ -1,12 +1,12 @@
 // 1. 引用子元件
 import AdminCenter from "@views/admin/AdminCenter.vue";
-import AdminHome from '@components/admin/AdminHome.vue';
-import AdminUser from '@components/admin/AdminUser.vue';
-import AdminWork from '@components/admin/AdminWork.vue';
-import AdminHouse from '@components/admin/AdminHouse.vue';
-import AdminOrder from '@components/admin/AdminOrder.vue';
-import AdminWorkReview from '@components/admin/AdminWorkReview.vue';
-import AdminPermission from '@components/admin/AdminPermission.vue';
+import AdminHome from '@views/admin/admin-center/AdminHome.vue';
+import AdminUser from '@views/admin/admin-center/AdminUser.vue';
+import AdminWork from '@views/admin/admin-center/AdminWork.vue';
+import AdminHouse from '@views/admin/admin-center/AdminHouse.vue';
+import AdminOrder from '@views/admin/admin-center/AdminOrder.vue';
+import AdminWorkReview from '@views/admin/admin-center/AdminWorkReview.vue';
+import AdminPermission from '@views/admin/admin-center/AdminPermission.vue';
 
 
 // 2. 匯出子路由

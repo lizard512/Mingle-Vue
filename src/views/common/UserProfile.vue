@@ -1,12 +1,14 @@
 <template>
-    <div class="container py-5" v-if="userDetail">
-        <div class="row">
+    <div class="container py-5">
+        <div class="row" v-if="userDetail">
             <div class="col-lg-4">
                 <div class="card mb-4">
                     <div class="card-body text-center position-relative">
                         <button type="button" class="btn btn-danger position-absolute" style="left: 3%; top: 75px;"
                             @click="showAlert"><i class="fa-solid fa-thumbs-down me-1"></i>超爛房東</button>
-                        <img :src="userDetail.photoBase64" alt="user" class="rounded-circle img-fluid user-photo" style="width: 150px;">
+                        <img v-if="userDetail.photoBase64" :src="userDetail.photoBase64" alt="user"
+                            class="rounded-circle img-fluid user-photo">
+                        <img v-else src="@images/grey.jpg" alt="user" class="rounded-circle img-fluid user-photo">
                         <button type="button" class="btn btn-primary position-absolute" style="right: 3%; top: 75px;"
                             @click="navigateToChatroom"><i class="fa-solid fa-comment-dots me-1"></i>聯絡用戶</button>
                         <h5 class="my-2">{{ userDetail.name }}</h5>
@@ -29,7 +31,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <hr>
                         <div class="my-2">
                             <span class="text-muted me-3 fa fa-star" v-if="true"> 打工換宿達人</span>
@@ -51,8 +52,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
             <div class="col-lg-8">
@@ -72,7 +71,7 @@
                                 <p class="mb-0">Birth</p>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{ userDetail.birth.toString().substring(0, 10) }}</p>
+                                <p class="text-muted mb-0">{{ userDetail.birth?.toString().substring(0, 10) }}</p>
                             </div>
                         </div>
                         <hr>
@@ -115,21 +114,37 @@
                 </div>
             </div>
         </div>
+        <div class="container py-5" v-else>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <h5>這位使用者很懶，好像還沒有設定會員資料</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
-// 引用函式庫
+//// 引用函式庫
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
 import { useRoute } from 'vue-router'
-// 引用 store
+
+//// 引用 store
 // import { useStore } from '@store/chatStore.js'
 
-const route = useRoute()
-const userID = route.params.id
+
+//// 宣告變數
+const userID = localStorage.getItem('userID');
 const lordID = localStorage.getItem('lordID');
+const route = useRoute()
+const routeUserID = route.params.id
 const router = useRouter();
 const userDetail = ref(null);
 const landlordBean = ref(null);
@@ -140,29 +155,67 @@ onMounted(async () => {
     await loadUserData();
     if (lordID) {
         await axios.get(`${import.meta.env.VITE_APP_API_URL}/landlord/getLandlordById/${lordID}`)
-        .then(response => {
-            landlordBean.value = response.data;
-        })
-        .catch(error => {
-            console.log(error);
-        });
+            .then(response => {
+                landlordBean.value = response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 });
 
 
 const loadUserData = async () => {
     try {
-    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/Base64/${userID}`)
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/Base64/${routeUserID}`)
         userDetail.value = response.data;
+
+        // 若使用者尚未設定會員資料，跳出提示視窗
+        if (userID === routeUserID) {
+            if (!userDetail.value || !userDetail.value.name) {
+                const result = await Swal.fire({
+                    title: '提示',
+                    text: '你好像還沒有設定過會員資料，快去輸入吧',
+                    confirmButtonText: '前往更新會員資料',
+                    confirmButtonColor: 'var(--info)',
+                    allowOutsideClick: false,
+                    showCloseButton: true
+                });
+                if (result.isConfirmed) {
+                    router.push('/account');
+                }
+            }
+
+            // 檢查 userDetail 的每個屬性是否為 null
+            for (let key in userDetail.value) {
+                if (userDetail.value[key] === null) {
+                    // 如果任何一個屬性為 null，則顯示 Swal
+                    const result = await Swal.fire({
+                        title: '提示',
+                        text: '你好像還有一些會員資料尚未設定，快去輸入吧',
+                        confirmButtonText: '前往更新會員資料',
+                        confirmButtonColor: 'var(--info)',
+                        showCloseButton: true
+                    });
+
+                    if (result.isConfirmed) {
+                        router.push('/account');
+                    }
+
+                    // 找到任一 null 屬性，即跳出迴圈
+                    break;
+                }
+            }
+        }
     } catch (error) {
         console.error('Failed to fetch user data:', error);
     }
 }
 
 const navigateToChatroom = () => {
-    // chatStore.setExternalID(userID)
+    // chatStore.setExternalID(routeUserID)
     // chatStore.setExternalName(user.value.name)
-    router.push({name: "Chatroom", query: {externalID: userID, externalName: userDetail.value.name}});
+    router.push({ name: "Chatroom", query: { externalID: routeUserID, externalName: userDetail.value.name } });
 };
 
 const showAlert = () => {

@@ -48,7 +48,12 @@
                     <button class="btn btn-primary" @click="autoLogin3">Charlie</button>
                     <button class="btn btn-success" @click="autoLogin4">Diana</button>
                     <button class="btn btn-dark" @click="autoLogin5">Eva</button>
+                </div>
+
+                <div class="autoLogin-btn text-center">
                     <button class="btn btn-light" @click="autoLoginAdmin">Admin</button>
+                    <button class="btn" @click="autoLoginTest">Test</button>
+                    <button class="btn btn-light" @click="autoLoginUser">User</button>
                 </div>
 
                 <!-- <div class="login-btn">
@@ -80,7 +85,7 @@ async function gotGoogleLoginPage() {
 let username = ref('');
 let password = ref('');
 let redirect = route.query.redirect;
-console.log(redirect)
+// console.log(redirect)
 const showPassword = ref(redirect);
 
 const handleEnterKey = () => {
@@ -110,7 +115,7 @@ const login = function () {
     axios.post(`${import.meta.env.VITE_APP_API_URL}/login.controller`, request)
         .then(function (response) {
             if (response.data.success) {
-                console.log(response.data.message);
+                // console.log(response.data.message);
                 Swal.fire({
                     icon: "success",
                     text: "登入成功",
@@ -177,8 +182,18 @@ const autoLogin5 = () => {
     password.value = '19920725';
 }
 const autoLoginAdmin = () => {
-    username.value = 'test';
+    username.value = 'admin';
     password.value = 'P@ssw0rd';
+}
+
+const autoLoginTest = () => {
+    username.value = 'test';
+    password.value = 'testtest';
+}
+
+const autoLoginUser = () => {
+    username.value = 'user';
+    password.value = 'useruser';
 }
 
 </script>

@@ -93,7 +93,7 @@
     <!-- 檢舉視窗 -->
     <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
         <!--  @hidden.bs.modal="resetModal" -->
-        <div class="modal-dialog report-modal">
+        <div class="modal-dialog report-modal modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="reportModalLabel">匿名檢舉"{{ reportedWorkName }}"</h5>
@@ -312,12 +312,6 @@ const submitReport = () => {
     background-color: var(--warning);
 }
 
-.report-modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
 
 .router-link {
     color: inherit;
