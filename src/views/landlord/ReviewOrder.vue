@@ -7,7 +7,7 @@
             <!-- 評價 start-->
             <div>
                 <div class="row justify-content-center">
-                    <div class="col-6">
+                    <div class="col-8">
                         <div class="card-body">
                             <h5 class=" card-title text-md-start text-secondary text-md-center"> 評價分數: </h5>
                                 <el-rate v-model="star" size='large'
