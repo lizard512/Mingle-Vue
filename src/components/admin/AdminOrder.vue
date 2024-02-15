@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <h2>管理者主控台</h2>
+        <h2>Order</h2>
     </div>
 </template>
 

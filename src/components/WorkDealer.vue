@@ -24,7 +24,7 @@
                                     class="fa-solid fa-heart"></i></button>
                             <!-- 檢舉按鈕 -->
                             <button type="button" class="btn rounded-circle report-btn position-absolute end-0 bottom-0 m-3"
-                                @click.stop.prevent="reportWork(work.workid)" data-bs-toggle="modal"
+                                @click.stop.prevent="reportedWorkName = work.name;" data-bs-toggle="modal"
                                 data-bs-target="#reportModal">
                                 <i class="fa-solid fa-flag"></i>
                             </button>
@@ -92,30 +92,36 @@
     </div>
     <!-- 檢舉視窗 -->
     <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+        <!--  @hidden.bs.modal="resetModal" -->
         <div class="modal-dialog report-modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="reportModalLabel">檢舉</h5>
+                    <h5 class="modal-title" id="reportModalLabel">匿名檢舉"{{ reportedWorkName }}"</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="reportType">違規類型</label>
-                        <select id="reportType" v-model="reportType" class="form-control">
-                            <option disabled value="">請選擇違規類型</option>
-                            <option>選項1</option>
-                            <option>選項2</option>
-                        </select>
+                <form @submit.prevent="submitReport">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="reportType">違規類型</label>
+                            <select id="reportType" v-model="reportType" class="form-control" required>
+                                <option disabled value="">請選擇違規類型</option>
+                                <option value="1">此工作令人感到不適或違反善良風俗</option>
+                                <option value="2">重覆刊登／複製他人工作圖文</option>
+                                <option value="3">標題濫用文字誤導搜尋</option>
+                                <option value="4">違反平台政策</option>
+                                <option value="5">其他</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="reportReason">詳細原因</label>
+                            <textarea id="reportReason" v-model="reportReason" class="form-control" required></textarea>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="reportReason">詳細原因</label>
-                        <textarea id="reportReason" v-model="reportReason" class="form-control"></textarea>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                        <button type="submit" class="btn btn-primary">送出</button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-                    <button type="button" class="btn btn-primary" @click="submitReport">送出</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -127,7 +133,7 @@ import { ref, watch, computed } from 'vue';
 import { toast } from 'vue3-toastify';
 import axios from 'axios';
 import { useUserStore } from '@store/userStore-localStorage.js';
-const userStore = useUserStore();
+
 
 //// 生命週期
 
@@ -141,9 +147,11 @@ const props = defineProps({
 //// 初始化變數
 const userID = localStorage.getItem('userID');
 const isLoggedIn = computed(() => userStore.isLoggedIn);
+const userStore = useUserStore();
 // const isKept = ref([]); // 工作清單的收藏狀況
 let isFliping = ref([]);
 let lastFilp = ref(0); // 保存上一次翻開的進度
+const reportedWorkName = ref('');
 const reportType = ref('');
 const reportReason = ref('');
 
@@ -236,11 +244,9 @@ const toggleKeepWork = (workId, kept) => {
 
 
 const submitReport = () => {
-        console.log(reportType.value, reportReason.value);
-        // 關閉視窗
-        var myModal = new bootstrap.Modal(document.getElementById('reportModal'));
-        myModal.hide();
-    }
+    console.log(reportType.value, reportReason.value);
+    toast("已提交檢舉，我們將會盡快審核。<br>恕不另行通知審核結果。", { html: true })
+}
 
 </script>
 
@@ -248,7 +254,7 @@ const submitReport = () => {
 .list-item {
     background-color: rgba(205, 205, 205, 0.3);
     border-radius: 16px;
-    border: 2px solid var(--black) !important;
+    border: 2px solid var(--black);
 }
 
 .list-item:hover {
@@ -310,7 +316,7 @@ const submitReport = () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* 使視窗高度與視口高度相同 */
+    height: 100vh;
 }
 
 .router-link {

@@ -1,7 +1,7 @@
 <template>
-    <div class="container-fluid vh-100">
+    <div class="container-fluid">
         <!--Search Header Start-->
-        <div class="row d-flex align-items-center py-3 pe-2 bg-light-var" :class="{ 'fixed-top': isSticky }">
+        <div class="row d-flex align-items-center py-3 pe-2 search-header" :class="{ 'fixed-top': isSticky }">
             <div class="col-md-5">
                 <div class="row g-2">
                     <div class="col-xxl-6 col-md-0 hide-on-small">
@@ -67,19 +67,23 @@
             </div>
         </div>
         <!--Search Header End-->
+
         <!--Work Cards Start-->
         <WorkDealer :works="works" :isAnimationEnabled="isAnimationEnabled" />
         <!--Work Cards End-->
-        <div v-if="isLoading" class="text-center">
+
+        <!--Spinner Start-->
+        <div v-if="isLoading" class="spinner">
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
+        <!--Spinner End-->
         <div class="the-end text-center m-5" v-if="isEnd">已經到底啦~~</div>
 
         <!-- Sticky Footer Start-->
         <footer
-            class="fixed-bottom text-center mt-auto py-3 bg-light-var animate__animated animate__slideInUp row d-flex align-items-center"
+            class="fixed-bottom text-center mt-auto py-3 search-footer animate__animated animate__slideInUp row d-flex align-items-center"
             data-wow-delay="0.1s">
             <div class="col-md-5 col-6">
                 <div class="row g-4">
@@ -332,10 +336,26 @@ const checkSticky = () => {
 </script>
 
 <style scoped>
-.bg-light-var {
+
+container-fluid {
+    height: cal(100vh-75px);
+}
+.search-header {
     background-color: var(--light);
+    border-bottom: 2px solid var(--black);
 }
 
+.search-footer {
+    background-color: var(--light);
+    border-top: 2px solid var(--black);
+}
+
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
 .btn-group .btn {
     color: var(--dark);
@@ -388,7 +408,7 @@ const checkSticky = () => {
 } */
 
 .the-end {
-    height: 150px
+    height: 100px
 }
 
 .fa {

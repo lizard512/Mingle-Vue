@@ -53,26 +53,26 @@
                         <li class="nav-item">
                             <RouterLink class="nav-link" active-class="active" :to="{ name: 'AdminUser' }">
                                 <i class="fa fa-solid fa-users"></i>
-                                <span>Users</span>
+                                <span>User</span>
                             </RouterLink>
                         </li>
                         <li class="nav-item">
                             <RouterLink class="nav-link" active-class="active" :to="{ name: 'AdminWork' }">
                                 <i class="fa fa-solid fa-briefcase"></i>
-                                <span>Works</span>
+                                <span>Work</span>
                             </RouterLink>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <RouterLink class="nav-link" active-class="active" :to="{ name: 'AdminHouse' }">
                                 <i class="fa fa-house"></i>
-                                <span>Houses</span>
-                            </a>
+                                <span>House</span>
+                            </RouterLink>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <RouterLink class="nav-link" active-class="active" :to="{ name: 'AdminOrder' }">
                                 <i class="fa fa-shopping-cart"></i>
-                                <span>Orders</span>
-                            </a>
+                                <span>Order</span>
+                            </RouterLink>
                         </li>
                     </ul>
                     <h6 class="sidebar-heading"><i class="fa fa-solid fa-screwdriver-wrench"></i><span>管理者功能</span>
@@ -88,9 +88,10 @@
                             </RouterLink>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fa fa-solid fa-user-shield"></i><span>管理者權限控管</span>
-                            </a>
+                            <RouterLink class="nav-link" active-class="active" :to="{ name: 'AdminPermission' }">
+                                <i class="fa fa-solid fa-user-shield"></i>
+                                <span>管理者權限控管</span>
+                            </RouterLink>
                         </li>
                     </ul>
                     <!-- Sidebar user info -->
