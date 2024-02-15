@@ -18,7 +18,7 @@
             <introduction v-show="isShowIntroduction" :userdetails="userdetails"></introduction>
             <!-- <LikeWork v-show="isShowLikeWork"></LikeWork> -->
             <FinshWork v-show="isShowFinshWork"></FinshWork>
-            <test v-show="isShowtest" :userdetails="userdetails"></test>
+            <test v-show="isShowtest"></test>
         </div>
         <!-- index End -->
 
@@ -54,6 +54,7 @@ const closeShow = () => {
     isShowLikeWork.value = false;
     isShowFinshWork.value = false;
     isShowIntroduction.value = false;
+    isShowtest.value = false;
 }
 
 //============查詢會員資料============
