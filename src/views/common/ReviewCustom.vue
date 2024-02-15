@@ -55,39 +55,30 @@
                                 </p>
                             </div>
                             <div class="photo-container">
-                                    <swiper :style="{
-                                        '--swiper-navigation-color': '#fff',
-                                        '--swiper-pagination-color': '#fff',
-                                    }" :centeredSlides="true" :loop="false" :navigation="true"
-                                        :modules="modules" :pagination="{ clickable: true }" class="mySwiper col-md-12" >
-                                        <swiper-slide  v-for="photo in reviewPhoto" :key="photo.id"  v-show="item.reviewid == photo.id"
-                                            >
-                                            <img :src="photo.photo" class="d-block w-100" :alt="item.reviewid"></swiper-slide>
-                                    </swiper>
-                                </div>
+                                <swiper :style="{
+                                    '--swiper-navigation-color': '#fff',
+                                    '--swiper-pagination-color': '#fff',
+                                }" :centeredSlides="true" :loop="false" :navigation="true" :modules="modules"
+                                    :pagination="{ clickable: true }" class="mySwiper col-md-12">
+                                    <swiper-slide v-for="photo in reviewPhoto" :key="photo.id"
+                                        v-show="item.reviewid == photo.id">
+                                        <img :src="photo.photo" class="d-block w-100" :alt="item.reviewid"></swiper-slide>
+                                </swiper>
+                            </div>
 
-
-                            <hr class="my-4">
-                            <!-- 回應訊息 -->
-                            <h6 class=" card-title text-md-start text-secondary">房東回應</h6>
                             <div v-if="item.reply">
-                                <p class="card-text text-md-start">{{ item.reply }}</p>
-                                <p class="card-text  text-align-right">
-                                    <small class="text-muted ">{{ item.replyUpdatedAt.split('T')[0] }}</small>
-                                </p>
+                                <hr class="my-4">
+                                <!-- 回應訊息 -->
+                                <h6 class=" card-title text-md-start text-secondary">房東回應</h6>
+                                <div>
+                                    <p class="card-text text-md-start">{{ item.reply }}</p>
+                                    <p class="card-text  text-align-right">
+                                        <small class="text-muted ">{{ item.replyUpdatedAt.split('T')[0] }}</small>
+                                    </p>
 
+                                </div>
+                                <!-- ---- -->
                             </div>
-
-
-
-                            <div class="input-group col-12" v-if="!item.reply">
-                                <el-input v-model="landlordReplies[item.reviewid]" :autosize="{ minRows: 5, maxRows: 10 }"
-                                    type="textarea" placeholder="請輸入" show-word-limit maxlength="500">
-                                </el-input>
-                                <div><button class="btn btn-primary dol-1  col-12"
-                                        @click="submitReply(item.reviewid)">送出</button></div>
-                            </div>
-                            <!-- ---- -->
                         </div>
                     </div>
                 </div>
@@ -135,18 +126,6 @@ const reply = ref({
 })
 
 
-//===========取得使用者ID============
-const getUserID = () => {
-    const sessionToken = localStorage.getItem('sessionToken');
-    userID.value = String(sessionToken).substring(32, sessionToken.length);
-}
-
-// ==========取得房東id============
-const getLandlord = () => {
-    landlordID.value = localStorage.getItem('lordID');
-
-
-}
 // =========取得房東的評價資訊request============
 
 
@@ -155,7 +134,7 @@ const getReview = async () => {
     const response = await axios.get(
         Review_API_URL, {
         params:
-            { landlordId: landlordID.value }
+            { landlordId: 2 }
     });
     Object.assign(review.value, response.data);
 
@@ -239,8 +218,6 @@ const submitReply = async (item_reviewid) => {
 
 onMounted(async () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    getUserID();
-    getLandlord();
     await getReview();
     for (const item of review.value) {
         await getOrderDetail(item.orderid);
@@ -360,5 +337,4 @@ figcaption:hover img {
     height: 100%;
     object-fit: contain;
 }
-
 </style>

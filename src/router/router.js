@@ -15,6 +15,7 @@ import NotFound from "@views/common/NotFound.vue";
 import ThankYou from "@components/ThankYou.vue";
 import ForgetPassword from "@views/common/ForgetPassword.vue";
 import ResetPassword from "@views/common/ResetPassword.vue";
+import ReviewCustom from "@/views/common/ReviewCustom.vue";
 // user 一般使用者
 import ProviderForm from "@views/user/ProviderForm.vue";
 import Chatroom from "@views/user/Chatroom.vue";
@@ -99,6 +100,11 @@ const routes = [
     component: Map,
   },
   {
+    path: "/reviewCustom",
+    name: "ReviewCustom",
+    component: ReviewCustom,
+  },
+  {
     path: "/forgetpassword",
     name: "ForgetPassword",
     component: ForgetPassword,
@@ -134,6 +140,13 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: "/reviewOrder",
+    name: "ReviewOrder",
+    component: ReviewOrder,
+    meta: { requiresAuth: true, permissions: ['lord'] },
+  },
+
+  {
     path: "/payment",
     name: "Payment",
     component: Payment,
@@ -156,12 +169,6 @@ const routes = [
     path: "/review",
     name: "Review",
     component: Review,
-    meta: { requiresAuth: true, permissions: ['lord'] },
-  },
-  {
-    path: "/reviewOrder",
-    name: "ReviewOrder",
-    component: ReviewOrder,
     meta: { requiresAuth: true, permissions: ['lord'] },
   },
   {

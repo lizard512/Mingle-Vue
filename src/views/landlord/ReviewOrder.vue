@@ -72,7 +72,7 @@
 
 import axios from 'axios';
 import { onMounted, reactive, ref } from 'vue';
-import { Delete, Plus } from '@element-plus/icons-vue'
+import {  Plus } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -182,12 +182,13 @@ const submitReply = async () => {
     const Photo_API_URL = `${import.meta.env.VITE_APP_API_URL}/review/create/review/photo`
 
     const formData = new FormData();
-    for (const file of newList.value) {
+    console.log(newList.value)
+    // 添加每个文件到 formData 中
+
+    for(const file of newList.value){
         console.log(file)
-        formData.append('photo', file);
+        formData.append('photo',file);
     }
-
-
     formData.append('reviewid', replyresponse.data.reviewid);
     formData.append('replyCreatedAt', new Date());
     formData.append('replyUpdatedAt', new Date());
