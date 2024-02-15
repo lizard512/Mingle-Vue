@@ -145,7 +145,7 @@ watchEffect(() => {
     const htmlTag = document.documentElement;
     if (darkMode.value) {
         htmlTag.setAttribute('data-bs-theme', 'dark');
-        htmlTag.style.setProperty('--primary', '#d29f05');
+        htmlTag.style.setProperty('--primary', '#DAA520');
         htmlTag.style.setProperty('--light', '#0E2E50');
         htmlTag.style.setProperty('--dark', '#EFFDF5');
         htmlTag.style.setProperty('--white', '#000000');

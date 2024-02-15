@@ -3,11 +3,11 @@
         <div class="row g-4">
             <div class="col-xxl-2 col-xl-3 col-lg-4 col-sm-6" v-for="(work, index) in works" :key="work.workid">
                 <router-link class="router-link" :to="`/work-detail/${work.workid}`">
-                    <!-- <transition name="flip"> -->
-                    <!-- 開牌 -->
+                    <!-- 開牌動畫顯示內容 -->
                     <div v-if="!isFliping[index]" class="list-item overflow-hidden"
                         :class="isAnimationEnabled ? 'animate__animated animate__flipInY' : ''">
                         <div class="overflow-hidden position-relative">
+                            <!-- 工作照片 -->
                             <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64"
                                 :alt="work.name">
                             <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
@@ -16,10 +16,18 @@
                             <div
                                 class="bg-success rounded-top text-white position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
                                 {{ work.city }}</div>
-                            <button v-if="isLoggedIn" type="button" class="btn position-absolute end-0 top-0 m-3"
+                            <!-- 收藏按鈕 -->
+                            <button v-if="isLoggedIn" type="button"
+                                class="btn rounded-circle keep-btn position-absolute end-0 top-0 m-3"
                                 :class="{ 'active': work.kept }"
                                 @click.stop.prevent="toggleKeepWork(work.workid, work.kept)"><i
-                                    class="fa-brands fa-gratipay"></i></button>
+                                    class="fa-solid fa-heart"></i></button>
+                            <!-- 檢舉按鈕 -->
+                            <button type="button" class="btn rounded-circle report-btn position-absolute end-0 bottom-0 m-3"
+                                @click.stop.prevent="reportWork(work.workid)" data-bs-toggle="modal"
+                                data-bs-target="#reportModal">
+                                <i class="fa-solid fa-flag"></i>
+                            </button>
                         </div>
                         <div class="p-4 pt-3 pb-0">
                             <p class="text-truncate h5">{{ work.name }}</p>
@@ -39,7 +47,7 @@
                                 work.views }} 次瀏覽</small>
                         </div>
                     </div>
-                    <!-- 蓋牌 -->
+                    <!-- 蓋牌動畫顯示內容 -->
                     <div v-else class="list-item overflow-hidden"
                         :class="isAnimationEnabled ? 'animate__animated animate__flipOutY' : ''"
                         :style="{ animationDelay: `${index * 0.05}s`, opacity: 1 }">
@@ -50,8 +58,14 @@
                             <div
                                 class="bg-success rounded-top text-success position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
                                 讀取</div>
-                            <button v-if="isLoggedIn" type="button" class="btn position-absolute end-0 top-0 m-3"><i
-                                    class="fa-brands fa-gratipay"></i></button>
+                            <!-- 收藏按鈕 -->
+                            <button v-if="isLoggedIn" type="button"
+                                class="btn rounded-circle keep-btn position-absolute end-0 top-0 m-3"><i
+                                    class="fa-solid fa-heart"></i></button>
+                            <!-- 檢舉按鈕 -->
+                            <button v-if="isLoggedIn" type="button"
+                                class="btn rounded-circle report-btn position-absolute end-0 bottom-0 m-3">
+                                <i class="fa-solid fa-flag"></i></button>
                         </div>
                         <div class="p-4 pt-3 pb-1">
                             <p class="placeholder col-10 placeholder-lg"></p>
@@ -72,8 +86,36 @@
                             </small>
                         </div>
                     </div>
-                    <!-- </transition> -->
                 </router-link>
+            </div>
+        </div>
+    </div>
+    <!-- 檢舉視窗 -->
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+        <div class="modal-dialog report-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportModalLabel">檢舉</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="reportType">違規類型</label>
+                        <select id="reportType" v-model="reportType" class="form-control">
+                            <option disabled value="">請選擇違規類型</option>
+                            <option>選項1</option>
+                            <option>選項2</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reportReason">詳細原因</label>
+                        <textarea id="reportReason" v-model="reportReason" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                    <button type="button" class="btn btn-primary" @click="submitReport">送出</button>
+                </div>
             </div>
         </div>
     </div>
@@ -102,7 +144,8 @@ const isLoggedIn = computed(() => userStore.isLoggedIn);
 // const isKept = ref([]); // 工作清單的收藏狀況
 let isFliping = ref([]);
 let lastFilp = ref(0); // 保存上一次翻開的進度
-
+const reportType = ref('');
+const reportReason = ref('');
 
 //// 監聽變數
 watch(() => props.works.length, (newLength) => {// 翻牌模擬器好難玩OAQ
@@ -149,6 +192,7 @@ watch(() => props.works.length, (newLength) => {// 翻牌模擬器好難玩OAQ
 //     }
 // }
 
+//// 定義方法
 const addWorkToKeepList = async (workId) => {
     try {
         await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/volunteer/addWorkToKeepList`, null, {
@@ -184,23 +228,31 @@ const toggleKeepWork = (workId, kept) => {
         toast("已新增至心願清單", {})
     }
     // 更新 work.kept 的值
-        const work = props.works.find(work => work.workid === workId);
+    const work = props.works.find(work => work.workid === workId);
     if (work) {
         work.kept = !kept;
     }
 }
+
+
+const submitReport = () => {
+        console.log(reportType.value, reportReason.value);
+        // 關閉視窗
+        var myModal = new bootstrap.Modal(document.getElementById('reportModal'));
+        myModal.hide();
+    }
 
 </script>
 
 <style scoped>
 .list-item {
     background-color: rgba(205, 205, 205, 0.3);
-    border-radius: 15px;
+    border-radius: 16px;
+    border: 2px solid var(--black) !important;
 }
 
-.list-item:hover  {
+.list-item:hover {
     background-color: var(--white);
-    box-shadow: 0 0 12px var(--black); 
 }
 
 .list-item img {
@@ -219,20 +271,46 @@ const toggleKeepWork = (workId, kept) => {
 }
 
 .list-item .border-top {
-    border-top: 1px dashed var(--white);
+    border-top: 1px solid var(--black) !important;
 }
 
 .list-item .border-end {
-    border-right: 1px dashed var(--white) !important;
+    border-right: 1px solid var(--black) !important;
 }
 
-.list-item .btn:hover,
-.btn.active {
-    color: var(--danger);
+.list-item .btn .fa-solid {
+    height: 28px;
+    width: 16px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .list-item .btn {
     border: 0;
+    font-size: 1.25rem;
+    background-color: var(--white);
+    border: 1.5px solid var(--black) !important;
+}
+
+.keep-btn:hover,
+.keep-btn.active {
+    color: white;
+    background-color: var(--danger);
+}
+
+.report-btn:hover,
+.report-btn.active {
+    color: white;
+    background-color: var(--warning);
+}
+
+.report-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 使視窗高度與視口高度相同 */
 }
 
 .router-link {
@@ -240,7 +318,7 @@ const toggleKeepWork = (workId, kept) => {
     text-decoration: none;
 }
 
-.fa-gratipay {
+/* .fa-gratipay {
     font-size: 2em;
-}
+} */
 </style>

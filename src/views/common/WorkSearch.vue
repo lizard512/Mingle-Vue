@@ -339,16 +339,19 @@ const checkSticky = () => {
 
 .btn-group .btn {
     color: var(--dark);
+    
 }
 
-.btn-group .btn-outline-info:hover,
-.btn-group .btn-outline-info.active {
+.btn-group .btn.active {
+    color: #FFFFFF !important;
+}
+
+.btn-group .btn-outline-info:hover {
     color: #FFFFFF;
     background-color: var(--info);
 }
 
-.btn-group .btn-outline-warning:hover,
-.btn-group .btn-outline-warning.active {
+.btn-group .btn-outline-warning:hover {
     color: #FFFFFF;
     background-color: var(--warning);
 }

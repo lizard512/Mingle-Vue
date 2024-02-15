@@ -4,10 +4,10 @@
             <div class="col-lg-4">
                 <div class="card mb-4">
                     <div class="card-body text-center position-relative">
-                        <button type="button" class="btn btn-danger position-absolute" style="left: 5%; top: 75px;"
+                        <button type="button" class="btn btn-danger position-absolute" style="left: 3%; top: 75px;"
                             @click="showAlert"><i class="fa-solid fa-thumbs-down me-1"></i>超爛房東</button>
-                        <img :src="userDetail.photoBase64" alt="user" class="rounded-circle img-fluid" style="width: 150px;">
-                        <button type="button" class="btn btn-primary position-absolute" style="right: 5%; top: 75px;"
+                        <img :src="userDetail.photoBase64" alt="user" class="rounded-circle img-fluid user-photo" style="width: 150px;">
+                        <button type="button" class="btn btn-primary position-absolute" style="right: 3%; top: 75px;"
                             @click="navigateToChatroom"><i class="fa-solid fa-comment-dots me-1"></i>聯絡用戶</button>
                         <h5 class="my-2">{{ userDetail.name }}</h5>
                         <span class="text-muted my-2">加入時間：{{ userDetail.createdAt.toString().substring(0, 10) }}</span>
@@ -162,7 +162,7 @@ const loadUserData = async () => {
 const navigateToChatroom = () => {
     // chatStore.setExternalID(userID)
     // chatStore.setExternalName(user.value.name)
-    router.push({name: "Chatroom", query: {externalID: userID, externalName: user.value.name}});
+    router.push({name: "Chatroom", query: {externalID: userID, externalName: userDetail.value.name}});
 };
 
 const showAlert = () => {
@@ -171,3 +171,11 @@ const showAlert = () => {
 
 
 </script>
+
+<style scoped>
+.user-photo {
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+}
+</style>
