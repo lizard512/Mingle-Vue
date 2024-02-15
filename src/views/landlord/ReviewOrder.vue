@@ -1,16 +1,18 @@
 <template>
-    <div class="row">
-
-        <div class="col-md-8 px-md-4 mx-auto animate__animated animate__fadeInUp">
-
+    <div class="row justify-content-center text-center">
+ 
+        <div class="col-md-8 px-md-4 mx-auto animate__animated animate__fadeInUp justify-content-center">
+            <br>
+            <h2>訂單評價</h2>
             <!-- 評價 start-->
-            <div class="">
-                <div class="row">
+            <div>
+                <div class="row justify-content-center">
                     <div class="col-6">
                         <div class="card-body">
-                            <h6 class=" card-title text-md-start text-secondary"> 評價分數: <el-rate v-model="star"
-                                    :texts="['oops', 'disappointed', 'normal', 'good', 'great']" show-text /></h6>
-                            <hr class="my-4">
+                            <h5 class=" card-title text-md-start text-secondary text-md-center"> 評價分數: </h5>
+                                <el-rate v-model="star" size='large'
+                                    />
+              
                             <!-- 回應訊息 -->
                             <div class="input-group col-12">
                                 <el-input v-model="content" :autosize="{ minRows: 5, maxRows: 10 }" type="textarea"
@@ -21,6 +23,7 @@
                                     <div class=" m-3 p-3 animate__animated animate__fadeInUp">
                                         <el-upload v-model:file-list="fileList" action="#" list-type="picture-card"
                                             :auto-upload="false" :on-change="addToTotal" :show-file-list="false"
+                                           
                                             accept=".jpg,.jpeg,.webp,.png" multiple drag>
                                             <el-icon>
                                                 <Plus />
@@ -74,6 +77,7 @@ import axios from 'axios';
 import { onMounted, reactive, ref } from 'vue';
 import { Plus } from '@element-plus/icons-vue'
 import { useRouter, useRoute } from 'vue-router';
+import Swal from "sweetalert2";
 
 const route = useRoute();
 const orderId = route.query.orderId;
@@ -84,8 +88,8 @@ console.log(orderId);
 
 
 const router = useRouter();
-const goToIndex = () => {
-    router.push({ path: '/' });
+const goToAccount = () => {
+    router.push({ path: '/Account' });
 }
 
 
@@ -109,7 +113,7 @@ async function addToTotal(e) {
     } else {
         Swal.mixin({
             toast: true,
-            position: 'bottom-end',
+            position: 'bottom-top',
             showConfirmButton: false,
             timer: 3000,
             padding: 10,
@@ -146,6 +150,71 @@ const review = ref({
 const submitReply = async () => {
 
     const Reply_API_URL = `${import.meta.env.VITE_APP_API_URL}/review/create/review`
+    
+    if(star.value == 0){
+        Swal.mixin({
+            toast: true,
+            position: 'bottom-top',
+            showConfirmButton: false,
+            timer: 3000,
+            padding: 10,
+            width: 310,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+                toast.style.bottom = '120px';
+            }
+        }).fire({
+            icon: "error",
+            title: "請評價分數!"
+        })
+        return
+    }
+
+
+
+    if(content.value == ""){
+        Swal.mixin({
+            toast: true,
+            position: 'bottom-top',
+            showConfirmButton: false,
+            timer: 3000,
+            padding: 10,
+            width: 310,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+                toast.style.bottom = '120px';
+            }
+        }).fire({
+            icon: "error",
+            title: "請輸入評價內容!"
+        })
+        return
+    }
+
+    if(fileList.value.length > 6){
+        Swal.mixin({
+            toast: true,
+            position: 'bottom-top',
+            showConfirmButton: false,
+            timer: 3000,
+            padding: 10,
+            width: 310,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+                toast.style.bottom = '120px';
+            }
+        }).fire({
+            icon: "error",
+            title: "照片最多6張!"
+        })
+        return
+    }
 
     review.value = {
         "orderid": orderId,
@@ -186,7 +255,7 @@ const submitReply = async () => {
 
     console.log(photoresponse.data)
 
-    goToIndex();
+    goToAccount();
 
 
 }
@@ -317,5 +386,9 @@ figcaption:hover img {
     display: block;
     height: 100%;
     object-fit: contain;
+}
+
+.el-rate  {
+    font-size: 500px; /* 調整星星的尺寸，請根據需要自行調整大小 */
 }
 </style>

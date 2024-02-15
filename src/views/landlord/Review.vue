@@ -339,7 +339,7 @@ figcaption:hover img {
 }
 
 .photo-container {
-    width: 50%;
+    width: 70%;
     /* 设置包装容器宽度为 100%，占满表格列 */
     max-width: 500px;
     /* 设置包装容器最大宽度，调整根据需求 */
