@@ -129,7 +129,7 @@
 </template>
 
 <script setup>
-//// 引用函式庫
+//// 引用套件
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';

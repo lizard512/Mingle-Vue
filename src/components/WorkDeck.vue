@@ -55,7 +55,7 @@ import { Autoplay, EffectCards, Navigation } from 'swiper/modules';
 const modules = [Autoplay, EffectCards, Navigation];
 
 
-//// 引用函式庫
+//// 引用套件
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import { useUserStore } from '@store/userStore-localStorage.js';
@@ -81,13 +81,13 @@ let filters = ref({
     hideExpired: true,
 });
 
-let autoplay = ref(true);
+// let autoplay = ref(true);
 
 // Define props
 const props = defineProps({
     size: {
         type: Number,
-        default: 6
+        default: 6,
     },
     direction: {
         type: String,

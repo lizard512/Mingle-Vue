@@ -128,7 +128,7 @@
 </template>
 
 <script setup>
-//// 引用函式庫
+//// 引用套件
 import { ref, watch, computed } from 'vue';
 import { toast } from 'vue3-toastify';
 import axios from 'axios';

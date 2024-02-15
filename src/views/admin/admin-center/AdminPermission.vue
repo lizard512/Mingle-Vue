@@ -1,34 +1,36 @@
 <template>
     <div class="container-fluid">
         <h2>管理者權限控管</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>使用者ID</th>
-                    <th>使用者名稱</th>
-                    <th>管理者權限</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in users" :key="user.userid">
-                    <td>{{ user.userid }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>
-                        <div class="form-check form-switch">
-                            <input v-model="user.isAdmin" class="form-check-input" type="checkbox" id="flexSwitchCheck"
-                                @change="updateAdminStatus(user)">
-                            <label class="form-check-label" for="flexSwitchCheck"></label>
-                        </div>
-                    </td>
+        <div class="overflow-auto">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>使用者ID</th>
+                        <th>使用者名稱</th>
+                        <th>管理者權限</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="user in users" :key="user.userid">
+                        <td>{{ user.userid }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>
+                            <div class="form-check form-switch">
+                                <input v-model="user.isAdmin" class="form-check-input" type="checkbox" id="flexSwitchCheck"
+                                    @change="updateAdminStatus(user)">
+                                <label class="form-check-label" for="flexSwitchCheck"></label>
+                            </div>
+                        </td>
 
-                </tr>
-            </tbody>
-        </table>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
     
 <script setup>
-//// 引用函示庫
+//// 引用套件
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { toast } from 'vue3-toastify';

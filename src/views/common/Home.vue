@@ -50,40 +50,8 @@
   <div class="container review-container">
     <h2 class="text-center mt-5">好評不斷的打工項目</h2>
     <h5 class="text-center text-info">來看看參加過的幫助者們怎麼說！</h5>
-    <swiper v-if="reviews.length" :loop="true" :slidesPerView="3" :spaceBetween="30" :freeMode="true" :speed="2500"
-      :autoplay="{ delay: 0, disableOnInteraction: true }" :modules="modules" class="review-swiper">
-      <swiper-slide v-for="(review, index) in firstHalf">
-        <div class="scrolling-review p-4 my-5">
-          <div class="d-flex">
-            <img class="img-fluid" src="@images/user-2.jpg" style="width: 50px; height: 50px;">
-            <div class="">
-              <h5 class="mb-1">工作名稱 {{ index + 1 }}</h5>
-              <h6 class="card-title text-md-start text-secondary"> 評價分數: <span class="text-primary"
-                  v-for="i in review.stars" :key="i"><i class="fa-solid fa-star"></i></span><span
-                  v-for="i in 5 - review.stars" :key="i"><i class="fa-regular fa-star"></i></span></h6>
-            </div>
-          </div>
-          <p class="my-text-truncate">{{ review.content }}</p>
-        </div>
-      </swiper-slide>
-    </swiper>
-    <swiper v-if="reviews.length" :loop="true" :slidesPerView="3" :spaceBetween="30" :freeMode="true" :speed="2500"
-      :autoplay="{ delay: 0, disableOnInteraction: true, reverseDirection: true}" :modules="modules" class="review-swiper">
-      <swiper-slide v-for="(review, index) in secondHalf">
-        <div class="scrolling-review p-4 my-5">
-          <div class="d-flex">
-            <img class="img-fluid" src="@images/user-2.jpg" style="width: 50px; height: 50px;">
-            <div class="">
-              <h5 class="mb-1">工作名稱 {{ index + 1 }}</h5>
-              <h6 class="card-title text-md-start text-secondary"> 評價分數: <span class="text-primary"
-                  v-for="i in review.stars" :key="i"><i class="fa-solid fa-star"></i></span><span
-                  v-for="i in 5 - review.stars" :key="i"><i class="fa-regular fa-star"></i></span></h6>
-            </div>
-          </div>
-          <p class="my-text-truncate">{{ review.content }}</p>
-        </div>
-      </swiper-slide>
-    </swiper>
+    <ReviewSwiper :reviews="firstHalf" />
+    <ReviewSwiper :reviews="secondHalf" :reverseDirection="true"/>
   </div>
   <!--Reviews End-->
 </template>
@@ -96,15 +64,15 @@ import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 // Import Swiper styles
 import 'swiper/css';
-import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 // import required modules
-import { FreeMode, Autoplay, Pagination, Navigation } from 'swiper/modules';
-const modules = [FreeMode, Autoplay, Pagination, Navigation];
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+const modules = [ Autoplay, Pagination, Navigation];
 
 //// 引用元件
 import WorkDeck from '@components/WorkDeck.vue';
+import ReviewSwiper from '@components/ReviewSwiper.vue';
 
 //// 生命週期
 onMounted(() => {
@@ -155,19 +123,7 @@ const getReview = async () => {
 .my-text-truncate {
   display: -webkit-box;
   -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;  
+  -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-/* .review-container {
-} */
-
-.review-swiper {
-  margin-top: -25px;
-  height: 200px;
-}
-
-.scrolling-review {
-  background-color: var(--light);
 }
 </style>

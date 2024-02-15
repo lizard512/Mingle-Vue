@@ -1,4 +1,4 @@
-// 0. 引用函式庫
+// 0. 引用套件
 import { createRouter, createWebHistory } from "vue-router";
 
 

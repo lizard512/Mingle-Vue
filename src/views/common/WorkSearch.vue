@@ -139,7 +139,7 @@
     
 <script setup>
 
-//// 引用函示庫、元件、STORE
+//// 引用套件、元件、STORE
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import axios from 'axios';
 import { useUserStore } from '@store/userStore-localStorage.js';

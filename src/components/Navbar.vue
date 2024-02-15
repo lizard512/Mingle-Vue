@@ -103,7 +103,7 @@
     
 <script setup>
 
-//// 引用函式庫
+//// 引用套件
 import { ref, onMounted, onBeforeUnmount, watchEffect, computed, onBeforeUpdate } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';

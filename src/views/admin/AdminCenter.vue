@@ -13,9 +13,9 @@
                 <div class="dropdown p-3 navbar-user-info">
                     <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img v-if="user.photoBase64" :src="user.photoBase64" alt="" width="32" height="32"
-                                        class="rounded-circle me-2">
-                                    <img v-else src="@images/empty-avatar.png" alt="" width="32" height="32"
-                                        class="rounded-circle me-2">
+                            class="rounded-circle me-2">
+                        <img v-else src="@images/empty-avatar.png" alt="" width="32" height="32"
+                            class="rounded-circle me-2">
                         <strong>{{ user.name }}</strong>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
@@ -43,7 +43,7 @@
                 <!-- Sidebar Start -->
                 <nav class="col-xxl-2 col-xl-3 col-md-4 col-2 d-block navbar-dark sidebar">
                     <ul class="nav flex-column">
-                        <button type="button" class="bg-info navbar-toggler" @click="isCollapse = !isCollapse">
+                        <button type="button" class="navbar-toggler bg-info" @click="isCollapse = !isCollapse">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <li class="nav-item">
@@ -103,9 +103,9 @@
                     <div class="dropdown dropup p-3 sidebar-user-info">
                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <img v-if="user.photoBase64" :src="user.photoBase64" alt="" width="32" height="32"
-                                        class="rounded-circle me-2">
-                                    <img v-else src="@images/empty-avatar.png" alt="" width="32" height="32"
-                                        class="rounded-circle me-2">
+                                class="rounded-circle me-2">
+                            <img v-else src="@images/empty-avatar.png" alt="" width="32" height="32"
+                                class="rounded-circle me-2">
                             <strong>{{ user.name }}</strong>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
@@ -125,18 +125,20 @@
                     </div>
                 </nav>
                 <!-- Sidebar End -->
-                <main class="col-xxl-10 col-xl-9 col-md-8 col-10">
-                    <div class="p-5 router-view">
-                        <RouterView class=""></RouterView>
-                    </div>
-                </main>
+                <div class="d-flex justify-content-end">
+                    <main class="col-xxl-10 col-xl-9 col-md-8 col-10">
+                        <div class="p-5 router-view">
+                            <RouterView class=""></RouterView>
+                        </div>
+                    </main>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-//// 引用函式庫
+//// 引用套件
 import { ref, onMounted, watch, watchEffect } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
@@ -228,7 +230,7 @@ watch(router.currentRoute, async () => {
 <style scoped>
 .container-fluid {
     height: 100vh;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 /*** Icon ***/
@@ -259,7 +261,11 @@ watch(router.currentRoute, async () => {
     background-color: var(--light);
     height: 100vh;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 1);
+    position: fixed;
 }
+
+/* .sidebar .navbar-toggler{
+} */
 
 .sidebar-heading {
     background-color: var(--white);
@@ -318,7 +324,7 @@ watch(router.currentRoute, async () => {
     bottom: 0;
     left: 0;
     width: inherit;
-    background-color: #727272;
+    background-color: var(--info);
 }
 
 .sidebar-user-info .fa-solid,
