@@ -1,89 +1,88 @@
 <template>
-    <div class="row">
+    <div v-if="review.length != 0" class="px-md-4 mx-auto animate__animated animate__fadeInUp">
+        <!-- 評價 start-->
+        <div class="card mx-auto d-flex flex-md-nowrap my-5" v-for="(item, index) in review" :key="index">
+            <div class="row">
+                <div class="col-2 text-center">
+                    <br>
+                    <a href="#">
+                        <img class="card-img" :src="orderDetail[index]?.image" alt="image" style="width: 80px;">
+                    </a>
+                </div>
+                <div class="col-3 text-md-start">
+                    <br>
+                    <p class="card-text h6">姓名:</p>
+                    <p class="card-text"><small>{{ orderDetail[index]?.username }}</small></p>
+                    <p class="card-text h6">工作:</p>
+                    <p class="card-text"><small>{{ orderDetail[index]?.workName }}</small></p>
+                    <p class="card-text h6 ">訂單報名人數:</p>
+                    <p class="card-text">
+                        <small>{{ orderDetail[index]?.numbers }}人</small>
 
-        <div class="col-md-8 px-md-4 mx-auto animate__animated animate__fadeInUp">
+                    </p>
 
-            <!-- 評價 start-->
-            <div class="card  col-md-10 mx-auto d-flex flex-md-nowrap my-5" v-for="(item, index) in review" :key="index">
-                <div class="row">
-                    <div class="col-2 text-center">
-                        <br>
-                        <a href="#">
-                            <img class="card-img" :src="orderDetail[index]?.image" alt="image" style="width: 80px;">
-                        </a>
-                    </div>
-                    <div class="col-3 text-md-start">
-                        <br>
-                        <p class="card-text h6">姓名:</p>
-                        <p class="card-text"><small>{{ orderDetail[index]?.username }}</small></p>
-                        <p class="card-text h6">工作:</p>
-                        <p class="card-text"><small>{{ orderDetail[index]?.workName }}</small></p>
-                        <p class="card-text h6 ">訂單報名人數:</p>
-                        <p class="card-text">
-                            <small>{{ orderDetail[index]?.numbers }}人</small>
-
-                        </p>
-
-                        <p class="card-text h6 ">打工區間:</p>
-                        <p class="card-text">
-                            <small>{{ orderDetail[index]?.startDate }}到{{ orderDetail[index]?.endDate }}</small>
-                            <small><br>總共{{ orderDetail[index]?.days }}天</small>
-                        </p>
+                    <p class="card-text h6 ">打工區間:</p>
+                    <p class="card-text">
+                        <small>{{ orderDetail[index]?.startDate }}到{{ orderDetail[index]?.endDate }}</small>
+                        <small><br>總共{{ orderDetail[index]?.days }}天</small>
+                    </p>
 
 
-                        <p class="card-text h6">房源資訊:</p>
-                        <p class="card-text">
-                            <small v-for="houseType in orderDetail[index]?.houseType" :key="houseType">{{ houseType
-                            }}-<small v-for="houseName in orderDetail[index]?.houseName" :key="houseName">{{ houseName
+                    <p class="card-text h6">房源資訊:</p>
+                    <p class="card-text">
+                        <small v-for="houseType in orderDetail[index]?.houseType" :key="houseType">{{ houseType
+                        }}-<small v-for="houseName in orderDetail[index]?.houseName" :key="houseName">{{ houseName
 }}</small></small><br>
-                        </p>
+                    </p>
+                    <br>
+                </div>
+                <div class="col-6">
+                    <div class="card-body">
+                        <h6 class=" card-title text-md-start text-secondary"> 評價分數: <span class="text-primary"
+                                v-for="i in item.stars" :key="i"><i class="fa-solid fa-star"></i></span><span
+                                v-for="i in 5 - item.stars" :key="i"><i class="fa-regular fa-star"></i></span></h6>
                         <br>
-                    </div>
-                    <div class="col-6">
-                        <div class="card-body">
-                            <h6 class=" card-title text-md-start text-secondary"> 評價分數: <span class="text-primary"
-                                    v-for="i in item.stars" :key="i"><i class="fa-solid fa-star"></i></span><span
-                                    v-for="i in 5 - item.stars" :key="i"><i class="fa-regular fa-star"></i></span></h6>
-                            <br>
+                        <div>
+                            <p class="card-text text-md-start ">
+                            <h6 class=" card-title text-md-start text-secondary">評價內容:</h6>
+                            <p class="card-text text-md-start">{{ item.content }}</p>
+                            </p>
+                            <p class="card-text  text-align-right">
+                                <small class="text-muted ">{{ item.createdAt.split('T')[0] }}</small>
+                            </p>
+                        </div>
+                        <div class="photo-container">
+                            <swiper :style="{
+                                '--swiper-navigation-color': '#fff',
+                                '--swiper-pagination-color': '#fff',
+                            }" :centeredSlides="true" :loop="false" :navigation="true" :modules="modules"
+                                :pagination="{ clickable: true }" class="mySwiper col-md-12">
+                                <swiper-slide v-for="photo in reviewPhoto" :key="photo.id"
+                                    v-show="item.reviewid == photo.id">
+                                    <img :src="photo.photo" class="d-block w-100" :alt="item.reviewid"></swiper-slide>
+                            </swiper>
+                        </div>
+
+                        <div v-if="item.reply">
+                            <hr class="my-4">
+                            <!-- 回應訊息 -->
+                            <h6 class=" card-title text-md-start text-secondary">房東回應</h6>
                             <div>
-                                <p class="card-text text-md-start ">
-                                <h6 class=" card-title text-md-start text-secondary">評價內容:</h6>
-                                <p class="card-text text-md-start">{{ item.content }}</p>
-                                </p>
+                                <p class="card-text text-md-start">{{ item.reply }}</p>
                                 <p class="card-text  text-align-right">
-                                    <small class="text-muted ">{{ item.createdAt.split('T')[0] }}</small>
+                                    <small class="text-muted ">{{ item.replyUpdatedAt.split('T')[0] }}</small>
                                 </p>
-                            </div>
-                            <div class="photo-container">
-                                <swiper :style="{
-                                    '--swiper-navigation-color': '#fff',
-                                    '--swiper-pagination-color': '#fff',
-                                }" :centeredSlides="true" :loop="false" :navigation="true" :modules="modules"
-                                    :pagination="{ clickable: true }" class="mySwiper col-md-12">
-                                    <swiper-slide v-for="photo in reviewPhoto" :key="photo.id"
-                                        v-show="item.reviewid == photo.id">
-                                        <img :src="photo.photo" class="d-block w-100" :alt="item.reviewid"></swiper-slide>
-                                </swiper>
-                            </div>
 
-                            <div v-if="item.reply">
-                                <hr class="my-4">
-                                <!-- 回應訊息 -->
-                                <h6 class=" card-title text-md-start text-secondary">房東回應</h6>
-                                <div>
-                                    <p class="card-text text-md-start">{{ item.reply }}</p>
-                                    <p class="card-text  text-align-right">
-                                        <small class="text-muted ">{{ item.replyUpdatedAt.split('T')[0] }}</small>
-                                    </p>
-
-                                </div>
-                                <!-- ---- -->
                             </div>
+                            <!-- ---- -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div v-else>
+        <h6 class="text-center">此房東尚未收到任何評價</h6>
     </div>
 </template>
 
@@ -106,6 +105,13 @@ import 'swiper/css/navigation';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 const modules = [Autoplay, Pagination, Navigation];
 
+//// 定義props
+const props = defineProps({
+    lordID: {
+        type: Number,
+        default: 0,
+    }
+})
 
 
 const disabled = ref(false)
@@ -134,7 +140,7 @@ const getReview = async () => {
     const response = await axios.get(
         Review_API_URL, {
         params:
-            { landlordId: 2 }
+            { landlordId: props.lordID }
     });
     Object.assign(review.value, response.data);
 
@@ -173,17 +179,17 @@ const getReviewPhoto = async (item_reviewid) => {
             { reviewId: item_reviewid }
     });
 
-    console.log(response.data)
+    // console.log(response.data)
 
     for (const photo of response.data) {
-        console.log(photo)
+        // console.log(photo)
 
         reviewPhoto.value.push({
             id: item_reviewid,
             photo: photo
         })
     }
-    console.log(reviewPhoto.value)
+    // console.log(reviewPhoto.value)
 
     return reviewPhoto.value
 }
@@ -201,13 +207,13 @@ const submitReply = async (item_reviewid) => {
         "replyUpdatedAt": new Date().toISOString()
     }
 
-    console.log(reply.value)
+    // console.log(reply.value)
 
     const response = await axios.post(
         Reply_API_URL, reply.value
     );
 
-    console.log(response.data)
+    // console.log(response.data)
 
 
     await getReview();
@@ -219,6 +225,7 @@ const submitReply = async (item_reviewid) => {
 onMounted(async () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     await getReview();
+    console.log(review.value)
     for (const item of review.value) {
         await getOrderDetail(item.orderid);
         landlordReplies[item.reviewid] = ref('');

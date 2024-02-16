@@ -56,6 +56,9 @@
             </div>
             <div class="col-lg-8">
                 <div class="card mb-4">
+                    <div class="card-title">
+                        <h3 class="text-center">會員資料</h3>
+                    </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-3">
@@ -112,6 +115,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="card mb-4">
+                    <div class="card-title">
+                        <h3 class="text-center">房東評價一覽</h3>
+                    </div>
+                    <div class="card-body">
+                        <ReviewCustom v-if="routeLordID" :lordID="routeLordID"></ReviewCustom>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="container py-5" v-else>
@@ -136,33 +147,33 @@ import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
 import { useRoute } from 'vue-router'
 
+
+//// 引用元件
+import ReviewCustom from '@views/common/ReviewCustom.vue';
+
 //// 引用 store
 // import { useStore } from '@store/chatStore.js'
+
+//// 生命週期
+onMounted(async () => {
+    await loadUserData();
+    await getLordID();
+    console.log(routeLordID.value);
+    if (routeLordID.value) {
+        await loadLandlordData();
+    }
+});
 
 
 //// 宣告變數
 const userID = localStorage.getItem('userID');
-const lordID = localStorage.getItem('lordID');
 const route = useRoute()
-const routeUserID = route.params.id
 const router = useRouter();
+const routeUserID = route.params.id
+const routeLordID = ref(null);
 const userDetail = ref(null);
 const landlordBean = ref(null);
 // const chatStore = useStore()
-
-
-onMounted(async () => {
-    await loadUserData();
-    if (lordID) {
-        await axios.get(`${import.meta.env.VITE_APP_API_URL}/landlord/getLandlordById/${lordID}`)
-            .then(response => {
-                landlordBean.value = response.data;
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
-});
 
 
 const loadUserData = async () => {
@@ -213,6 +224,25 @@ const loadUserData = async () => {
         console.error('Failed to fetch user data:', error);
     }
 }
+
+const getLordID = async () => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/landlord/userIDtoLordID/${routeUserID}`)
+        routeLordID.value = response.data;
+    } catch (error) {
+        console.error('Failed to fetch landlord id:', error);
+    }
+}
+
+const loadLandlordData = async () => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/landlord/getLandlordById/${routeLordID.value}`)
+        landlordBean.value = response.data;
+    } catch (error) {
+        console.error('Failed to fetch landlord data:', error);
+    }
+}
+
 
 const navigateToChatroom = () => {
     // chatStore.setExternalID(routeUserID)

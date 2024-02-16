@@ -119,11 +119,4 @@ const getReview = async () => {
   width: 100%;
   object-fit: cover;
 }
-
-.my-text-truncate {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
 </style>
