@@ -8,33 +8,17 @@
         <form class="row row-cols-sm-auto g-3 align-items-center">
           <div class="col-12">
             <div class="row">
-              <label for="username" class="col-sm-auto col-form-label">房客名稱</label>
+              <label for="username" class="col-sm-auto col-form-label">工作名稱</label>
               <div class="col">
-                <input type="text" class="form-control" id="username" name="username">
+                <input type="text" class="form-control" id="username" name="username" v-model="workNameSearchQuery">
               </div>
             </div>
           </div>
           <div class="col-12">
             <div class="row">
-              <label for="phone" class="col-sm-auto col-form-label">電話</label>
+              <label for="phone" class="col-sm-auto col-form-label">房源名稱</label>
               <div class="col">
-                <input type="email" class="form-control" id="phone" name="phone">
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="row">
-              <label for="beginTime" class="col-sm-auto col-form-label">創建時間</label>
-              <div class="col">
-                <div class="input-group">
-                  <input type="text" readonly class="form-control" aria-label="q"
-                         placeholder="開始時間"
-                         name="beginTime" id="beginTime">
-                  <span class="input-group-text"><i class="bi bi-arrow-left-right"></i></span>
-                  <input type="text" readonly class="form-control" aria-label="q"
-                         placeholder="結束時間"
-                         name="endTime" id="endTime">
-                </div>
+                <input type="text" class="form-control" id="phone" name="phone" v-model="houseNameSearchQuery">
               </div>
             </div>
           </div>
@@ -42,10 +26,12 @@
             <div class="row">
               <label for="status" class="col-sm-auto col-form-label ">訂單狀態</label>
               <div class="col">
-                <select class="selectpicker form-select">
+                <select class="selectpicker form-select" v-model="selectedStatus">
                   <option value="0">所有</option>
-                  <option value="1">正常</option>
-                  <option value="2">停用</option>
+                  <option value="1">未確認</option>
+                  <option value="2">已確認</option>
+                  <option value="3">已拒絕</option>
+                  <option value="4">已退款</option>
                 </select>
               </div>
             </div>
@@ -54,16 +40,16 @@
 
           <div class="col-12 gap-2">
 
-            <button type="button" class="btn btn-light bsa-querySearch-btn">
+            <button type="button" class="btn btn-light bsa-querySearch-btn" @click="search">
               <i class="bi bi-search"></i>查詢
             </button>
-            <button type="button" class="btn btn-light bsa-reset-btn">
+            <button type="button" class="btn btn-light bsa-reset-btn" @click="reset">
               <i class="bi bi-arrow-clockwise"></i>重置
             </button>
           </div>
         </form>
       </div>
-      <div class="card-body">
+      <div class="card-body animate__animated animate__fadeInUp">
         <!--  訂單資料表格    -->
         <table id="table" class="table table-bordered table-hover">
           <thead>
@@ -94,10 +80,13 @@
             <td>{{ singleOrder.formatCreatedAt }}</td>
             <td v-html="format(singleOrder.order.isCancelled, singleOrder.order.isRefunded, singleOrder.order.status)"></td>
             <td>
-              <button v-if="singleOrder.order.status === '待房東確認'" type="button" style="margin-right: 1rem" class="btn btn-success"
+              <button v-if="singleOrder.order.status === '待房東確認' && acceptButtonVisible && singleOrder.order.isCancelled !== true" type="button" style="margin-right: 1rem"
+                      class="btn btn-success"
                       @click="acceptOrder(singleOrder.order.orderid)">接受
               </button>
-              <button v-if="singleOrder.order.status === '待房東確認'" type="button" class="btn btn-danger" @click="rejectOrder(singleOrder.order.orderid)">拒絕</button>
+              <button v-if="singleOrder.order.status === '待房東確認' && rejectButtonVisible && singleOrder.order.isCancelled !== true" type="button" class="btn btn-danger"
+                      @click="rejectOrder(singleOrder.order.orderid)">拒絕
+              </button>
 
             </td>
             <!-- Add more cells based on your data structure -->
@@ -116,6 +105,11 @@ import {onMounted, ref} from "vue";
 
 const order = ref({})
 
+const originalOrder = ref([]); // 保存原始订单数据
+
+const acceptButtonVisible = ref(true);
+const rejectButtonVisible = ref(true);
+const selectedStatus = ref('0');
 onMounted(() => {
   initAssign();
 });
@@ -130,6 +124,7 @@ const initAssign = async () => {
     const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/order/findAllOrder/${lordID}`);
     const data = await response.json();
     order.value = data;
+    originalOrder.value = order.value;
     // console.log(data)
     // console.log(lordID)
   } catch (error) {
@@ -161,20 +156,22 @@ const acceptOrder = async (orderId) => {
     });
     // window.location.reload();
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error(`${response.status}`);
     }
 
     const updatedOrderWithDetails = await response.json();
+    console.log(updatedOrderWithDetails)
     if (Array.isArray(updatedOrderWithDetails)) {
       updatedOrderWithDetails.forEach(updatedOrder => {
         if (updatedOrder && updatedOrder.order) {
           updateOrderInArray(updatedOrder);
+          updateOriginalOrder(updatedOrder);
         }
         // console.log(updatedOrderWithDetails)
       })
     }
-  }catch (error) {
-    console.error('Error accepting order:', error);
+  } catch (error) {
+    console.error(error);
   }
 };
 
@@ -190,7 +187,7 @@ const rejectOrder = async (orderId) => {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error(`${response.status}`);
     }
 
     const updatedOrderWithDetails = await response.json();
@@ -198,23 +195,83 @@ const rejectOrder = async (orderId) => {
       updatedOrderWithDetails.forEach(updatedOrder => {
         if (updatedOrder && updatedOrder.order) {
           updateOrderInArray(updatedOrder);
+          updateOriginalOrder(updatedOrder);
         }
         // console.log(updatedOrderWithDetails)
       })
     }
   } catch (error) {
-    console.error('Error rejecting order:', error);
+    console.error(error);
   }
 };
 
 function updateOrderInArray(updatedOrder) {
 
-    const index = order.value.findIndex(singleOrder => singleOrder.order.orderid === updatedOrder.order.orderid);
-
+  const index = order.value.findIndex(singleOrder => singleOrder.order.orderid === updatedOrder.order.orderid);
+  console.log(updatedOrder)
   if (index !== -1) {
     order.value[index] = updatedOrder;
+    console.log(order)
   }
 }
+
+const updateOriginalOrder = (updatedOrder) => {
+  const index = originalOrder.value.findIndex(singleOrder => singleOrder.order.orderid === updatedOrder.order.orderid);
+  if (index !== -1) {
+    originalOrder.value[index] = updatedOrder;
+  }
+};
+
+const workNameSearchQuery = ref('');
+const houseNameSearchQuery = ref('');
+
+const search = () => {
+  const workNameKeyword = workNameSearchQuery.value.toLowerCase();
+  const houseNameKeyword = houseNameSearchQuery.value.toLowerCase();
+  const status = parseInt(selectedStatus.value);
+
+  order.value = originalOrder.value.filter((singleOrder) => {
+    const matchWorkName = singleOrder.workName.toLowerCase().includes(workNameKeyword);
+
+    const matchHouseName = singleOrder.houseName.toLowerCase().includes(houseNameKeyword);
+    const orderStatus = getStatus(singleOrder);
+    // 如果工作名稱或房源名稱中包含任一關鍵字，則返回 true
+    // console.log(matchWorkName + "house" + matchHouseName)
+    return (matchWorkName && matchHouseName) && (status === 0 || orderStatus === status);
+  });
+};
+
+
+const getStatus = (order) => {
+  if (order.order.isCancelled) {
+    return 3; // 已拒絕
+  } else if (order.order.isRefunded) {
+    return 4; // 已退款
+  } else if (order.order.status === '待房東確認') {
+    return 1; // 未確認
+  } else if (order.order.status === '房東已接受') {
+    return 2; // 已確認
+  } else {
+    return 0;
+  }
+  resetButtons();
+};
+
+
+
+const reset = () => {
+  workNameSearchQuery.value = '';
+  houseNameSearchQuery.value = '';
+  selectedStatus.value = '0';
+  order.value = originalOrder.value;
+
+  resetButtons();
+};
+
+const resetButtons = () => {
+  acceptButtonVisible.value = true;
+  rejectButtonVisible.value = true;
+};
 </script>
 <style scoped>
 

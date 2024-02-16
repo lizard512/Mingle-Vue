@@ -1,5 +1,7 @@
 <template>
     <div class="row">
+        <div><br>  <h2 v-show="flag" class="row justify-content-center">尚無評價</h2></div>
+      
 
         <div class="col-md-8 px-md-4 mx-auto animate__animated animate__fadeInUp">
 
@@ -126,6 +128,7 @@ const review = ref([]);
 const orderDetail = ref([]);
 const landlordReplies = reactive({});
 const photos = ref([])
+const flag=ref(false)
 
 const reply = ref({
     "reviewid": 0,
@@ -159,6 +162,11 @@ const getReview = async () => {
     });
     Object.assign(review.value, response.data);
 
+    console.log(review.value)
+
+    if(review.value.length == 0){
+        flag.value=true
+    }
     return review.value
 
 }
