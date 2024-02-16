@@ -79,11 +79,12 @@ const getLordID = () => {
 
 const initAssign = async () => {
     try {
-        const lordID = getLordID().lordID;
-        const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/order/findAllOrder/2`);
+        // const lordID = getLordID().lordID;
+        const userID = localStorage.getItem("userID");
+        const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/order/findAllOrder/byUserId/${userID}`);
         const data = await response.json();
         details.value = data;
-        console.log(details)
+        // console.log(details)
         // console.log(lordID)
     } catch (error) {
         console.error('獲取資料失敗:', error);
