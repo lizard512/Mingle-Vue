@@ -72,8 +72,8 @@
                     <div class="row mb-3">
                         <label for="validationCustomUsername" class="col-4 col-form-label">暱稱</label>
                         <div class="col-8 mb-4"><input type="text" class="form-control" id="validationCustomUsername"
-                                placeholder="取一個響亮的名稱吧" aria-describedby="inputGroupPrepend"
-                                v-model="props.userdetails.name" required>
+                                placeholder="取一個響亮的名稱吧" aria-describedby="inputGroupPrepend" v-model="fromUserdetails.name"
+                                required>
                             <div class="invalid-feedback">
                                 請輸入名稱
                             </div>
@@ -84,7 +84,7 @@
                         <label for="validationCustom02" class="col-4 mb-4 form-label">Email</label>
                         <div class="col-8">
                             <input type="email" class="form-control" id="validationCustom02"
-                                placeholder="your@example.email.com" required v-model="props.userdetails.email">
+                                placeholder="your@example.email.com" required v-model="fromUserdetails.email">
                             <div class="valid-feedback">
                                 驗證成功!
                             </div>
@@ -98,7 +98,7 @@
                         <label for="validationCustom05" class="col-sm-4 mb-4 col-form-label">手機號碼</label>
                         <div class="col-sm-8">
                             <input type="phone" class="form-control" id="validationCustom05" placeholder="0912345678"
-                                maxlength="20" required v-model="props.userdetails.phone">
+                                maxlength="20" required v-model="fromUserdetails.phone">
                             <div class="invalid-feedback">
                                 請輸入手機號碼
                             </div>
@@ -109,11 +109,11 @@
                         <label for="" class="col-sm-4 mb-4 col-form-label">性別</label>
                         <div class="col-sm-8 mb-4 large">
                             <input type="radio" class="form-check-input " name="gender" value="Other"
-                                v-model="props.userdetails.gender" required>保密(其他)
+                                v-model="fromUserdetails.gender" required>保密(其他)
                             <input type="radio" class="form-check-input" name="gender" value="Male"
-                                v-model="props.userdetails.gender" required>男
+                                v-model="fromUserdetails.gender" required>男
                             <input type="radio" class="form-check-input" name="gender" value="Female"
-                                v-model="props.userdetails.gender" required>女
+                                v-model="fromUserdetails.gender" required>女
                             <div class="invalid-feedback">請點選性別</div>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                     <div class="row mb-3">
                         <label for="" class="col-sm-3 mb-4 col-form-label">國家</label>
                         <div class="col-sm-8 d-flex flex-wrap">
-                            <select class="form-select" id="" required v-model="props.userdetails.country">
+                            <select class="form-select" id="" required v-model="fromUserdetails.country">
                                 <option v-for="(country, index) in countries" :key="index" :value="country.countryid">{{
                                     country.countryid }}</option>
                                 <!-- <option v-for="i in countries.length" :key="i">{{ countries[i - 1].countryid }}</option> -->
@@ -189,8 +189,14 @@ import Swal from 'sweetalert2';
 const props = defineProps({
     userdetails: Object,
 })
-
-
+const fromUserdetails = reactive({})
+watch(() => props.userdetails, (newValue, oldValue) => {
+    if (newValue !== null && newValue !== undefined && newValue !== "") {
+        Object.assign(fromUserdetails, newValue)
+        console.log("這是從父層傳來的值")
+        console.log(fromUserdetails)
+    }
+});
 // 格式化日期為"YYYY/MM/DD"
 const formatDate = (dateString) => {
     if (dateString === null || dateString === undefined || dateString === "" || dateString.length === 0) return "尚未設定生日";
@@ -246,7 +252,10 @@ const bookStrapValidation = () => {
         felg = form.checkValidity();
     });
 }
-
+const emit = defineEmits(["resetdetails"])
+const clickHandler = () => {
+    emit("resetdetails")
+}
 const submitChanges = async (event) => {
 
     // 使用 Bootstrap 驗證的結果
@@ -264,16 +273,22 @@ const submitChanges = async (event) => {
         console.log("這是要傳的檔案");
         const data = {
             update: "details",
-            name: props.userdetails.name,
-            email: props.userdetails.email,
-            phone: props.userdetails.phone,
-            gender: props.userdetails.gender,
-            country: props.userdetails.country,
+            name: fromUserdetails.name,
+            email: fromUserdetails.email,
+            phone: fromUserdetails.phone,
+            gender: fromUserdetails.gender,
+            country: fromUserdetails.country,
             birth: birth.year + '-' + birth.month + '-' + birth.day,
         }
         console.log(data);
         if (updateDetails(data)) {
+            props.userdetails.name = fromUserdetails.name;
+            props.userdetails.email = fromUserdetails.email;
+            props.userdetails.phone = fromUserdetails.phone;
+            props.userdetails.gender = fromUserdetails.gender;
+            props.userdetails.country = fromUserdetails.country;
             props.userdetails.birth = formatDate(birth.year + '-' + birth.month + '-' + birth.day);
+            // clickHandler();
             changeVeiw();
         }
     }
