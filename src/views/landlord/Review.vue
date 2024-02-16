@@ -162,8 +162,6 @@ const getReview = async () => {
     });
     Object.assign(review.value, response.data);
 
-    console.log(review.value)
-
     if(review.value.length == 0){
         flag.value=true
     }
@@ -202,17 +200,15 @@ const getReviewPhoto = async (item_reviewid) => {
             { reviewId: item_reviewid }
     });
 
-    console.log(response.data)
+
 
     for (const photo of response.data) {
-        console.log(photo)
 
         reviewPhoto.value.push({
             id: item_reviewid,
             photo: photo
         })
     }
-    console.log(reviewPhoto.value)
 
     return reviewPhoto.value
 }
@@ -230,13 +226,9 @@ const submitReply = async (item_reviewid) => {
         "replyUpdatedAt": new Date().toISOString()
     }
 
-    console.log(reply.value)
-
     const response = await axios.post(
         Reply_API_URL, reply.value
     );
-
-    console.log(response.data)
 
 
     await getReview();
