@@ -8,11 +8,16 @@
             <!-- Password fields -->
             <div class="form-group">
                 <label for="password">新密碼:</label>
-                <input type="password" id="password" v-model="password" required>
+                <input :type="showPassword ? 'text' : 'password'" id="password" v-model="password" required>
             </div>
             <div class="form-group">
                 <label for="confirm-password">確認密碼:</label>
-                <input type="password" id="confirm-password" v-model="confirmPassword" required>
+                <input :type="showPassword ? 'text' : 'password'" id="confirm-password" v-model="confirmPassword" required>
+            </div>
+            <div class="checkboxDiv">
+                <label>
+                    <input id="checkbox" v-model="showPassword" class="checkbox" type="checkbox" value="show-me"> 顯示密碼
+                </label>
             </div>
             <div class="form-group">
                 <button type="submit">重置</button>
@@ -33,6 +38,7 @@ const email = ref(urlParams.get('email') || '');
 
 const password = ref('');
 const confirmPassword = ref('');
+const showPassword = ref(false);
 
 const resetPassword = async () => {
     // Check if passwords match
@@ -93,6 +99,14 @@ label {
 }
 
 input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="text"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
