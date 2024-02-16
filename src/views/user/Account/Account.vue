@@ -16,9 +16,9 @@
         <div class="col-9">
             <Account1 v-show="isShowAccount" :userdetails="userdetails" @resetdetails="loaduserDetail"></Account1>
             <introduction v-show="isShowIntroduction" :userdetails="userdetails"></introduction>
-            <LikeWork v-show="isShowLikeWork"></LikeWork>
-            <FinshWork v-show="isShowFinshWork"></FinshWork>
-            <OrderByUserId v-show="isShowtest"></OrderByUserId>
+            <!-- <LikeWork v-show="isShowLikeWork"></LikeWork> -->
+            <!-- <FinshWork v-show="isShowFinshWork"></FinshWork> -->
+            <OrderByUserId v-show="isShowOrder"></OrderByUserId>
         </div>
         <!-- index End -->
 
@@ -39,7 +39,7 @@ const isShowAccount = ref(true);
 const isShowLikeWork = ref(false);
 const isShowFinshWork = ref(false);
 const isShowIntroduction = ref(false);
-const isShowtest = ref(false);
+const isShowOrder = ref(false);
 
 const clickHandler = showVeiw => {
     closeShow();
@@ -47,7 +47,7 @@ const clickHandler = showVeiw => {
     else if (showVeiw === 2) { isShowFinshWork.value = true }
     else if (showVeiw === 3) { isShowLikeWork.value = true }
     else if (showVeiw === 4) { isShowIntroduction.value = true }
-    else if (showVeiw === 5) { isShowtest.value = true }
+    else if (showVeiw === 5) { isShowOrder.value = true }
     else console.log("error", showVeiw)
 }
 const closeShow = () => {
@@ -55,7 +55,7 @@ const closeShow = () => {
     isShowLikeWork.value = false;
     isShowFinshWork.value = false;
     isShowIntroduction.value = false;
-    isShowtest.value = false;
+    isShowOrder.value = false;
 }
 
 //============查詢會員資料============
