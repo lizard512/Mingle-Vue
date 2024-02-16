@@ -8,8 +8,6 @@
     <table class="table">
       <thead class="table-dark">
         <tr>
-          <th>House ID</th>
-          <th>Lord ID</th>
           <th>圖片</th>
           <th>更新</th>
           <th>房源類型</th>
@@ -36,8 +34,6 @@
       </thead>
       <tbody>
         <tr v-for="house in mappedHouses" :key="house.houseid">
-          <td>{{ house.houseid }}</td>
-          <td>{{ house.lordid }}</td>
           <td>
             <img v-if="house.housePhotos && house.housePhotos.length > 0" @click="openCarouselModal(house.housePhotos)"
               :src="'data:image/' + house.housePhotos[0].contentType + ';base64,' + house.housePhotos[0].photo"
@@ -65,8 +61,8 @@
           <td>{{ house.hasPersonalSpace }}</td>
           <td>{{ house.hasPool }}</td>
           <td>{{ house.hasGym }}</td>
-          <td>{{ house.createdAt }}</td>
-          <td>{{ house.updatedAt }}</td>
+          <td>{{ formatDateTime(house.createdAt) }}</td>
+          <td>{{ formatDateTime(house.updatedAt) }}</td>
         </tr>
       </tbody>
     </table>
@@ -285,6 +281,14 @@ const fetchHouses = () => {
     .catch((error) => {
       console.error('Error fetching houses:', error);
     });
+};
+
+const formatDateTime = (dateTimeString) => {
+  const options = {
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit'
+  };
+  return new Date(dateTimeString).toLocaleString('en-US', options);
 };
 
 const mapBoolToString = (value) => {
