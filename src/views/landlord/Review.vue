@@ -1,10 +1,13 @@
 <template>
     <div class="row">
-        <div><br>  <h2 v-show="flag" class="row justify-content-center">尚無評價</h2></div>
-      
 
+        <br>
         <div class="col-md-8 px-md-4 mx-auto animate__animated animate__fadeInUp">
-
+            <br>
+            <h2 class="row justify-content-center">房東訂單評價</h2>
+            <div><br>
+                <h2 v-show="flag" class="row justify-content-center">尚無評價</h2>
+            </div>
             <!-- 評價 start-->
             <div class="card  col-md-10 mx-auto d-flex flex-md-nowrap my-5" v-for="(item, index) in review" :key="index">
                 <div class="row">
@@ -57,16 +60,16 @@
                                 </p>
                             </div>
                             <div class="photo-container">
-                                    <swiper :style="{
-                                        '--swiper-navigation-color': '#fff',
-                                        '--swiper-pagination-color': '#fff',
-                                    }" :centeredSlides="true" :loop="false" :navigation="true"
-                                        :modules="modules" :pagination="{ clickable: true }" class="mySwiper col-md-12" >
-                                        <swiper-slide  v-for="photo in reviewPhoto" :key="photo.id"  v-show="item.reviewid == photo.id"
-                                            >
-                                            <img :src="photo.photo" class="d-block w-100" :alt="item.reviewid"></swiper-slide>
-                                    </swiper>
-                                </div>
+                                <swiper :style="{
+                                    '--swiper-navigation-color': '#fff',
+                                    '--swiper-pagination-color': '#fff',
+                                }" :centeredSlides="true" :loop="false" :navigation="true" :modules="modules"
+                                    :pagination="{ clickable: true }" class="mySwiper col-md-12">
+                                    <swiper-slide v-for="photo in reviewPhoto" :key="photo.id"
+                                        v-show="item.reviewid == photo.id">
+                                        <img :src="photo.photo" class="d-block w-100" :alt="item.reviewid"></swiper-slide>
+                                </swiper>
+                            </div>
 
 
                             <hr class="my-4">
@@ -128,7 +131,7 @@ const review = ref([]);
 const orderDetail = ref([]);
 const landlordReplies = reactive({});
 const photos = ref([])
-const flag=ref(false)
+const flag = ref(false)
 
 const reply = ref({
     "reviewid": 0,
@@ -162,8 +165,8 @@ const getReview = async () => {
     });
     Object.assign(review.value, response.data);
 
-    if(review.value.length == 0){
-        flag.value=true
+    if (review.value.length == 0) {
+        flag.value = true
     }
     return review.value
 
@@ -360,5 +363,4 @@ figcaption:hover img {
     height: 100%;
     object-fit: contain;
 }
-
 </style>
