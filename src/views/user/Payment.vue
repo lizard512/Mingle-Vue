@@ -1,5 +1,5 @@
 <template>
-    <br><el-button type="success" round @click="getPaid">付款</el-button>
+    <el-button type="success" round @click="getPaid">付款</el-button>
 </template>
     
 <script setup>
