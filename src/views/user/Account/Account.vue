@@ -16,9 +16,9 @@
         <div class="col-9">
             <Account1 v-show="isShowAccount" :userdetails="userdetails" @resetdetails="loaduserDetail"></Account1>
             <introduction v-show="isShowIntroduction" :userdetails="userdetails"></introduction>
-            <!-- <LikeWork v-show="isShowLikeWork"></LikeWork> -->
+            <LikeWork v-show="isShowLikeWork"></LikeWork>
             <FinshWork v-show="isShowFinshWork"></FinshWork>
-            <test v-show="isShowtest"></test>
+            <OrderByUserId v-show="isShowtest"></OrderByUserId>
         </div>
         <!-- index End -->
 
@@ -31,7 +31,7 @@ import Account1 from './Account1.vue';
 import FinshWork from './Account2.vue';
 import LikeWork from './Account3.vue';
 import Introduction from './Account4.vue';
-import test from './test.vue'
+import OrderByUserId from './Account5.vue'
 import { onMounted, reactive, ref } from 'vue';
 import { useUserStore } from '@store/userStore-localStorage.js';
 
