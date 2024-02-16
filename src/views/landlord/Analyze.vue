@@ -68,7 +68,7 @@ perfect.value = true;
                             </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-center">
-                            <span class="text-muted" >{{ analyzeDetail.ordernumbers }}人</span>
+                            <span class="text-muted" >{{ analyzeDetail.ordernumbers?  analyzeDetail.ordernumbers : 0}}人</span>
                         </li>
                     </ul>
 
@@ -92,7 +92,7 @@ perfect.value = true;
                             </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-center">
-                            <span class="text-muted" >{{ analyzeDetail.avgstar }}分
+                            <span class="text-muted" >{{ analyzeDetail.avgstar? analyzeDetail.avgstar : 0 }}分
                                 (滿分5)</span>
                         </li>
                     </ul>
