@@ -59,6 +59,8 @@
                 <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
                 <div class="card mb-4">
                     <div class="card-body text-center position-relative lord-info">
+                        <button type="button" class="btn btn-info position-absolute" style="left: 5%; top: 75px;"
+                            @click="navigateToUserProfile"><i class="fa-solid fa-circle-info me-1"></i>房東資訊</button>
                         <img v-if="userDetail.photoBase64" :src="userDetail.photoBase64" alt="user"
                             class="rounded-circle img-fluid" style="width: 100px;">
                         <img v-else src="@images/ImageNotFound.jpg" alt="user" class="rounded-circle img-fluid"
@@ -76,7 +78,7 @@
                 <button v-if="work.attendance < work.maxAttendance" class="btn btn-danger" @click="apply"><i
                         class="fa-solid fa-screwdriver-wrench me-2"></i>報名</button>
                 <button v-else class="btn btn-danger" disabled><i
-                        class="fa-solid fa-screwdriver-wrench me-2"></i>已額滿</button>
+                        class="fa-solid fa-circle-exclamation me-2"></i>已額滿</button>
             </div>
         </div>
     </div>
@@ -87,7 +89,7 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { toast } from 'vue3-toastify';
-
+import Swal from 'sweetalert2'
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue';
 // Import Swiper styles
@@ -125,7 +127,6 @@ onMounted(async () => {
 const loadWorkData = async () => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/work/getWork/${workID}`);
-        console.log(response)
         // 開始日
         response.data.startDate = dateFormat(new Date(response.data.startDate));
         // 結束日
@@ -135,7 +136,6 @@ const loadWorkData = async () => {
         // 修改日
         response.data.updatedAt = dateFormat(new Date(response.data.updatedAt));
         work.value = response.data;
-        console.log(work.value)
     } catch (error) {
         console.error('Failed to fetch work data:', error);
     }
@@ -145,7 +145,6 @@ const loadUserData = async () => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/lordinfo/${work.value.landlordid}`)
         userDetail.value = response.data;
-        console.log("userDetail.value", userDetail.value);
     } catch (error) {
         console.error('Failed to fetch user data:', error);
     }
@@ -161,6 +160,9 @@ const navigateToChatroom = () => {
     // chatStore.setExternalName(user.value.name)
     router.push({ name: "Chatroom", query: { externalID: userDetail.value.userid, externalName: userDetail.value.name } });
 };
+const navigateToUserProfile = () => {
+    router.push({ path: `/user-profile/${userDetail.value.userid}` });
+}
 
 const addWorkToKeepList = async () => {
     try {
@@ -225,7 +227,27 @@ const checkIfWorkIsKept = async (workId) => {
 
 const apply = async () => {
     try {
-        router.push({ name: 'Order1', query: { workID: workID } });
+        if (userID != userDetail.value.userid) {
+            router.push({ name: 'Order1', query: { workID: workID } });
+        } else {
+            Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 3000,
+                padding: 10,
+                width: 310,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                    toast.style.bottom = '120px';
+                }
+            }).fire({
+                icon: "warning",
+                title: "無法報名自己的工作唷"
+            })
+        }
     } catch (error) {
         console.error('Failed to apply', error);
     }

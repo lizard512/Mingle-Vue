@@ -2,8 +2,8 @@
     <div class="container-fluid row p-0 g-0 chat-main-container">
         <!-- left => headline, pics & messages -->
         <div class="col-md-4 overflow-auto mh-100 bg-light">
-            <h1 class="text-center my-2">Message</h1>
-            <div class="mb-4 d-flex justify-content-center">
+            <h1 class="text-center my-3 mb-4">Message</h1>
+            <!-- <div class="mb-4 d-flex justify-content-center">
                 <div class="form-floating mb-3 w-75">
                     <input class="form-control" list="datalistOptions" placeholder="Type to search..." @change="switchUser">
                     <datalist id="datalistOptions">
@@ -11,7 +11,7 @@
                     </datalist>
                     <label for="floatingInput">請輸入用戶名稱</label>
                 </div>
-            </div>
+            </div> -->
             <div>
                 <div class="ms-4 me-4 border  border-2 border-light rounded-3 list-group" v-for="item in roomList"
                     @click="selectRoom(item.senderid, item.recieverid, item.sendername, item.recievername)">
@@ -119,7 +119,7 @@ const otherUser = ref([]);          // 其他使用者資料，搜尋用。
 onMounted(async () => {
     await initAssign();
     await initConnect();
-    await initsearch();
+    // await initsearch();
     await findAllChat();
     if (selectedUserID && selectedUserID.value != senderID.value) {
         await findAllMessages();
