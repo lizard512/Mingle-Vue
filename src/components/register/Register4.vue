@@ -58,7 +58,7 @@ const register = async function () {
         username: username.value,
         password: password.value,
     }
-    await axios.post("http://localhost:8080/register.controller", request)
+    await axios.post(`${import.meta.env.VITE_APP_API_URL}/register.controller`, request)
         .then( function (response) {
             console.log(response);
             if (request.username.valueOf == null || request.password.valueOf == null) {
@@ -76,7 +76,7 @@ const register = async function () {
                     confirmButtonText: "確認"
                 }).then(function (result) {
                     if (result.isConfirmed) {
-                        document.location.href = `http://localhost:7890/login`;
+                        document.location.href = `${import.meta.env.VITE_APP_API_URL2}/login`;
                     }
                 });
             } else {
@@ -103,7 +103,7 @@ const register = async function () {
 }
 
 function gotGoogleLoginPage() {
-    window.location.href = "http://localhost:8080/google-login";
+    window.location.href = `${import.meta.env.VITE_APP_API_URL}/google-login`;
 }
 </script>
 

@@ -30,7 +30,7 @@ function goToRegister2() {
     router.push('/register/register2')
 }
 function gotGoogleLoginPage(){
-    window.location.href = "http://localhost:8080/google-login";
+    window.location.href = `${import.meta.env.VITE_APP_API_URL}/google-login`;
 }
 </script>
 
