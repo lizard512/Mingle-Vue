@@ -57,13 +57,13 @@
                 <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
                 <div class="card mb-4">
                     <div class="card-body text-center position-relative lord-info">
-                        <button type="button" class="btn btn-info position-absolute" style="left: 5%; top: 75px;"
+                        <button type="button" class="btn btn-info position-absolute" style="left: 8%; top: 135px;"
                             @click="navigateToUserProfile"><i class="fa-solid fa-circle-info me-1"></i>房東資訊</button>
                         <img v-if="userDetail.photoBase64" :src="userDetail.photoBase64" alt="user"
-                            class="rounded-circle img-fluid" style="width: 100px;">
+                            class="rounded-circle img-fluid">
                         <img v-else src="@images/empty-avatar.png" alt="user" class="rounded-circle img-fluid"
                             style="width: 100px;">
-                        <button type="button" class="btn btn-primary position-absolute" style="right: 5%; top: 75px;"
+                        <button type="button" class="btn btn-primary position-absolute" style="right:8%; top: 135px;"
                             @click="navigateToChatroom"><i class="fa-solid fa-comment-dots me-1"></i>聯絡房東</button>
 
                         <h5 class="my-2">{{ userDetail.name }}</h5>
@@ -328,5 +328,11 @@ const apply = async () => {
 
 .lord-info {
     background-color: aliceblue;
+}
+
+.lord-info img {
+    width: 125px;
+    height: 125px;
+    object-fit: cover;
 }
 </style>
