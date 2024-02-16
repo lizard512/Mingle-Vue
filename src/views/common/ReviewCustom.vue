@@ -2,8 +2,6 @@
     <div class="row">
 
         <div class="col-md-8 px-md-4 mx-auto animate__animated animate__fadeInUp">
-            <br>
-            <h2 class="row justify-content-center">房東訂單評價</h2>
 
             <!-- 評價 start-->
             <div class="card  col-md-10 mx-auto d-flex flex-md-nowrap my-5" v-for="(item, index) in review" :key="index">
