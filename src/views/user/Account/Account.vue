@@ -14,11 +14,11 @@
 
         <!-- right Start -->
         <div class="col-9">
-            <Account1 v-show="isShowAccount" :userdetails="userdetails"></Account1>
+            <Account1 v-show="isShowAccount" :userdetails="userdetails" @resetdetails="loaduserDetail"></Account1>
             <introduction v-show="isShowIntroduction" :userdetails="userdetails"></introduction>
-            <!-- <LikeWork v-show="isShowLikeWork"></LikeWork> -->
+            <LikeWork v-show="isShowLikeWork"></LikeWork>
             <FinshWork v-show="isShowFinshWork"></FinshWork>
-            <test v-show="isShowtest"></test>
+            <OrderByUserId v-show="isShowtest"></OrderByUserId>
         </div>
         <!-- index End -->
 
@@ -31,8 +31,9 @@ import Account1 from './Account1.vue';
 import FinshWork from './Account2.vue';
 import LikeWork from './Account3.vue';
 import Introduction from './Account4.vue';
-import test from './test.vue'
+import OrderByUserId from './Account5.vue'
 import { onMounted, reactive, ref } from 'vue';
+import { useUserStore } from '@store/userStore-localStorage.js';
 
 const isShowAccount = ref(true);
 const isShowLikeWork = ref(false);
@@ -70,9 +71,15 @@ const getuserid =
         const id = localStorage.getItem('userID');
         return id;
     }
+const userStore = useUserStore();
 const loaduserDetail = async () => {
     const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/Base64/` + getuserid());
     if (!response.data) {
+        userStore.$reset()
+        localStorage.removeItem('user')
+        localStorage.removeItem('sessionToken');
+        localStorage.removeItem('userID');
+        localStorage.removeItem('lordID');
         Swal.fire({
             icon: 'warning',
             text: '此帳號已被刪除，重新登入或註冊新會員',

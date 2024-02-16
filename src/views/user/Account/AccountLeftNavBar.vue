@@ -8,18 +8,16 @@
                 <i class="fa-solid fa-pen" />個人介紹</a></div>
         <div class="row my-5" @click="clickHandler(isShow = 5)"> <a href="#" class="styleColor ">
                 <i class="fa-brands fa-phoenix-framework" />住宿/打工預定</a></div>
-        <div class="row my-5" @click="clickHandler(isShow = 2)">
+        <!-- <div class="row my-5" @click="clickHandler(isShow = 2)">
             <a href="#" class="styleColor"><i class="fa-solid fa-shoe-prints" />旅行足跡</a>
         </div>
         <div class="row my-5" @click="clickHandler(isShow = 3)"><a href="#" class="styleColor ">
-                <i class="fa-brands fa-gratipay" />心願清單</a></div>
+                <i class="fa-brands fa-gratipay" />心願清單</a></div> -->
     </div>
 </template>
 
 <script setup >
 
-
-const isShow = 1
 const emit = defineEmits(["xyzClick"])
 const clickHandler = showVeiw => {
 

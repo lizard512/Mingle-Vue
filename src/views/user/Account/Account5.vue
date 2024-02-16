@@ -5,14 +5,14 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <!--  訂單資料表格    -->
-                    <table id="table" class="table table-bordered table-hover">
+                    <table id="table" class="table table-success table-striped table-hover">
                         <thead>
                             <tr>
                                 <th style="width: 8rem">訂單編號</th>
                                 <th>房客ID</th>
+                                <th>訂單報名人數</th>
                                 <th>工作名稱</th>
                                 <th>房源名稱</th>
-                                <th>備註</th>
                                 <th>特殊需求</th>
                                 <th>開始時間</th>
                                 <th>結束時間</th>
@@ -26,16 +26,17 @@
                             <tr v-for="singleOrder in details" :key="singleOrder.order.orderid">
                                 <td>{{ singleOrder.order.orderid }}</td>
                                 <td>{{ singleOrder.order.userid }}</td>
+                                <td><el-tag type="success" effect="dark" round size="large">{{ singleOrder.order.numbers
+                                }}</el-tag></td>
                                 <td>{{ singleOrder.workName }}</td>
                                 <td>{{ singleOrder.houseName }}</td>
-                                <td>{{ singleOrder.order.notes }}</td>
                                 <td>{{ singleOrder.order.needs }}</td>
                                 <td>{{ singleOrder.formatStartDate }}</td>
                                 <td>{{ singleOrder.formatEndDate }}</td>
                                 <td>{{ singleOrder.formatCreatedAt }}</td>
                                 <td>
-                                    <el-text class="mx-1" v-if="singleOrder.order.status === '待房東確認'"
-                                        type="success">待確認</el-text>
+                                    <el-tag class="mx-1" v-if="singleOrder.order.status === '待房東確認'"
+                                        type="success">待確認</el-tag>
                                     <el-text class="mx-1" v-if="singleOrder.order.status === '已完成訂單'"
                                         type="primary">已完成</el-text>
                                     <el-text class="mx-1" v-if="singleOrder.order.isCancelled" type="info">已取消</el-text>
@@ -44,6 +45,7 @@
                                         type="danger">待付款</el-text>
                                 </td>
                                 <td>
+                                    <!-- v-if="singleOrder.order.status === '房東已接受'" -->
                                     <Payment :people="singleOrder.order.numbers" :orderid="singleOrder.order.orderid">
                                     </Payment>
                                     <!-- <button v-if="singleOrder.order.status === '待房東確認'" type="button"
@@ -54,7 +56,8 @@
                                         @click="rejectOrder(singleOrder.order.orderid)">拒絕</button> -->
                                 </td>
                                 <td>
-                                    <button v-if=true style="margin-right: 1rem" class="btn btn-success"
+                                    <!-- v-if="singleOrder.order.status === '已完成訂單'" -->
+                                    <button style="margin-right: 1rem" class="btn btn-success"
                                         @click="toReviewOrder(singleOrder.order.orderid)">評價
                                     </button>
                                 </td>
@@ -84,12 +87,11 @@ const getuserid = () => {
 
 const initAssign = async () => {
     try {
-        // const lordID = getLordID().lordID;
-        const userID = localStorage.getItem("userID");
+        const userID = getuserid().userID;
         const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/order/findAllOrder/byUserId/${userID}`);
         const data = await response.json();
         details.value = data;
-        // console.log(details)
+        console.log(details)
         // console.log(lordID)
     } catch (error) {
         console.error('獲取資料失敗:', error);

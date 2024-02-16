@@ -444,7 +444,8 @@
                                     </td>
                                     <td class="mx-3">
                                         <div class="d-flex justify-content-center fs-5" :class="{
-                                            'text-primary': house.beds <= 10
+                                            'text-success': house.beds >= 10,
+                                            'text-primary': house.beds < 10
                                                 && house.beds >= 5
                                             , 'text-danger': house.beds < 5
                                         }
