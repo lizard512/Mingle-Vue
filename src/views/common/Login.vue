@@ -22,7 +22,7 @@
                     <div class="checkboxDiv">
                         <label>
                             <input id="checkbox" v-model="showPassword" class="checkbox" type="checkbox"
-                                value="remember-me"> 顯示密碼
+                                value="show-me"> 顯示密碼
                         </label>
                     </div>
                     <div class="forget-password">
