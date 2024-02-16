@@ -19,8 +19,6 @@
                     </p>
                     <p class="card-text"><span class="fw-bold">結束日期：</span> {{ work.endDate }}</p>
                     <p class="card-text"><span class="fw-bold">最小報名天數：</span> {{ work.minPeriod }}</p>
-                    <p class="card-text"><span class="fw-bold">已報名人數：</span> {{ work.attendance }} / {{ work.maxAttendance
-                    }}</p>
 
                     <h4 class="mt-4 text-center">工作要求</h4>
                     <hr class="divider rounded mb-4">
@@ -34,7 +32,7 @@
                     <hr class="divider rounded mb-4">
                     <p class="card-text"><span class="fw-bold">建立時間：</span> {{ work.createdAt }}</p>
                     <p class="card-text"><span class="fw-bold">更新時間：</span> {{ work.updatedAt }}</p>
-                    <p class="card-text"><span class="fw-bold">瀏覽量：</span> {{ work.views }}</p>
+
                     <p class="card-text"><span class="fw-bold">狀態：</span> {{ work.status }}</p>
                 </div>
             </div>
@@ -63,7 +61,7 @@
                             @click="navigateToUserProfile"><i class="fa-solid fa-circle-info me-1"></i>房東資訊</button>
                         <img v-if="userDetail.photoBase64" :src="userDetail.photoBase64" alt="user"
                             class="rounded-circle img-fluid" style="width: 100px;">
-                        <img v-else src="@images/ImageNotFound.jpg" alt="user" class="rounded-circle img-fluid"
+                        <img v-else src="@images/empty-avatar.png" alt="user" class="rounded-circle img-fluid"
                             style="width: 100px;">
                         <button type="button" class="btn btn-primary position-absolute" style="right: 5%; top: 75px;"
                             @click="navigateToChatroom"><i class="fa-solid fa-comment-dots me-1"></i>聯絡房東</button>
@@ -73,6 +71,20 @@
                         <hr>
                     </div>
                 </div>
+                <p class="card-text mt-4 fs-5"><span class="fw-bold"><i
+                            class="fa-solid fa-person-running me-2"></i>已報名人數：</span>
+                    <span :class="{
+                        'text-success': work.remaining >= 10,
+                        'text-primary': work.remaining < 10
+                            && work.remaining >= 5
+                        , 'text-danger': work.remaining < 5
+                    }
+                        ">{{ work.attendance }} / {{ work.maxAttendance
+    }}</span>
+                </p>
+                <p class="card-text fs-5"><span class="fw-bold"><i class="fa-solid fa-eye me-2"></i>瀏覽量：</span> {{
+                    work.views }}
+                </p>
                 <button type="button" class="btn keep-btn me-4" :class="{ 'active': isKept }"
                     @click.stop.prevent="toggleKeepWork"><i class="fa-brands fa-gratipay"></i></button>
                 <button v-if="work.attendance < work.maxAttendance" class="btn btn-danger" @click="apply"><i
@@ -135,6 +147,7 @@ const loadWorkData = async () => {
         response.data.createdAt = dateFormat(new Date(response.data.createdAt));
         // 修改日
         response.data.updatedAt = dateFormat(new Date(response.data.updatedAt));
+        response.data.remaining = response.data.maxAttendance - response.data.attendance;
         work.value = response.data;
     } catch (error) {
         console.error('Failed to fetch work data:', error);
