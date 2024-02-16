@@ -26,7 +26,7 @@
                 <div
                     class="justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 
-                    <h4 class="h2">房東總表現  <span class="text-primary  fa fa-solid fa-medal"  v-if="perfect"> 超讚房東</span>
+                    <h4 class="h2">房東總表現  <span class="text-primary" v-if="perfect" >恭喜獲得 </span><span class="text-primary  fa fa-solid fa-medal"  v-if="perfect"> 超讚房東</span>
                    </h4> 
                    <p class="text-secondary" >如何獲得超讚房東徽章?</p>
                    <p class="text-dark">瀏覽量大於10000，總訂單數大於100，預定人數大於200，評價數量大於5，平均評價分數大於4.5。</p>
