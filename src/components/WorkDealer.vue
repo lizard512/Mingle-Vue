@@ -24,8 +24,8 @@
                                     class="fa-solid fa-heart"></i></button>
                             <!-- 檢舉按鈕 -->
                             <button type="button" class="btn rounded-circle report-btn position-absolute end-0 bottom-0 m-3"
-                                @click.stop.prevent="reportedWorkName = work.name; reportBean.workID=work.workid;"  data-bs-toggle="modal"
-                                data-bs-target="#reportModal">
+                                @click.stop.prevent="reportedWorkName = work.name; reportBean.workID = work.workid;"
+                                data-bs-toggle="modal" data-bs-target="#reportModal">
                                 <i class="fa-solid fa-flag"></i>
                             </button>
                         </div>
@@ -103,7 +103,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="reportType">違規類型</label>
-                            <select id="reportType" v-model="reportBean.reportType" class="form-select" required>
+                            <select id="reportType" v-model="reportBean.type" class="form-select" required>
                                 <option disabled value="">請選擇違規類型</option>
                                 <option>此工作令人感到不適或違反善良風俗</option>
                                 <option>重覆刊登／複製他人工作圖文</option>
@@ -114,7 +114,8 @@
                         </div>
                         <div class="form-group">
                             <label for="reportReason">詳細原因</label>
-                            <textarea id="reportReason" v-model="reportBean.reportReason" class="form-control" placeholder="上限500字" required></textarea>
+                            <textarea id="reportReason" v-model="reportBean.reason" class="form-control"
+                                placeholder="上限500字" required></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -154,8 +155,8 @@ let lastFilp = ref(0); // 保存上一次翻開的進度
 const reportedWorkName = ref('');
 const reportBean = ref({
     workID: '',
-    reportType: '',
-    reportReason: '',
+    type: '',
+    reason: '',
 
 });
 
@@ -247,8 +248,12 @@ const toggleKeepWork = (workId, kept) => {
 }
 
 
-const submitReport = () => {
-    console.log(reportBean.value);
+const submitReport = async () => {
+    try {
+        const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/report/addReport`, reportBean.value);
+    } catch (error) {
+        console.log(error);
+    }
     toast("已提交檢舉，我們將會盡快審核。<br>恕不另行通知審核結果。", { html: true })
 }
 

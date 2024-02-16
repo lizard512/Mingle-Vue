@@ -197,13 +197,13 @@ onMounted(async () => {
     await loadWorktype();
     await loadCity();
     await loadWork();
-    window.addEventListener('scroll', infiniteScroll);
-    window.addEventListener('scroll', checkSticky);
+    window.addEventListener('scroll', infiniteScroll, { passive: true });
+    window.addEventListener('scroll', checkSticky, { passive: true });
     // document.body.classList.add('no-scroll');
 });
 onUnmounted(() => {
-    window.removeEventListener('scroll', infiniteScroll);
-    window.removeEventListener('scroll', checkSticky);
+    window.removeEventListener('scroll', infiniteScroll, { passive: true });
+    window.removeEventListener('scroll', checkSticky, { passive: true });
     // document.body.classList.remove('no-scroll');
 });
 
