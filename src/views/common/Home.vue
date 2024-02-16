@@ -17,6 +17,10 @@
           :autoplay="{ disableOnInteraction: true }" class="mySwiper">
           <swiper-slide><img src="@images/carousel-1.jpg" alt="..."></swiper-slide>
           <swiper-slide><img src="@images/carousel-2.jpg" alt="..."></swiper-slide>
+          <swiper-slide><img src="@images/carousel-3.jpg" alt="..."></swiper-slide>
+          <swiper-slide><img src="@images/carousel-4.jpg" alt="..."></swiper-slide>
+          <swiper-slide><img src="@images/carousel-5.jpg" alt="..."></swiper-slide>
+          <swiper-slide><img src="@images/carousel-6.jpg" alt="..."></swiper-slide>
         </swiper>
       </div>
     </div>
@@ -115,7 +119,7 @@ const getReview = async () => {
 
 .swiper-slide img {
   display: block;
-  height: 100%;
+  height: 50vh;
   width: 100%;
   object-fit: cover;
 }
