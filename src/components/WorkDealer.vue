@@ -24,7 +24,7 @@
                                     class="fa-solid fa-heart"></i></button>
                             <!-- 檢舉按鈕 -->
                             <button type="button" class="btn rounded-circle report-btn position-absolute end-0 bottom-0 m-3"
-                                @click.stop.prevent="reportedWorkName = work.name;" data-bs-toggle="modal"
+                                @click.stop.prevent="reportedWorkName = work.name; reportBean.workID=work.workid;"  data-bs-toggle="modal"
                                 data-bs-target="#reportModal">
                                 <i class="fa-solid fa-flag"></i>
                             </button>
@@ -103,18 +103,18 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="reportType">違規類型</label>
-                            <select id="reportType" v-model="reportType" class="form-control" required>
+                            <select id="reportType" v-model="reportBean.reportType" class="form-select" required>
                                 <option disabled value="">請選擇違規類型</option>
-                                <option value="1">此工作令人感到不適或違反善良風俗</option>
-                                <option value="2">重覆刊登／複製他人工作圖文</option>
-                                <option value="3">標題濫用文字誤導搜尋</option>
-                                <option value="4">違反平台政策</option>
-                                <option value="5">其他</option>
+                                <option>此工作令人感到不適或違反善良風俗</option>
+                                <option>重覆刊登／複製他人工作圖文</option>
+                                <option>標題濫用文字誤導搜尋</option>
+                                <option>違反平台政策</option>
+                                <option>其他</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="reportReason">詳細原因</label>
-                            <textarea id="reportReason" v-model="reportReason" class="form-control" required></textarea>
+                            <textarea id="reportReason" v-model="reportBean.reportReason" class="form-control" placeholder="上限500字" required></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -152,8 +152,12 @@ const userStore = useUserStore();
 let isFliping = ref([]);
 let lastFilp = ref(0); // 保存上一次翻開的進度
 const reportedWorkName = ref('');
-const reportType = ref('');
-const reportReason = ref('');
+const reportBean = ref({
+    workID: '',
+    reportType: '',
+    reportReason: '',
+
+});
 
 //// 監聽變數
 watch(() => props.works.length, (newLength) => {// 翻牌模擬器好難玩OAQ
@@ -244,7 +248,7 @@ const toggleKeepWork = (workId, kept) => {
 
 
 const submitReport = () => {
-    console.log(reportType.value, reportReason.value);
+    console.log(reportBean.value);
     toast("已提交檢舉，我們將會盡快審核。<br>恕不另行通知審核結果。", { html: true })
 }
 
