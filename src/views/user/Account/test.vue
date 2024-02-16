@@ -46,16 +46,16 @@
                                 <td>
                                     <Payment :people="singleOrder.order.numbers" :orderid="singleOrder.order.orderid">
                                     </Payment>
-                                    <button v-if="singleOrder.order.status === '待房東確認'" type="button"
+                                    <!-- <button v-if="singleOrder.order.status === '待房東確認'" type="button"
                                         style="margin-right: 1rem" class="btn btn-success"
                                         @click="acceptOrder(singleOrder.order.orderid)">接受
                                     </button>
                                     <button v-if="singleOrder.order.status === '待房東確認'" type="button" class="btn btn-danger"
-                                        @click="rejectOrder(singleOrder.order.orderid)">拒絕</button>
+                                        @click="rejectOrder(singleOrder.order.orderid)">拒絕</button> -->
                                 </td>
                                 <td>
-                                    <button v-if="singleOrder.order.status === '已完成訂單'" style="margin-right: 1rem"
-                                        class="btn btn-success" @click="toReviewOrder(singleOrder.order.orderid)">評價
+                                    <button v-if=true style="margin-right: 1rem" class="btn btn-success"
+                                        @click="toReviewOrder(singleOrder.order.orderid)">評價
                                     </button>
                                 </td>
                             </tr>
