@@ -5,18 +5,17 @@
         </div>
 
         <div>
-            <div class="row">
-                <span>審核進度：{{currentIndex}} / {{ totalWorks }}</span>
-                <div class=" col-xxl-4 col-lg-6 col-12 p-3" v-for="(work, index) in works" :key="work.workid"
-                    v-show="index === currentIndex">
+            <div class="row" v-for="(work, index) in works" :key="work.workid" v-show="index === currentWork">
+                <div class="col-xxl-4 col-6 p-3">
+                    <h5 class="text-center">已審核工作：{{ currentWork }} / {{ totalWorks }}</h5>
                     <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                         <!-- <transition name="flip"> -->
                         <!-- 開牌 -->
                         <div class="list-item overflow-hidden">
                             <div class="overflow-hidden position-relative">
-                                <!-- <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64"
+                                <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64[0]"
                                     :alt="work.name">
-                                <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name"> -->
+                                <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
                                 <div class="bg-info rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
                                     {{ work.worktype }}</div>
                                 <div
@@ -44,17 +43,27 @@
                     </router-link>
                     <div class="d-flex justify-content-center mt-2">
                         <button class="btn btn-success me-2" @click="showNext">通過</button>
-                        <button class="btn btn-danger" @click="showNext">不通過</button>
+                        <button class="btn btn-danger" @click="showNext">封禁</button>
                     </div>
-                </div>
-                <div>
                     <div v-if="reportEnds">
                         <p>審核已完成！做的好</p>
                     </div>
                 </div>
+                <div class="col-xxl-8 col-6 p-3">
+                    <h5 class="text-center">待檢視檢舉：{{ currentReport }} / {{ totalReports }}</h5>
+                    <div class="row ">
+                        <div v-for="report in reports.filter(r => r.workID === work.workid)" :key="report.reportID"
+                            class="col-5 list-item m-5 mx-auto">
+                            <h5>檢舉ID：{{ report.reportID }}</h5>
+                            <p>違規類型：{{ report.type }}</p>
+                            <p>詳細原因：{{ report.reason }}</p>
+                            <p>檢舉狀態：{{ report.status }}</p>
+                            <p>創建時間：{{ report.createdAt }}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 </template>
     
@@ -72,8 +81,10 @@ onMounted(async () => {
 //// 宣告變數
 // 載入相關
 const reports = ref([]);
+const currentReport = ref(0);
+const totalReports = ref(0);
 const works = ref([]);
-const currentIndex = ref(0);
+const currentWork = ref(0);
 const totalWorks = ref(0);
 const reportEnds = ref(false);
 
@@ -85,19 +96,18 @@ const loadReport = async () => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/report/statusZero`);
         reports.value = response.data;
+        totalReports.value = reports.value.length;
     } catch (error) {
         console.error(error);
     }
 };
 
-// 載入一頁工作列表
+// 根據被檢舉的工作ID載入列表
 const loadWork = async () => {
     try {
         const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/report/worksByReportBeans`,
-        reports.value);// request body
-        console.log(response.data);
+            reports.value);// request body
         works.value = response.data;
-        console.log(works.value);
         totalWorks.value = works.value.length;
     } catch (error) {
         console.error(error);
@@ -105,10 +115,10 @@ const loadWork = async () => {
 };
 
 const showNext = () => {
-    if (currentIndex.value < works.value.length) {
-        currentIndex.value++;
+    if (currentWork.value < works.value.length) {
+        currentWork.value++;
     }
-    if (currentIndex.value == works.value.length){
+    if (currentWork.value == works.value.length) {
         reportEnds.value = true;
     }
 };
@@ -117,9 +127,9 @@ const showNext = () => {
     
 <style scoped>
 .list-item {
-    box-shadow: 0 0 12px rgba(0, 0, 0, .5);
-    background-color: var(--white);
-    border-radius: 15px;
+    border: 2px solid var(--black);
+    background-color: rgba(205, 205, 205, 0.3);
+    border-radius: 16px;
 }
 
 .list-item img {

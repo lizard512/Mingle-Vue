@@ -89,7 +89,7 @@
                                     <i class="fa fa-solid fa-check-to-slot"></i><span>審核工作檢舉</span>
                                 </div>
                                 <span class="badge bg-danger m-2 d-flex align-items-center sidebar-text">{{
-                                    pendingReviewCount }}</span>
+                                    pendingReportCount }}</span>
                             </RouterLink>
                         </li>
                         <li class="nav-item">
@@ -161,7 +161,7 @@ const userStore = useUserStore();
 const router = useRouter();
 // 樣式相關
 const darkMode = ref(true); // 暗黑模式
-const pendingReviewCount = ref(0);
+const pendingReportCount = ref(0);
 const isCollapse = ref(false);
 
 //// 定義方法
@@ -176,10 +176,10 @@ const loadUserData = async () => {
 
 const countPendingReview = async () => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/work/countPendingReview`);
-        pendingReviewCount.value = response.data;
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/report/countPendingReport`);
+        pendingReportCount.value = response.data;
     } catch (error) {
-        console.error('Failed to fetch pending review count:', error);
+        console.error('Failed to fetch pending report count:', error);
     }
 }
 
