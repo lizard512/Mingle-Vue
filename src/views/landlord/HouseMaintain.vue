@@ -39,7 +39,7 @@
           <td>{{ house.houseid }}</td>
           <td>{{ house.lordid }}</td>
           <td>
-            <img @click="openCarouselModal(house.housePhotos)"
+            <img v-if="house.housePhotos && house.housePhotos.length > 0" @click="openCarouselModal(house.housePhotos)"
               :src="'data:image/' + house.housePhotos[0].contentType + ';base64,' + house.housePhotos[0].photo"
               alt="House Photo" style="max-width: 100px; max-height: 100px; cursor: pointer;">
           </td>

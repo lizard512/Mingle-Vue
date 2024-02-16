@@ -16,8 +16,7 @@
                                 <th>特殊需求</th>
                                 <th>開始時間</th>
                                 <th>結束時間</th>
-                                <th>發票號碼</th>
-                                <th>發票日期</th>
+                                <th>下單時間</th>
                                 <th>狀態</th>
                                 <th>操作</th>
                                 <th>評價</th>
@@ -33,24 +32,30 @@
                                 <td>{{ singleOrder.order.needs }}</td>
                                 <td>{{ singleOrder.formatStartDate }}</td>
                                 <td>{{ singleOrder.formatEndDate }}</td>
-                                <td>{{ singleOrder.order.invoiceNumber }}</td>
-                                <td>{{ singleOrder.formatInvoiceDate }}</td>
-                                <td
-                                    v-html="format(singleOrder.order.isCancelled, singleOrder.order.isRefunded, singleOrder.order.status)">
+                                <td>{{ singleOrder.formatCreatedAt }}</td>
+                                <td>
+                                    <el-text class="mx-1" v-if="singleOrder.order.status === '待房東確認'"
+                                        type="success">待確認</el-text>
+                                    <el-text class="mx-1" v-if="singleOrder.order.status === '已完成訂單'"
+                                        type="primary">已完成</el-text>
+                                    <el-text class="mx-1" v-if="singleOrder.order.isCancelled" type="info">已取消</el-text>
+                                    <el-text class="mx-1" v-if="singleOrder.order.isRefunded" type="warning">已退款</el-text>
+                                    <el-text class="mx-1" v-if="singleOrder.order.status === '房東已接受'"
+                                        type="danger">待付款</el-text>
                                 </td>
                                 <td>
+                                    <Payment :people="singleOrder.order.numbers" :orderid="singleOrder.order.orderid">
+                                    </Payment>
                                     <button v-if="singleOrder.order.status === '待房東確認'" type="button"
                                         style="margin-right: 1rem" class="btn btn-success"
                                         @click="acceptOrder(singleOrder.order.orderid)">接受
                                     </button>
                                     <button v-if="singleOrder.order.status === '待房東確認'" type="button" class="btn btn-danger"
                                         @click="rejectOrder(singleOrder.order.orderid)">拒絕</button>
-                                    <Payment :people="singleOrder.order.numbers" :orderid="singleOrder.order.orderid">
-                                    </Payment>
                                 </td>
                                 <td>
-                                    <button v-if=true type="button" style="margin-right: 1rem" class="btn btn-success"
-                                        @click="toReviewOrder(singleOrder.order.orderid)">評價
+                                    <button v-if="singleOrder.order.status === '已完成訂單'" style="margin-right: 1rem"
+                                        class="btn btn-success" @click="toReviewOrder(singleOrder.order.orderid)">評價
                                     </button>
                                 </td>
                             </tr>
@@ -73,8 +78,8 @@ onMounted(() => {
     initAssign();
 });
 
-const getLordID = () => {
-    return { "lordID": localStorage.getItem("lordID") };
+const getuserid = () => {
+    return { "userID": localStorage.getItem("userID") };
 };
 
 const initAssign = async () => {
@@ -90,18 +95,6 @@ const initAssign = async () => {
         console.error('獲取資料失敗:', error);
     }
 };
-
-function format(isCancelled, isRefunded, status) {
-    if (isCancelled) {
-        return '<span class="badge text-bg-danger">已取消</span>';
-    } else if (isRefunded) {
-        return '<span class="badge text-bg-danger">已退款</span>';
-    } else if (status === "待房東確認") {
-        return '<span class="badge text-bg-danger">待確認</span>';
-    } else {
-        return '<span class="badge text-bg-success">已確認</span>'
-    }
-}
 
 
 const acceptOrder = async (orderId) => {

@@ -1,5 +1,7 @@
 <template>
     <div class="row">
+        <div><br>  <h2 v-show="flag" class="row justify-content-center">尚無評價</h2></div>
+      
 
         <div class="col-md-8 px-md-4 mx-auto animate__animated animate__fadeInUp">
 
@@ -126,6 +128,7 @@ const review = ref([]);
 const orderDetail = ref([]);
 const landlordReplies = reactive({});
 const photos = ref([])
+const flag=ref(false)
 
 const reply = ref({
     "reviewid": 0,
@@ -159,6 +162,9 @@ const getReview = async () => {
     });
     Object.assign(review.value, response.data);
 
+    if(review.value.length == 0){
+        flag.value=true
+    }
     return review.value
 
 }
@@ -194,17 +200,15 @@ const getReviewPhoto = async (item_reviewid) => {
             { reviewId: item_reviewid }
     });
 
-    console.log(response.data)
+
 
     for (const photo of response.data) {
-        console.log(photo)
 
         reviewPhoto.value.push({
             id: item_reviewid,
             photo: photo
         })
     }
-    console.log(reviewPhoto.value)
 
     return reviewPhoto.value
 }
@@ -222,13 +226,9 @@ const submitReply = async (item_reviewid) => {
         "replyUpdatedAt": new Date().toISOString()
     }
 
-    console.log(reply.value)
-
     const response = await axios.post(
         Reply_API_URL, reply.value
     );
-
-    console.log(response.data)
 
 
     await getReview();
