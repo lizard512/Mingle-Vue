@@ -41,7 +41,7 @@
         </div>
         <br>
         <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_next" value=url>
+        <input type="hidden" name="_next" :value="url">
         <input type="hidden" name="_template" value="table">
         <div style="text-align: center;">
           <button type="button" class="btn btn-light" style="border: 1px solid black;" @click="resetInput">取消</button>
@@ -64,6 +64,7 @@
 //         formImg.src = URL.createObjectURL(file)
 //     }
 // }
+
 
 
 export default {

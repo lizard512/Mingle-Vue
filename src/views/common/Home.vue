@@ -48,14 +48,17 @@
         <WorkDeck property="attendance" :autoplayDelay="4900" />
       </div>
     </div>
+    <div class="text-center mt-4">
+      <RouterLink class="btn btn-secondary p-4" to="/work-search"><h4 class="text-white">瀏覽更多打工項目</h4></RouterLink>
+    </div>
   </div>
   <!--Work Card End-->
   <!--Reviews Start-->
   <div class="container review-container">
-    <h2 class="text-center mt-5">好評不斷的打工項目</h2>
+    <h2 class="text-center mt-5">好評不斷的打工換宿體驗</h2>
     <h5 class="text-center text-info">來看看參加過的幫助者們怎麼說！</h5>
     <ReviewSwiper :reviews="firstHalf" />
-    <ReviewSwiper :reviews="secondHalf" :reverseDirection="true"/>
+    <ReviewSwiper :reviews="secondHalf" :reverseDirection="true" />
   </div>
   <!--Reviews End-->
 </template>
@@ -72,7 +75,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 // import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-const modules = [ Autoplay, Pagination, Navigation];
+const modules = [Autoplay, Pagination, Navigation];
 
 //// 引用元件
 import WorkDeck from '@components/WorkDeck.vue';
