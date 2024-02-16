@@ -57,7 +57,7 @@
             <div class="col-lg-8">
                 <div class="card mb-4">
                     <div class="card-title">
-                        <h3 class="text-center">會員資料</h3>
+                        <h4 class="text-center pt-4">會員資料</h4>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -117,7 +117,7 @@
                 </div>
                 <div class="card mb-4">
                     <div class="card-title">
-                        <h3 class="text-center">房東評價一覽</h3>
+                        <h4 class="text-center pt-4">房東評價一覽</h4>
                     </div>
                     <div class="card-body">
                         <ReviewCustom v-if="routeLordID" :lordID="routeLordID"></ReviewCustom>
