@@ -121,6 +121,9 @@
                     </div>
                     <div class="card-body">
                         <ReviewCustom v-if="routeLordID" :lordID="routeLordID"></ReviewCustom>
+                        <div v-else>
+                            <h6 class="text-center">此用戶尚未成為房東</h6>
+                        </div>
                     </div>
                 </div>
             </div>
