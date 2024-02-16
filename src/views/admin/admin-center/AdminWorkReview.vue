@@ -6,7 +6,7 @@
 
         <div>
             <div class="row">
-                <span>審核進度：{{currentIndex}} / {{ total }}</span>
+                <span>審核進度：{{currentIndex}} / {{ totalWorks }}</span>
                 <div class=" col-xxl-4 col-lg-6 col-12 p-3" v-for="(work, index) in works" :key="work.workid"
                     v-show="index === currentIndex">
                     <router-link class="router-link" :to="`/work-detail/${work.workid}`">
@@ -14,9 +14,9 @@
                         <!-- 開牌 -->
                         <div class="list-item overflow-hidden">
                             <div class="overflow-hidden position-relative">
-                                <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64"
+                                <!-- <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64"
                                     :alt="work.name">
-                                <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
+                                <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name"> -->
                                 <div class="bg-info rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
                                     {{ work.worktype }}</div>
                                 <div
@@ -65,57 +65,42 @@ import axios from 'axios';
 
 //// 生命週期
 onMounted(async () => {
+    await loadReport();
     await loadWork();
 });
 
 //// 宣告變數
-
 // 載入相關
-let works = ref([]);
-let total = ref(0);
-let currentIndex = ref(0);
-const currentPage = ref(0); // 當前頁數
-const size = 99; // 每次載入的數量
-const isLoading = ref(false); //避免重複載入
-const isEnd = ref(false);
+const reports = ref([]);
+const works = ref([]);
+const currentIndex = ref(0);
+const totalWorks = ref(0);
 const reportEnds = ref(false);
-// 排序相關
-let direction = 'DESC'; // 排序方向
-let property = 'createdAt'; // 排序屬性
-// 篩選相關
-let filters = ref({
-    // 自定義條件
-    workStatus: ["待審核"],
-});
+
 
 
 //// 定義方法
-// 載入一頁工作列表
-const loadWork = async () => {
-    if (isEnd.value || isLoading.value) return;
-    isLoading.value = true;
+// 載入待審核的檢舉列表
+const loadReport = async () => {
     try {
-        const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/work/getWorks`,
-            // request body
-            filters.value,
-            // request params
-            {
-                params: {
-                    page: currentPage.value,
-                    size: size,
-                    direction: direction,
-                    property: property,
-                }
-            }
-        );
-        total.value = response.data.totalElements;
-        works.value = [...works.value, ...response.data.content];
-        if (response.data.last) isEnd.value = true;
-        else currentPage.value++;
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/report/statusZero`);
+        reports.value = response.data;
     } catch (error) {
         console.error(error);
-    } finally {
-        isLoading.value = false;
+    }
+};
+
+// 載入一頁工作列表
+const loadWork = async () => {
+    try {
+        const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/report/worksByReportBeans`,
+        reports.value);// request body
+        console.log(response.data);
+        works.value = response.data;
+        console.log(works.value);
+        totalWorks.value = works.value.length;
+    } catch (error) {
+        console.error(error);
     }
 };
 
