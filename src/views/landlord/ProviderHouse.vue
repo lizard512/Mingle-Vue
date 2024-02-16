@@ -133,13 +133,14 @@
 
           <el-upload v-model:file-list="fl" list-type="picture-card" :auto-upload="true"
             :on-preview="handlePictureCardPreview" :on-remove="handleRemove" accept=".jpg,.jpeg,.webp,.png" :limit="6"
-            :multiple="true" drag :headers="upload.headers" :on-change="handleChange" :action=actionUrl>
+            :multiple="true" drag :headers="upload.headers" :on-change="handleChange" :action=actionUrl
+            :on-exceed="handleExceed">
 
             <el-icon>
               <Plus />
             </el-icon>
           </el-upload>
-          <div class="el-upload__tip" slot="tip">只能上傳jpg/jpeg/webp/png格式的圖片<br>且檔案應小於50MB</div>
+          <div class="el-upload__tip" slot="tip">最多六張,只能上傳jpg/jpeg/webp/png格式的圖片<br>且檔案應小於50MB</div>
         </div>
 
         <el-dialog v-model="dialogVisible" width="30%">
@@ -283,6 +284,26 @@ function initAssign() {
     headers: getToken()
   })
 
+}
+
+const handleExceed = () => {
+  Swal.mixin({
+    toast: true,
+    position: 'bottom-end',
+    showConfirmButton: false,
+    timer: 3000,
+    padding: 10,
+    width: 310,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+      toast.style.bottom = '120px';
+    }
+  }).fire({
+    icon: "error",
+    title: "檔案不能超過六張!"
+  })
 }
 
 const handleChange: UploadProps['onChange'] = (file, fl) => {
@@ -452,7 +473,8 @@ function fullData() {
   Data.value.hasPersonalSpace = '1';
   Data.value.hasPool = '0';
   Data.value.hasGym = '1';
-
+  currentPage.value = 3;
+  barValue = 100
 }
 </script>
 
