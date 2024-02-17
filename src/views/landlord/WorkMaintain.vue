@@ -29,7 +29,7 @@
                     <!--Spin-->
                     <tr v-if="isLoadingList" class="spin-tr">
                         <td class="p-0" colspan="12">
-                            <div class="spinner-border text-success" role="status">
+                            <div class="spinner-border text-primary" role="status">
                             </div>
                         </td>
                     </tr>
@@ -164,48 +164,46 @@
             <!-- main-form -->
             <form class="p-4 animate__animated animate__fadeIn needs-validation" novalidate v-show="isShowModify">
                 <!-- basic -->
-                <h4 class="text-center mb-4 animate__animated animate__flipInX">基本資訊</h4>
+                <h3 class="text-center mb-4 animate__animated animate__flipInX">基本資訊</h3>
                 <div class="border border-danger border-3 rounded-3 m-3 p-3 animate__animated animate__fadeInUp">
                     <!--worktype & workname-->
-                    <h5 class="text-dark mx-4 mt-3">打工基本資訊</h5>
+                    <h4 class="text-dark mx-4 mt-3">打工基本資訊</h4>
                     <div class="row g-0 mx-3 my-5">
-                        <div class="form-floating mx-3 col">
-                            <select class="form-control" id="formWorktype" v-model="worktype" required>
+                        <div class="mx-3 col">
+                            <h5 class="mb-3"><span class="text-danger">*</span>打工類型</h5>
+                            <select class="form-control" v-model="worktype" required>
                                 <!-- <option selected disabled value="">Choose...</option> -->
                                 <option v-for=" item  in  worktypeList " :value="item">{{
                                     item }}
                                 </option>
                             </select>
-                            <label for="formWorktype">工作類型(必填)</label>
                             <div class="invalid-feedback">
-                                請選取您的工作類型
+                                請選取您的打工類型
                             </div>
                         </div>
-                        <div class="form-floating mx-3 col">
-                            <input type="text" class="form-control" id="formWorkname" placeholder="工作名稱"
-                                v-model.trim="workname" required value="">
-                            <label for="formWorkname">工作名稱(必填)</label>
+                        <div class="mx-3 col">
+                            <h5 class="mb-3"><span class="text-danger">*</span>打工名稱</h5>
+                            <input type="text" class="form-control" placeholder="打工名稱" v-model.trim="workname" required
+                                value="">
                             <div class="invalid-feedback">
-                                工作名稱為必填欄位
+                                打工名稱為必填欄位
                             </div>
                         </div>
                     </div>
                     <!--workcity & workaddress -->
                     <div class="row g-0 mx-3 my-5">
-                        <div class="form-floating mx-3 col-3">
-                            <select class="form-control" id="formWorkcity" v-model="workcity" required>
-                                <option selected disabled value=""></option>
+                        <div class=" mx-3 col-3">
+                            <h5 class="mb-3"><span class="text-danger">*</span>打工縣市</h5>
+                            <select class="form-control" v-model="workcity" required>
                                 <option v-for="  item   in   city  " :value="item">{{ item }}</option>
                             </select>
-                            <label for="formWorkcity">打工縣市(必填)</label>
                             <div class="invalid-feedback">
                                 請選取您的打工縣市
                             </div>
                         </div>
-                        <div class="form-floating mx-3 col">
-                            <input type="text" class="form-control" id="formWorkaddress" placeholder="工作名稱"
-                                v-model.trim="workaddress" required>
-                            <label for="formWorkaddress">地址(必填)</label>
+                        <div class="mx-3 col">
+                            <h5 class="mb-3"><span class="text-danger">*</span>地址</h5>
+                            <input type="text" class="form-control" placeholder="地址" v-model.trim="workaddress" required>
                             <div class="invalid-feedback">
                                 請輸入您的打工地址
                             </div>
@@ -213,61 +211,59 @@
                     </div>
                     <!-- workperiod & attendance -->
                     <div class="row g-0 mx-3 my-5">
-                        <div class="col-3 mx-3">
-                            <span class="ms-2 work-period-title">打工期間(必填)</span>
+                        <div class="mx-3 col-3">
+                            <h5 class="mb-3"><span class="text-danger">*</span>打工期間</h5>
                             <el-date-picker v-model="workperiod" type="daterange" start-placeholder="開始日期"
                                 end-placeholder="結束日期" format="YYYY-MM-DD ddd" date-format="YYYY/MM/DD ddd" size="large"
                                 @change="workPeriodChange()" :disabled-date="daterule" />
                             <!--切換時，計算"今日"與"結束日"之時間差，最小天數不得超過時間差-->
                             <!--若時間差隨著時間經過，已低於資料庫的最小區間，使用者載入後要重選-->
                         </div>
-                        <div class="form-floating mx-4 my-2 col-3">
-                            <select class="form-control" id="formWorkminperiod" v-model="workminperiod" required>
+                        <div class="mx-3 col-3">
+                            <h5 class="mb-3"><span class="text-danger">*</span>打工最短天數</h5>
+                            <select class="form-control" v-model="workminperiod" required>
                                 <option selected disabled value="">Choose...</option>
                                 <option v-for=" item  in  workdatelimit ">{{
                                     item }}
                                 </option>
                             </select>
-                            <label for="formWorkminperiod">打工最短天數 (必填)</label>
                             <div class="invalid-feedback">
                                 請點選打工最短期間
                             </div>
                         </div>
-                        <div class="form-floating mx-4 my-2 col-3">
-                            <select class="form-control" id="formWorkmaxattendance" v-model="workmaxattendance" required>
+                        <div class="mx-3 col-3">
+                            <h5 class="mb-3"><span class="text-danger">*</span>打工需求人數</h5>
+                            <select class="form-control" v-model="workmaxattendance" required>
                                 <option selected disabled value="">Choose...</option>
-                                <option v-for=" item  in  100 ">{{ item + workattendance }}</option>
+                                <option v-for=" item  in  100 ">{{ item + workattendance - 1 }}</option>
                                 <!--可選範圍→已報名人數開始往上100-->
                             </select>
-                            <label for="formWorkmaxattendance">打工需求人數(必填)</label>
                             <div class="invalid-feedback">
                                 請點選需求人數
                             </div>
                         </div>
-                        <div class="form-floating mx-5 my-2 col-1">
+                        <div class="mx-2 col-2">
+                            <h5 class="mb-3">目前報名人數</h5>
                             <input type="number" class="form-control" v-model="workattendance" disabled>
-                            <label for="formWorkminperiod">目前報名人數</label>
                         </div>
                     </div>
                 </div>
                 <!-- work information -->
-                <h4 class="text-center my-5 animate__animated animate__flipInX">打工時間、福利、工作內容</h4>
+                <h3 class="text-center my-5 animate__animated animate__flipInX">打工時間、福利、工作內容</h3>
                 <div class="border border-danger border-3 rounded-3 m-3 p-3 animate__animated animate__fadeInUp">
-                    <h5 class="text-dark mx-4 mt-3">欄位請依照需求填寫</h5>
+                    <h4 class="text-dark mx-4 mt-3">欄位請依照需求填寫</h4>
                     <!-- worktime & vacation -->
                     <div class="row g-0 mx-3 my-5">
-                        <div class="form-floating mx-3 col">
-                            <input type="text" class="form-control" id="formWorktime" placeholder="工作時間"
-                                v-model.trim="worktime" required>
-                            <label for="formWorktime">工作時間(必填)</label>
+                        <div class="mx-3 col">
+                            <h5 class="mb-3"><span class="text-danger">*</span>打工時間</h5>
+                            <input type="text" class="form-control" placeholder="打工時間" v-model.trim="worktime" required>
                             <div class="invalid-feedback">
-                                請填寫工作時間
+                                請填寫打工時間
                             </div>
                         </div>
-                        <div class="form-floating mx-3 col">
-                            <input type="text" class="form-control" id="formWorkvacation" placeholder="休假制度"
-                                v-model.trim="workvacation" required>
-                            <label for="formWorkvacation">休假制度(必填)</label>
+                        <div class="mx-3 col">
+                            <h5 class="mb-3"><span class="text-danger">*</span>休假制度</h5>
+                            <input type="text" class="form-control" placeholder="休假制度" v-model.trim="workvacation" required>
                             <div class="invalid-feedback">
                                 請填寫休假制度
                             </div>
@@ -275,18 +271,17 @@
                     </div>
                     <!-- benefits -->
                     <div class="row g-0 mx-3 my-5">
-                        <div class="form-floating mx-3 col">
-                            <textarea class="form-control" id="formWorkbenefits" placeholder="福利制度"
-                                v-model.trim="workbenefits"></textarea>
-                            <label for="formWorkbenefits">福利制度</label>
+                        <div class="mx-3 col">
+                            <h5 class="mb-3">福利制度</h5>
+                            <textarea class="form-control" placeholder="福利制度" v-model.trim="workbenefits"></textarea>
                         </div>
                     </div>
                     <!-- description -->
                     <div class="row g-0 mx-3 my-5">
-                        <div class="form-floating mx-3 col">
-                            <textarea class="form-control workdescription-area" rows="10" id="formWorkdescription"
-                                placeholder="工作內容" v-model.trim="workdescription" required></textarea>
-                            <label for="formWorkdescription">工作內容(必填)</label>
+                        <div class="mx-3 col">
+                            <h5 class="mb-3"><span class="text-danger">*</span>工作內容</h5>
+                            <textarea class="form-control workdescription-area" rows="10" placeholder="工作內容"
+                                v-model.trim="workdescription" required></textarea>
                             <div class="invalid-feedback">
                                 請填寫工作內容
                             </div>
@@ -294,53 +289,47 @@
                     </div>
                 </div>
                 <!-- restriction information -->
-                <h4 class="text-center my-5 animate__animated animate__flipInX">資格要求</h4>
+                <h3 class="text-center my-5 animate__animated animate__flipInX">資格要求</h3>
                 <div class="border border-danger border-3 rounded-3 m-3 p-3 animate__animated animate__fadeInUp">
-                    <h5 class="text-dark mx-4 mt-3">填寫您希望的條件與門檻(非必填)</h5>
+                    <h4 class="text-dark mx-4 mt-3">填寫您希望的條件與門檻(非必填)</h4>
                     <!-- ageRestriction & genderRestriction -->
                     <div class="row g-0 mx-3 my-5">
-                        <div class="form-floating mx-3 col">
-                            <input type="text" class="form-control" id="formageRestriction" placeholder="年齡限制"
-                                v-model.trim="ageRestriction">
-                            <label for="formageRestriction">年齡限制</label>
+                        <div class="mx-3 col">
+                            <h5 class="mb-3">年齡限制</h5>
+                            <input type="text" class="form-control" placeholder="年齡限制" v-model.trim="ageRestriction">
                         </div>
-                        <div class="form-floating mx-3 col">
-                            <input type="text" class="form-control" id="formgenderRestriction" placeholder="性別要求"
-                                v-model.trim="genderRestriction">
-                            <label for="formgenderRestriction">性別要求</label>
+                        <div class="mx-3 col">
+                            <h5 class="mb-3">性別要求</h5>
+                            <input type="text" class="form-control" placeholder="性別要求" v-model.trim="genderRestriction">
                         </div>
                     </div>
                     <!-- educationRestriction & experienceRestriction -->
                     <div class="row g-0 mx-3 my-5">
-                        <div class="form-floating mx-3 col">
-                            <input type="text" class="form-control" id="formeducationRestriction" placeholder="學歷要求"
-                                v-model.trim="educationRestriction">
-                            <label for="formeducationRestriction">學歷要求</label>
+                        <div class="mx-3 col">
+                            <h5 class="mb-3">學歷要求</h5>
+                            <input type="text" class="form-control" placeholder="學歷要求" v-model.trim="educationRestriction">
                         </div>
-                        <div class="form-floating mx-3 col">
-                            <input type="text" class="form-control" id="formexperienceRestriction" placeholder="工作經驗"
-                                v-model.trim="experienceRestriction">
-                            <label for="formexperienceRestriction">工作經驗</label>
+                        <div class="mx-3 col">
+                            <h5 class="mb-3">工作經驗</h5>
+                            <input type="text" class="form-control" placeholder="工作經驗" v-model.trim="experienceRestriction">
                         </div>
                     </div>
                     <!-- languageRestriction & licenseRestriction -->
                     <div class="row g-0 mx-3 my-5">
-                        <div class="form-floating mx-3 col">
-                            <input type="text" class="form-control" id="formlanguageRestriction" placeholder="語言要求"
-                                v-model.trim="languageRestriction">
-                            <label for="formlanguageRestriction">語言要求</label>
+                        <div class="mx-3 col">
+                            <h5 class="mb-3">語言要求</h5>
+                            <input type="text" class="form-control" placeholder="語言要求" v-model.trim="languageRestriction">
                         </div>
-                        <div class="form-floating mx-3 col">
-                            <input type="text" class="form-control" id="formlicenseRestriction" placeholder="證照要求"
-                                v-model.trim="licenseRestriction">
-                            <label for="formlicenseRestriction">證照要求</label>
+                        <div class="mx-3 col">
+                            <h5 class="mb-3">證照要求</h5>
+                            <input type="text" class="form-control" placeholder="證照要求" v-model.trim="licenseRestriction">
                         </div>
                     </div>
                 </div>
                 <!-- upload -->
-                <h4 class="text-center my-5 animate__animated animate__flipInX">上傳圖片</h4>
+                <h3 class="text-center my-5 animate__animated animate__flipInX">上傳圖片</h3>
                 <div class="border border-danger border-3 rounded-3 m-3 p-3 animate__animated animate__fadeInUp">
-                    <h5 class="text-dark mx-4 mt-3">為您的工作上傳精彩照片(最多六張)</h5>
+                    <h4 class="text-dark mx-4 mt-3">為您的工作上傳精彩照片(最多六張)</h4>
                     <div class="row g-0 mx-3 my-5">
                         <el-upload v-model:file-list="fileList" class="upload-demo" action="#" :on-change="addToTotal"
                             :show-file-list="false" list-type="picture" :auto-upload="false" multiple drag>
@@ -365,17 +354,17 @@
                     </div>
                 </div>
                 <!-- bindHouse -->
-                <h4 class="text-center my-5 animate__animated animate__flipInX">綁定房源</h4>
+                <h3 class="text-center my-5 animate__animated animate__flipInX">綁定房源</h3>
                 <div class="border border-danger border-3 rounded-3 m-3 p-3  animate__animated animate__fadeInUp">
-                    <h5 class="text-dark mx-4 mt-3">設定此份工作綁定的房源(需綁定至少一項才可上架工作)</h5>
+                    <h4 class="text-dark mx-4 mt-3">設定此份工作綁定的房源 (需綁定至少一項才可上架工作)</h4>
                     <!-- table -->
                     <table class="my-5 table table-striped table-hover align-middle text-center">
                         <thead class="table-dark">
                             <tr>
-                                <th>房屋資訊</th>
-                                <th>房屋圖片</th>
-                                <th>剩餘床位</th>
-                                <th>是否綁定</th>
+                                <th class="fs-5">房屋資訊</th>
+                                <th class="fs-5">房屋圖片</th>
+                                <th class="fs-5">剩餘床位</th>
+                                <th class="fs-5">是否綁定</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -470,12 +459,13 @@
                     </table>
                 </div>
                 <!-- notes & status -->
-                <h4 class="text-center my-5 animate__animated animate__flipInX">上架與備註</h4>
+                <h3 class="text-center my-5 animate__animated animate__flipInX">上架與備註</h3>
                 <div class="border border-danger border-3 rounded-3 m-3 p-3 animate__animated animate__fadeInUp">
-                    <h5 class="text-dark mx-4 mt-3">設定上架狀態，以及備註(僅會顯示在您的工作管理頁面)</h5>
+                    <h4 class="text-dark mx-4 mt-3">設定上架狀態，以及備註(僅會顯示在您的工作管理頁面)</h4>
                     <!-- status -->
                     <div class="row g-0 mx-3 my-5">
-                        <span class="mx-3 col-1 align-self-center">上架狀態：</span>
+                        <span class="mx-3 col-1 align-self-center fs-5 fw-bold text-dark"><span
+                                class="text-danger">*</span>上架狀態：</span>
                         <div class="mx-3 col-1">
                             <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off"
                                 v-model="onShelf" value="true" :disabled="disabledShelf">
@@ -591,6 +581,7 @@ const disabledShelf = ref(false)        // 控管是否「禁用」上架
 
 // 生命週期
 onMounted(async () => {
+    window.scrollTo(0, 0);
     enterList();
 })
 // 進列表
@@ -636,12 +627,20 @@ async function enterModify(workid) {
             workname.value = response.data.name;
             workcity.value = response.data.city;
             workaddress.value = response.data.address;
-            workperiod.value = [response.data.startDate, response.data.endDate];
+            let startDay = response.data.startDate;
+            let endDay = response.data.endDate;
+            workperiod.value = [startDay, endDay];
             workminperiod.value = response.data.minPeriod;
 
-            // 計算當前日期與工作結束日期之時間差
-            workdatelimit.value = calculateDays(new Date(), new Date(response.data.endDate));
-
+            /* 計算當前日期與工作結束日期之時間差。  
+            PS. 2/17新增條件(如下)
+            *當下日期「還沒到」打工開始日   =>  區間計算：(結束日-打工開始日)
+            *當下日期「已超過」打工開始日   =>  區間計算：(結束日-當下日) */
+            if (new Date(startDay).getTime() - new Date().getTime() > 0) {
+                workdatelimit.value = calculateDays(new Date(startDay), new Date(endDay));  // 還沒到
+            } else {
+                workdatelimit.value = calculateDays(new Date(), new Date(endDay));          // 已超過
+            }
             workmaxattendance.value = response.data.maxAttendance;
             workattendance.value = response.data.attendance;
             worktime.value = response.data.workTime;
@@ -691,7 +690,11 @@ function calculateDays(startDate, endDate) {
 }
 // 選時間影響最小區間 (計算結束日期與現在日期，兩者的天數差。此數值為最小區間的最大值)
 function workPeriodChange() {
-    workdatelimit.value = calculateDays(new Date(), workperiod.value[1]);
+    if (workperiod.value[0].getTime() - new Date().getTime() > 0) {
+        workdatelimit.value = calculateDays(workperiod.value[0], workperiod.value[1]);
+    } else {
+        workdatelimit.value = calculateDays(new Date(), workperiod.value[1]);
+    }
 }
 
 // 預覽照片
@@ -1014,11 +1017,6 @@ function previewWork(workid) {
 /* 摺疊間隙 */
 .accordion-body {
     padding: 0;
-}
-
-.work-period-title {
-    color: grey;
-    font-size: smaller;
 }
 
 .workdescription-area {
