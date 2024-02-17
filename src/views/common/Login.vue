@@ -1,6 +1,6 @@
 <template>
     <div class="row" id="app">
-        <div class="col-lg-4 login-frame">
+        <div class="col-lg-4 login-frame p-5">
             <div class="container-xxl bg-white p-5 login-form">
                 <div class="login-icon">
                     <img src="@icons/icon-mingle-bold.png" width="50px">
@@ -200,7 +200,6 @@ const autoLoginUser = () => {
     
 <style scoped>
 .row {
-    margin-top: 2em;
 }
 
 .login-frame {

@@ -43,11 +43,11 @@
                 <!-- Sidebar Start -->
                 <nav class="col-xxl-2 col-xl-3 col-md-4 col-2 d-block navbar-dark sidebar">
                     <ul class="nav flex-column">
-                        <button type="button" class="navbar-toggler bg-info" @click="isCollapse = !isCollapse">
-                            <span class="navbar-toggler-icon"></span>
+                        <button type="button" class="navbar-toggler" @click="isCollapse = !isCollapse">
+                            <i class="fa-solid fa-bars py-1"></i>
                         </button>
                         <li class="nav-item">
-                            <RouterLink class="nav-link" active-class="active" :to="{ name: 'AdminHome' }">
+                            <RouterLink class="nav-link mt-3" active-class="active" :to="{ name: 'AdminHome' }">
                                 <i class="fa fa-solid fa-clipboard-list"></i>
                                 <span>管理者主控台</span>
                             </RouterLink>
@@ -128,7 +128,7 @@
                 <div class="d-flex justify-content-end">
                     <main class="col-xxl-10 col-xl-9 col-md-8 col-10">
                         <div class="p-5 router-view">
-                            <RouterView class=""></RouterView>
+                            <RouterView></RouterView>
                         </div>
                     </main>
                 </div>
@@ -227,8 +227,12 @@ watch(router.currentRoute, async () => {
     
 <style scoped>
 .container-fluid {
-    height: 100vh;
+        /* height: 100vh; */
     /* overflow: hidden; */
+}
+
+.router-view{
+    min-height: calc(100vh - 75px);
 }
 
 /*** Icon ***/
@@ -246,6 +250,11 @@ watch(router.currentRoute, async () => {
     height: 75px;
 }
 
+.fa-bars {
+    font-size: 1.5rem;
+    color: var(--dark);
+}
+
 .dropdown-toggle::after {
     transition: .5s;
 }
@@ -256,17 +265,19 @@ watch(router.currentRoute, async () => {
 
 .sidebar {
     padding: 0;
-    background-color: var(--light);
+    background-color: var(--white);
     height: 100vh;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 1);
     position: fixed;
 }
 
-/* .sidebar .navbar-toggler{
-} */
+.sidebar .navbar-toggler{
+    background-color: var(--light);
+    border-bottom: 2px solid black;
+}
 
 .sidebar-heading {
-    background-color: var(--white);
+    background-color: var(--light);
     /* px-3 mt-3 mb-1 */
     /* 3 * 4px */
     margin-top: 16px;
@@ -318,11 +329,12 @@ watch(router.currentRoute, async () => {
 }
 
 .sidebar-user-info {
+    border-top: 2px solid black;
     position: fixed;
     bottom: 0;
     left: 0;
     width: inherit;
-    background-color: var(--info);
+    background-color: var(--light);
 }
 
 .sidebar-user-info .fa-solid,

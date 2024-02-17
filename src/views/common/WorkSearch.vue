@@ -79,7 +79,7 @@
             </div>
         </div>
         <!--Spinner End-->
-        <div class="the-end text-center m-5" v-if="isEnd">已經到底啦~~</div>
+        <div class="the-end text-center m-5 text-white" v-if="isEnd">已經到底啦~~</div>
 
         <!-- Sticky Footer Start-->
         <footer

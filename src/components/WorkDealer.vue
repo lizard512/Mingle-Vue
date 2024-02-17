@@ -261,7 +261,7 @@ const submitReport = async () => {
 
 <style scoped>
 .list-item {
-    background-color: rgba(150, 100, 0, 0.1);
+    background-color: var(--white);
     border-radius: 16px;
     border: 2px solid var(--black);
 }

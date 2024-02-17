@@ -11,6 +11,7 @@
 </template>
 
 <script setup>
+// 外部資源
 import 'bootstrap/dist/js/bootstrap.min.js'
 // 內部元件
 import Navbar from '@components/Navbar.vue'
@@ -26,6 +27,7 @@ import BackToTopButton from '@components/BackToTopButton.vue'
 <style src="@fortawesome/fontawesome-free/css/all.css"></style>
 <!-- Customized Bootstrap SCSS-->
 <style lang="scss" src="@styles/customized-bootstrap.scss"></style>
+
 <style>
 ::-webkit-scrollbar {
     display: none;
@@ -43,19 +45,22 @@ import BackToTopButton from '@components/BackToTopButton.vue'
     --white: #FFFFFF;
     --black: #000000;
 }
+</style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Noto+Serif+TC&display=swap');
 
-/*** Button ***/
-/* .btn {
-    transition: .5s;
+body {
+    font-family: "Noto Sans TC", sans-serif;
 }
-
-.btn.btn-primary,
-.btn.btn-secondary {
-    color: #FFFFFF;
-} */
 </style>
 <style scoped>
 .router-view {
-    min-height: 50.5vh;
+    min-height: 55vh;
+    background-image:
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+        url('@images/bg.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: repeat-y;
 }
 </style>

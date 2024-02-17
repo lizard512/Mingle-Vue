@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <h2>管理者權限控管</h2>
-        <div class="overflow-auto">
+        <div>
             <table class="table">
                 <thead>
                     <tr>

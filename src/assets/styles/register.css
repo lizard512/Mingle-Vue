@@ -1,13 +1,13 @@
 .row {
-    margin-top: 2em;
+
 }
 
 .register-frame {
     margin: auto;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     border-radius: 10px;
     padding: 10px;
-    background-color: #d63384;
+    /* background-color: #d63384; */
 }
 
 .register-form {

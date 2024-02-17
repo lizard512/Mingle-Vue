@@ -1,66 +1,68 @@
 <template>
   <!-- Header Start -->
-  <div class="container p-0">
-    <div class="row g-0 align-items-center header">
-      <div class="col-xl-6 p-5 text-center animate__animated animate__fadeIn">
-        <h1 class="display-5 mb-4 title-text">一點 <span class="text-info">幫助</span>
-          ，一晚<span class="text-info"> 住宿。</span>
-        </h1>
-        <p class="display-6 mb-4 pb-2 text-dark-var">全台 26 縣市提供打工換宿</p>
-        <a href="" class="btn btn-secondary py-3 px-5">了解詳情</a>
+  <div class="container-fluid">
+    <div class="container p-0">
+      <div class="row g-0 align-items-center header">
+        <div class="col-xl-6 p-5 text-center animate__animated animate__fadeIn">
+          <h1 class="display-5 mb-4 title-text">一點 <span class="text-info">幫助</span>
+            ，一晚<span class="text-info"> 住宿。</span>
+          </h1>
+          <p class="display-6 mb-4 pb-2 text-dark-var">全台 26 縣市提供打工換宿</p>
+          <RouterLink class="btn btn-secondary py-2 px-4" to="/about">了解詳情</RouterLink>
+        </div>
+        <div class="col-xl-6">
+          <swiper :style="{
+            '--swiper-navigation-color': '#fff',
+            '--swiper-pagination-color': '#fff',
+          }" :centeredSlides="true" :loop="true" :navigation="true" :modules="modules"
+            :pagination="{ clickable: true }" :autoplay="{ disableOnInteraction: true }" class="mySwiper">
+            <swiper-slide><img src="@images/carousel-1.jpg" alt="..."></swiper-slide>
+            <swiper-slide><img src="@images/carousel-2.jpg" alt="..."></swiper-slide>
+            <swiper-slide><img src="@images/carousel-3.jpg" alt="..."></swiper-slide>
+            <swiper-slide><img src="@images/carousel-4.jpg" alt="..."></swiper-slide>
+            <swiper-slide><img src="@images/carousel-5.jpg" alt="..."></swiper-slide>
+            <swiper-slide><img src="@images/carousel-6.jpg" alt="..."></swiper-slide>
+          </swiper>
+        </div>
       </div>
-      <div class="col-xl-6">
-        <swiper :style="{
-          '--swiper-navigation-color': '#fff',
-          '--swiper-pagination-color': '#fff',
-        }" :centeredSlides="true" :loop="true" :navigation="true" :modules="modules" :pagination="{ clickable: true }"
-          :autoplay="{ disableOnInteraction: true }" class="mySwiper">
-          <swiper-slide><img src="@images/carousel-1.jpg" alt="..."></swiper-slide>
-          <swiper-slide><img src="@images/carousel-2.jpg" alt="..."></swiper-slide>
-          <swiper-slide><img src="@images/carousel-3.jpg" alt="..."></swiper-slide>
-          <swiper-slide><img src="@images/carousel-4.jpg" alt="..."></swiper-slide>
-          <swiper-slide><img src="@images/carousel-5.jpg" alt="..."></swiper-slide>
-          <swiper-slide><img src="@images/carousel-6.jpg" alt="..."></swiper-slide>
-        </swiper>
+      <!-- Header End -->
+      <!--Work Card Start-->
+      <div>
+        <h2 class="text-center mt-5">目前正在徵求幫助者的項目</h2>
+        <h5 class="text-center text-info mb-2">來尋找最適合你的打工換宿機會！</h5>
+        <div class="row px-4">
+          <div class="col-xxl-3 col-lg-5 col-10 mx-auto work-deck">
+            <h3 class="badge bg-warning fs-4">最多人看</h3>
+            <WorkDeck :autoplayDelay="4600" />
+          </div>
+          <div class="col-xxl-3 col-lg-5 col-10 mx-auto work-deck">
+            <h3 class="badge bg-warning fs-4">最新上架</h3>
+            <WorkDeck property="createdAt" :autoplayDelay="4700" />
+          </div>
+          <div class="col-xxl-3 col-lg-5 col-10 mx-auto work-deck">
+            <h3 class="badge bg-warning fs-4">即將截止</h3>
+            <WorkDeck property="endDate" direction="ASC" :autoplayDelay="4800" />
+          </div>
+          <div class="col-xxl-3 col-lg-5 col-10 mx-auto work-deck">
+            <h3 class="badge bg-warning fs-4">搶手項目</h3>
+            <WorkDeck property="attendance" :autoplayDelay="4900" />
+          </div>
+        </div>
+        <div class="text-center mt-4">
+          <RouterLink class="btn btn-secondary py-2 px-4" to="/work-search">瀏覽更多打工項目</RouterLink>
+        </div>
       </div>
+      <!--Work Card End-->
+      <!--Reviews Start-->
+      <div class="pb-5">
+        <h2 class="text-center mt-5">好評不斷的打工換宿體驗</h2>
+        <h5 class="text-center text-info">來看看參加過的幫助者們怎麼說！</h5>
+        <ReviewSwiper :reviews="firstHalf" />
+        <ReviewSwiper :reviews="secondHalf" :reverseDirection="true" />
+      </div>
+      <!--Reviews End-->
     </div>
   </div>
-  <!-- Header End -->
-  <!--Work Card Start-->
-  <div class="container">
-    <h2 class="text-center mt-5">目前正在徵求幫助者的項目</h2>
-    <h5 class="text-center text-info mb-2">來尋找最適合你的打工換宿機會！</h5>
-    <div class="row">
-      <div class="col-xxl-3 col-lg-5 col-10 mx-auto work-deck">
-        <h3 class="badge bg-warning fs-4">最多人看</h3>
-        <WorkDeck :autoplayDelay="4600" />
-      </div>
-      <div class="col-xxl-3 col-lg-5 col-10 mx-auto work-deck">
-        <h3 class="badge bg-warning fs-4">最新上架</h3>
-        <WorkDeck property="createdAt" :autoplayDelay="4700" />
-      </div>
-      <div class="col-xxl-3 col-lg-5 col-10 mx-auto work-deck">
-        <h3 class="badge bg-warning fs-4">即將截止</h3>
-        <WorkDeck property="endDate" direction="ASC" :autoplayDelay="4800" />
-      </div>
-      <div class="col-xxl-3 col-lg-5 col-10 mx-auto work-deck">
-        <h3 class="badge bg-warning fs-4">搶手項目</h3>
-        <WorkDeck property="attendance" :autoplayDelay="4900" />
-      </div>
-    </div>
-    <div class="text-center mt-4">
-      <RouterLink class="btn btn-secondary p-4" to="/work-search"><h4 class="text-white">瀏覽更多打工項目</h4></RouterLink>
-    </div>
-  </div>
-  <!--Work Card End-->
-  <!--Reviews Start-->
-  <div class="container review-container">
-    <h2 class="text-center mt-5">好評不斷的打工換宿體驗</h2>
-    <h5 class="text-center text-info">來看看參加過的幫助者們怎麼說！</h5>
-    <ReviewSwiper :reviews="firstHalf" />
-    <ReviewSwiper :reviews="secondHalf" :reverseDirection="true" />
-  </div>
-  <!--Reviews End-->
 </template>
   
 <script setup>
@@ -97,10 +99,18 @@ const getReview = async () => {
 }
 
 </script>
-  
 
-<!-- Customized CSS -->
+
 <style scoped>
+.container-fluid {
+
+}
+
+.container {
+  background-color: var(--white);
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+}
+
 .header {
   background-color: var(--light);
 }
@@ -109,11 +119,14 @@ const getReview = async () => {
   color: var(--black);
 }
 
+.btn-secondary {
+  border: 0.5rem outset pink;
+}
+
 .work-deck {
   height: 100%;
   text-align: center;
   padding: 12px 40px;
-
 }
 
 /* .swiper-slide {

@@ -1,6 +1,6 @@
 <template>
 <!-- Register Form Start -->
-    <div class="row register">
+    <div class="row register py-4">
         <div class="col-lg-4 register-frame">
             <div class="container-xxl bg-white p-5 register-form">
                 <RouterView></RouterView>
