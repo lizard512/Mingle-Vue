@@ -10,7 +10,7 @@
                             <tr>
                                 <th style="width: 8rem">訂單編號</th>
                                 <th>房客ID</th>
-                                <th>訂單報名人數</th>
+                                <th>訂單報名總人數</th>
                                 <th>工作名稱</th>
                                 <th>房源名稱</th>
                                 <th>特殊需求</th>
@@ -33,7 +33,7 @@
                                 <td>{{ singleOrder.order.needs }}</td>
                                 <td>{{ singleOrder.formatStartDate }}</td>
                                 <td>{{ singleOrder.formatEndDate }}</td>
-                                <td>{{ singleOrder.formatCreatedAt }}</td>
+                                <td>{{ singleOrder.formatUpdatedAt }}</td>
                                 <td>
                                     <el-tag class="mx-1" v-if="singleOrder.order.status === '待房東確認'"
                                         type="success">待確認</el-tag>

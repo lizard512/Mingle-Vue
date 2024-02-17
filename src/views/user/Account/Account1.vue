@@ -319,37 +319,38 @@ const ChangesPassword = () => {
         cancelButtonText: "再想想",
     }).then(function (result) {
         if (result.isConfirmed) {
-            // Swal.fire({
-            //     title: "請輸入你的舊密碼",
-            //     input: "text",
-            //     allowOutsideClick: false,
-            //     inputAttributes: {
-            //         autocapitalize: "off"
-            //     },
-            //     showCancelButton: true,
-            //     confirmButtonText: "Look up",
-            //     showLoaderOnConfirm: true,
-            //     preConfirm: async (login) => {
-            //         try {
-            //             const githubUrl = `https://api.github.com/users/${login}`;
-            //             const response = await fetch(githubUrl);
-            //             if (!response.ok) {
-            //                 return Swal.showValidationMessage(`${JSON.stringify(await response.json())}`);
-            //             }
-            //             return response.json();
-            //         } catch (error) {
-            //             Swal.showValidationMessage(`Request failed: ${error}`);
-            //         }
-            //     },
-            //     allowOutsideClick: () => !Swal.isLoading()
-            // }).then((result) => {
-            //     if (result.isConfirmed) {
-            //         Swal.fire({
-            //             title: `${result.value.login}'s avatar`,
-            //             imageUrl: result.value.avatar_url
-            //         });
-            //     }
-            // });
+            Swal.fire({
+                title: "請輸入你的舊密碼",
+                input: "text",
+                allowOutsideClick: false,
+                showCloseButton: true,
+                inputAttributes: {
+                    autocapitalize: "off"
+                },
+                showCancelButton: true,
+                confirmButtonText: "Look up",
+                showLoaderOnConfirm: true,
+                preConfirm: async (login) => {
+                    try {
+                        const githubUrl = `https://api.github.com/users/${login}`;
+                        const response = await fetch(githubUrl);
+                        if (!response.ok) {
+                            return Swal.showValidationMessage(`${JSON.stringify(await response.json())}`);
+                        }
+                        return response.json();
+                    } catch (error) {
+                        Swal.showValidationMessage(`Request failed: ${error}`);
+                    }
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: `${result.value.login}'s avatar`,
+                        imageUrl: result.value.avatar_url
+                    });
+                }
+            });
             Swal.fire({
                 title: "請輸入你的舊密碼",
                 html: `<div class="mb-3"><label for="exampleInputPassword1" class="form-label">Password</label><input type="password" class="form-control" id="exampleInputPassword1"></div>`,
@@ -361,6 +362,8 @@ const ChangesPassword = () => {
                 confirmButtonAriaLabel: "Thumbs up, great!",
                 cancelButtonText: `取消`,
                 cancelButtonAriaLabel: "Thumbs down"
+            }).then(function (result) {
+                if (result.isConfirmed) { }
             });
         }
     });
