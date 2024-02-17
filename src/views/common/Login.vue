@@ -21,8 +21,8 @@
                 <div class="reminder">
                     <div class="checkboxDiv">
                         <label>
-                            <input id="checkbox" v-model="showPassword" class="checkbox" type="checkbox"
-                                value="show-me"> 顯示密碼
+                            <input id="checkbox" v-model="showPassword" class="checkbox" type="checkbox" value="show-me">
+                            顯示密碼
                         </label>
                     </div>
                     <div class="forget-password">
@@ -41,26 +41,46 @@
                             src="@icons/icon-google.png" width="25px">&nbsp;透過Google帳號登入</button>
                 </div>
                 <br>
-
-                <div class="autoLogin-btn text-center">
-                    <button class="btn btn-danger" @click="autoLogin1">Alice</button>
-                    <button class="btn btn-warning" @click="autoLogin2">Bob</button>
-                    <button class="btn btn-primary" @click="autoLogin3">Charlie</button>
-                    <button class="btn btn-success" @click="autoLogin4">Diana</button>
-                    <button class="btn btn-dark" @click="autoLogin5">Eva</button>
-                </div>
-
-                <div class="autoLogin-btn text-center">
-                    <button class="btn btn-light" @click="autoLoginAdmin">Admin</button>
-                    <button class="btn" @click="autoLoginTest">Test</button>
-                    <button class="btn btn-light" @click="autoLoginUser">User</button>
-                </div>
-
                 <!-- <div class="login-btn">
                     <button class="btn btn-lg btn-warning btn-block" type="submit"
                         @click="loginTestUsingPinia">登入(Pinia測試)</button>
                 </div> -->
             </div>
+        </div>
+        <div>
+            <h5 class="text-center">測試用帳號</h5>
+                <!-- For Presentation Only-->
+                <!-- User -->
+                <h6 class="text-center">一般使用者</h6>
+                <div class="autoLogin-btn text-center">
+                    <button class="btn" v-for="user in autoLoginUsers.slice(0, 3)" :key="user.name"
+                        @click="autoLogin(user)">
+                        {{ user.name }}
+                    </button>
+                </div>
+                <!-- Landlord1 -->
+                <h6 class="text-center">房東身分組</h6>
+                <div class="autoLogin-btn text-center">
+                    <button class="btn" v-for="user in autoLoginUsers.slice(3, 8)" :key="user.name"
+                        @click="autoLogin(user)">
+                        {{ user.name }}
+                    </button>
+                </div>
+                <!-- Landlord2 -->
+                <div class="autoLogin-btn text-center">
+                    <button class="btn" v-for="user in autoLoginUsers.slice(8, 13)" :key="user.name"
+                        @click="autoLogin(user)">
+                        {{ user.name }}
+                    </button>
+                </div>
+                <!-- Admin -->
+                <h6 class="text-center">管理者身分</h6>
+                <div class="autoLogin-btn text-center">
+                    <button class="btn" v-for="user in autoLoginUsers.slice(13)" :key="user.name" @click="autoLogin(user)">
+                        {{ user.name }}
+                    </button>
+                </div>
+                <!-- For Presentation Only -->
         </div>
     </div>
 </template>
@@ -76,10 +96,24 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 const userStore = useUserStore();
 const router = useRouter();
-
-async function gotGoogleLoginPage() {
-    window.location.href = `${import.meta.env.VITE_APP_API_URL}/google-login`;
-}
+const autoLoginUsers = [
+    { name: 'Lizard', username: 'lizard', password: 'lizard'},
+    { name: 'Wizard', username: 'wizard', password: 'wizard' },
+    { name: 'Blizzard', username: 'blizzard', password: 'blizzard' },
+    { name: 'Alice', username: 'alice0322', password: '20000322' },
+    { name: 'Bob', username: 'bob0920', password: '19750920' },
+    { name: 'Charlie', username: 'charlie0210', password: '19950210' },
+    { name: 'Diana', username: 'diana1130', password: '19881130' },
+    { name: 'Eva', username: 'eva0725', password: '19920725' },
+    { name: 'Frank', username: 'frank0405', password: '19981212' },
+    { name: 'Grace', username: 'grace1212', password: '19830318' },
+    { name: 'Henry', username: 'henry0318', password: '19911225' },
+    { name: 'Ivy', username: 'ivy0908', password: '19930908' },
+    { name: 'Jack', username: 'jack0628', password: '19870628' },
+    { name: 'Admin', username: 'admin', password: 'P@ssw0rd' },
+    { name: 'Test', username: 'test', password: 'testtest' },
+    { name: 'User', username: 'user', password: 'useruser' },
+];
 
 let username = ref('');
 let password = ref('');
@@ -91,6 +125,11 @@ const handleEnterKey = () => {
     // Trigger the login function when Enter key is pressed
     login();
 };
+
+async function gotGoogleLoginPage() {
+    window.location.href = `${import.meta.env.VITE_APP_API_URL}/google-login`;
+}
+
 
 const login = function () {
 
@@ -133,7 +172,7 @@ const login = function () {
                 if (response.data.adminPermission) {
                     userStore.addPermission('admin') // reflect admin permission on navbar
                 }
-                
+
                 if (redirect) {
                     router.push(redirect);
                 } else {
@@ -161,46 +200,16 @@ const login = function () {
         });
 };
 
-const autoLogin1 = () => {
-    username.value = 'alice0322';
-    password.value = '20000322';
-};
-const autoLogin2 = () => {
-    username.value = 'bob0920';
-    password.value = '19750920';
-};
-const autoLogin3 = () => {
-    username.value = 'charlie0210';
-    password.value = '19950210';
-}
-const autoLogin4 = () => {
-    username.value = 'diana1130';
-    password.value = '19881130';
-}
-const autoLogin5 = () => {
-    username.value = 'eva0725';
-    password.value = '19920725';
-}
-const autoLoginAdmin = () => {
-    username.value = 'admin';
-    password.value = 'P@ssw0rd';
-}
 
-const autoLoginTest = () => {
-    username.value = 'test';
-    password.value = 'testtest';
-}
-
-const autoLoginUser = () => {
-    username.value = 'user';
-    password.value = 'useruser';
-}
+const autoLogin = (user) => {
+    username.value = user.username;
+    password.value = user.password;
+};
 
 </script>
     
 <style scoped>
-.row {
-}
+.row {}
 
 .login-frame {
     margin: auto;
@@ -283,7 +292,8 @@ input {
 }
 
 .autoLogin-btn .btn {
-    margin: 10px;
+    margin: 0 5px 10px;
     border: #ffc107 2px solid;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 </style>
