@@ -18,7 +18,7 @@
             <introduction v-show="isShowIntroduction" :userdetails="userdetails"></introduction>
             <!-- <LikeWork v-show="isShowLikeWork"></LikeWork> -->
             <!-- <FinshWork v-show="isShowFinshWork"></FinshWork> -->
-            <OrderByUserId v-show="isShowOrder"></OrderByUserId>
+            <!-- <OrderByUserId v-show="isShowOrder"></OrderByUserId> -->
         </div>
         <!-- index End -->
 
@@ -31,7 +31,7 @@ import Account1 from './Account1.vue';
 import FinshWork from './Account2.vue';
 import LikeWork from './Account3.vue';
 import Introduction from './Account4.vue';
-import OrderByUserId from './Account5.vue'
+// import OrderByUserId from './Account5.vue'
 import { onMounted, reactive, ref } from 'vue';
 import { useUserStore } from '@store/userStore-localStorage.js';
 
@@ -39,7 +39,7 @@ const isShowAccount = ref(true);
 const isShowLikeWork = ref(false);
 const isShowFinshWork = ref(false);
 const isShowIntroduction = ref(false);
-const isShowOrder = ref(false);
+// const isShowOrder = ref(false);
 
 const clickHandler = showVeiw => {
     closeShow();
@@ -55,7 +55,7 @@ const closeShow = () => {
     isShowLikeWork.value = false;
     isShowFinshWork.value = false;
     isShowIntroduction.value = false;
-    isShowOrder.value = false;
+    // isShowOrder.value = false;
 }
 
 //============查詢會員資料============

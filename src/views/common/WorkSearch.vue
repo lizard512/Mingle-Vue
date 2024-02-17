@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <!--Search Header Start-->
-        <div class="row d-flex align-items-center py-3 pe-2 search-header" :class="{ 'fixed-top': isSticky }">
+        <div class="row d-flex align-items-center py-3 pe-2 search-header animate__animated animate__slideInDown" :class="{ 'fixed-top': isSticky }">
             <div class="col-md-5">
                 <div class="row g-2">
                     <div class="col-xxl-6 col-md-0 hide-on-small">
@@ -11,7 +11,7 @@
                             <span class="badge bg-danger">正在徵求幫助者的項目！</span>
                         </div>
                     </div>
-                    <div class="col-xxl-6 col-md-0 d-inline-flex animate__animated animate__slideInDown"
+                    <div class="col-xxl-6 col-md-0 d-inline-flex"
                         data-wow-delay="0.1s">
                         <select class="form-select w-50 me-2" v-model="filters.city">
                             <option value="">所有縣市</option>
@@ -32,7 +32,7 @@
             </div>
             <div class="col-md-7">
                 <div class="row g-2">
-                    <div class="col-xxl-7 col-md-12 d-flex justify-content-md-end justify-content-center animate__animated animate__slideInDown"
+                    <div class="col-xxl-7 col-md-12 d-flex justify-content-md-end justify-content-center"
                         data-wow-delay="0.1s">
                         <div class="btn-group" role="group">
                             <template v-for="(worktypeID, index) in worktypeIDs" :key="worktypeID.worktypeID">
@@ -43,7 +43,7 @@
                             </template>
                         </div>
                     </div>
-                    <div class="col-xxl-5 col-md-12 d-flex justify-content-md-end justify-content-center animate__animated animate__slideInRight"
+                    <div class="col-xxl-5 col-md-12 d-flex justify-content-md-end justify-content-center"
                         data-wow-delay="0.1s">
                         <div class="btn-group" role="group">
                             <input type="radio" class="btn-check" name="btnradio" id="btnradio1" checked

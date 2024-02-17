@@ -52,8 +52,8 @@
                                         class="fa fa-solid fa-ranking-star"></i>房東評價</RouterLink>
                                 <RouterLink class="dropdown-item" to="/provider-form"><i
                                         class="fa fa-solid fa-user-gear"></i>房東資料維護</RouterLink>
-                                <RouterLink class="dropdown-item" to="#" @click="userStore.removePermission('lord')">我不當房東了！
-                                </RouterLink>
+                                <!-- <RouterLink class="dropdown-item" to="#" @click="userStore.removePermission('lord')">我不當房東了！
+                                </RouterLink> -->
                             </div>
                         </div>
                         <RouterLink v-else class="btn btn-secondary btn-custom px-3" to="/provider-form">
@@ -77,12 +77,14 @@
                                         class="fa fa-solid fa-id-card"></i>個人頁面</RouterLink>
                                 <RouterLink class="dropdown-item" to="/chatroom"><i class="fa fa-solid fa-comments"></i>聊天室
                                 </RouterLink>
+                                <RouterLink class="dropdown-item" to="/orderManagement"><i class="fa fa-solid fa-cash-register"></i>打工訂單
+                                </RouterLink>
                                 <RouterLink class="dropdown-item" to="/account"><i
                                         class="fa fa-solid fa-user-gear"></i>會員資料維護</RouterLink>
                                 <RouterLink to="#" class="dropdown-item" @click="resetStore()"><i
                                         class="fa fa-solid fa-right-from-bracket"></i>登出</RouterLink>
                                 <RouterLink v-if="isAdmin" class="dropdown-item" to="/admin-center"><i
-                                        class="fa fa-solid fa-user-secret"></i>管理者平台</RouterLink>
+                                        class="fa fa-solid fa-user-secret"></i>管理者介面</RouterLink>
                             </div>
                         </div>
                     </template>

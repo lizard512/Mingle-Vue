@@ -22,6 +22,7 @@ import Chatroom from "@views/user/Chatroom.vue";
 import Order from "@views/user/Order.vue";
 import Account from "@views/user/Account/Account.vue";
 import Payment from "@views/user/Payment.vue";
+import OrderManagement from "@views/user/Account/Account5.vue";
 // landlord 房東身分
 import LandlordOrderCenter from "@/views/landlord/LandlordOrderCenter.vue";
 import Analyze from "@views/landlord/Analyze.vue";
@@ -143,13 +144,19 @@ const routes = [
     path: "/reviewOrder",
     name: "ReviewOrder",
     component: ReviewOrder,
-    meta: { requiresAuth: true, permissions: ['lord'] },
+    meta: { requiresAuth: true },
   },
 
   {
     path: "/payment",
     name: "Payment",
     component: Payment,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/orderManagement",
+    name: "OrderManagement",
+    component: OrderManagement,
     meta: { requiresAuth: true },
   },
   //landlord 房東身分

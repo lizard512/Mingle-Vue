@@ -6,7 +6,7 @@
                 <div class="icon p-2 me-2">
                     <img class="img-fluid" src="@icons/icon-mingle-bold.png" alt="Icon" style="width: 30px; height: 27px;">
                 </div>
-                <h1 class="m-0 link-primary">Mingle 管理者大平台</h1>
+                <h1 class="m-0 link-primary">Mingle 管理者介面</h1>
             </RouterLink>
             <div class="d-flex align-items-center">
                 <!-- Navbar user info -->
@@ -246,11 +246,11 @@ watch(router.currentRoute, async () => {
     height: 75px;
 }
 
-.navbar .dropdown-toggle::after {
+.dropdown-toggle::after {
     transition: .5s;
 }
 
-.navbar .dropdown-toggle[aria-expanded=true]::after {
+.dropdown-toggle[aria-expanded=true]::after {
     transform: rotate(-180deg);
 }
 

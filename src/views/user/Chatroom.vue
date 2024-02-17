@@ -3,15 +3,6 @@
         <!-- left => headline, pics & messages -->
         <div class="col-md-4 overflow-auto mh-100 bg-light">
             <h1 class="text-center my-3 mb-4">Message</h1>
-            <!-- <div class="mb-4 d-flex justify-content-center">
-                <div class="form-floating mb-3 w-75">
-                    <input class="form-control" list="datalistOptions" placeholder="Type to search..." @change="switchUser">
-                    <datalist id="datalistOptions">
-                        <option :value="item.name" v-for="item in otherUser"></option>
-                    </datalist>
-                    <label for="floatingInput">請輸入用戶名稱</label>
-                </div>
-            </div> -->
             <div>
                 <div class="ms-4 me-4 border  border-2 border-light rounded-3 list-group" v-for="item in roomList"
                     @click="selectRoom(item.senderid, item.recieverid, item.sendername, item.recievername)">
@@ -21,7 +12,7 @@
                         <img v-if="item.photo" class="mt-1 ms-1 me-4 rounded-circle float-start userPhoto"
                             :src="item.photo">
                         <img v-else class="mt-1 ms-1 me-4 rounded-circle float-start userPhoto"
-                            src="@images/ImageNotFound.jpg">
+                            src="@images/empty-avatar.png">
                         <div class="mt-1 d-flex justify-content-between align-items-center">
                             <div>
                                 <strong>{{ item.recievername }}</strong>

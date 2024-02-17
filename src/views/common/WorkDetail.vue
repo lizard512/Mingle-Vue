@@ -1,6 +1,12 @@
 <template>
     <div class="container py-5">
-        <div class="row">
+        <!--Spin-->
+        <div v-if="isLoadingList" class="d-flex justify-content-center align-items-center vh-100">
+            <div class="spinner-border text-success" role="status">
+            </div>
+        </div>
+        <!--Work info-->
+        <div v-if="!isLoadingList" class="row">
             <div class="card col-8">
                 <div class="card-body">
                     <h2 class="card-title text-center my-4">{{ work.name }}</h2>
@@ -36,6 +42,7 @@
                     <p class="card-text"><span class="fw-bold">狀態：</span> {{ work.status }}</p>
                 </div>
             </div>
+            <!--Work photo & lordinfo & apply order -->
             <div class="col-4 text-center">
 
                 <div v-if="work.photosBase64 && work.photosBase64.length" style="max-heightht: 400px;">
@@ -61,8 +68,7 @@
                             @click="navigateToUserProfile"><i class="fa-solid fa-circle-info me-1"></i>房東資訊</button>
                         <img v-if="userDetail.photoBase64" :src="userDetail.photoBase64" alt="user"
                             class="rounded-circle img-fluid">
-                        <img v-else src="@images/empty-avatar.png" alt="user" class="rounded-circle img-fluid"
-                            style="width: 100px;">
+                        <img v-else src="@images/empty-avatar.png" alt="user" class="rounded-circle img-fluid">
                         <button type="button" class="btn btn-primary position-absolute" style="right:8%; top: 135px;"
                             @click="navigateToChatroom"><i class="fa-solid fa-comment-dots me-1"></i>聯絡房東</button>
 
@@ -118,6 +124,7 @@ const setThumbsSwiper = (swiper) => {
     thumbsSwiper.value = swiper;
 };
 
+const isLoadingList = ref(true);
 
 const isKept = ref(false);
 const route = useRoute();
@@ -134,6 +141,7 @@ onMounted(async () => {
     await loadWorkData();
     await loadUserData();
     await increaseViewCount();
+    isLoadingList.value = false;
 });
 
 const loadWorkData = async () => {
