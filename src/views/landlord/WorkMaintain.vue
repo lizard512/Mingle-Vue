@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid bg-white d-flex flex-column">
+    <div class="container-fluid d-flex flex-column">
         <div class="col-11 align-self-center">
             <div class="position-relative">
                 <h3 class="my-5 text-center animate__animated animate__flipInX">工作管理</h3>

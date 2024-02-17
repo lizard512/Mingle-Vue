@@ -1,6 +1,6 @@
 <template>
   <!-- Header Start -->
-  <div class="container-fluid">
+  <div class="container-fluid animate__animated animate__fadeIn">
     <div class="container p-0">
       <div class="row g-0 align-items-center header">
         <div class="col-xl-6 p-5 text-center animate__animated animate__fadeIn">

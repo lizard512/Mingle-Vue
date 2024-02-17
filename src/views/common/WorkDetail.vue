@@ -69,7 +69,7 @@
                         <img v-if="userDetail.photoBase64" :src="userDetail.photoBase64" alt="user"
                             class="rounded-circle img-fluid">
                         <img v-else src="@images/empty-avatar.png" alt="user" class="rounded-circle img-fluid">
-                        <button type="button" class="btn btn-primary position-absolute" style="right:8%; top: 135px;"
+                        <button v-if="lordID != work.landlordid" type="button" class="btn btn-primary position-absolute" style="right:8%; top: 135px;"
                             @click="navigateToChatroom"><i class="fa-solid fa-comment-dots me-1"></i>聯絡房東</button>
 
                         <h5 class="my-2">{{ userDetail.name }}</h5>
@@ -130,6 +130,7 @@ const isLoadingList = ref(true);
 const isKept = ref(false);
 const route = useRoute();
 const userID = localStorage.getItem('userID');
+const lordID = localStorage.getItem('lordID');
 const workID = route.params.id;
 const router = useRouter();
 const work = ref({});
@@ -158,6 +159,19 @@ const loadWorkData = async () => {
         response.data.updatedAt = dateFormat(new Date(response.data.updatedAt));
         response.data.remaining = response.data.maxAttendance - response.data.attendance;
         work.value = response.data;
+        // 如果工作已被刪除或封禁，則跳出警告視窗
+        if (work.value.isDeleted || work.value.status === '已封禁') {
+            const result = await Swal.fire({
+                title: '系統通知',
+                text: '此工作可能已被刪除或封禁，請查看其他工作',
+                confirmButtonText: '返回工作列表',
+                confirmButtonColor: 'var(--info)',
+                allowOutsideClick: false,
+            });
+            if (result.isConfirmed) {
+                router.push('/work-search');
+            }
+        }
     } catch (error) {
         console.error('Failed to fetch work data:', error);
     }

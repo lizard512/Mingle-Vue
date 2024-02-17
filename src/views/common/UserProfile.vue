@@ -1,5 +1,5 @@
 <template>
-    <div class="container py-5">
+    <div class="container py-5 animate__animated animate__fadeIn">
         <div class="row" v-if="userDetail">
             <div class="col-lg-4">
                 <div class="card mb-4">
@@ -9,7 +9,7 @@
                         <img v-if="userDetail.photoBase64" :src="userDetail.photoBase64" alt="user"
                             class="rounded-circle img-fluid avatar">
                         <img v-else src="@images/empty-avatar.png" alt="user" class="rounded-circle img-fluid avatar">
-                        <button type="button" class="btn btn-primary position-absolute" style="right: 3%; top: 75px;"
+                        <button v-if="userID !== routeUserID" type="button" class="btn btn-primary position-absolute" style="right: 3%; top: 75px;"
                             @click="navigateToChatroom"><i class="fa-solid fa-comment-dots me-1"></i>聯絡用戶</button>
                         <h5 class="my-2">{{ userDetail.name }}</h5>
                         <span class="text-muted my-2">加入時間：{{ userDetail.createdAt.toString().substring(0, 10) }}</span>
@@ -100,7 +100,7 @@
                     <div class="card-body work-deck">
                         <WorkDeck :autoplayDelay="4600" />
                     </div>
-                    <button class="btn btn-primary" @click="navigateToChatroom">
+                    <button class="btn btn-primary" @click="popUpAllWork">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>查看這位房東的所有工作</button>
                 </div>
             </div>
@@ -275,6 +275,19 @@ const loadUserData = async () => {
             //         break;
             //     }
             // }
+        }else{
+            if (!userDetail.value || !userDetail.value.name) {
+                const result = await Swal.fire({
+                    title: '系統通知',
+                    text: '這位使用者很懶，好像還沒有設定會員資料',
+                    confirmButtonText: '返回上一頁',
+                    confirmButtonColor: 'var(--info)',
+                    allowOutsideClick: false,
+                });
+                if (result.isConfirmed) {
+                    router.go(-1);
+                }
+            }
         }
     } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -306,7 +319,7 @@ const navigateToChatroom = () => {
     router.push({ name: "Chatroom", query: { externalID: routeUserID, externalName: userDetail.value.name } });
 };
 
-const popUpAllWork = () => {
+const reportLandlord = () => {
     Swal.fire({
         title: '超爛房東',
         text: '你確定要檢舉這位房東嗎？',
@@ -325,6 +338,11 @@ const popUpAllWork = () => {
             )
         }
     })
+}
+
+
+const popUpAllWork = () => {
+    router.push(`/work-search`);
 }
 
 const showAlert = () => {

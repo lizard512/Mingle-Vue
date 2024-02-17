@@ -60,9 +60,9 @@
                                 :to="{ name: 'AdminWorkReview' }">
                                 <div class="d-flex justify-content-between position-relative">
                                     <i class="fa fa-solid fa-check-to-slot"></i><span>審核工作檢舉</span>
-                                    <hint
-                                        class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-2">
-                                        {{pendingReportCount }}<span class="visually-hidden">unread reports</span></hint>
+                                    <div
+                                        class="hint position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-2">
+                                        {{pendingReportCount }}<span class="visually-hidden">unread reports</span></div>
                                 </div>
                                 <span class="badge bg-danger m-2 d-flex align-items-center sidebar-text">{{
                                     pendingReportCount }}</span>
@@ -73,9 +73,9 @@
                                 <div class="d-flex justify-content-between position-relative">
                                     <i class="fa fa-solid fa-user-shield"></i>
                                     <span>管理者權限控管</span>
-                                    <hint
-                                        class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-success p-2">
-                                        {{pendingReportCount }}<span class="visually-hidden">unread reports</span></hint>
+                                    <div
+                                        class="hint position-absolute top-0 start-100 translate-middle badge rounded-circle bg-success p-2">
+                                        {{pendingReportCount }}<span class="visually-hidden">unread reports</span></div>
                                 </div>
                                 <span class="badge bg-success m-2 d-flex align-items-center sidebar-text">{{
                                     pendingReportCount }}</span>
@@ -347,8 +347,8 @@ watch(router.currentRoute, async () => {
     background-color: var(--secondary);
 }
 
-/* 預設情況下隱藏 hint 標籤 */
-hint {
+/* 預設情況下隱藏 hint */
+.hint {
     display: none;
     height: 1.5rem;
     width: 1.5rem;
@@ -383,7 +383,7 @@ h1.m-0.link-primary {
 /* 響應式 */
 @media (max-width: 768px) {
 
-    hint {
+    .hint {
         display: block;
     }
 
@@ -421,7 +421,7 @@ h1.m-0.link-primary {
 /* 摺疊 */
 .collapsed {
 
-    hint {
+    .hint {
         display: block;
     }
 

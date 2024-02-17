@@ -55,7 +55,7 @@ body {
 </style>
 <style scoped>
 .router-view {
-    min-height: 55vh;
+    min-height: calc(100vh - 75px);
     background-image:
         linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
         url('@images/bg.jpg');

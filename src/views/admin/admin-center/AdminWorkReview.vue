@@ -7,8 +7,8 @@
             <div class="row" v-for="(work, index) in works" :key="work.workid" v-show="index === currentWork">
                 <div class="col-xxl-8 col-12 p-3">
                     <h6 class="text-center">工作審核進度：{{ currentWork }} / {{ totalWorks }}</h6>
-                    <router-link class="router-link row" :to="`/work-detail/${work.workid}`">
-                        <div class="col-xl-4 col-12">
+                    <div class="row">
+                        <router-link class="router-link col-xl-4 col-12" :to="`/work-detail/${work.workid}`">
                             <div class="list-item overflow-hidden">
                                 <div class="overflow-hidden position-relative">
                                     <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64[0]"
@@ -38,7 +38,7 @@
                                         work.views }} 次瀏覽</small>
                                 </div>
                             </div>
-                        </div>
+                        </router-link>
                         <div class="col-xl-8 col-12">
                             <div class="p-4">
                                 <h5 class="mb-3">工作詳情</h5>
@@ -58,7 +58,7 @@
                                 <p class="mb-2"><strong>是否上架：</strong>{{ work.isOnShelf ? '是' : '否' }}</p>
                             </div>
                         </div>
-                    </router-link>
+                    </div>
                     <div class="d-flex justify-content-center mt-2">
                         <button class="btn btn-success me-2" @click="showNext">通過</button>
                         <button class="btn btn-danger" @click="showNext">封禁</button>
@@ -143,7 +143,7 @@ const showNext = () => {
     
 <style scoped>
 .list-item {
-    background-color: rgba(150, 100, 0, 0.1);
+    background-color: rgba(150, 100, 0, 0.2);
 }
 
 .list-item img {
