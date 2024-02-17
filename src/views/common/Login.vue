@@ -119,7 +119,7 @@ let username = ref('');
 let password = ref('');
 let redirect = route.query.redirect;
 // console.log(redirect)
-const showPassword = ref(redirect);
+const showPassword = ref(false);
 
 const handleEnterKey = () => {
     // Trigger the login function when Enter key is pressed
