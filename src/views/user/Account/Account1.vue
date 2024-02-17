@@ -106,7 +106,7 @@
                     </div>
                     <!-- 性別 -->
                     <div class="row mb-3">
-                        <label for="" class="col-sm-4 mb-4 col-form-label">性別</label>
+                        <label class="col-sm-4 mb-4 col-form-label">性別</label>
                         <div class="col-sm-8 mb-4 large">
                             <input type="radio" class="form-check-input " name="gender" value="Other"
                                 v-model="fromUserdetails.gender" required>保密(其他)
@@ -119,9 +119,10 @@
                     </div>
                     <!-- 國家 -->
                     <div class="row mb-3">
-                        <label for="" class="col-sm-3 mb-4 col-form-label">國家</label>
+                        <label class="col-sm-3 mb-4 col-form-label">國家</label>
                         <div class="col-sm-8 d-flex flex-wrap">
-                            <select class="form-select" id="" required v-model="fromUserdetails.country">
+                            <select class="form-select" required v-model="fromUserdetails.country">
+                                <option value="null" selected disabled hidden>請選擇</option>
                                 <option v-for="(country, index) in countries" :key="index" :value="country.countryid">{{
                                     country.countryid }}</option>
                                 <!-- <option v-for="i in countries.length" :key="i">{{ countries[i - 1].countryid }}</option> -->
@@ -135,7 +136,7 @@
                     <div class="row mb-3">
                         <label for="colFormLabel" class="col-sm-3 mb-4 col-form-label">生日</label>
                         <div class="col-sm-8 d-flex flex-wrap">
-                            <select class="form-select" id="" required v-model="birth.year">
+                            <select class="form-select" required v-model="birth.year">
                                 <option value="" selected disabled hidden>年</option>
                                 <option v-for="i in 300" :key="i" :value="i + 1911">{{ i + 1911 }}年</option>
                             </select>
@@ -147,7 +148,7 @@
                     <div class="row mb-3">
                         <div class="col-sm-3"></div>
                         <div class="col-sm-4 d-flex flex-wrap">
-                            <select class="form-select" id="" required v-model="birth.month">
+                            <select class="form-select" required v-model="birth.month">
                                 <option value="" selected disabled hidden>月</option>
                                 <option v-for="i in 12" :key="i" :value="i < 10 ? '0' + i : i">{{ i < 10 ? '0' + i : i
                                 }}月</option>
@@ -157,7 +158,7 @@
                             </div>
                         </div>
                         <div class="col-sm-4 d-flex flex-wrap">
-                            <select class="form-select" id="" required v-model="birth.day">
+                            <select class="form-select" required v-model="birth.day">
                                 <option value="" selected disabled hidden>日</option>
                                 <option v-for="i in 31" :key="i" :value="i < 10 ? '0' + i : i">{{ i < 10 ? '0' + i : i
                                 }}日</option>

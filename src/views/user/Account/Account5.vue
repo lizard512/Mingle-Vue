@@ -9,7 +9,7 @@
                         <thead>
                             <tr>
                                 <th style="width: 8rem">訂單編號</th>
-                                <th>房客ID</th>
+                                <th>房東</th>
                                 <th>訂單報名總人數</th>
                                 <th>工作名稱</th>
                                 <th>房源名稱</th>
@@ -19,13 +19,14 @@
                                 <th>下單時間</th>
                                 <th>狀態</th>
                                 <th>操作</th>
-                                <th>評價</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="singleOrder in details" :key="singleOrder.order.orderid">
                                 <td>{{ singleOrder.order.orderid }}</td>
-                                <td>{{ singleOrder.order.userid }}</td>
+                                <td> <el-button type="primary"
+                                        @click="navigateToLandlordProfile(singleOrder.landlordUserId)">{{
+                                            singleOrder.landlordName }}</el-button></td>
                                 <td><el-tag type="success" effect="dark" round size="large">{{ singleOrder.order.numbers
                                 }}</el-tag></td>
                                 <td>{{ singleOrder.workName }}</td>
@@ -35,18 +36,19 @@
                                 <td>{{ singleOrder.formatEndDate }}</td>
                                 <td>{{ singleOrder.formatUpdatedAt }}</td>
                                 <td>
+                                    <el-text class="mx-1" v-if="singleOrder.order.isCancelled" type="info">已取消</el-text>
                                     <el-tag class="mx-1" v-if="singleOrder.order.status === '待房東確認'"
                                         type="success">待確認</el-tag>
-                                    <el-text class="mx-1" v-if="singleOrder.order.status === '已完成訂單'"
-                                        type="primary">已完成</el-text>
-                                    <el-text class="mx-1" v-if="singleOrder.order.isCancelled" type="info">已取消</el-text>
-                                    <el-text class="mx-1" v-if="singleOrder.order.isRefunded" type="warning">已退款</el-text>
                                     <el-text class="mx-1" v-if="singleOrder.order.status === '房東已接受'"
                                         type="danger">待付款</el-text>
+                                    <el-text class="mx-1" v-if="singleOrder.order.status === '已完成訂單'"
+                                        type="primary">已完成</el-text>
+                                    <el-text class="mx-1" v-if="singleOrder.order.status === '訂單已評價'"
+                                        type="warning">已評價</el-text>
                                 </td>
                                 <td>
-                                    <!-- v-if="singleOrder.order.status === '房東已接受'" -->
-                                    <Payment :people="singleOrder.order.numbers" :orderid="singleOrder.order.orderid">
+                                    <Payment v-if="singleOrder.order.status === '房東已接受'" :people="singleOrder.order.numbers"
+                                        :orderid="singleOrder.order.orderid">
                                     </Payment>
                                     <!-- <button v-if="singleOrder.order.status === '待房東確認'" type="button"
                                         style="margin-right: 1rem" class="btn btn-success"
@@ -54,11 +56,8 @@
                                     </button>
                                     <button v-if="singleOrder.order.status === '待房東確認'" type="button" class="btn btn-danger"
                                         @click="rejectOrder(singleOrder.order.orderid)">拒絕</button> -->
-                                </td>
-                                <td>
-                                    <!-- v-if="singleOrder.order.status === '已完成訂單'" -->
-                                    <button style="margin-right: 1rem" class="btn btn-success"
-                                        @click="toReviewOrder(singleOrder.order.orderid)">評價
+                                    <button v-if="singleOrder.order.status === '已完成訂單'" style="margin-right: 1rem"
+                                        class="btn btn-success" @click="toReviewOrder(singleOrder.order.orderid)">評價
                                     </button>
                                 </td>
                             </tr>
@@ -74,8 +73,9 @@
 import { onMounted, ref } from "vue";
 import Payment from "../Payment.vue";
 import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 const details = ref({})
-
+const router = useRouter();
 
 onMounted(() => {
     initAssign();
@@ -91,8 +91,20 @@ const initAssign = async () => {
         const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/order/findAllOrder/byUserId/${userID}`);
         const data = await response.json();
         details.value = data;
-        console.log(details)
-        // console.log(lordID)
+        console.log(details.value)
+        if (details.value.length === 0) {
+            Swal.fire({
+                icon: "warning",
+                title: "哎呀...",
+                text: "您還沒有建立任何訂單喔",
+                confirmButtonText: "這就開始",
+            })
+            try {
+                router.push({ name: 'WorkSearch' });
+            } catch (error) {
+                console.error('Failed to apply', error);
+            }
+        }
     } catch (error) {
         console.error('獲取資料失敗:', error);
     }
@@ -154,13 +166,17 @@ function updateOrderInArray(updatedOrder) {
     }
 }
 
-const router = useRouter();
+
 const toReviewOrder = async (orderId) => {
     try {
         router.push({ name: 'ReviewOrder', query: { orderId: orderId } });
     } catch (error) {
         console.error('Failed to apply', error);
     }
+}
+
+const navigateToLandlordProfile = (Landlordid) => {
+    router.push({ path: `/user-profile/${Landlordid}` });
 }
 
 </script>

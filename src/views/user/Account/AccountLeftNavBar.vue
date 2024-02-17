@@ -6,8 +6,6 @@
                 <i class="fa-solid fa-user" />基本資料</a></div>
         <div class="row my-5" @click="clickHandler(isShow = 4)"><a href="#" class="styleColor ">
                 <i class="fa-solid fa-pen" />個人介紹</a></div>
-        <!-- <div class="row my-5" @click="clickHandler(isShow = 5)"> <a href="#" class="styleColor ">
-                <i class="fa-brands fa-phoenix-framework" />住宿/打工預定</a></div> -->
         <!-- <div class="row my-5" @click="clickHandler(isShow = 2)">
             <a href="#" class="styleColor"><i class="fa-solid fa-shoe-prints" />旅行足跡</a>
         </div>
