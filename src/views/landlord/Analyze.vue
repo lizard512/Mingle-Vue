@@ -1,24 +1,28 @@
 <template>
-    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-
-
-        <!-- 日曆圖示 -->
-        <symbol id="calendar3" viewBox="0 0 16 16">
-            <path
-                d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
-            <path
-                d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-        </symbol>
-        <!-- 分析圖示 -->
+    <!-- <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
         <symbol id="graph-up" viewBox="0 0 16 16">
             <path fill-rule="evenodd"
                 d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z" />
         </symbol>
-    </svg>
+    </svg> -->
 
-    <div id="container" class="container-fluid bg-white p-0  animate__animated animate__fadeInUp ">
+    <div id="container" class="container-fluid bg-white p-0  animate__animated animate__fadeIn  ">
         <div class="row">
+            
+            <!--Spinner Start-->
 
+            <ElDivider v-if="isLoadingList" class="spin-tr d-flex justify-content-center align-center">
+                        <div class="p-0" colspan="12">
+                            <div class="spinner-border text-primary" role="status">
+                            </div>
+                        </div>
+                    </ElDivider>
+
+
+            <!-- <div v-if="isLoadingList" class="spinner d-flex justify-content-center align-center" >
+                <div class="spinner-border  text-primary" role="status">
+                </div>
+            </div> -->
             <!-- 主要頁面 start-->
             <main class="col-md-8 px-md-4 mx-auto">
                 <br>
@@ -26,14 +30,15 @@
                 <div
                     class="justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 
-                    <h4 class="h2">房東總表現  <span class="text-primary" v-if="perfect" >恭喜獲得 </span><span class="text-primary  fa fa-solid fa-medal"  v-if="perfect"> 超讚房東</span>
-                   </h4> 
-                   <p class="text-secondary" >如何獲得超讚房東徽章?</p>
-                   <p class="text-dark">瀏覽量大於10000，總訂單數大於等於20，預定人數大於等於50，評價數量大於等於10，平均評價分數大於4.5。</p>
-<!-- if(analyzeDetail.value.totalorder >=100 &&　analyzeDetail.value.ordernumbers >= 200 && analyzeDetail.value.totalreview >= 5 && analyzeDetail.value.avgstar >= 4.5 && analyzeDetail.value.totalview >= 10000){
-perfect.value = true;
+                    <h4>房東總表現
+                        <span class="text-primary" v-if="perfect">恭喜獲得 </span><span
+                            class="text-primary  fa fa-solid fa-medal" v-if="perfect"> 超讚房東</span>
+                    </h4>
+                    <p class="text-secondary">如何獲得超讚房東徽章?</p>
+                    <p class="text-dark">瀏覽量大於10000，總訂單數大於等於20，預定人數大於等於50，評價數量大於等於10，平均評價分數大於4.5。</p>
+                    <!-- if(analyzeDetail.value.totalorder >=100 &&　analyzeDetail.value.ordernumbers >= 200 && analyzeDetail.value.totalreview >= 5 && analyzeDetail.value.avgstar >= 4.5 && analyzeDetail.value.totalview >= 10000){
+perfect.value = true;                   
 } -->
-
                     <div class=" mb-2 mb-md-0">
                     </div>
                 </div>
@@ -42,7 +47,7 @@ perfect.value = true;
                     <ul class="col-2 list-group text-center">
                         <li class="list-group-item d-flex justify-content-center">
                             <div>
-                                <h6 class="my-0" >瀏覽量</h6>
+                                <h6 class="my-0">瀏覽量</h6>
                             </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-center">
@@ -52,11 +57,11 @@ perfect.value = true;
                     <ul class="col-2 list-group text-center">
                         <li class="list-group-item d-flex justify-content-center ">
                             <div>
-                                <h6 class="my-0 " >訂單數</h6>
+                                <h6 class="my-0 ">訂單數</h6>
                             </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-center">
-                            <span class="text-muted" >{{ analyzeDetail.totalorder }}筆</span>
+                            <span class="text-muted">{{ analyzeDetail.totalorder }}筆</span>
                         </li>
                     </ul>
 
@@ -64,22 +69,23 @@ perfect.value = true;
                     <ul class="col-2 list-group text-center">
                         <li class="list-group-item d-flex justify-content-center ">
                             <div>
-                                <h6 class="my-0 " >預定人數</h6>
+                                <h6 class="my-0 ">預定人數</h6>
                             </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-center">
-                            <span class="text-muted" >{{ analyzeDetail.ordernumbers?  analyzeDetail.ordernumbers : 0}}人</span>
+                            <span class="text-muted">{{ analyzeDetail.ordernumbers ? analyzeDetail.ordernumbers : 0
+                            }}人</span>
                         </li>
                     </ul>
 
                     <ul class="col-2 list-group text-center">
                         <li class="list-group-item d-flex justify-content-center">
                             <div>
-                                <h6 class="my-0" >評價數量</h6>
+                                <h6 class="my-0">評價數量</h6>
                             </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-center">
-                            <span class="text-muted" >{{ analyzeDetail.totalreview }}則</span>
+                            <span class="text-muted">{{ analyzeDetail.totalreview }}則</span>
                         </li>
                     </ul>
 
@@ -88,15 +94,15 @@ perfect.value = true;
                     <ul class="col-3 list-group text-center">
                         <li class="list-group-item d-flex justify-content-center">
                             <div>
-                                <h6 class="my-0" >平均評價分數</h6>
+                                <h6 class="my-0">平均評價分數</h6>
                             </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-center">
-                            <span class="text-muted" >{{ analyzeDetail.avgstar?  (analyzeDetail.avgstar.toFixed(1))  : 0 }}分
+                            <span class="text-muted">{{ analyzeDetail.avgstar ? (analyzeDetail.avgstar.toFixed(1)) : 0 }}分
                                 (滿分5)</span>
                         </li>
                     </ul>
-            
+
 
                 </div>
 
@@ -107,10 +113,10 @@ perfect.value = true;
                     <h4 class="h2" style="text-align: center">累積打工訂單數</h4>
                 </div>
 
-       
-                    <!-- 在這裡放置你的長條圖容器 -->
-                    <canvas id="myChart" height="100" ></canvas>
-   
+
+                <!-- 在這裡放置你的長條圖容器 -->
+                <canvas id="myChart" height="100"></canvas>
+
                 <br>
 
                 <div
@@ -138,7 +144,7 @@ import { Chart, BarController, BarElement, LinearScale, CategoryScale, Tooltip }
 // 注册控制器
 Chart.register(BarController, BarElement, LinearScale, CategoryScale, Tooltip);
 
-import { onMounted, ref,watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 
 
@@ -146,7 +152,10 @@ const landlordID = ref('');
 const analyzeDetail = ref([]);
 const workOrder = ref([]);
 const workViews = ref([]);
-const perfect= ref(false);
+const perfect = ref(false);
+
+// 載入時spin
+const isLoadingList = ref(true);
 
 // ==========取得房東id============
 const getLandlord = () => {
@@ -217,8 +226,11 @@ const showChart = async () => {
 
     //======打工訂單量=======
     await getWorkOrder(); // 等待获取工作订单数据
-    const ordernumbers = workOrder.value.map(item => item[0]);
-    const workname = workOrder.value.map(item => item[2]);
+    // 过滤订单数大于0的数据
+    const filteredData = workOrder.value.filter(item => item[3] == 0);
+    const ordernumbers = filteredData.map(item => item[0]);
+    const workname = filteredData.map(item => item[2]);
+
 
     // Graphs
     const ctx = document.getElementById('myChart')
@@ -273,8 +285,8 @@ const showChart = async () => {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                    precision: 0 // 設置為 0，以顯示整數
-                }
+                        precision: 0 // 設置為 0，以顯示整數
+                    }
                 },
                 x: {
                     // 调整横轴每一格的宽度比例
@@ -294,8 +306,10 @@ const showChart = async () => {
     //======打工瀏覽量=======
 
     await getWorkView(); // 等待获取工作瀏覽量數據
-    const viewnumber = workViews.value.map(item => item[1]);
-    const workviewname = workViews.value.map(item => item[2]);
+    // 过滤订单数大于0的数据
+    const filteredviews = workViews.value.filter(item => item[3] == 0);
+    const viewnumber = filteredviews.map(item => item[1]);
+    const workviewname = filteredviews.map(item => item[2]);
 
 
     // Graphs
@@ -350,8 +364,8 @@ const showChart = async () => {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                    precision: 0 // 設置為 0，以顯示整數
-                }
+                        precision: 0 // 設置為 0，以顯示整數
+                    }
                 },
                 x: {
                     // 调整横轴每一格的宽度比例
@@ -368,6 +382,8 @@ const showChart = async () => {
 
     )
 
+    isLoadingList.value = false;
+
 
 };
 
@@ -376,29 +392,42 @@ const showChart = async () => {
 
 
 onMounted(async () => {
-    
     getLandlord();
     await getLandlordDetail();
 
     // 在数据获取之后执行渲染
     window.onload = showChart();
 
-    if(analyzeDetail.value.totalorder >=20 &&　analyzeDetail.value.ordernumbers >= 50 && analyzeDetail.value.totalreview >= 10 && analyzeDetail.value.avgstar >= 4.5 && analyzeDetail.value.totalview >= 10000){
+    if (analyzeDetail.value.totalorder >= 20 && analyzeDetail.value.ordernumbers >= 50 && analyzeDetail.value.totalreview >= 10 && analyzeDetail.value.avgstar >= 4.5 && analyzeDetail.value.totalview >= 10000) {
         perfect.value = true;
     }
-
 })
 </script>
-
-瀏覽量大於10000，總訂單數大於等於20，預定人數大於等於50，評價數量大於等於10，平均評價分數大於4.5。
 
 
 
     
 <style scoped>
-
 .special {
     border-color: #d63384;
 }
+/* 
+.spin-tr {
+    background-color: transparent !important;
+    height: 100vh;
+} */
+
+
+.spin-tr {
+    /* 将父元素设为全屏高度，并设置为flex布局 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: transparent !important;
+}
+
+
+
 
 </style>
