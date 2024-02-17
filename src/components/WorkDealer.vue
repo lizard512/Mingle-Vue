@@ -261,7 +261,7 @@ const submitReport = async () => {
 
 <style scoped>
 .list-item {
-    background-color: rgba(205, 205, 205, 0.3);
+    background-color: rgba(255, 200, 100, 0.1);
     border-radius: 16px;
     border: 2px solid var(--black);
 }
@@ -279,6 +279,7 @@ const submitReport = async () => {
     /* 裁減以符合元件大小 */
     /* object-fit: contain; 保留完整的寬或高 */
     object-position: center;
+    background-color: white !important
 }
 
 .list-item:hover img {

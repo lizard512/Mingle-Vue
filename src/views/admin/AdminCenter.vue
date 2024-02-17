@@ -246,11 +246,11 @@ watch(router.currentRoute, async () => {
     height: 75px;
 }
 
-.navbar .dropdown-toggle::after {
+.dropdown-toggle::after {
     transition: .5s;
 }
 
-.navbar .dropdown-toggle[aria-expanded=true]::after {
+.dropdown-toggle[aria-expanded=true]::after {
     transform: rotate(-180deg);
 }
 

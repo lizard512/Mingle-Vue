@@ -7,7 +7,7 @@
         <div>
             <div class="row" v-for="(work, index) in works" :key="work.workid" v-show="index === currentWork">
                 <div class="col-xxl-4 col-6 p-3">
-                    <h5 class="text-center">已審核工作：{{ currentWork }} / {{ totalWorks }}</h5>
+                    <h5 class="text-center">工作審核進度：{{ currentWork }} / {{ totalWorks }}</h5>
                     <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                         <!-- <transition name="flip"> -->
                         <!-- 開牌 -->
@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div class="col-xxl-8 col-6 p-3">
-                    <h5 class="text-center">待檢視檢舉：{{ currentReport }} / {{ totalReports }}</h5>
+                    <h5 class="text-center">檢舉檢視進度：{{ currentReport }} / {{ totalReports }}</h5>
                     <div class="row ">
                         <div v-for="report in reports.filter(r => r.workID === work.workid)" :key="report.reportID"
                             class="col-5 list-item m-5 mx-auto">
@@ -128,7 +128,7 @@ const showNext = () => {
 <style scoped>
 .list-item {
     border: 2px solid var(--black);
-    background-color: rgba(205, 205, 205, 0.3);
+    background-color: rgba(255, 200, 100, 0.1);
     border-radius: 16px;
 }
 
