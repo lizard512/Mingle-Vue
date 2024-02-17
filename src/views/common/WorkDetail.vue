@@ -5,6 +5,7 @@
             <div class="spinner-border text-success" role="status">
             </div>
         </div>
+        <!--Work info-->
         <div v-if="!isLoadingList" class="row">
             <div class="card col-8">
                 <div class="card-body">
@@ -41,6 +42,7 @@
                     <p class="card-text"><span class="fw-bold">狀態：</span> {{ work.status }}</p>
                 </div>
             </div>
+            <!--Work photo & lordinfo & apply order -->
             <div class="col-4 text-center">
 
                 <div v-if="work.photosBase64 && work.photosBase64.length" style="max-heightht: 400px;">
