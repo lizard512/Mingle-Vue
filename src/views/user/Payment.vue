@@ -14,7 +14,6 @@ const props = defineProps({
 function getPaid() {
     amount.value = props.people * 300;
     id.value = props.orderid
-    console.log(amount.value, id.value)
     window.location.href = `${path}/ecpayCheckout/${amount.value}/${id.value}`
 }
 </script>

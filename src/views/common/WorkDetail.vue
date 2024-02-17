@@ -2,7 +2,7 @@
     <div class="container py-5">
         <!--Spin-->
         <div v-if="isLoadingList" class="d-flex justify-content-center align-items-center vh-100">
-            <div class="spinner-border text-success" role="status">
+            <div class="spinner-border text-primary" role="status">
             </div>
         </div>
         <!--Work info-->
@@ -75,28 +75,29 @@
                         <h5 class="my-2">{{ userDetail.name }}</h5>
                         <p class="text-muted my-2">{{ userDetail.introduction }}</p>
                         <hr>
+                        <p class="card-text mt-4 fs-5"><span class="fw-bold"><i
+                                    class="fa-solid fa-person-running me-2"></i>已報名人數：</span>
+                            <span :class="{
+                                'text-success': work.remaining >= 10,
+                                'text-primary': work.remaining < 10
+                                    && work.remaining >= 5
+                                , 'text-danger': work.remaining < 5
+                            }
+                                ">{{ work.attendance }} / {{ work.maxAttendance }}</span>
+                        </p>
+                        <p class="card-text fs-5 mb-4"><span class="fw-bold"><i class="fa-solid fa-eye me-2"></i>瀏覽量：</span>
+                            {{
+                                work.views }}
+                        </p>
+                        <button type="button" class="btn keep-btn me-4" :class="{ 'active': isKept }"
+                            @click.stop.prevent="toggleKeepWork"><i class="fa-brands fa-gratipay"></i></button>
+                        <button v-if="work.attendance < work.maxAttendance" class="btn btn-danger" @click="apply"><i
+                                class="fa-solid fa-screwdriver-wrench me-2"></i>報名</button>
+                        <button v-else class="btn btn-danger" disabled><i
+                                class="fa-solid fa-circle-exclamation me-2"></i>已額滿</button>
                     </div>
                 </div>
-                <p class="card-text mt-4 fs-5"><span class="fw-bold"><i
-                            class="fa-solid fa-person-running me-2"></i>已報名人數：</span>
-                    <span :class="{
-                        'text-success': work.remaining >= 10,
-                        'text-primary': work.remaining < 10
-                            && work.remaining >= 5
-                        , 'text-danger': work.remaining < 5
-                    }
-                        ">{{ work.attendance }} / {{ work.maxAttendance
-    }}</span>
-                </p>
-                <p class="card-text fs-5"><span class="fw-bold"><i class="fa-solid fa-eye me-2"></i>瀏覽量：</span> {{
-                    work.views }}
-                </p>
-                <button type="button" class="btn keep-btn me-4" :class="{ 'active': isKept }"
-                    @click.stop.prevent="toggleKeepWork"><i class="fa-brands fa-gratipay"></i></button>
-                <button v-if="work.attendance < work.maxAttendance" class="btn btn-danger" @click="apply"><i
-                        class="fa-solid fa-screwdriver-wrench me-2"></i>報名</button>
-                <button v-else class="btn btn-danger" disabled><i
-                        class="fa-solid fa-circle-exclamation me-2"></i>已額滿</button>
+
             </div>
         </div>
     </div>
