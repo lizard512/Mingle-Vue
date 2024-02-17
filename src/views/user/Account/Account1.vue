@@ -184,8 +184,10 @@
 import { ref, reactive, watch } from 'vue'
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useRouter } from 'vue-router'
 //============從父層傳值============
 //============查詢會員資料============
+const router = useRouter();
 const props = defineProps({
     userdetails: Object,
 })
@@ -308,7 +310,11 @@ const submitPhoto = () => {
         }
     });
 }
-
+const getuserid =
+    () => {
+        const id = localStorage.getItem('userID');
+        return id;
+    }
 const ChangesPassword = () => {
     Swal.fire({
         icon: 'question',
@@ -319,25 +325,45 @@ const ChangesPassword = () => {
         cancelButtonText: "再想想",
     }).then(function (result) {
         if (result.isConfirmed) {
-            Swal.fire({
+
+            const { value: oldPassword } = Swal.fire({
                 title: "請輸入你的舊密碼",
-                input: "text",
+                input: "password",
+                inputPlaceholder: "Enter your old password",
                 allowOutsideClick: false,
                 showCloseButton: true,
                 inputAttributes: {
                     autocapitalize: "off"
                 },
-                showCancelButton: true,
-                confirmButtonText: "Look up",
+                showDenyButton: true,
+                denyButtonText: "重寄驗證信來重設密碼",
+                confirmButtonText: "確認舊密碼",
                 showLoaderOnConfirm: true,
-                preConfirm: async (login) => {
+                preConfirm: async (oldPassword) => {
                     try {
-                        const githubUrl = `https://api.github.com/users/${login}`;
-                        const response = await fetch(githubUrl);
-                        if (!response.ok) {
-                            return Swal.showValidationMessage(`${JSON.stringify(await response.json())}`);
+                        if (oldPassword === "" || oldPassword === null || oldPassword === undefined) {
+                            return Swal.showValidationMessage(`請輸入密碼`);
                         }
-                        return response.json();
+                        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/login/byId/${getuserid()}/${oldPassword}`)
+                            .then(function (response) {
+                                console.log(response.data)
+                                if (response.data.success) {
+                                    Swal.fire({
+                                        icon: "success",
+                                        text: "更新成功",
+                                        confirmButtonText: "確定"
+                                    })
+                                } else {
+                                    return Swal.showValidationMessage(`舊密碼錯誤，請確認後再重新輸入`);
+                                }
+                            }).catch(function (error) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "糟糕...",
+                                    text: "操作失敗" + error,
+                                    confirmButtonText: "確認"
+                                })
+                            })
                     } catch (error) {
                         Swal.showValidationMessage(`Request failed: ${error}`);
                     }
@@ -345,29 +371,58 @@ const ChangesPassword = () => {
                 allowOutsideClick: () => !Swal.isLoading()
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: `${result.value.login}'s avatar`,
-                        imageUrl: result.value.avatar_url
+
+
+                    const { value: formValues } = Swal.fire({
+                        title: `請輸入你的新密碼`,
+                        html: `<input type="password" id="swal-input1" class="swal2-input" placeholder="new password" >
+                                <input type="password" id="swal-input2" class="swal2-input" placeholder="password again">`,
+                        focusConfirm: false,
+                        preConfirm: async () => {
+                            if (document.getElementById("swal-input1").value === "" || document.getElementById("swal-input2").value === "") {
+                                return Swal.showValidationMessage(`請輸入新密碼`);
+                            }
+                            else if (document.getElementById("swal-input1").value !==
+                                document.getElementById("swal-input2").value) {
+                                return Swal.showValidationMessage(`請確認密碼一致`);
+                            } else if (document.getElementById("swal-input1").value ===
+                                document.getElementById("swal-input2").value) {
+                                const data = {
+                                    id: getuserid(),
+                                    password: document.getElementById("swal-input1").value
+                                }
+                                await axios.patch(`${import.meta.env.VITE_APP_API_URL}/resetPassword/byId`, data).then(function (response) {
+                                    if (response.data.success) {
+                                        Swal.fire({
+                                            icon: "success",
+                                            text: "更新成功",
+                                            confirmButtonText: "確定"
+                                        })
+                                    } else {
+                                        return Swal.showValidationMessage(`請確認密碼一致`);
+                                    }
+                                }).catch(function (error) {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "糟糕...",
+                                        text: "操作失敗" + error,
+                                        confirmButtonText: "確認"
+                                    })
+                                })
+                            }
+                        }
                     });
+
+                } else if (result.isDenied) {
+                    router.push({ name: "ForgetPassword" });
                 }
-            });
-            Swal.fire({
-                title: "請輸入你的舊密碼",
-                html: `<div class="mb-3"><label for="exampleInputPassword1" class="form-label">Password</label><input type="password" class="form-control" id="exampleInputPassword1"></div>`,
-                allowOutsideClick: false,
-                showCloseButton: true,
-                showCancelButton: true,
-                focusConfirm: true,
-                confirmButtonText: `確認`,
-                confirmButtonAriaLabel: "Thumbs up, great!",
-                cancelButtonText: `取消`,
-                cancelButtonAriaLabel: "Thumbs down"
-            }).then(function (result) {
-                if (result.isConfirmed) { }
             });
         }
     });
 }
+
+
+
 
 
 const isShowSubmitPhotoButton = ref(false);
@@ -375,7 +430,6 @@ const isShowSubmitPhotoButton = ref(false);
 const image = ref('');
 const upPhoto = ref('');
 function fileSelected(e) {
-    // console.log(e)
     const file = e.target.files.item(0);
     const reader = new FileReader();
     //檔案是圖片檔才需要預覽和傳送
@@ -390,7 +444,6 @@ function fileSelected(e) {
 
 }
 function imageLoaded(e) {
-    // console.log(e.target.result)
     image.value = e.target.result;
 }
 
