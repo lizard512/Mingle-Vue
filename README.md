@@ -1,6 +1,7 @@
 # mingle-vue
 
 EEIT175 資展國際 Oct 2023 - Feb 2024
+
 SPA 網頁，採 Vue.js + Spring Boot 前後分離的開發模式
 
 -  使用 Vue Router ，並透過路由守衛控制訪問權限
