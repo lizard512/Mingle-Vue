@@ -2,14 +2,26 @@
     <div class="row">
 
         <br>
-        <div class="col-md-8 px-md-4 mx-auto animate__animated animate__fadeInUp">
+        <div class="col-md-8 px-md-4 mx-auto align-middle animate__animated animate__fadeIn   ">
             <br>
             <h2 class="row justify-content-center">房東訂單評價</h2>
-            <div><br>
-                <h2 v-show="flag" class="row justify-content-center">尚無評價</h2>
+
+            <!--Spinner Start-->
+
+            <ElDivider v-if="isLoadingList" class="spin-tr d-flex justify-content-center align-center">
+                <div class="p-0" colspan="12">
+                    <div class="spinner-border text-primary" role="status">
+                    </div>
+                </div>
+            </ElDivider>
+
+            <div>
+                <h2 v-show="flag" class="row justify-content-center"><br>尚無評價</h2>
             </div>
             <!-- 評價 start-->
+
             <div class="card  col-md-10 mx-auto d-flex flex-md-nowrap my-5" v-for="(item, index) in review" :key="index">
+
                 <div class="row">
                     <div class="col-2 text-center">
                         <br>
@@ -87,6 +99,7 @@
                                         @click="submitReply(item.reviewid)">送出</button></div>
                             </div>
                             <!-- ---- -->
+
                         </div>
                     </div>
                 </div>
@@ -162,6 +175,7 @@ const getReview = async () => {
     if (review.value.length == 0) {
         flag.value = true
     }
+    isLoadingList.value = false;
     return review.value
 
 }
@@ -179,9 +193,6 @@ const getOrderDetail = async (review_orderid) => {
     orderDetail.value.push({
         ...response.data
     })
-
-    console.log(orderDetail.value)
-
     return orderDetail.value
 
 }
@@ -207,7 +218,6 @@ const getReviewPhoto = async (item_reviewid) => {
             photo: photo
         })
     }
-
     return reviewPhoto.value
 }
 
@@ -232,11 +242,11 @@ const submitReply = async (item_reviewid) => {
     await getReview();
 
 }
-
-
+// 載入時spin
+const isLoadingList = ref(true);
 
 onMounted(async () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
     getUserID();
     getLandlord();
     await getReview();
@@ -244,12 +254,8 @@ onMounted(async () => {
         await getOrderDetail(item.orderid);
         landlordReplies[item.reviewid] = ref('');
         await getReviewPhoto(item.reviewid)
-
     }
 })
-
-
-
 
 
 
@@ -357,5 +363,15 @@ figcaption:hover img {
     display: block;
     height: 100%;
     object-fit: contain;
+}
+
+
+.spin-tr {
+    /* 将父元素设为全屏高度，并设置为flex布局 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: transparent !important;
 }
 </style>
