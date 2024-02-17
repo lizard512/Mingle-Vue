@@ -20,12 +20,12 @@
         <div class="register-btn">
             <button class="btn btn-lg btn-dark btn-block" type="submit" @click="register">註冊</button>
         </div>
-        <br>
+        <!-- <br>
         <hr>
         <div class="google-btn">
             <button @click="gotGoogleLoginPage" class="btn btn-outline-dark" type="submit"><img
                     src="@icons/icon-google.png" width="25px">&nbsp;透過Google帳號登入</button>
-        </div>
+        </div> -->
     </div>
 </template>
     

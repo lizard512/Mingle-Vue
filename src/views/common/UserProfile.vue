@@ -4,8 +4,8 @@
             <div class="col-lg-4">
                 <div class="card mb-4">
                     <div class="card-body text-center position-relative">
-                        <button type="button" class="btn btn-danger position-absolute" style="left: 3%; top: 75px;"
-                            @click="showAlert"><i class="fa-solid fa-thumbs-down me-1"></i>超爛房東</button>
+                        <!-- <button type="button" class="btn btn-danger position-absolute" style="left: 3%; top: 75px;"
+                            @click="showAlert"><i class="fa-solid fa-thumbs-down me-1"></i>超爛房東</button> -->
                         <img v-if="userDetail.photoBase64" :src="userDetail.photoBase64" alt="user"
                             class="rounded-circle img-fluid avatar">
                         <img v-else src="@images/empty-avatar.png" alt="user" class="rounded-circle img-fluid avatar">

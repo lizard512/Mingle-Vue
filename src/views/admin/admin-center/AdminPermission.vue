@@ -31,7 +31,11 @@
                                 </div>
                             </td>
                         </tr>
-
+                        <tr v-else v-for="index in 15" :key="index" class="placeholder-glow">
+                            <td><span class="placeholder col-2"></span></td>
+                            <td><span class="placeholder col-7"></span></td>
+                            <td><span class="placeholder col-2"></span></td>
+                        </tr>
                     </tbody>
                 </table>
                 <!--The End-->
@@ -82,6 +86,7 @@ const isEnd = ref(false);
 const loadUsers = async () => {
     if (isLoading.value) return;
     isLoading.value = true;
+
     try {
         const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteer/getAllVolunteers`, {
             params: {
@@ -98,7 +103,10 @@ const loadUsers = async () => {
     } catch (error) {
         console.error(error);
     } finally {
-        isLoading.value = false;
+        setTimeout(() => {
+            isLoading.value = false;
+        }, 1000);
+
     }
 
 };
@@ -146,5 +154,9 @@ const updateAdminStatus = async (volunteer) => {
 <style scoped>
 .page-item .page-link {
     color: var(--black);
+}
+
+.table td {
+    height: 45px;
 }
 </style>
