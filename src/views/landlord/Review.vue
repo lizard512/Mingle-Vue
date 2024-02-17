@@ -1,8 +1,8 @@
 <template>
-    <div class="row">
+    <div class="container bg-white  pb-5  ">
 
         <br>
-        <div class="col-md-8 px-md-4 mx-auto align-middle animate__animated animate__fadeIn   ">
+        <div class="col-md-10 px-md-4 mx-auto ">
             <br>
             <h2 class="row justify-content-center">房東訂單評價</h2>
 
@@ -175,7 +175,6 @@ const getReview = async () => {
     if (review.value.length == 0) {
         flag.value = true
     }
-    isLoadingList.value = false;
     return review.value
 
 }
@@ -218,6 +217,8 @@ const getReviewPhoto = async (item_reviewid) => {
             photo: photo
         })
     }
+    isLoadingList.value = false;
+
     return reviewPhoto.value
 }
 
