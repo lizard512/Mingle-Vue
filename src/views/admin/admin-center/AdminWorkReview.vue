@@ -5,16 +5,15 @@
         </div>
 
         <div>
-            <div class="row">
-                <span>審核進度：{{currentIndex}} / {{ total }}</span>
-                <div class=" col-xxl-4 col-lg-6 col-12 p-3" v-for="(work, index) in works" :key="work.workid"
-                    v-show="index === currentIndex">
+            <div class="row" v-for="(work, index) in works" :key="work.workid" v-show="index === currentWork">
+                <div class="col-xxl-4 col-6 p-3">
+                    <h5 class="text-center">已審核工作：{{ currentWork }} / {{ totalWorks }}</h5>
                     <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                         <!-- <transition name="flip"> -->
                         <!-- 開牌 -->
                         <div class="list-item overflow-hidden">
                             <div class="overflow-hidden position-relative">
-                                <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64"
+                                <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64[0]"
                                     :alt="work.name">
                                 <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
                                 <div class="bg-info rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
@@ -44,17 +43,27 @@
                     </router-link>
                     <div class="d-flex justify-content-center mt-2">
                         <button class="btn btn-success me-2" @click="showNext">通過</button>
-                        <button class="btn btn-danger" @click="showNext">不通過</button>
+                        <button class="btn btn-danger" @click="showNext">封禁</button>
                     </div>
-                </div>
-                <div>
                     <div v-if="reportEnds">
                         <p>審核已完成！做的好</p>
                     </div>
                 </div>
+                <div class="col-xxl-8 col-6 p-3">
+                    <h5 class="text-center">待檢視檢舉：{{ currentReport }} / {{ totalReports }}</h5>
+                    <div class="row ">
+                        <div v-for="report in reports.filter(r => r.workID === work.workid)" :key="report.reportID"
+                            class="col-5 list-item m-5 mx-auto">
+                            <h5>檢舉ID：{{ report.reportID }}</h5>
+                            <p>違規類型：{{ report.type }}</p>
+                            <p>詳細原因：{{ report.reason }}</p>
+                            <p>檢舉狀態：{{ report.status }}</p>
+                            <p>創建時間：{{ report.createdAt }}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 </template>
     
@@ -65,65 +74,51 @@ import axios from 'axios';
 
 //// 生命週期
 onMounted(async () => {
+    await loadReport();
     await loadWork();
 });
 
 //// 宣告變數
-
 // 載入相關
-let works = ref([]);
-let total = ref(0);
-let currentIndex = ref(0);
-const currentPage = ref(0); // 當前頁數
-const size = 99; // 每次載入的數量
-const isLoading = ref(false); //避免重複載入
-const isEnd = ref(false);
+const reports = ref([]);
+const currentReport = ref(0);
+const totalReports = ref(0);
+const works = ref([]);
+const currentWork = ref(0);
+const totalWorks = ref(0);
 const reportEnds = ref(false);
-// 排序相關
-let direction = 'DESC'; // 排序方向
-let property = 'createdAt'; // 排序屬性
-// 篩選相關
-let filters = ref({
-    // 自定義條件
-    workStatus: ["待審核"],
-});
+
 
 
 //// 定義方法
-// 載入一頁工作列表
-const loadWork = async () => {
-    if (isEnd.value || isLoading.value) return;
-    isLoading.value = true;
+// 載入待審核的檢舉列表
+const loadReport = async () => {
     try {
-        const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/work/getWorks`,
-            // request body
-            filters.value,
-            // request params
-            {
-                params: {
-                    page: currentPage.value,
-                    size: size,
-                    direction: direction,
-                    property: property,
-                }
-            }
-        );
-        total.value = response.data.totalElements;
-        works.value = [...works.value, ...response.data.content];
-        if (response.data.last) isEnd.value = true;
-        else currentPage.value++;
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/report/statusZero`);
+        reports.value = response.data;
+        totalReports.value = reports.value.length;
     } catch (error) {
         console.error(error);
-    } finally {
-        isLoading.value = false;
+    }
+};
+
+// 根據被檢舉的工作ID載入列表
+const loadWork = async () => {
+    try {
+        const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/report/worksByReportBeans`,
+            reports.value);// request body
+        works.value = response.data;
+        totalWorks.value = works.value.length;
+    } catch (error) {
+        console.error(error);
     }
 };
 
 const showNext = () => {
-    if (currentIndex.value < works.value.length) {
-        currentIndex.value++;
+    if (currentWork.value < works.value.length) {
+        currentWork.value++;
     }
-    if (currentIndex.value == works.value.length){
+    if (currentWork.value == works.value.length) {
         reportEnds.value = true;
     }
 };
@@ -132,9 +127,9 @@ const showNext = () => {
     
 <style scoped>
 .list-item {
-    box-shadow: 0 0 12px rgba(0, 0, 0, .5);
-    background-color: var(--white);
-    border-radius: 15px;
+    border: 2px solid var(--black);
+    background-color: rgba(205, 205, 205, 0.3);
+    border-radius: 16px;
 }
 
 .list-item img {

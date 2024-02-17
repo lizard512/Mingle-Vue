@@ -29,7 +29,7 @@
                     <h4 class="h2">房東總表現  <span class="text-primary" v-if="perfect" >恭喜獲得 </span><span class="text-primary  fa fa-solid fa-medal"  v-if="perfect"> 超讚房東</span>
                    </h4> 
                    <p class="text-secondary" >如何獲得超讚房東徽章?</p>
-                   <p class="text-dark">瀏覽量大於10000，總訂單數大於100，預定人數大於200，評價數量大於5，平均評價分數大於4.5。</p>
+                   <p class="text-dark">瀏覽量大於10000，總訂單數大於等於20，預定人數大於等於50，評價數量大於等於10，平均評價分數大於4.5。</p>
 <!-- if(analyzeDetail.value.totalorder >=100 &&　analyzeDetail.value.ordernumbers >= 200 && analyzeDetail.value.totalreview >= 5 && analyzeDetail.value.avgstar >= 4.5 && analyzeDetail.value.totalview >= 10000){
 perfect.value = true;
 } -->
@@ -92,7 +92,7 @@ perfect.value = true;
                             </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-center">
-                            <span class="text-muted" >{{ analyzeDetail.avgstar? analyzeDetail.avgstar : 0 }}分
+                            <span class="text-muted" >{{ analyzeDetail.avgstar?  (analyzeDetail.avgstar.toFixed(1))  : 0 }}分
                                 (滿分5)</span>
                         </li>
                     </ul>
@@ -236,7 +236,6 @@ const showChart = async () => {
                     'rgba(75, 192, 192, 0.2)', // 綠色
                     'rgba(153, 102, 255, 0.2)', // 紫色
                     'rgba(255, 159, 64, 0.2)', // 橙色
-                    'rgba(231, 233, 237, 0.2)', // 灰色
                     'rgba(255, 0, 0, 0.2)', // 深紅色
                     'rgba(0, 255, 0, 0.2)', // 鮮綠色
                     'rgba(0, 0, 255, 0.2)', // 深藍色
@@ -249,7 +248,6 @@ const showChart = async () => {
                     'rgb(75, 192, 192)', // 綠色
                     'rgb(153, 102, 255)', // 紫色
                     'rgb(255, 159, 64)', // 橙色
-                    'rgb(231, 233, 237)', // 灰色
                     'rgb(255, 0, 0)', // 深紅色
                     'rgb(0, 255, 0)', // 鮮綠色
                     'rgb(0, 0, 255)', // 深藍色
@@ -274,6 +272,9 @@ const showChart = async () => {
             scales: {
                 y: {
                     beginAtZero: true,
+                    ticks: {
+                    precision: 0 // 設置為 0，以顯示整數
+                }
                 },
                 x: {
                     // 调整横轴每一格的宽度比例
@@ -284,7 +285,7 @@ const showChart = async () => {
             },
 
             // 设置条形图的宽度
-            barThickness: 10 // 调整为你需要的宽度值
+            barThickness: 50 // 调整为你需要的宽度值
         }
     }
 
@@ -313,7 +314,6 @@ const showChart = async () => {
                     'rgba(75, 192, 192, 0.2)', // 綠色
                     'rgba(153, 102, 255, 0.2)', // 紫色
                     'rgba(255, 159, 64, 0.2)', // 橙色
-                    'rgba(231, 233, 237, 0.2)', // 灰色
                     'rgba(255, 0, 0, 0.2)', // 深紅色
                     'rgba(0, 255, 0, 0.2)', // 鮮綠色
                     'rgba(0, 0, 255, 0.2)', // 深藍色
@@ -326,7 +326,6 @@ const showChart = async () => {
                     'rgb(75, 192, 192)', // 綠色
                     'rgb(153, 102, 255)', // 紫色
                     'rgb(255, 159, 64)', // 橙色
-                    'rgb(231, 233, 237)', // 灰色
                     'rgb(255, 0, 0)', // 深紅色
                     'rgb(0, 255, 0)', // 鮮綠色
                     'rgb(0, 0, 255)', // 深藍色
@@ -350,6 +349,9 @@ const showChart = async () => {
             scales: {
                 y: {
                     beginAtZero: true,
+                    ticks: {
+                    precision: 0 // 設置為 0，以顯示整數
+                }
                 },
                 x: {
                     // 调整横轴每一格的宽度比例
@@ -360,7 +362,7 @@ const showChart = async () => {
             },
 
             // 设置条形图的宽度
-            barThickness: 10 // 调整为你需要的宽度值
+            barThickness: 50 // 调整为你需要的宽度值
         }
     }
 
@@ -381,12 +383,16 @@ onMounted(async () => {
     // 在数据获取之后执行渲染
     window.onload = showChart();
 
-    if(analyzeDetail.value.totalorder >=100 &&　analyzeDetail.value.ordernumbers >= 200 && analyzeDetail.value.totalreview >= 5 && analyzeDetail.value.avgstar >= 4.5 && analyzeDetail.value.totalview >= 10000){
+    if(analyzeDetail.value.totalorder >=20 &&　analyzeDetail.value.ordernumbers >= 50 && analyzeDetail.value.totalreview >= 10 && analyzeDetail.value.avgstar >= 4.5 && analyzeDetail.value.totalview >= 10000){
         perfect.value = true;
     }
 
 })
 </script>
+
+瀏覽量大於10000，總訂單數大於等於20，預定人數大於等於50，評價數量大於等於10，平均評價分數大於4.5。
+
+
 
     
 <style scoped>

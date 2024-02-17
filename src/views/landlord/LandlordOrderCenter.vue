@@ -77,7 +77,7 @@
             <td>{{ singleOrder.order.needs }}</td>
             <td>{{ singleOrder.formatStartDate }}</td>
             <td>{{ singleOrder.formatEndDate }}</td>
-            <td>{{ singleOrder.formatCreatedAt }}</td>
+            <td>{{ singleOrder.formatCreateDate }}</td>
             <td v-html="format(singleOrder.order.isCancelled, singleOrder.order.isRefunded, singleOrder.order.status)"></td>
             <td>
               <button v-if="singleOrder.order.status === '待房東確認' && acceptButtonVisible && singleOrder.order.isCancelled !== true" type="button" style="margin-right: 1rem"

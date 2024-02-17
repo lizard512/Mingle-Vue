@@ -68,7 +68,7 @@
                             <td>{{ work.endDate }}</td>
                             <td>{{ work.modifiedDate }}</td>
                             <td
-                                :class="{ 'text-danger': work.attendance == work.maxAttendance, 'text-primary': work.maxAttendance - work.attendance < 5, 'text-success': work.maxAttendance - work.attendance >= 5 }">
+                                :class="{ 'text-danger': work.maxAttendance - work.attendance < 5, 'text-primary': work.maxAttendance - work.attendance >= 5 && work.maxAttendance - work.attendance < 10, 'text-success': work.maxAttendance - work.attendance >= 10 }">
                                 {{ work.attendance }}/{{ work.maxAttendance }}</td>
                             <td :class="{ 'text-danger': !work.onShelf, 'text-success': work.onShelf }">{{ work.isOnShelf }}
                             </td>

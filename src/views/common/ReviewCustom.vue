@@ -28,12 +28,7 @@
                     </p>
 
 
-                    <p class="card-text h6">房源資訊:</p>
-                    <p class="card-text">
-                        <small v-for="houseType in orderDetail[index]?.houseType" :key="houseType">{{ houseType
-                        }}-<small v-for="houseName in orderDetail[index]?.houseName" :key="houseName">{{ houseName
-}}</small></small><br>
-                    </p>
+
                     <br>
                 </div>
                 <div class="col-6">
