@@ -52,8 +52,8 @@
                                         class="fa fa-solid fa-ranking-star"></i>房東評價</RouterLink>
                                 <RouterLink class="dropdown-item" to="/provider-form"><i
                                         class="fa fa-solid fa-user-gear"></i>房東資料維護</RouterLink>
-                                <RouterLink class="dropdown-item" to="#" @click="userStore.removePermission('lord')">我不當房東了！
-                                </RouterLink>
+                                <!-- <RouterLink class="dropdown-item" to="#" @click="userStore.removePermission('lord')">我不當房東了！
+                                </RouterLink> -->
                             </div>
                         </div>
                         <RouterLink v-else class="btn btn-secondary btn-custom px-3" to="/provider-form">

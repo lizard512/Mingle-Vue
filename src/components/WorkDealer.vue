@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid px-5 pt-3">
         <div class="row g-4">
-            <div class="col-xxl-2 col-xl-3 col-lg-4 col-sm-6" v-for="(work, index) in works" :key="work.workid">
+            <div class="col-xxl-2 col-xl-3 col-lg-4 col-6" v-for="(work, index) in works" :key="work.workid">
                 <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                     <!-- 開牌動畫顯示內容 -->
                     <div v-if="!isFliping[index]" class="list-item overflow-hidden"
@@ -261,7 +261,7 @@ const submitReport = async () => {
 
 <style scoped>
 .list-item {
-    background-color: rgba(255, 200, 100, 0.1);
+    background-color: rgba(150, 100, 0, 0.1);
     border-radius: 16px;
     border: 2px solid var(--black);
 }
