@@ -34,13 +34,13 @@
                 <div class="login-btn">
                     <button @click="login" class="btn btn-lg btn-secondary btn-block" type="submit">登入</button>
                 </div>
-                <br>
+                <!-- <br>
                 <p class="or">或</p>
                 <div class="google-btn">
                     <button @click="gotGoogleLoginPage" class="btn btn-outline-dark" type="submit"><img
                             src="@icons/icon-google.png" width="25px">&nbsp;透過Google帳號登入</button>
                 </div>
-                <br>
+                <br> -->
                 <!-- <div class="login-btn">
                     <button class="btn btn-lg btn-warning btn-block" type="submit"
                         @click="loginTestUsingPinia">登入(Pinia測試)</button>
@@ -53,7 +53,7 @@
                 <!-- User -->
                 <h6 class="text-center">一般使用者</h6>
                 <div class="autoLogin-btn text-center">
-                    <button class="btn" v-for="user in autoLoginUsers.slice(0, 3)" :key="user.name"
+                    <button class="btn" type="button" v-for="user in autoLoginUsers.slice(0, 3)" :key="user.name"
                         @click="autoLogin(user)">
                         {{ user.name }}
                     </button>
@@ -61,14 +61,14 @@
                 <!-- Landlord1 -->
                 <h6 class="text-center">房東身分組</h6>
                 <div class="autoLogin-btn text-center">
-                    <button class="btn" v-for="user in autoLoginUsers.slice(3, 8)" :key="user.name"
+                    <button class="btn" type="button" v-for="user in autoLoginUsers.slice(3, 8)" :key="user.name"
                         @click="autoLogin(user)">
                         {{ user.name }}
                     </button>
                 </div>
                 <!-- Landlord2 -->
                 <div class="autoLogin-btn text-center">
-                    <button class="btn" v-for="user in autoLoginUsers.slice(8, 13)" :key="user.name"
+                    <button class="btn" type="button" v-for="user in autoLoginUsers.slice(8, 13)" :key="user.name"
                         @click="autoLogin(user)">
                         {{ user.name }}
                     </button>
@@ -76,7 +76,7 @@
                 <!-- Admin -->
                 <h6 class="text-center">管理者身分</h6>
                 <div class="autoLogin-btn text-center">
-                    <button class="btn" v-for="user in autoLoginUsers.slice(13)" :key="user.name" @click="autoLogin(user)">
+                    <button class="btn" type="button" v-for="user in autoLoginUsers.slice(13)" :key="user.name" @click="autoLogin(user)">
                         {{ user.name }}
                     </button>
                 </div>

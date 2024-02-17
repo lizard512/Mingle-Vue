@@ -100,7 +100,7 @@
                     <div class="card-body work-deck">
                         <WorkDeck :autoplayDelay="4600" />
                     </div>
-                    <button class="btn btn-primary" @click="popUpAllWork">
+                    <button class="btn btn-primary" type="button" @click="popUpAllWork">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>查看這位房東的所有工作</button>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <!--Search Header Start-->
-        <div class="row d-flex align-items-center py-3 pe-2 search-header animate__animated animate__slideInDown" :class="{ 'fixed-top': isSticky }">
+        <div id="search-header" class="row d-flex align-items-center py-3 pe-2 animate__animated animate__slideInDown" :class="{ 'fixed-top': isSticky }">
             <div class="col-md-5">
                 <div class="row g-2">
                     <div class="col-xxl-6 col-md-0 hide-on-small">
@@ -72,24 +72,29 @@
         <WorkDealer :works="works" :isAnimationEnabled="isAnimationEnabled" />
         <!--Work Cards End-->
 
+        <!-- side scrollText start-->
+        <div id="scrollText">請向下滾動以瀏覽更多項目</div>
+        <!-- side scrollText end-->
+
         <!--Spinner Start-->
-        <div v-if="isLoading" class="spinner">
+        <div v-if="isLoading" id="spinner">
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
         <!--Spinner End-->
-        <div class="the-end text-center m-5 text-white" v-if="isEnd">已經到底啦~~</div>
+
+        <!--The End Start-->
+        <div id="the-end" class="text-center m-5 text-white" v-if="isEnd">已經到底啦~~</div>
+        <!--The End End-->
 
         <!-- Sticky Footer Start-->
-        <footer
-            class="fixed-bottom text-center mt-auto py-3 search-footer animate__animated animate__slideInUp row d-flex align-items-center"
-            data-wow-delay="0.1s">
+        <footer id="search-footer" class="fixed-bottom text-center mt-auto py-3 animate__animated animate__slideInUp row d-flex align-items-center">
             <div class="col-md-5 col-6">
                 <div class="row g-4">
                     <div class="col-xxl-5 col-0">
                         <div class="m-0">共有<strong class="h3 mx-3">{{ total }}</strong>筆相符的結果</div>
-                        <div class="m-0">請向下滾動以瀏覽更多項目</div>
+                        <button class="btn btn-info">清空所有篩選器</button>
                     </div>
                     <div class="col-xxl-7 col-md-0 d-flex justify-content-xxl-start justify-content-center align-items-center hide-on-small">
                         <div><el-date-picker v-model="filters.workPeriod" type="daterange" start-placeholder="起始日期"
@@ -337,24 +342,42 @@ const checkSticky = () => {
 
 <style scoped>
 
-container-fluid {
+/* .container-fluid {
     height: cal(100vh-75px);
-}
-.search-header {
+} */
+
+#search-header {
     background-color: var(--light);
     box-shadow: 0 8px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
-.search-footer {
+#search-footer {
     background-color: var(--light);
     box-shadow: 0 -8px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
-.spinner {
+#scrollText {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    color:rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 10px;
+    font-size: 20px;
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    letter-spacing: 10px; 
+}
+
+#spinner {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+}
+
+#the-end {
+    height: 100px
 }
 
 .btn-group .btn {
@@ -406,10 +429,6 @@ container-fluid {
     text-align: center;
     z-index: 1000;
 } */
-
-.the-end {
-    height: 100px
-}
 
 .fa {
     color: chocolate;

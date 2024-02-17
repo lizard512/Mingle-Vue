@@ -60,8 +60,8 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-center mt-2">
-                        <button class="btn btn-success me-2" @click="showNext">通過</button>
-                        <button class="btn btn-danger" @click="showNext">封禁</button>
+                        <button class="btn btn-success me-2" type="button" @click="showNext">通過</button>
+                        <button class="btn btn-danger" type="button" @click="showNext">封禁</button>
                     </div>
                 </div>
                 <div class="col-xxl-4 col-12 p-3">

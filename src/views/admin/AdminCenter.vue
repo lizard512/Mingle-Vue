@@ -62,20 +62,21 @@
                                     <i class="fa fa-solid fa-check-to-slot"></i><span>審核工作檢舉</span>
                                     <div
                                         class="hint position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-2">
-                                        {{pendingReportCount }}<span class="visually-hidden">unread reports</span></div>
+                                        {{ pendingReportCount }}<span class="visually-hidden">unread reports</span></div>
                                 </div>
                                 <span class="badge bg-danger m-2 d-flex align-items-center sidebar-text">{{
                                     pendingReportCount }}</span>
                             </RouterLink>
                         </li>
                         <li class="nav-item">
-                            <RouterLink class="nav-link d-flex justify-content-between" active-class="active" :to="{ name: 'AdminPermission' }">
+                            <RouterLink class="nav-link d-flex justify-content-between" active-class="active"
+                                :to="{ name: 'AdminPermission' }">
                                 <div class="d-flex justify-content-between position-relative">
                                     <i class="fa fa-solid fa-user-shield"></i>
                                     <span>管理者權限控管</span>
                                     <div
                                         class="hint position-absolute top-0 start-100 translate-middle badge rounded-circle bg-success p-2">
-                                        {{pendingReportCount }}<span class="visually-hidden">unread reports</span></div>
+                                        {{ pendingReportCount }}<span class="visually-hidden">unread reports</span></div>
                                 </div>
                                 <span class="badge bg-success m-2 d-flex align-items-center sidebar-text">{{
                                     pendingReportCount }}</span>
@@ -291,10 +292,15 @@ watch(router.currentRoute, async () => {
 
 .sidebar .navbar-toggler {
     background-color: var(--light);
-    border-bottom: 2px solid black;
+    border-width: 0.25rem 0rem;
+    border-style: outset;
+    border-color:var(--dark);
 }
 
 .sidebar-heading {
+    border-width: 0.25rem 0rem;
+    border-style: outset;
+    border-color:var(--dark);
     color: var(--dark);
     background-color: var(--light);
     /* px-3 mt-3 mb-1 */
@@ -306,8 +312,6 @@ watch(router.currentRoute, async () => {
     display: flex;
     align-items: center;
     justify-content: start;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
 }
 
 .sidebar-heading .fa {
@@ -344,7 +348,7 @@ watch(router.currentRoute, async () => {
 }
 
 .sidebar .nav-link:hover {
-    background-color: var(--secondary);
+    background-color: var(--info);
 }
 
 /* 預設情況下隱藏 hint */
@@ -355,12 +359,16 @@ watch(router.currentRoute, async () => {
 }
 
 .sidebar-user-info {
-    border-top: 2px solid black;
     position: fixed;
     bottom: 0;
     left: 0;
     width: inherit;
     background-color: var(--light);
+    border-top: 0.25rem outset var(--dark);
+}
+
+.sidebar-user-info strong {
+    color: var(--dark);
 }
 
 .sidebar-user-info .fa-solid,
