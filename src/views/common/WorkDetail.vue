@@ -39,7 +39,7 @@
                     <p class="card-text"><span class="fw-bold">建立時間：</span> {{ work.createdAt }}</p>
                     <p class="card-text"><span class="fw-bold">更新時間：</span> {{ work.updatedAt }}</p>
 
-                    <p class="card-text"><span class="fw-bold">狀態：</span> {{ work.status }}</p>
+                    <!-- <p class="card-text"><span class="fw-bold">狀態：</span> {{ work.status }}</p> -->
                 </div>
             </div>
             <!--Work photo & lordinfo & apply order -->
@@ -92,7 +92,7 @@
                         <button type="button" class="btn keep-btn me-4" :class="{ 'active': isKept }"
                             @click.stop.prevent="toggleKeepWork"><i class="fa-brands fa-gratipay"></i></button>
                         <button v-if="work.attendance < work.maxAttendance" class="btn btn-danger" @click="apply"><i
-                                class="fa-solid fa-screwdriver-wrench me-2"></i>報名</button>
+                                class="fa-solid fa-cart-arrow-down me-2"></i>報名</button>
                         <button v-else class="btn btn-danger" disabled><i
                                 class="fa-solid fa-circle-exclamation me-2"></i>已額滿</button>
                     </div>

@@ -45,7 +45,7 @@
                     <div class="form-floating mb-3">
                         <input class="form-control border-0 border-bottom" name="pet" id="pet" placeholder="pet"
                             v-model="landlordBean.pet">
-                        <label for="pet"><i class="fa fa-solid fa-paw"></i>寵物(如有可詳加說明)</label>
+                        <label for="pet"><i class="fa fa-solid fa-paw"></i>寵物限制</label>
                     </div>
                     <!-- terms textarea below -->
                     <div v-if="!lordID" class="form-floating mt-4 terms">

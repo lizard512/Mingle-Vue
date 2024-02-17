@@ -1,5 +1,5 @@
 <template>
-  <div class="container animate__animated animate__fadeInUp">
+  <div class="container bg-white animate__animated animate__fadeInUp pb-5">
 
     <RouterView></RouterView>
 
@@ -17,4 +17,5 @@
 // console.log(workID);
 </script>
     
-<style></style>
+<style scoped>
+</style>

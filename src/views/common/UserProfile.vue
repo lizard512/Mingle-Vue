@@ -49,25 +49,71 @@
                         </div>
                     </div>
                 </div>
-                <!-- 房東工作 -->
-                <div class="card mb-4">
+                <!-- 房東資料 -->
+                <div class="card mb-4" v-if="routeLordID">
                     <div class="card-title">
-                        <h4 class="text-center pt-4">房東工作</h4>
+                        <h4 class="text-center pt-4">房東個人資料</h4>
                     </div>
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">所在縣市</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ landlordBean.city }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">所在地址</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ landlordBean.address }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">地點特色</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ landlordBean.feature }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">寵物限制</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ landlordBean.pet }}</p>
+                            </div>
+                        </div>
                     </div>
+                </div>
+                <!-- 房東工作 -->
+                <div class="card mb-4" v-if="routeLordID">
+                    <div class="card-title">
+                        <h4 class="text-center pt-4">房東的熱門工作</h4>
+                    </div>
+                    <div class="card-body work-deck">
+                        <WorkDeck :autoplayDelay="4600" />
+                    </div>
+                    <button class="btn btn-primary" @click="navigateToChatroom">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>查看這位房東的所有工作</button>
                 </div>
             </div>
             <div class="col-lg-8">
                 <div class="card mb-4">
                     <!-- 會員資料 -->
                     <div class="card-title">
-                        <h4 class="text-center pt-4">會員資料</h4>
+                        <h4 class="text-center pt-4">會員個人資料</h4>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Gender</p>
+                                <p class="mb-0">性別</p>
                             </div>
                             <div class="col-sm-9">
                                 <p class="text-muted mb-0">{{ userDetail.gender }}</p>
@@ -76,7 +122,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Birth</p>
+                                <p class="mb-0">生日</p>
                             </div>
                             <div class="col-sm-9">
                                 <p class="text-muted mb-0">{{ userDetail.birth?.toString().substring(0, 10) }}</p>
@@ -85,7 +131,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Country</p>
+                                <p class="mb-0">國籍</p>
                             </div>
                             <div class="col-sm-9">
                                 <p class="text-muted mb-0">{{ userDetail.country }}</p>
@@ -94,7 +140,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Background</p>
+                                <p class="mb-0">個人背景</p>
                             </div>
                             <div class="col-sm-9">
                                 <p class="text-muted mb-0">{{ userDetail.background }}</p>
@@ -103,7 +149,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Language</p>
+                                <p class="mb-0">語言</p>
                             </div>
                             <div class="col-sm-9">
                                 <p class="text-muted mb-0">{{ userDetail.language }}</p>
@@ -112,7 +158,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Hobby</p>
+                                <p class="mb-0">興趣</p>
                             </div>
                             <div class="col-sm-9">
                                 <p class="text-muted mb-0">{{ userDetail.hobby }}</p>
@@ -159,6 +205,7 @@ import { useRoute } from 'vue-router'
 
 //// 引用元件
 import ReviewCustom from '@views/common/ReviewCustom.vue';
+import WorkDeck from '@components/WorkDeck.vue';
 
 //// 引用 store
 // import { useStore } from '@store/chatStore.js'
@@ -259,6 +306,27 @@ const navigateToChatroom = () => {
     router.push({ name: "Chatroom", query: { externalID: routeUserID, externalName: userDetail.value.name } });
 };
 
+const popUpAllWork = () => {
+    Swal.fire({
+        title: '超爛房東',
+        text: '你確定要檢舉這位房東嗎？',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: 'var(--danger)',
+        cancelButtonColor: 'var(--info)',
+        confirmButtonText: '確定',
+        cancelButtonText: '取消'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                '檢舉成功',
+                '我們已經收到你的檢舉，會盡快處理',
+                'success'
+            )
+        }
+    })
+}
+
 const showAlert = () => {
     alert('我就爛👍');
 };
@@ -271,5 +339,11 @@ const showAlert = () => {
     height: 150px;
     width: 150px;
     object-fit: cover;
+}
+
+.work-deck {
+    height: 100%;
+    text-align: center;
+    padding: 12px 80px;
 }
 </style>
