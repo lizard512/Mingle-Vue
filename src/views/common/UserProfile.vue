@@ -33,9 +33,9 @@
                         </div>
                         <hr>
                         <div class="my-2">
-                            <span class="text-muted me-3 fa fa-star" v-if="true"> 打工換宿達人</span>
-                            <span class="text-muted me-3 fa fa-solid fa-address-card" v-if="userDetail.email"> 身分已驗證</span>
-                            <span class="text-muted me-3 fa fa-solid fa-medal" v-if="true"> 超讚房東</span>
+                            <span class="text-muted me-3 fa fa-star" v-if="true">打工換宿達人</span>
+                            <span class="text-muted me-3 fa fa-solid fa-address-card" v-if="userDetail.email">身分已驗證</span>
+                            <span class="text-muted me-3 fa fa-solid fa-medal" v-if="routeLordID"> 超讚房東</span>
                         </div>
                         <div class="d-flex justify-content-between text-center py-1">
                             <div class="px-3">
@@ -49,9 +49,18 @@
                         </div>
                     </div>
                 </div>
+                <!-- 房東工作 -->
+                <div class="card mb-4">
+                    <div class="card-title">
+                        <h4 class="text-center pt-4">房東工作</h4>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                </div>
             </div>
             <div class="col-lg-8">
                 <div class="card mb-4">
+                    <!-- 會員資料 -->
                     <div class="card-title">
                         <h4 class="text-center pt-4">會員資料</h4>
                     </div>
@@ -111,15 +120,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="card mb-4">
+                <!-- 房東評價一覽 -->
+                <div class="card mb-4" v-if="routeLordID">
                     <div class="card-title">
                         <h4 class="text-center pt-4">房東評價一覽</h4>
                     </div>
                     <div class="card-body">
-                        <ReviewCustom v-if="routeLordID" :lordID="routeLordID"></ReviewCustom>
-                        <div v-else>
+                        <ReviewCustom :lordID="routeLordID"></ReviewCustom>
+                        <!-- <div v-else>
                             <h6 class="text-center">此用戶尚未成為房東</h6>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

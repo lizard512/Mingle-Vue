@@ -11,7 +11,7 @@
                             <span class="badge bg-danger">正在徵求幫助者的項目！</span>
                         </div>
                     </div>
-                    <div class="col-xxl-6 col-md-0 d-inline-flex"
+                    <div class="col-xxl-6 col-md-0 d-flex align-items-center mb-1"
                         data-wow-delay="0.1s">
                         <select class="form-select w-50 me-2" v-model="filters.city">
                             <option value="">所有縣市</option>

@@ -1,6 +1,7 @@
 <template>
+    <div class="container bg-white">
     <section class="pt-7">
-        <div class="container">
+        <div class="container bg-white">
             <div class="row align-items-center">
                 <div class="col-md-6 text-md-start text-center py-6">
                     <h1 class="mb-4  fw-bold">好像沒有時間想文案了，<br>所以我放了一頁垃圾在這</h1>
@@ -238,10 +239,12 @@
     </section>
     <!-- <section> close ============================-->
     <!-- ============================================-->
+</div>
 </template>
     
 <script setup>
 
 </script>
     
-<style></style>
+<style scoped>
+</style>

@@ -20,7 +20,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear me-2"></i>設定</a></li>
-                        <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i
+                        <RouterLink class="dropdown-item" :to="`/user-profile/${userID}`"><i
                                 class="fa-solid fa-id-card me-2"></i>個人頁面</RouterLink>
                         <li>
                             <hr class="dropdown-divider">
@@ -42,7 +42,7 @@
             <div class="row">
                 <!-- Sidebar Start -->
                 <nav class="col-xxl-2 col-xl-3 col-md-4 col-2 d-block navbar-dark sidebar">
-                    <ul class="nav flex-column">
+                    <ul class="nav flex-column mb-2">
                         <button type="button" class="navbar-toggler" @click="isCollapse = !isCollapse">
                             <i class="fa-solid fa-bars py-1"></i>
                         </button>
@@ -52,6 +52,36 @@
                                 <span>管理者主控台</span>
                             </RouterLink>
                         </li>
+                        <!-- 管理者功能 -->
+                        <h6 class="sidebar-heading"><i class="fa fa-solid fa-screwdriver-wrench"></i><span>管理者功能</span>
+                        </h6>
+                        <li class="nav-item">
+                            <RouterLink class="nav-link d-flex justify-content-between" active-class="active"
+                                :to="{ name: 'AdminWorkReview' }">
+                                <div class="d-flex justify-content-between position-relative">
+                                    <i class="fa fa-solid fa-check-to-slot"></i><span>審核工作檢舉</span>
+                                    <hint
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-2">
+                                        {{pendingReportCount }}<span class="visually-hidden">unread reports</span></hint>
+                                </div>
+                                <span class="badge bg-danger m-2 d-flex align-items-center sidebar-text">{{
+                                    pendingReportCount }}</span>
+                            </RouterLink>
+                        </li>
+                        <li class="nav-item">
+                            <RouterLink class="nav-link d-flex justify-content-between" active-class="active" :to="{ name: 'AdminPermission' }">
+                                <div class="d-flex justify-content-between position-relative">
+                                    <i class="fa fa-solid fa-user-shield"></i>
+                                    <span>管理者權限控管</span>
+                                    <hint
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-success p-2">
+                                        {{pendingReportCount }}<span class="visually-hidden">unread reports</span></hint>
+                                </div>
+                                <span class="badge bg-success m-2 d-flex align-items-center sidebar-text">{{
+                                    pendingReportCount }}</span>
+                            </RouterLink>
+                        </li>
+                        <!-- 資料管理 -->
                         <div class="h6 sidebar-heading"><i class="fa fa-solid fa-database"></i><span>資料管理</span>
                         </div>
                         <li class="nav-item">
@@ -79,26 +109,6 @@
                             </RouterLink>
                         </li>
                     </ul>
-                    <h6 class="sidebar-heading"><i class="fa fa-solid fa-screwdriver-wrench"></i><span>管理者功能</span>
-                    </h6>
-                    <ul class="nav flex-column mb-2">
-                        <li class="nav-item">
-                            <RouterLink class="nav-link d-flex justify-content-between" active-class="active"
-                                :to="{ name: 'AdminWorkReview' }">
-                                <div class="d-flex justify-content-between">
-                                    <i class="fa fa-solid fa-check-to-slot"></i><span>審核工作檢舉</span>
-                                </div>
-                                <span class="badge bg-danger m-2 d-flex align-items-center sidebar-text">{{
-                                    pendingReportCount }}</span>
-                            </RouterLink>
-                        </li>
-                        <li class="nav-item">
-                            <RouterLink class="nav-link" active-class="active" :to="{ name: 'AdminPermission' }">
-                                <i class="fa fa-solid fa-user-shield"></i>
-                                <span>管理者權限控管</span>
-                            </RouterLink>
-                        </li>
-                    </ul>
                     <!-- Sidebar user info -->
                     <div class="dropdown dropup p-3 sidebar-user-info">
                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -110,7 +120,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                             <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear me-2"></i>設定</a></li>
-                            <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i
+                            <RouterLink class="dropdown-item" :to="`/user-profile/${userID}`"><i
                                     class="fa-solid fa-id-card me-2"></i>個人頁面</RouterLink>
                             <li>
                                 <hr class="dropdown-divider">
@@ -183,9 +193,6 @@ const countPendingReview = async () => {
     }
 }
 
-const getUserProfileLink = () => {
-    return `/user-profile/${userID.value}`;
-};
 
 // 清除使用者localStorage資料
 const resetStore = () => {
@@ -227,12 +234,23 @@ watch(router.currentRoute, async () => {
     
 <style scoped>
 .container-fluid {
-        /* height: 100vh; */
+    color: black;
+    /* height: 100vh; */
     /* overflow: hidden; */
 }
 
-.router-view{
+.router-view {
     min-height: calc(100vh - 75px);
+}
+
+:deep(h2) {
+    color: white;
+    outline: 0.4rem solid white;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    display: inline;
 }
 
 /*** Icon ***/
@@ -271,18 +289,19 @@ watch(router.currentRoute, async () => {
     position: fixed;
 }
 
-.sidebar .navbar-toggler{
+.sidebar .navbar-toggler {
     background-color: var(--light);
     border-bottom: 2px solid black;
 }
 
 .sidebar-heading {
+    color: var(--dark);
     background-color: var(--light);
     /* px-3 mt-3 mb-1 */
     /* 3 * 4px */
     margin-top: 16px;
     /* 4 * 4px */
-    margin-bottom: 4px;
+    margin-bottom: 16px;
     /* 1 * 4px */
     display: flex;
     align-items: center;
@@ -328,6 +347,13 @@ watch(router.currentRoute, async () => {
     background-color: var(--secondary);
 }
 
+/* 預設情況下隱藏 hint 標籤 */
+hint {
+    display: none;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
 .sidebar-user-info {
     border-top: 2px solid black;
     position: fixed;
@@ -356,6 +382,10 @@ h1.m-0.link-primary {
 
 /* 響應式 */
 @media (max-width: 768px) {
+
+    hint {
+        display: block;
+    }
 
     .sidebar .nav-link span,
     .sidebar .nav-item span,
@@ -390,6 +420,10 @@ h1.m-0.link-primary {
 <style scoped lang="scss">
 /* 摺疊 */
 .collapsed {
+
+    hint {
+        display: block;
+    }
 
     .sidebar .nav-link span,
     .sidebar .nav-item span,

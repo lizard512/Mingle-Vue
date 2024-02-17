@@ -73,7 +73,7 @@
                                 <span v-else>會員中心</span>
                             </a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <RouterLink class="dropdown-item" :to="getUserProfileLink()"><i
+                                <RouterLink class="dropdown-item" :to="`/user-profile/${userID}`"><i
                                         class="fa fa-solid fa-id-card"></i>個人頁面</RouterLink>
                                 <RouterLink class="dropdown-item" to="/chatroom"><i class="fa fa-solid fa-comments"></i>聊天室
                                 </RouterLink>
@@ -202,9 +202,9 @@ function resetStore() {
     })
 }
 
-const getUserProfileLink = () => {
-    return `/user-profile/${userID.value}`;
-};
+// const getUserProfileLink = () => {
+//     return `/user-profile/${userID.value}`;
+// };
 
 const checkSticky = () => {
     // 如果當前的路由是 WorkSearch，則不懸浮 NAVBAR

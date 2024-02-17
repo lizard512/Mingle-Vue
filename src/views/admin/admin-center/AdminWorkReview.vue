@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container-fluid">
         <div class="">
             <h2>審核工作檢舉</h2>
         </div>
