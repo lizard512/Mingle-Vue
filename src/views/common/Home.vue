@@ -1,7 +1,21 @@
 <template>
-  <!-- Header Start -->
   <div class="container-fluid animate__animated animate__fadeIn">
+
+    <!-- Ad Bannner start -->
+    <div id="ad-left" class="ad-banner-container">
+      <div class="ad-banner" v-for="index in 4" :key="index">
+        <p>廣告版面預覽 左{{ index }}</p>
+      </div>
+    </div>
+    <div id="ad-right" class="ad-banner-container">
+      <div class="ad-banner" v-for="index in 4" :key="index">
+        <p>廣告版面預覽 右{{ index }}</p>
+      </div>
+    </div>
+    <!-- Ad Bannner end -->
+
     <div class="container p-0">
+      <!-- Header Start -->
       <div class="row g-0 align-items-center header">
         <div class="col-xl-6 p-5 text-center animate__animated animate__fadeIn">
           <h1 class="display-5 mb-4 title-text">一點 <span class="text-info">幫助</span>
@@ -26,6 +40,7 @@
         </div>
       </div>
       <!-- Header End -->
+
       <!--Work Card Start-->
       <div>
         <h2 class="text-center mt-5">目前正在徵求幫助者的項目</h2>
@@ -53,6 +68,7 @@
         </div>
       </div>
       <!--Work Card End-->
+
       <!--Reviews Start-->
       <div class="pb-5">
         <h2 class="text-center mt-5">好評不斷的打工換宿體驗</h2>
@@ -102,12 +118,48 @@ const getReview = async () => {
 
 
 <style scoped>
-.container-fluid {
 
+#ad-left {
+  left: 0;
 }
 
+#ad-right {
+  right: 0;
+}
+
+.ad-banner-container {
+  position: absolute;
+  top: 150px;
+  width: 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ad-banner {
+  height: 30vh;
+  width: 100%;
+  margin-bottom: 25px;
+  color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.5);
+  font-size: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 30px;
+  transition: all 0.3s ease;
+  /* z-index: 1; */
+}
+
+.ad-banner:hover {
+  border-color: transparent;
+  transform: translateY(-25px);
+}
+
+.container-fluid {}
+
 .container {
-  background-color: var(--white);
+  background-color: var(--white-50);
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
 }
 
@@ -129,13 +181,15 @@ const getReview = async () => {
   padding: 12px 40px;
 }
 
+
+
 /* .swiper-slide {
 
 } */
 
 .swiper-slide img {
   display: block;
-  height: 50vh;
+  height: 30vh;
   width: 100%;
   object-fit: cover;
 }

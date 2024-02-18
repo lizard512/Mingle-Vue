@@ -62,23 +62,24 @@
                                     <i class="fa fa-solid fa-check-to-slot"></i><span>審核工作檢舉</span>
                                     <div
                                         class="hint position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-2">
-                                        {{pendingReportCount }}<span class="visually-hidden">unread reports</span></div>
+                                        {{ pendingReportCount }}<span class="visually-hidden">unread reports</span></div>
                                 </div>
                                 <span class="badge bg-danger m-2 d-flex align-items-center sidebar-text">{{
                                     pendingReportCount }}</span>
                             </RouterLink>
                         </li>
                         <li class="nav-item">
-                            <RouterLink class="nav-link d-flex justify-content-between" active-class="active" :to="{ name: 'AdminPermission' }">
+                            <RouterLink class="nav-link d-flex justify-content-between" active-class="active"
+                                :to="{ name: 'AdminPermission' }">
                                 <div class="d-flex justify-content-between position-relative">
                                     <i class="fa fa-solid fa-user-shield"></i>
                                     <span>管理者權限控管</span>
                                     <div
                                         class="hint position-absolute top-0 start-100 translate-middle badge rounded-circle bg-success p-2">
-                                        {{pendingReportCount }}<span class="visually-hidden">unread reports</span></div>
+                                        {{ adminCount }}<span class="visually-hidden">unread reports</span></div>
                                 </div>
                                 <span class="badge bg-success m-2 d-flex align-items-center sidebar-text">{{
-                                    pendingReportCount }}</span>
+                                    adminCount }}</span>
                             </RouterLink>
                         </li>
                         <!-- 資料管理 -->
@@ -172,6 +173,7 @@ const router = useRouter();
 // 樣式相關
 const darkMode = ref(true); // 暗黑模式
 const pendingReportCount = ref(0);
+const adminCount = ref(0);
 const isCollapse = ref(false);
 
 //// 定義方法
@@ -193,6 +195,14 @@ const countPendingReview = async () => {
     }
 }
 
+const countAdmin = async () => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteer/getAdminCount`);
+        adminCount.value = response.data;
+    } catch (error) {
+        console.error('Failed to fetch admin count:', error);
+    }
+}
 
 // 清除使用者localStorage資料
 const resetStore = () => {
@@ -209,18 +219,16 @@ watchEffect(() => {
     const htmlTag = document.documentElement;
     if (darkMode.value) {
         htmlTag.setAttribute('data-bs-theme', 'dark');
-        htmlTag.style.setProperty('--primary', '#d29f05');
-        htmlTag.style.setProperty('--light', '#0E2E50');
-        htmlTag.style.setProperty('--dark', '#EFFDF5');
         htmlTag.style.setProperty('--white', '#000000');
         htmlTag.style.setProperty('--black', '#FFFFFF');
+        htmlTag.style.setProperty('--white-50', 'rgba(0, 0, 0, 0.5)');
+        htmlTag.style.setProperty('--black-50', 'rgba(255, 255, 255, 0.5)');
     } else {
         htmlTag.removeAttribute('data-bs-theme');
-        htmlTag.style.setProperty('--primary', '#ffc107');
-        htmlTag.style.setProperty('--light', '#EFFDF5');
-        htmlTag.style.setProperty('--dark', '#0E2E50');
         htmlTag.style.setProperty('--white', '#FFFFFF');
         htmlTag.style.setProperty('--black', '#000000');
+        htmlTag.style.setProperty('--white-50', 'rgba(255, 255, 255, 0.5)');
+        htmlTag.style.setProperty('--black-50', 'rgba(0, 0, 0, 0.5)');
     }
 });
 
@@ -228,6 +236,7 @@ watchEffect(() => {
 //// 監聽路由
 watch(router.currentRoute, async () => {
     await countPendingReview();
+    await countAdmin();
 }, { immediate: true });
 
 </script>
@@ -246,11 +255,10 @@ watch(router.currentRoute, async () => {
 :deep(h2) {
     color: white;
     outline: 0.4rem solid white;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding: 0 8px; 
     border-radius: 4px;
-    margin-bottom: 16px;
-    display: inline;
+    display: inline-block;
+    margin-bottom: 1rem;
 }
 
 /*** Icon ***/
@@ -270,7 +278,7 @@ watch(router.currentRoute, async () => {
 
 .fa-bars {
     font-size: 1.5rem;
-    color: var(--dark);
+    color: var(--light);
 }
 
 .dropdown-toggle::after {
@@ -283,20 +291,22 @@ watch(router.currentRoute, async () => {
 
 .sidebar {
     padding: 0;
-    background-color: var(--white);
+    background-color: rgba(255, 255, 255, 0.3);
     height: 100vh;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 1);
     position: fixed;
 }
 
 .sidebar .navbar-toggler {
-    background-color: var(--light);
-    border-bottom: 2px solid black;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-width: 0.25rem 0rem;
+    border-style: outset;
+    border-color:var(--dark);
 }
 
 .sidebar-heading {
-    color: var(--dark);
-    background-color: var(--light);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.3);
     /* px-3 mt-3 mb-1 */
     /* 3 * 4px */
     margin-top: 16px;
@@ -306,8 +316,6 @@ watch(router.currentRoute, async () => {
     display: flex;
     align-items: center;
     justify-content: start;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
 }
 
 .sidebar-heading .fa {
@@ -344,7 +352,7 @@ watch(router.currentRoute, async () => {
 }
 
 .sidebar .nav-link:hover {
-    background-color: var(--secondary);
+    background-color: var(--info);
 }
 
 /* 預設情況下隱藏 hint */
@@ -355,13 +363,13 @@ watch(router.currentRoute, async () => {
 }
 
 .sidebar-user-info {
-    border-top: 2px solid black;
     position: fixed;
     bottom: 0;
     left: 0;
     width: inherit;
-    background-color: var(--light);
+    background-color: var(--dark);
 }
+
 
 .sidebar-user-info .fa-solid,
 .navbar-user-info .fa-solid {

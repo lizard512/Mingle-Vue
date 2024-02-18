@@ -1,11 +1,11 @@
 <template>
     <div class="container-fluid px-5 pt-3">
         <div class="row g-4">
-            <div class="col-xxl-2 col-xl-3 col-lg-4 col-6" v-for="(work, index) in works" :key="work.workid">
+            <div class="col-xxl-2 col-xl-3 col-lg-4 col-sm-6 col-12" v-for="(work, index) in works" :key="work.workid">
                 <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                     <!-- 開牌動畫顯示內容 -->
-                    <div v-if="!isFliping[index]" class="list-item overflow-hidden"
-                        :class="isAnimationEnabled ? 'animate__animated animate__flipInY' : ''">
+                    <div v-if="!isFliping[index]"
+                        :class="'list-item', isAnimationEnabled ? 'animate__animated animate__flipInY' : ''">
                         <div class="overflow-hidden position-relative">
                             <!-- 工作照片 -->
                             <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64"
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <!-- 蓋牌動畫顯示內容 -->
-                    <div v-else class="list-item overflow-hidden"
+                    <div v-else class="list-item"
                         :class="isAnimationEnabled ? 'animate__animated animate__flipOutY' : ''"
                         :style="{ animationDelay: `${index * 0.05}s`, opacity: 1 }">
                         <div class="position-relative overflow-hidden">
@@ -250,7 +250,7 @@ const toggleKeepWork = (workId, kept) => {
 
 const submitReport = async () => {
     try {
-        const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/report/addReport`, reportBean.value);
+        await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/report/addReport`, reportBean.value);
     } catch (error) {
         console.log(error);
     }
@@ -263,11 +263,15 @@ const submitReport = async () => {
 .list-item {
     background-color: var(--white);
     border-radius: 16px;
-    border: 2px solid var(--black);
+    border: 3px solid var(--black);
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
 }
 
 .list-item:hover {
-    background-color: var(--white);
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+    transform: scale(1.05);
 }
 
 .list-item img {
@@ -282,9 +286,9 @@ const submitReport = async () => {
     background-color: white !important
 }
 
-.list-item:hover img {
+/* .list-item:hover img {
     transform: scale(1.1);
-}
+} */
 
 .list-item .border-top {
     border-top: 1px solid var(--black) !important;
@@ -301,12 +305,13 @@ const submitReport = async () => {
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--black);
 }
 
 .list-item .btn {
     border: 0;
     font-size: 1.25rem;
-    background-color: var(--white);
+    background-color: var(--white-50);
     border: 1.5px solid var(--black) !important;
 }
 
@@ -320,6 +325,10 @@ const submitReport = async () => {
 .report-btn.active {
     color: white;
     background-color: var(--warning);
+}
+
+.fa {
+    color: chocolate;
 }
 
 

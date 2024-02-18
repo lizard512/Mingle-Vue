@@ -158,6 +158,8 @@ watchEffect(() => {
         htmlTag.style.setProperty('--dark', '#EFFDF5');
         htmlTag.style.setProperty('--white', '#000000');
         htmlTag.style.setProperty('--black', '#FFFFFF');
+        htmlTag.style.setProperty('--white-50', 'rgba(0, 0, 0, 0.5)');
+        htmlTag.style.setProperty('--black-50', 'rgba(255, 255, 255, 0.5)');
     } else {
         htmlTag.removeAttribute('data-bs-theme');
         htmlTag.style.setProperty('--primary', '#ffc107');
@@ -165,6 +167,8 @@ watchEffect(() => {
         htmlTag.style.setProperty('--dark', '#0E2E50');
         htmlTag.style.setProperty('--white', '#FFFFFF');
         htmlTag.style.setProperty('--black', '#000000');
+        htmlTag.style.setProperty('--white-50', 'rgba(255, 255, 255, 0.5)');
+        htmlTag.style.setProperty('--black-50', 'rgba(0, 0, 0, 0.5)');
     }
 });
 
