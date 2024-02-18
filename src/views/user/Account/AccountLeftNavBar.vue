@@ -8,9 +8,9 @@
                 <i class="fa-solid fa-pen" />個人介紹</a></div>
         <!-- <div class="row my-5" @click="clickHandler(isShow = 2)">
             <a href="#" class="styleColor"><i class="fa-solid fa-shoe-prints" />旅行足跡</a>
-        </div>
+        </div> -->
         <div class="row my-5" @click="clickHandler(isShow = 3)"><a href="#" class="styleColor ">
-                <i class="fa-brands fa-gratipay" />心願清單</a></div> -->
+                <i class="fa-brands fa-gratipay" />心願清單</a></div>
     </div>
 </template>
 

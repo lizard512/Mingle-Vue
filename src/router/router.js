@@ -22,7 +22,7 @@ import Chatroom from "@views/user/Chatroom.vue";
 import Order from "@views/user/Order.vue";
 import Account from "@views/user/Account/Account.vue";
 import Payment from "@views/user/Payment.vue";
-import OrderManagement from "@views/user/Account/Account5.vue";
+import OrderManagement from "@views/user/OrderManagement.vue";
 // landlord 房東身分
 import LandlordOrderCenter from "@/views/landlord/LandlordOrderCenter.vue";
 import Analyze from "@views/landlord/Analyze.vue";

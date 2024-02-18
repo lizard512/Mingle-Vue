@@ -1,6 +1,6 @@
 <template>
     <div class="row justify-content-center text-center">
- 
+
         <div class="col-md-8 px-md-4 mx-auto animate__animated animate__fadeInUp justify-content-center">
             <br>
             <h2>訂單評價</h2>
@@ -10,9 +10,8 @@
                     <div class="col-8">
                         <div class="card-body">
                             <h5 class=" card-title text-md-start text-secondary text-md-center"> 評價分數: </h5>
-                                <el-rate v-model="star" size='large'
-                                    />
-              
+                            <el-rate v-model="star" size='large' />
+
                             <!-- 回應訊息 -->
                             <div class="input-group col-12">
                                 <el-input v-model="content" :autosize="{ minRows: 5, maxRows: 10 }" type="textarea"
@@ -23,7 +22,6 @@
                                     <div class=" m-3 p-3 animate__animated animate__fadeInUp">
                                         <el-upload v-model:file-list="fileList" action="#" list-type="picture-card"
                                             :auto-upload="false" :on-change="addToTotal" :show-file-list="false"
-                                           
                                             accept=".jpg,.jpeg,.webp,.png" multiple drag>
                                             <el-icon>
                                                 <Plus />
@@ -89,7 +87,7 @@ console.log(orderId);
 
 const router = useRouter();
 const goToAccount = () => {
-    router.push({ path: '/Account' });
+    router.push({ path: '/OrderManagement' });
 }
 
 
@@ -150,8 +148,8 @@ const review = ref({
 const submitReply = async () => {
 
     const Reply_API_URL = `${import.meta.env.VITE_APP_API_URL}/review/create/review`
-    
-    if(star.value == 0){
+
+    if (star.value == 0) {
         Swal.mixin({
             toast: true,
             position: 'bottom-top',
@@ -174,7 +172,7 @@ const submitReply = async () => {
 
 
 
-    if(content.value == ""){
+    if (content.value == "") {
         Swal.mixin({
             toast: true,
             position: 'bottom-top',
@@ -195,7 +193,7 @@ const submitReply = async () => {
         return
     }
 
-    if(fileList.value.length > 6){
+    if (fileList.value.length > 6) {
         Swal.mixin({
             toast: true,
             position: 'bottom-top',
@@ -388,7 +386,8 @@ figcaption:hover img {
     object-fit: contain;
 }
 
-.el-rate  {
-    font-size: 500px; /* 調整星星的尺寸，請根據需要自行調整大小 */
+.el-rate {
+    font-size: 500px;
+    /* 調整星星的尺寸，請根據需要自行調整大小 */
 }
 </style>
