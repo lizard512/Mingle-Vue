@@ -2,7 +2,7 @@
   <div class="container-fluid animate__animated animate__fadeIn">
 
     <!-- Ad Bannner start -->
-    <div id="ad-left" class="ad-banner-container">
+    <!-- <div id="ad-left" class="ad-banner-container">
       <div class="ad-banner" v-for="index in 4" :key="index">
         <p>廣告版面預覽 左{{ index }}</p>
       </div>
@@ -11,7 +11,7 @@
       <div class="ad-banner" v-for="index in 4" :key="index">
         <p>廣告版面預覽 右{{ index }}</p>
       </div>
-    </div>
+    </div> -->
     <!-- Ad Bannner end -->
 
     <div class="container p-0">

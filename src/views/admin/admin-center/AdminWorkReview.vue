@@ -57,8 +57,9 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center mt-2">
-                    <button class="btn btn-success me-2" type="button" @click="showNext">通過</button>
-                    <button class="btn btn-danger" type="button" @click="showNext">封禁</button>
+                    <button class="btn btn-success me-2" type="button" @click="() => showNext('pass')">未發現問題，不需處理</button>
+                    <button class="btn btn-primary" type="button" @click="() => showNext('ban')">檢舉內容屬實，封禁此工作</button>
+                    <button class="btn btn-danger ms-2" type="button" @click="() => showNext('delete')">嚴重違規，直接刪除工作</button>
                 </div>
             </div>
             <div class="col-xxl-4 col-12 p-3">
@@ -68,8 +69,7 @@
                     <h5>檢舉ID：{{ report.reportID }}</h5>
                     <p>違規類型：{{ report.type }}</p>
                     <p>詳細原因：{{ report.reason }}</p>
-                    <p>檢舉狀態：{{ report.status }}</p>
-                    <p>創建時間：{{ report.createdAt.toString().substring(0, 10) }}</p>
+                    <p>檢舉時間：{{ report.createdAt.toString().substring(0, 10) }}</p>
                 </div>
             </div>
         </div>
@@ -126,7 +126,46 @@ const loadWork = async () => {
     }
 };
 
-const showNext = () => {
+
+const updateReportStatus = async (reportID, newStatus) => {
+    try {
+        await axios.put(`${import.meta.env.VITE_APP_API_URL}/api/report/updateReportStatus`, null, {
+            params: {
+                reportID: reportID,
+                status: newStatus
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const updateWorkStatus = async (workID, newStatus, isDeleted) => {
+    try {
+        await axios.put(`${import.meta.env.VITE_APP_API_URL}/api/work/updateWorkStatus/${workID}`, null, {
+            params: {
+                status: newStatus,
+                isDeleted: isDeleted
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const showNext = (action) => {
+    const currentWorkReports = reports.value.filter(r => r.workID === works.value[currentWork.value].workid);
+    currentWorkReports.forEach(report => {
+        console.log(report.reportID);
+        updateReportStatus(report.reportID, 1);
+    });
+
+    if (action === 'ban') {
+        updateWorkStatus(works.value[currentWork.value].workid, "已封禁", 0);
+    } else if (action === 'delete') {
+        updateWorkStatus(works.value[currentWork.value].workid, "已刪除", 1);
+    }
+
     if (currentWork.value < works.value.length) {
         currentWork.value++;
     }
@@ -139,8 +178,8 @@ const showNext = () => {
     
 <style scoped>
 .list-item {
-    color: rgba(0, 0, 0, 0.5);
-    background-color: rgba(255, 255, 255, 0.5);
+    color: var(--black);
+    background-color: var(--white-50);
 }
 
 .list-item img {
