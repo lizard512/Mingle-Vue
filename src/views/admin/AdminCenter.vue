@@ -221,10 +221,14 @@ watchEffect(() => {
         htmlTag.setAttribute('data-bs-theme', 'dark');
         htmlTag.style.setProperty('--white', '#000000');
         htmlTag.style.setProperty('--black', '#FFFFFF');
+        htmlTag.style.setProperty('--white-50', 'rgba(0, 0, 0, 0.5)');
+        htmlTag.style.setProperty('--black-50', 'rgba(255, 255, 255, 0.5)');
     } else {
         htmlTag.removeAttribute('data-bs-theme');
         htmlTag.style.setProperty('--white', '#FFFFFF');
         htmlTag.style.setProperty('--black', '#000000');
+        htmlTag.style.setProperty('--white-50', 'rgba(255, 255, 255, 0.5)');
+        htmlTag.style.setProperty('--black-50', 'rgba(0, 0, 0, 0.5)');
     }
 });
 
@@ -287,7 +291,7 @@ watch(router.currentRoute, async () => {
 
 .sidebar {
     padding: 0;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.3);
     height: 100vh;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 1);
     position: fixed;
@@ -302,7 +306,7 @@ watch(router.currentRoute, async () => {
 
 .sidebar-heading {
     color: white;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.3);
     /* px-3 mt-3 mb-1 */
     /* 3 * 4px */
     margin-top: 16px;

@@ -378,8 +378,8 @@ const checkSticky = () => {
     position: fixed;
     top: 50%;
     left: 0;
-    color:rgba(0, 0, 0, 0.5);
-    background-color: rgba(255, 255, 255, 0.5);
+    color: var(--black-50);
+    background-color: var(--white-50);
     padding: 10px;
     font-size: 20px;
     writing-mode: vertical-lr;

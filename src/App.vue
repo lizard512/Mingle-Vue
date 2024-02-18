@@ -44,6 +44,8 @@ import BackToTopButton from '@components/BackToTopButton.vue'
     --dark: #0E2E50;
     --white: #FFFFFF;
     --black: #000000;
+    --white-50: rgba(255, 255, 255, 0.5);
+    --black-50: rgba(0, 0, 0, 0.5);
 }
 </style>
 <style>

@@ -142,16 +142,24 @@ const getReview = async () => {
   margin-bottom: 25px;
   color: rgba(0, 0, 0, 0.5);
   background-color: rgba(255, 255, 255, 0.5);
-  padding: 10px;
   font-size: 20px;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 30px;
+  transition: all 0.3s ease;
   /* z-index: 1; */
+}
+
+.ad-banner:hover {
+  border-color: transparent;
+  transform: translateY(-25px);
 }
 
 .container-fluid {}
 
 .container {
-  background-color: var(--white);
+  background-color: var(--white-50);
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
 }
 

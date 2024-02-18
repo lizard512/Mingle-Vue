@@ -1,12 +1,14 @@
 <template>
-    <!-- 使用者搜尋欄位 -->
+
     <form @submit.prevent="searchUser" class="d-flex justify-content-center align-items-center">
+        <!-- 使用者搜尋欄位 -->
         <div class="w-50 input-group m-3 mx-auto">
             <input type="text" class="form-control" placeholder="依使用者名稱搜尋" v-model="keyword">
             <button class="btn btn-info" type="submit">搜尋</button>
         </div>
+        <!-- 重整按鈕 -->
         <div class="w-25 text-center">
-            <button class="btn" type="button" @click="loadUsers"><i class="fa-solid fa-arrows-rotate me-2"></i>重整</button>
+            <button id="reflesh-btn" class="btn" type="button" @click="loadUsers"><i class="fa-solid fa-arrows-rotate me-2"></i>重整</button>
         </div>
     </form>
     <!-- 使用者列表 Start-->
@@ -158,6 +160,11 @@ const updateAdminStatus = async (volunteer) => {
 </script>
     
 <style scoped>
+#reflesh-btn {
+    background-color: var(--white-50);
+    color: var(--black);
+}
+
 .page-item .page-link {
     color: var(--black);
 }

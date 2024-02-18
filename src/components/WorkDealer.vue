@@ -4,8 +4,8 @@
             <div class="col-xxl-2 col-xl-3 col-lg-4 col-sm-6 col-12" v-for="(work, index) in works" :key="work.workid">
                 <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                     <!-- 開牌動畫顯示內容 -->
-                    <div v-if="!isFliping[index]" class="list-item overflow-hidden"
-                        :class="isAnimationEnabled ? 'animate__animated animate__flipInY' : ''">
+                    <div v-if="!isFliping[index]"
+                        :class="'list-item', isAnimationEnabled ? 'animate__animated animate__flipInY' : ''">
                         <div class="overflow-hidden position-relative">
                             <!-- 工作照片 -->
                             <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64"
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <!-- 蓋牌動畫顯示內容 -->
-                    <div v-else class="list-item overflow-hidden"
+                    <div v-else class="list-item"
                         :class="isAnimationEnabled ? 'animate__animated animate__flipOutY' : ''"
                         :style="{ animationDelay: `${index * 0.05}s`, opacity: 1 }">
                         <div class="position-relative overflow-hidden">
@@ -263,11 +263,16 @@ const submitReport = async () => {
 .list-item {
     background-color: var(--white);
     border-radius: 16px;
-    border: 2px solid var(--black);
+    border: 3px solid var(--black);
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
 }
 
 .list-item:hover {
-    background-color: var(--white);
+    border-color: transparent;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+    transform: translateY(-12px);
 }
 
 .list-item img {
