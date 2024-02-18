@@ -1,5 +1,6 @@
 <template>
-    <div class="row justify-content-center text-center">
+    <div class="container-wrapper">
+    <div class="row text-center container bg-white  pb-5 ">
  
         <div class="col-md-8 px-md-4 mx-auto animate__animated animate__fadeInUp justify-content-center">
             <br>
@@ -7,7 +8,7 @@
             <!-- 評價 start-->
             <div>
                 <div class="row justify-content-center">
-                    <div class="col-8">
+                    <div class="col-12">
                         <div class="card-body">
                             <h5 class=" card-title text-md-start text-secondary text-md-center"> 評價分數: </h5>
                                 <el-rate v-model="star" size='large'
@@ -66,6 +67,7 @@
             </div>
         </div>
     </div>
+</div>
 </template>
 
 
@@ -390,5 +392,16 @@ figcaption:hover img {
 
 .el-rate  {
     font-size: 500px; /* 調整星星的尺寸，請根據需要自行調整大小 */
+}
+
+.container-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 這裡使用視窗的高度，也可以根據需求調整 */
+}
+
+.container {
+    width: 60%; /* 調整容器的寬度 */
 }
 </style>

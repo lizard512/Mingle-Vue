@@ -414,7 +414,7 @@ import Swal from 'sweetalert2';
 const orderStore = useOrderStore();
 
 const loaddata = () => {
-    // 从 Pinia store 获取数据
+    // 從Pinia獲取資料
     dataForOrder2.value = orderStore.orderData;
     console.log(dataForOrder2.value)
     roomDetail.value = dataForOrder2.value.selectedRooms
