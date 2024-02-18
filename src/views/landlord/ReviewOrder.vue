@@ -1,73 +1,72 @@
 <template>
     <div class="container-wrapper">
-    <div class="row text-center container bg-white  pb-5 ">
- 
-        <div class="col-md-8 px-md-4 mx-auto animate__animated animate__fadeInUp justify-content-center">
-            <br>
-            <h2>訂單評價</h2>
-            <!-- 評價 start-->
-            <div>
-                <div class="row justify-content-center">
-                    <div class="col-12">
-                        <div class="card-body">
-                            <h5 class=" card-title text-md-start text-secondary text-md-center"> 評價分數: </h5>
-                                <el-rate v-model="star" size='large'
-                                    />
-              
-                            <!-- 回應訊息 -->
-                            <div class="input-group col-12">
-                                <el-input v-model="content" :autosize="{ minRows: 5, maxRows: 10 }" type="textarea"
-                                    placeholder="請輸入" show-word-limit maxlength="500">
-                                </el-input>
-                                <!-- 上傳圖片 start -->
-                                <div class="col-12">
-                                    <div class=" m-3 p-3 animate__animated animate__fadeInUp">
-                                        <el-upload v-model:file-list="fileList" action="#" list-type="picture-card"
-                                            :auto-upload="false" :on-change="addToTotal" :show-file-list="false"
-                                           
-                                            accept=".jpg,.jpeg,.webp,.png" multiple drag>
-                                            <el-icon>
-                                                <Plus />
-                                            </el-icon>
-                                            <template #tip>
-                                                <div class="el-upload__tip secondary">
-                                                    圖片只允許 .jpg,.jpeg,.webp,.png，最多6張
-                                                </div>
-                                            </template>
+        <div class="row text-center container bg-white  pb-5 ">
 
-                                        </el-upload>
-                                        <!-- preview -->
-                                        <div class="row">
-                                            <div v-for=" item, index  in  fileList "
-                                                class="col d-flex justify-content-center" :key="index">
-                                                <figcaption class="position-relative">
-                                                    <i class="fa-solid fa-xmark fa-2xl position-absolute xmark"
-                                                        @click="deletePhoto(item, index)"></i>
-                                                    <img :src="item.url"
-                                                        class=" border-primary rounded previewPhoto animate__animated animate__fadeIn">
-                                                </figcaption>
+            <div class="col-md-8 px-md-4 mx-auto animate__animated animate__fadeInUp justify-content-center">
+                <br>
+                <h2>訂單評價</h2>
+                <!-- 評價 start-->
+                <div>
+                    <div class="row justify-content-center">
+                        <div class="col-12">
+                            <div class="card-body">
+                                <h5 class=" card-title text-md-start text-secondary text-md-center"> 評價分數: </h5>
+                                <el-rate v-model="star" size='large' />
+
+                                <!-- 回應訊息 -->
+                                <div class="input-group col-12">
+                                    <el-input v-model="content" :autosize="{ minRows: 5, maxRows: 10 }" type="textarea"
+                                        placeholder="請輸入" show-word-limit maxlength="500">
+                                    </el-input>
+                                    <!-- 上傳圖片 start -->
+                                    <div class="col-12">
+                                        <div class=" m-3 p-3 animate__animated animate__fadeInUp">
+                                            <el-upload v-model:file-list="fileList" action="#" list-type="picture-card"
+                                                :auto-upload="false" :on-change="addToTotal" :show-file-list="false"
+                                                accept=".jpg,.jpeg,.webp,.png" multiple drag>
+                                                <el-icon>
+                                                    <Plus />
+                                                </el-icon>
+                                                <template #tip>
+                                                    <div class="el-upload__tip secondary">
+                                                        圖片只允許 .jpg,.jpeg,.webp,.png，最多6張
+                                                    </div>
+                                                </template>
+
+                                            </el-upload>
+                                            <!-- preview -->
+                                            <div class="row">
+                                                <div v-for=" item, index  in  fileList "
+                                                    class="col d-flex justify-content-center" :key="index">
+                                                    <figcaption class="position-relative">
+                                                        <i class="fa-solid fa-xmark fa-2xl position-absolute xmark"
+                                                            @click="deletePhoto(item, index)"></i>
+                                                        <img :src="item.url"
+                                                            class=" border-primary rounded previewPhoto animate__animated animate__fadeIn">
+                                                    </figcaption>
+                                                </div>
                                             </div>
                                         </div>
+
+
                                     </div>
 
+                                    <!-- <h4 class="text-center my-5 animate__animated animate__flipInX">上傳圖片</h4> -->
 
+
+
+
+                                    <div><button class="btn btn-primary dol-1  col-12" @click="submitReply()">送出</button>
+                                    </div>
                                 </div>
-
-                                <!-- <h4 class="text-center my-5 animate__animated animate__flipInX">上傳圖片</h4> -->
-
-
-
-
-                                <div><button class="btn btn-primary dol-1  col-12" @click="submitReply()">送出</button></div>
+                                <!-- ---- -->
                             </div>
-                            <!-- ---- -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </template>
 
 
@@ -91,7 +90,7 @@ console.log(orderId);
 
 const router = useRouter();
 const goToAccount = () => {
-    router.push({ path: '/Account' });
+    router.push({ path: '/OrderManagement' });
 }
 
 
@@ -152,8 +151,8 @@ const review = ref({
 const submitReply = async () => {
 
     const Reply_API_URL = `${import.meta.env.VITE_APP_API_URL}/review/create/review`
-    
-    if(star.value == 0){
+
+    if (star.value == 0) {
         Swal.mixin({
             toast: true,
             position: 'bottom-top',
@@ -176,7 +175,7 @@ const submitReply = async () => {
 
 
 
-    if(content.value == ""){
+    if (content.value == "") {
         Swal.mixin({
             toast: true,
             position: 'bottom-top',
@@ -197,7 +196,7 @@ const submitReply = async () => {
         return
     }
 
-    if(fileList.value.length > 6){
+    if (fileList.value.length > 6) {
         Swal.mixin({
             toast: true,
             position: 'bottom-top',
@@ -390,18 +389,20 @@ figcaption:hover img {
     object-fit: contain;
 }
 
-.el-rate  {
-    font-size: 500px; /* 調整星星的尺寸，請根據需要自行調整大小 */
+.el-rate {
+    font-size: 500px;
+    /* 調整星星的尺寸，請根據需要自行調整大小 */
 }
 
 .container-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* 這裡使用視窗的高度，也可以根據需求調整 */
+    height: 100vh;
+    /* 這裡使用視窗的高度，也可以根據需求調整 */
 }
 
 .container {
-    width: 60%; /* 調整容器的寬度 */
-}
-</style>
+    width: 60%;
+    /* 調整容器的寬度 */
+}</style>

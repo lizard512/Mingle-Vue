@@ -16,7 +16,7 @@
         <div class="col-9">
             <Account1 v-show="isShowAccount" :userdetails="userdetails" @resetdetails="loaduserDetail"></Account1>
             <introduction v-show="isShowIntroduction" :userdetails="userdetails"></introduction>
-            <!-- <LikeWork v-show="isShowLikeWork"></LikeWork> -->
+            <LikeWork v-show="isShowLikeWork"></LikeWork>
             <!-- <FinshWork v-show="isShowFinshWork"></FinshWork> -->
         </div>
         <!-- index End -->
@@ -27,8 +27,8 @@
 <script setup >
 import ANavbar from './AccountLeftNavBar.vue';
 import Account1 from './Account1.vue';
-import FinshWork from './Account2.vue';
 import LikeWork from './Account3.vue';
+import FinshWork from './Account2.vue';
 import Introduction from './Account4.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { useUserStore } from '@store/userStore-localStorage.js';

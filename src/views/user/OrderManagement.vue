@@ -24,7 +24,7 @@
                         <tbody>
                             <tr v-for="singleOrder in details" :key="singleOrder.order.orderid">
                                 <td>{{ singleOrder.order.orderid }}</td>
-                                <td> <el-button type="primary"
+                                <td> <el-button type="primary" text
                                         @click="navigateToLandlordProfile(singleOrder.landlordUserId)">{{
                                             singleOrder.landlordName }}</el-button></td>
                                 <td><el-tag type="success" effect="dark" round size="large">{{ singleOrder.order.numbers
@@ -39,26 +39,26 @@
                                     <el-text class="mx-1" v-if="singleOrder.order.isCancelled" type="info">已取消</el-text>
                                     <el-tag class="mx-1" v-if="singleOrder.order.status === '待房東確認'"
                                         type="success">待確認</el-tag>
-                                    <el-text class="mx-1" v-if="singleOrder.order.status === '房東已接受'"
-                                        type="danger">待付款</el-text>
+                                    <el-tag class="mx-1" v-if="singleOrder.order.status === '房東已接受'"
+                                        type="danger">待付款</el-tag>
                                     <el-text class="mx-1" v-if="singleOrder.order.status === '已完成訂單'"
                                         type="primary">已完成</el-text>
                                     <el-text class="mx-1" v-if="singleOrder.order.status === '訂單已評價'"
                                         type="warning">已評價</el-text>
                                 </td>
                                 <td>
+                                    <!-- <button v-if="singleOrder.order.status === '待房東確認'" type="button"
+                                        style="margin-right: 1rem " class="btn btn-success w-100"
+                                        @click="updateNeeds(singleOrder.order.orderid, singleOrder.order.needs)">修改要求
+                                    </button> -->
                                     <Payment v-if="singleOrder.order.status === '房東已接受'" :people="singleOrder.order.numbers"
                                         :orderid="singleOrder.order.orderid">
                                     </Payment>
-                                    <!-- <button v-if="singleOrder.order.status === '待房東確認'" type="button"
-                                        style="margin-right: 1rem" class="btn btn-success"
-                                        @click="acceptOrder(singleOrder.order.orderid)">接受
-                                    </button>
-                                    <button v-if="singleOrder.order.status === '待房東確認'" type="button" class="btn btn-danger"
-                                        @click="rejectOrder(singleOrder.order.orderid)">拒絕</button> -->
                                     <button v-if="singleOrder.order.status === '已完成訂單'" style="margin-right: 1rem"
                                         class="btn btn-success" @click="toReviewOrder(singleOrder.order.orderid)">評價
                                     </button>
+                                    <!-- <button v-if="singleOrder.order.status === '待房東確認'" type="button" class="btn btn-danger"
+                                        @click="rejectOrder(singleOrder.order.orderid)">拒絕</button> -->
                                 </td>
                             </tr>
                         </tbody>
@@ -71,7 +71,7 @@
   
 <script setup>
 import { onMounted, ref } from "vue";
-import Payment from "../Payment.vue";
+import Payment from "@views/user/Payment.vue";
 import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 const details = ref({})
@@ -113,7 +113,6 @@ const initAssign = async () => {
 
 const acceptOrder = async (orderId) => {
     try {
-        // console.log(orderId)
         const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/order/acceptOrder/${orderId}`, {
             method: 'POST',
             headers: {

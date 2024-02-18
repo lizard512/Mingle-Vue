@@ -87,27 +87,45 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
-// const loaduserDetail = async () => {
-//     const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteerDetail/` + getuserid());
-//     // Object.assign(userdetails, response.data);
-//     userdetails.value = response.data
-//     console.log(userdetails)
-//     // if (userdetails.isDeleted) {
-//     //     Swal.fire({
-//     //         icon: 'warning',
-//     //         text: '此帳號已被停權，重新登入或註冊會員',
-//     //         confirmButtonText: '好的',
-//     //     });
-//     //     const router = useRouter();
-//     //     router.push({
-//     //         name: "Login",
-//     //     });
-//     //     return;
-//     // }
-// }
-// onMounted(async () => {
-//     await loaduserDetail();
-// });
+const works = ref({});
+const isKept = ref(false);
+const getuserid =
+    () => {
+        const id = localStorage.getItem('userID');
+        return id;
+    }
+
+const userID = getuserid();
+onMounted(async () => {
+    await checkIfWorkIsKept(workID);
+});
+
+
+const toggleKeepWork = () => {
+    isKept.value = !isKept.value;
+    if (isKept.value) {
+        addWorkToKeepList();
+        toast("已新增至心願清單", {})
+    } else {
+        removeWorkFromKeepList();
+        toast("已從心願清單移除", {})
+    }
+    ;
+}
+
+const checkIfWorkIsKept = async (workId) => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteer/isWorkKeptByVolunteer`, {
+            params: {
+                volunteerId: userID,
+                workId: workId
+            }
+        });
+        isKept.value = response.data;
+    } catch (error) {
+        console.error('Failed to check if work is kept:', error);
+    }
+}
 
 </script>
     
