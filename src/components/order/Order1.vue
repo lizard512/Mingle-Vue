@@ -970,10 +970,10 @@ async function goToOrder2() {
 
         };
 
-        // 使用 Pinia store 设置数据
+        // 使用 Pinia store設定數據
         orderStore.setOrderData(dataForOrder2);
 
-        // 使用路由导航到 Order2 组件
+        // 使用路由到 Order2 组件
         await router.push({
             name: 'Order2',
         });

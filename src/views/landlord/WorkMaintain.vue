@@ -211,7 +211,7 @@
                     </div>
                     <!-- workperiod & attendance -->
                     <div class="row g-0 mx-3 my-5">
-                        <div class="mx-3 col-3">
+                        <div class="ms-3 col-4">
                             <h5 class="mb-3"><span class="text-danger">*</span>打工期間</h5>
                             <el-date-picker v-model="workperiod" type="daterange" start-placeholder="開始日期"
                                 end-placeholder="結束日期" format="YYYY-MM-DD ddd" date-format="YYYY/MM/DD ddd" size="large"
@@ -219,7 +219,7 @@
                             <!--切換時，計算"今日"與"結束日"之時間差，最小天數不得超過時間差-->
                             <!--若時間差隨著時間經過，已低於資料庫的最小區間，使用者載入後要重選-->
                         </div>
-                        <div class="mx-3 col-3">
+                        <div class="mx-4 col-2">
                             <h5 class="mb-3"><span class="text-danger">*</span>打工最短天數</h5>
                             <select class="form-control" v-model="workminperiod" required>
                                 <option selected disabled value="">Choose...</option>
@@ -231,7 +231,7 @@
                                 請點選打工最短期間
                             </div>
                         </div>
-                        <div class="mx-3 col-3">
+                        <div class="mx-4 col-2">
                             <h5 class="mb-3"><span class="text-danger">*</span>打工需求人數</h5>
                             <select class="form-control" v-model="workmaxattendance" required>
                                 <option selected disabled value="">Choose...</option>
@@ -242,7 +242,7 @@
                                 請點選需求人數
                             </div>
                         </div>
-                        <div class="mx-2 col-2">
+                        <div class="mx-4 col-2">
                             <h5 class="mb-3">目前報名人數</h5>
                             <input type="number" class="form-control" v-model="workattendance" disabled>
                         </div>

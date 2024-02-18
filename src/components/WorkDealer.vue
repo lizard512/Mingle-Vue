@@ -4,52 +4,53 @@
             <div class="col-xxl-2 col-xl-3 col-lg-4 col-sm-6 col-12" v-for="(work, index) in works" :key="work.workid">
                 <router-link class="router-link" :to="`/work-detail/${work.workid}`">
                     <!-- 開牌動畫顯示內容 -->
-                    <div v-if="!isFliping[index]"
-                        :class="'list-item', isAnimationEnabled ? 'animate__animated animate__flipInY' : ''">
-                        <div class="overflow-hidden position-relative">
-                            <!-- 工作照片 -->
-                            <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64"
-                                :alt="work.name">
-                            <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
-                            <div class="bg-info rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                                {{ work.worktype }}</div>
-                            <div
-                                class="bg-success rounded-top text-white position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
-                                {{ work.city }}</div>
-                            <!-- 收藏按鈕 -->
-                            <button v-if="isLoggedIn" type="button"
-                                class="btn rounded-circle keep-btn position-absolute end-0 top-0 m-3"
-                                :class="{ 'active': work.kept }"
-                                @click.stop.prevent="toggleKeepWork(work.workid, work.kept)"><i
-                                    class="fa-solid fa-heart"></i></button>
-                            <!-- 檢舉按鈕 -->
-                            <button type="button" class="btn rounded-circle report-btn position-absolute end-0 bottom-0 m-3"
-                                @click.stop.prevent="reportedWorkName = work.name; reportBean.workID = work.workid;"
-                                data-bs-toggle="modal" data-bs-target="#reportModal">
-                                <i class="fa-solid fa-flag"></i>
-                            </button>
-                        </div>
-                        <div class="p-4 pt-3 pb-0">
-                            <p class="text-truncate h5">{{ work.name }}</p>
-                            <p class="text-truncate"><i class="fa fa-map-marker me-2"></i>{{
-                                work.address }}</p>
-                        </div>
-                        <div class="d-flex border-top">
-                            <small class="flex-fill text-center py-2"><i class="fa fa-calendar me-2"></i>{{
-                                work.startDate.toString().substring(0, 10) }} ~
-                                {{ work.endDate.toString().substring(0, 10) }}</small>
-                        </div>
-                        <div class="d-flex border-top">
-                            <small class="flex-fill text-center py-2 border-end"><i class="fa fa-user me-2"></i>{{
-                                work.attendance }} /
-                                {{ work.maxAttendance }} 人已報名</small>
-                            <small class="flex-fill text-center py-2"><i class="fa fa-solid fa-eye me-2"></i>{{
-                                work.views }} 次瀏覽</small>
+                    <div v-if="!isFliping[index]" :class="isAnimationEnabled ? 'animate__animated animate__flipInY' : ''">
+                        <div class="list-item">
+                            <div class="overflow-hidden position-relative">
+                                <!-- 工作照片 -->
+                                <img v-if="work.photosBase64.length" class="img-fluid" :src="work.photosBase64"
+                                    :alt="work.name">
+                                <img v-else class="img-fluid" src="@images/ImageNotFound.jpg" :alt="work.name">
+                                <div class="bg-info rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+                                    {{ work.worktype }}</div>
+                                <div
+                                    class="bg-success rounded-top text-white position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
+                                    {{ work.city }}</div>
+                                <!-- 收藏按鈕 -->
+                                <button v-if="isLoggedIn" type="button"
+                                    class="btn rounded-circle keep-btn position-absolute end-0 top-0 m-3"
+                                    :class="{ 'active': work.kept }"
+                                    @click.stop.prevent="toggleKeepWork(work.workid, work.kept)"><i
+                                        class="fa-solid fa-heart"></i></button>
+                                <!-- 檢舉按鈕 -->
+                                <button type="button"
+                                    class="btn rounded-circle report-btn position-absolute end-0 bottom-0 m-3"
+                                    @click.stop.prevent="reportedWorkName = work.name; reportBean.workID = work.workid;"
+                                    data-bs-toggle="modal" data-bs-target="#reportModal">
+                                    <i class="fa-solid fa-flag"></i>
+                                </button>
+                            </div>
+                            <div class="p-4 pt-3 pb-0">
+                                <p class="text-truncate h5">{{ work.name }}</p>
+                                <p class="text-truncate"><i class="fa fa-map-marker me-2"></i>{{
+                                    work.address }}</p>
+                            </div>
+                            <div class="d-flex border-top">
+                                <small class="flex-fill text-center py-2"><i class="fa fa-calendar me-2"></i>{{
+                                    work.startDate.toString().substring(0, 10) }} ~
+                                    {{ work.endDate.toString().substring(0, 10) }}</small>
+                            </div>
+                            <div class="d-flex border-top">
+                                <small class="flex-fill text-center py-2 border-end"><i class="fa fa-user me-2"></i>{{
+                                    work.attendance }} /
+                                    {{ work.maxAttendance }} 人已報名</small>
+                                <small class="flex-fill text-center py-2"><i class="fa fa-solid fa-eye me-2"></i>{{
+                                    work.views }} 次瀏覽</small>
+                            </div>
                         </div>
                     </div>
                     <!-- 蓋牌動畫顯示內容 -->
-                    <div v-else class="list-item"
-                        :class="isAnimationEnabled ? 'animate__animated animate__flipOutY' : ''"
+                    <div v-else class="list-item" :class="isAnimationEnabled ? 'animate__animated animate__flipOutY' : ''"
                         :style="{ animationDelay: `${index * 0.05}s`, opacity: 1 }">
                         <div class="position-relative overflow-hidden">
                             <img class="img-fluid" src="@images/grey.jpg" :alt="work.name">
@@ -270,9 +271,8 @@ const submitReport = async () => {
 }
 
 .list-item:hover {
-    border-color: transparent;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
-    transform: translateY(-12px);
+    transform: scale(1.05);
 }
 
 .list-item img {
@@ -287,9 +287,9 @@ const submitReport = async () => {
     background-color: white !important
 }
 
-.list-item:hover img {
+/* .list-item:hover img {
     transform: scale(1.1);
-}
+} */
 
 .list-item .border-top {
     border-top: 1px solid var(--black) !important;
@@ -306,12 +306,13 @@ const submitReport = async () => {
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--black);
 }
 
 .list-item .btn {
     border: 0;
     font-size: 1.25rem;
-    background-color: var(--white);
+    background-color: var(--white-50);
     border: 1.5px solid var(--black) !important;
 }
 
