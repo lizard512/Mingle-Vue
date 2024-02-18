@@ -704,7 +704,7 @@ async function addToTotal(e) {
         // console.log("(增)總", totalList.value);
         // console.log("(增)舊", oldList.value);
         await newList.value.push(e.raw);
-        // console.log(newList.value);
+        console.log(newList.value);
     } else {
         Swal.mixin({
             toast: true,
@@ -740,12 +740,9 @@ function deletePhoto(item, index) {
         newList.value.splice(item, 1);
     }
     // 刪【總】
-    const totalindex = totalList.value.indexOf(item);
-    if (totalindex !== -1) {
-        totalList.value.splice(totalindex, 1);
-        // console.log("(刪)總", totalList.value);
-        // console.log("(刪)刪", deleteList.value);
-    }
+    totalList.value.splice(index, 1);
+    // console.log("(刪)總", totalList.value);
+    // console.log("index", index)
 }
 //============沒有設備============
 
