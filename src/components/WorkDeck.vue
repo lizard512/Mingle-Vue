@@ -56,38 +56,18 @@ const modules = [Autoplay, EffectCards, Navigation];
 
 
 //// 引用套件
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import axios from 'axios';
 import { useUserStore } from '@store/userStore-localStorage.js';
 
 
-//// 接收資料
-let works = ref([]);
-const userID = localStorage.getItem('userID');
-const userStore = useUserStore();
-const isLoggedIn = computed(() => userStore.isLoggedIn);
 
-
-//// 預設參數
-// 載入相關
-const currentPage = ref(0); // 當前頁數
-const isLoading = ref(false); // 避免重複載入
-const isEnd = ref(false); // 停止載入工作
-// 篩選相關
-let filters = ref({
-    showOnShelfOnly: true,
-    hideFull: true,
-    hideDeleted: true,
-    hideExpired: true,
-});
-
-// let autoplay = ref(true);
 
 // Define props
 const props = defineProps({
     size: {
         type: Number,
-        default: 6,
+        default: 10,
     },
     direction: {
         type: String,
@@ -100,7 +80,39 @@ const props = defineProps({
     autoplayDelay: {
         type: Number,
         default: 1000
+    },
+    landlordid: {
+        type: Number,
+        default: null
     }
+});
+
+
+//// 宣告變數
+// 接收資料
+let works = ref([]);
+const userID = localStorage.getItem('userID');
+const userStore = useUserStore();
+const isLoggedIn = computed(() => userStore.isLoggedIn);
+// 載入相關
+const currentPage = ref(0); // 當前頁數
+const isLoading = ref(false); // 避免重複載入
+const isEnd = ref(false); // 停止載入工作
+const totals = ref(0); // 總工作數
+// 篩選相關
+let filters = ref({
+    showOnShelfOnly: true,
+    hideFull: true,
+    hideDeleted: true,
+    hideExpired: true,
+    landlordid: props.landlordid,
+});
+
+// let autoplay = ref(true);
+
+const emit = defineEmits(['update-totals']);
+watch(totals, (newVal) => {
+    emit('update-totals', newVal);
 });
 
 //// 生命週期
@@ -129,6 +141,7 @@ const loadWork = async () => {
                 }
             }
         );
+        totals.value = response.data.totalElements;
         works.value = [...works.value, ...response.data.content];
         // 如果已經無法獲取更多的工作，停止發送請求
         if (response.data.last) isEnd.value = true;

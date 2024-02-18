@@ -173,7 +173,7 @@ watchEffect(() => {
 });
 
 watch(userID, (newVal, oldVal) => {
-    console.log(`userID changed from ${oldVal} to ${newVal}`);
+    // console.log(`userID changed from ${oldVal} to ${newVal}`);
     if (newVal) {
         loadUserData();
     }
