@@ -737,7 +737,7 @@ function deletePhoto(item, index) {
         // console.log("(刪)刪", deleteList.value);
         // console.log("(刪)id", idList.value);
     } else {
-        newList.value.splice(item);
+        newList.value.splice(item, 1);
     }
     // 刪【總】
     const totalindex = totalList.value.indexOf(item);
