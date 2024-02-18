@@ -250,7 +250,7 @@ const toggleKeepWork = (workId, kept) => {
 
 const submitReport = async () => {
     try {
-        const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/report/addReport`, reportBean.value);
+        await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/report/addReport`, reportBean.value);
     } catch (error) {
         console.log(error);
     }
@@ -320,6 +320,10 @@ const submitReport = async () => {
 .report-btn.active {
     color: white;
     background-color: var(--warning);
+}
+
+.fa {
+    color: chocolate;
 }
 
 

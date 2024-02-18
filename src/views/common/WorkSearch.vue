@@ -25,7 +25,7 @@
                         <div class="input-group w-50">
                             <input type="text" class="form-control" placeholder="關鍵字查詢" v-model="filters.keyword">
                             <button class="btn btn-success" @click="reloadWork()"><i
-                                    class="fa fa-search text-white"></i></button>
+                                    class="fa fa-search"></i></button>
                         </div>
                     </div>
                 </div>
@@ -57,10 +57,8 @@
                             <label class="btn btn-outline-warning" for="btnradio3">即將截止</label>
                             <input type="radio" class="btn-check" name="btnradio" id="btnradio4"
                                 @click="toggleSortByAttendance">
-                            <label class="btn btn-outline-warning" name="btnradio" for="btnradio4"><a
-                                    @click="toggleSortByAttendance">參與人數
-                                    <i class="fa fa-arrow-down text-primary"
-                                        :class="{ 'rotate': isArrowUp }"></i></a></label>
+                            <label class="btn btn-outline-warning" name="btnradio" for="btnradio4"><a>參與人數
+                                    <i class="fa-solid" :class="arrow"></i></a></label>
                         </div>
                     </div>
                 </div>
@@ -91,10 +89,10 @@
         <!-- Sticky Footer Start-->
         <footer id="search-footer" class="fixed-bottom text-center mt-auto py-3 animate__animated animate__slideInUp row d-flex align-items-center">
             <div class="col-md-5 col-6">
-                <div class="row g-4">
+                <div class="row g-2">
                     <div class="col-xxl-5 col-0">
-                        <div class="m-0">共有<strong class="h3 mx-3">{{ total }}</strong>筆相符的結果</div>
-                        <button class="btn btn-info">清空所有篩選器</button>
+                        <div class="m-0">共有<strong class="h4 mx-3">{{ total }}</strong>筆相符的結果</div>
+                        <button class="btn btn-danger py-0" type="button" @click="clearAllFilters"><i class="fa-solid fa-filter"></i>清空所有篩選器</button>
                     </div>
                     <div class="col-xxl-7 col-md-0 d-flex justify-content-xxl-start justify-content-center align-items-center hide-on-small">
                         <div><el-date-picker v-model="filters.workPeriod" type="daterange" start-placeholder="起始日期"
@@ -172,6 +170,7 @@ const isEnd = ref(false);
 // 排序相關
 let direction = 'DESC'; // 排序方向
 let property = 'views'; // 排序屬性
+const arrow = ref('fa-arrow-up-9-1');
 const isArrowUp = ref(true);// 排序按紐的箭頭方向
 // 篩選相關
 const areaOrder = ['北部區域', '中部區域', '南部區域', '東部區域', '外島區域'];
@@ -312,12 +311,31 @@ const toggleSorts = (propertyParam, directionParam) => {
 // 排序: 參加人數升冪降冪
 const toggleSortByAttendance = () => {
     isArrowUp.value = !isArrowUp.value;
+    console.log(isArrowUp.value);
 
     if (isArrowUp.value) {
+        arrow.value = 'fa-arrow-up-9-1';
         toggleSorts('attendance', 'ASC')
     } else {
+        arrow.value = 'fa-arrow-down-9-1';
         toggleSorts('attendance', 'DESC')
     }
+}
+
+// 清空所有篩選器
+const clearAllFilters = () => {
+    filters.value = {
+        worktype: [],
+        city: "",
+        keyword: null,
+        workPeriod: [],
+        hideFull: false,
+        showKeptWorkOnly: false,
+        showOnShelfOnly: true,
+        hideDeleted: true,
+        hideExpired: true,
+    };
+    reloadWork();
 }
 
 // 格式化日期為"YYYY/MM/DD"
@@ -377,7 +395,7 @@ const checkSticky = () => {
 }
 
 #the-end {
-    height: 100px
+    height: 150px
 }
 
 .btn-group .btn {
@@ -407,9 +425,9 @@ const checkSticky = () => {
     transform: rotate(180deg);
 }
 
-.animate__animated.animate__Fadin {
+/* .animate__animated.animate__FadIn {
     --animate-duration: 0.5s;
-}
+} */
 
 .inline-flex {
     display: flex;
@@ -430,13 +448,6 @@ const checkSticky = () => {
     z-index: 1000;
 } */
 
-.fa {
-    color: chocolate;
-}
-
-.container-fluid :deep() .fa {
-    color: chocolate;
-}
 
 @media (max-width: 767.98px) {
     .hide-on-small {

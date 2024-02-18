@@ -76,10 +76,10 @@
                                     <span>管理者權限控管</span>
                                     <div
                                         class="hint position-absolute top-0 start-100 translate-middle badge rounded-circle bg-success p-2">
-                                        {{ pendingReportCount }}<span class="visually-hidden">unread reports</span></div>
+                                        {{ adminCount }}<span class="visually-hidden">unread reports</span></div>
                                 </div>
                                 <span class="badge bg-success m-2 d-flex align-items-center sidebar-text">{{
-                                    pendingReportCount }}</span>
+                                    adminCount }}</span>
                             </RouterLink>
                         </li>
                         <!-- 資料管理 -->
@@ -173,6 +173,7 @@ const router = useRouter();
 // 樣式相關
 const darkMode = ref(true); // 暗黑模式
 const pendingReportCount = ref(0);
+const adminCount = ref(0);
 const isCollapse = ref(false);
 
 //// 定義方法
@@ -194,6 +195,14 @@ const countPendingReview = async () => {
     }
 }
 
+const countAdmin = async () => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/volunteer/getAdminCount`);
+        adminCount.value = response.data;
+    } catch (error) {
+        console.error('Failed to fetch admin count:', error);
+    }
+}
 
 // 清除使用者localStorage資料
 const resetStore = () => {
@@ -210,16 +219,10 @@ watchEffect(() => {
     const htmlTag = document.documentElement;
     if (darkMode.value) {
         htmlTag.setAttribute('data-bs-theme', 'dark');
-        htmlTag.style.setProperty('--primary', '#d29f05');
-        htmlTag.style.setProperty('--light', '#0E2E50');
-        htmlTag.style.setProperty('--dark', '#EFFDF5');
         htmlTag.style.setProperty('--white', '#000000');
         htmlTag.style.setProperty('--black', '#FFFFFF');
     } else {
         htmlTag.removeAttribute('data-bs-theme');
-        htmlTag.style.setProperty('--primary', '#ffc107');
-        htmlTag.style.setProperty('--light', '#EFFDF5');
-        htmlTag.style.setProperty('--dark', '#0E2E50');
         htmlTag.style.setProperty('--white', '#FFFFFF');
         htmlTag.style.setProperty('--black', '#000000');
     }
@@ -229,6 +232,7 @@ watchEffect(() => {
 //// 監聽路由
 watch(router.currentRoute, async () => {
     await countPendingReview();
+    await countAdmin();
 }, { immediate: true });
 
 </script>
@@ -247,11 +251,10 @@ watch(router.currentRoute, async () => {
 :deep(h2) {
     color: white;
     outline: 0.4rem solid white;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding: 0 8px; 
     border-radius: 4px;
-    margin-bottom: 16px;
-    display: inline;
+    display: inline-block;
+    margin-bottom: 1rem;
 }
 
 /*** Icon ***/
@@ -271,7 +274,7 @@ watch(router.currentRoute, async () => {
 
 .fa-bars {
     font-size: 1.5rem;
-    color: var(--dark);
+    color: var(--light);
 }
 
 .dropdown-toggle::after {
@@ -284,25 +287,22 @@ watch(router.currentRoute, async () => {
 
 .sidebar {
     padding: 0;
-    background-color: var(--white);
+    background-color: rgba(255, 255, 255, 0.5);
     height: 100vh;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 1);
     position: fixed;
 }
 
 .sidebar .navbar-toggler {
-    background-color: var(--light);
+    background-color: rgba(0, 0, 0, 0.5);
     border-width: 0.25rem 0rem;
     border-style: outset;
     border-color:var(--dark);
 }
 
 .sidebar-heading {
-    border-width: 0.25rem 0rem;
-    border-style: outset;
-    border-color:var(--dark);
-    color: var(--dark);
-    background-color: var(--light);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
     /* px-3 mt-3 mb-1 */
     /* 3 * 4px */
     margin-top: 16px;
@@ -363,13 +363,9 @@ watch(router.currentRoute, async () => {
     bottom: 0;
     left: 0;
     width: inherit;
-    background-color: var(--light);
-    border-top: 0.25rem outset var(--dark);
+    background-color: var(--dark);
 }
 
-.sidebar-user-info strong {
-    color: var(--dark);
-}
 
 .sidebar-user-info .fa-solid,
 .navbar-user-info .fa-solid {
