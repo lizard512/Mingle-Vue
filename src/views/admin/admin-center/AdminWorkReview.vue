@@ -3,7 +3,7 @@
         <h2 class="mb-2">審核工作檢舉</h2>
         <div class="row" v-for="(work, index) in works" :key="work.workid" v-show="index === currentWork">
             <div class="col-xxl-8 col-12 p-3">
-                <h6 class="text-center">工作審核進度：{{ currentWork }} / {{ totalWorks }}</h6>
+                <h5 class="text-center">工作審核進度：{{ currentWork }} / {{ totalWorks }}</h5>
                 <div class="row">
                     <router-link class="router-link col-xl-4 col-12" :to="`/work-detail/${work.workid}`">
                         <div class="list-item overflow-hidden">
@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="col-xxl-4 col-12 p-3">
-                <h6 class="text-center">檢舉檢視進度：{{ currentReport }} / {{ totalReports }}</h6>
+                <h5 class="text-center">檢舉檢視進度：{{ currentReport }} / {{ totalReports }}</h5>
                 <div v-for="report in reports.filter(r => r.workID === work.workid)" :key="report.reportID"
                     class="list-item m-3 p-3">
                     <h5>檢舉ID：{{ report.reportID }}</h5>

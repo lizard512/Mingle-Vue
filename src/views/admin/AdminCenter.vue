@@ -253,8 +253,8 @@ watch(router.currentRoute, async () => {
 }
 
 :deep(h2) {
-    color: white;
-    outline: 0.4rem solid white;
+    color: var(--white);
+    outline: 0.4rem solid var(--white);
     padding: 0 8px; 
     border-radius: 4px;
     display: inline-block;

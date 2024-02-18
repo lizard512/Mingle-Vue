@@ -130,7 +130,7 @@ const getReview = async () => {
 .ad-banner-container {
   position: absolute;
   top: 150px;
-  width: 15%;
+  width: 10%;
   display: flex;
   flex-direction: column;
   align-items: center;
