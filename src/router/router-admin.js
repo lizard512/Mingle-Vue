@@ -20,7 +20,7 @@ export default [
             {
                 path: '',
                 name: 'AdminDefault',
-                redirect: '/admin-center/home'
+                redirect: '/admin-center/permission'
             },
             {
                 path: 'home',

@@ -46,28 +46,15 @@
                         <button type="button" class="navbar-toggler" @click="isCollapse = !isCollapse">
                             <i class="fa-solid fa-bars py-1"></i>
                         </button>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <RouterLink class="nav-link mt-3" active-class="active" :to="{ name: 'AdminHome' }">
                                 <i class="fa fa-solid fa-clipboard-list"></i>
                                 <span>管理者主控台</span>
                             </RouterLink>
-                        </li>
+                        </li> -->
                         <!-- 管理者功能 -->
                         <h6 class="sidebar-heading"><i class="fa fa-solid fa-screwdriver-wrench"></i><span>管理者功能</span>
                         </h6>
-                        <li class="nav-item">
-                            <RouterLink class="nav-link d-flex justify-content-between" active-class="active"
-                                :to="{ name: 'AdminWorkReview' }">
-                                <div class="d-flex justify-content-between position-relative">
-                                    <i class="fa fa-solid fa-check-to-slot"></i><span>審核工作檢舉</span>
-                                    <div
-                                        class="hint position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-2">
-                                        {{ pendingReportCount }}<span class="visually-hidden">unread reports</span></div>
-                                </div>
-                                <span class="badge bg-danger m-2 d-flex align-items-center sidebar-text">{{
-                                    pendingReportCount }}</span>
-                            </RouterLink>
-                        </li>
                         <li class="nav-item">
                             <RouterLink class="nav-link d-flex justify-content-between" active-class="active"
                                 :to="{ name: 'AdminPermission' }">
@@ -80,6 +67,19 @@
                                 </div>
                                 <span class="badge bg-success m-2 d-flex align-items-center sidebar-text">{{
                                     adminCount }}</span>
+                            </RouterLink>
+                        </li>
+                        <li class="nav-item">
+                            <RouterLink class="nav-link d-flex justify-content-between" active-class="active"
+                                :to="{ name: 'AdminWorkReview' }">
+                                <div class="d-flex justify-content-between position-relative">
+                                    <i class="fa fa-solid fa-check-to-slot"></i><span>審核工作檢舉</span>
+                                    <div
+                                        class="hint position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-2">
+                                        {{ pendingReportCount }}<span class="visually-hidden">unread reports</span></div>
+                                </div>
+                                <span class="badge bg-danger m-2 d-flex align-items-center sidebar-text">{{
+                                    pendingReportCount }}</span>
                             </RouterLink>
                         </li>
                         <!-- 資料管理 -->
