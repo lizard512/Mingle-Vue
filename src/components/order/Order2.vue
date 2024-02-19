@@ -500,7 +500,7 @@ const showRoom = function (key) {
         <td ><div>描述:${housedetails[key].description}   </div> </td>
         </tr>
         <tr>
-        <td class="align-middle col-8"><div>地址:${housedetails[key].postCode}${housedetails[key].city}-${housedetails[key].address}</div> </td>
+        <td class="align-middle col-8"><div>地址:${housedetails[key].postCode}${housedetails[key].address}</div> </td>
         </tr>
         <tr>
             <td class="align-middle col-4"><div>容納人數:${housedetails[key].beds}人 </div> </td>
