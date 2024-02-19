@@ -174,6 +174,7 @@ const getReview = async () => {
 
     if (review.value.length == 0) {
         flag.value = true
+        isLoadingList.value = false;
     }
     return review.value
 
