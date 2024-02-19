@@ -78,6 +78,7 @@
         </div>
         <div class="hint" v-if="reportEnds">
             <p>審核已完成！做的好！</p>
+            <ConfettiExplosion />
         </div>
     </div>
 </template>
@@ -86,6 +87,7 @@
 //// 引用套件
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import ConfettiExplosion from "vue-confetti-explosion";
 
 //// 生命週期
 onMounted(async () => {
