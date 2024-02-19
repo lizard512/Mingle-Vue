@@ -71,11 +71,18 @@
                     <hr>
                     <p>違規類型：{{ report.type }}</p>
                     <p>詳細原因：{{ report.reason }}</p>
-                    <p>檢舉時間：{{ report.createdAt}}</p> <!-- .toString().substring(0, 10)  -->
+                    <p>檢舉時間：{{ report.createdAt }}</p> <!-- .toString().substring(0, 10)  -->
                 </div>
             </div>
         </div>
-        <div class="hint" v-if="works.length==0">
+        <!--Spinner Start-->
+        <div v-if="isLoading" id="spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <!--Spinner End-->
+        <div class="hint" v-if="!isLoading && works.length == 0">
             <p>目前沒有待審核的工作</p>
         </div>
         <div class="hint" v-if="reportEnds">
@@ -93,8 +100,10 @@ import ConfettiExplosion from "vue-confetti-explosion";
 
 //// 生命週期
 onMounted(async () => {
+    isLoading.value = true;
     await loadReport();
     await loadWork();
+    isLoading.value = false;
 });
 
 //// 宣告變數
@@ -106,8 +115,7 @@ const works = ref([]);
 const currentWork = ref(0);
 const totalWorks = ref(0);
 const reportEnds = ref(false);
-
-
+const isLoading = ref(false);
 
 //// 定義方法
 // 載入待審核的檢舉列表
@@ -175,7 +183,7 @@ const showNext = (action) => {
 
     if (currentWork.value < works.value.length) {
         currentWork.value++;
-        currentReport.value+=currentWorkReports.length;
+        currentReport.value += currentWorkReports.length;
     }
     if (currentWork.value == works.value.length) {
         reportEnds.value = true;
@@ -185,12 +193,17 @@ const showNext = (action) => {
 </script>
     
 <style scoped>
+#spinner {
+    text-align: center;
+    margin: 180px;
+}
 
 .hint {
     text-align: center;
-    margin-top: 20px;
+    margin: 180px;
     font-size: 20px;
 }
+
 .list-item {
     color: var(--black);
     background-color: var(--white-50);
