@@ -14,7 +14,7 @@
                         <h5 class="my-2">{{ userDetail.name }}</h5>
                         <span class="text-muted my-2">加入時間：{{ userDetail.createdAt.toString().substring(0, 10) }}</span>
                         <p class="text-muted my-2">{{ userDetail.introduction }}</p>
-                        <div class="row mb-3 mt-3">
+                        <!-- <div class="row mb-3 mt-3">
                             <div class="col">
                                 <h6 class="text-muted">最後上線時間</h6>
                                 <div class="text-black text-decoration-underline">{{ userDetail.lastLogin }} 0 小時前</div>
@@ -30,7 +30,7 @@
                                         aria-valuemax="100"></div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <hr>
                         <div class="my-2">
                             <span class="text-muted me-3 fa fa-star" v-if="false">打工換宿達人</span>
