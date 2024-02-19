@@ -183,14 +183,19 @@ const getReview = async () => {
 
 
 
-/* .swiper-slide {
+.swiper {
+  width: 100%;
+  height: 100%;
+}
 
-} */
+.swiper .swiper-slide {
+  height: auto;
+}
 
 .swiper-slide img {
   display: block;
-  height: 30vh;
   width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 </style>
