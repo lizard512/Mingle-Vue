@@ -18,6 +18,13 @@
             </div>
         </swiper-slide>
     </swiper>
+    <!--Spinner Start-->
+    <div v-else id="spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <!--Spinner End-->
 </template>
 
 <script setup>
@@ -44,6 +51,13 @@ const props = defineProps({
 </script>
 
 <style scoped>
+
+#spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 175px;
+}
 /* .review-container {
 } */
 .my-text-truncate {
@@ -73,4 +87,5 @@ const props = defineProps({
     aspect-ratio: 4 / 3;
     object-fit: cover;
     margin-left: 8px;
-}</style>
+}
+</style>

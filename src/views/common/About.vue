@@ -1,6 +1,6 @@
 <template>
     <div class="container bg-white animate__animated animate__fadeIn">
-        <section class="pt-7">
+        <!-- <section class="pt-7">
             <div class="container bg-white">
                 <div class="row align-items-center">
                     <div class="col-md-6 text-md-start text-center py-6">
@@ -17,17 +17,15 @@
                             alt="" /></div>
                 </div>
             </div>
-        </section>
-
+        </section> -->
 
         <!-- ============================================-->
         <!-- <section> begin ============================-->
-        <section class="pt-5 pt-md-9 mb-6" id="feature">
+        <!-- <section class="pt-5 pt-md-9 mb-6" id="feature">
 
             <div class="bg-holder z-index--1 bottom-0 d-none d-lg-block"
                 style="background-image:url(@images/about/category/shape.png);opacity:.5;">
             </div>
-            <!--/.bg-holder-->
 
             <div class="container">
                 <h1 class=" fw-bold mb-4 text-center"> We design tools to unveil <br class="d-none d-xl-block" />your
@@ -56,9 +54,9 @@
                     </div>
                 </div>
                 <div class="text-center"><a class="btn btn-warning" href="#!" role="button">SIGN UP NOW</a></div>
-            </div><!-- end of .container-->
+            </div>
 
-        </section>
+        </section> -->
         <!-- <section> close ============================-->
         <!-- ============================================-->
 
@@ -70,13 +68,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
-                        <h5 class="text-secondary">Effortless Validation for</h5>
-                        <h2 class="mb-2  fw-bold">Design Professionals</h2>
+                        <h5 class="text-secondary">全台各地的打工換宿平台</h5>
+                        <h2 class="mb-2 fw-bold">關於 Mingle</h2>
                         <p class="mb-4 fw-medium text-secondary">
-                            The Myspace page defines the individual,his or her
-                            characteristics, traits, personal choices and the overall<br />personality of the person.
+                            Mingle原意為交朋友的意思，希望透過本網站來讓全台灣的打工者和提供住宿者媒合，使打工人能一邊工作一邊旅遊，享受打工度假的美好。
                         </p>
-                        <h6 class=" fw-bold">Accessory makers</h6>
+                        <!-- <h6 class=" fw-bold">Accessory makers</h6>
                         <p class="mb-4 fw-medium text-secondary">While most people enjoy casino gambling, sports
                             betting,<br />lottery and bingo playing for the fun</p>
                         <h6 class=" fw-bold">Alterationists</h6>
@@ -84,7 +81,7 @@
                             business<br />that won't cost you money,</p>
                         <h6 class=" fw-bold">Custom Design designers</h6>
                         <p class="mb-4 fw-medium text-secondary">If you are looking for a new way to promote your
-                            business<br />that won't cost you more money,</p>
+                            business<br />that won't cost you more money,</p> -->
                     </div>
                     <div class="col-lg-6"><img class="img-fluid" src="@images/about/validation/validation.png" alt="" />
                     </div>
@@ -104,30 +101,21 @@
                 <div class="row">
                     <div class="col-lg-6"><img class="img-fluid" src="@images/about/manager/manager.png" alt="" /></div>
                     <div class="col-lg-6">
-                        <h5 class="text-secondary">Easier decision making for</h5>
-                        <p class=" fw-bold mb-2">Product Managers</p>
-                        <p class="mb-4 fw-medium text-secondary">
-                            The Myspace page defines the individual,his or her
-                            characteristics, traits, personal choices and the overall<br />personality of the person.
+                        <h2 class="mb-2 fw-bold">會員功能</h2>
+                        <hr>
+                        <h4 class="fw-bold ">註冊登入</h4>
+                        <p class="mb-4 fw-medium text-secondary">註冊會員並登入，填寫自我介紹及是否成為房東。</p>
+                        <h4 class="fw-bold ">聊天室、意見回饋</h4>
+                        <p class="mb-4 fw-medium text-secondary">隨時能與房東進行交談或與本站其他會員進行交流，也能與平台反映使用意見。</p>
+                        <h4 class="fw-bold ">工作搜尋</h4>
+                        <p class="mb-4 fw-medium text-secondary">完整的搜尋功能及地圖瀏覽功能，讓使用者輕鬆搜尋出想打工的工作。
                         </p>
-                        <div class="d-flex align-items-center mb-3"> <img class="me-sm-4 me-2"
-                                src="@images/about/manager/tick.png" width="35" alt="tick" />
-                            <p class="fw-medium mb-0 text-secondary">Never worry about overpaying for your<br />energy
-                                again.
-                            </p>
-                        </div>
-                        <div class="d-flex align-items-center mb-3"> <img class="me-sm-4 me-2"
-                                src="@images/about/manager/tick.png" width="35" alt="tick" />
-                            <p class="fw-medium mb-0 text-secondary">We will only switch you to energy companies<br />that
-                                we
-                                trust and will treat you right</p>
-                        </div>
-                        <div class="d-flex align-items-center mb-3"><img class="me-sm-4 me-2"
-                                src="@images/about/manager/tick.png" width="35" alt="tick" />
-                            <p class="fw-medium mb-0 text-secondary"> We track the markets daily and know where
-                                the<br />savings
-                                are.</p>
-                        </div>
+                        <h4 class="fw-bold ">創建訂單</h4>
+                        <p class="mb-4 fw-medium text-secondary">一條龍式的完成打工、房源訂購，拎包即可前往打工。
+                        </p>
+                        <h4 class="fw-bold ">付款訂單</h4>
+                        <p class="mb-4 fw-medium text-secondary">待房東確認訂單後，即可於本站一鍵付款及留下評價。
+                        </p>
                     </div>
                 </div>
             </div><!-- end of .container-->
@@ -144,21 +132,25 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
-                        <h5 class="text-secondary">Optimisation for</h5>
-                        <p class="mb-2  fw-bold">Marketers</p>
-                        <p class="mb-4 fw-medium text-secondary">Few would argue that, despite the advancements
-                            of<br />feminism
-                            over the past three decades, women still face a<br />double standard when it comes to their
-                            behavior.</p>
-                        <h4 class="fw-bold ">Accessory makers</h4>
-                        <p class="mb-4 fw-medium text-secondary">While most people enjoy casino gambling, sports
-                            betting,<br />lottery and bingo playing for the fun</p>
-                        <h4 class="fw-bold ">Alterationists</h4>
-                        <p class="mb-4 fw-medium text-secondary">If you are looking for a new way to promote your
-                            business<br />that won't cost you money,</p>
-                        <h4 class="fw-bold ">Custom Design designers</h4>
-                        <p class="mb-4 fw-medium text-secondary">If you are looking for a new way to promote your
-                            business<br />that won't cost you more money,</p>
+                        <h2 class="mb-2 fw-bold">房東管理功能</h2>
+                        <hr>
+                        <h4 class="fw-bold ">創建工作及房源</h4>
+                        <p class="mb-4 fw-medium text-secondary">一鍵式快速引導創建工作及房源，方便房東快速上架。</p>
+                        <h4 class="fw-bold ">工作管理頁面</h4>
+                        <p class="mb-4 fw-medium text-secondary">管理上架及下架工作，並可綁定工作對應特定房源。</p>
+                        <h4 class="fw-bold ">房源管理頁面</h4>
+                        <p class="mb-4 fw-medium text-secondary">訂單管理頁面
+                            透過訂單管理頁面，讓房東可以確認會員報名訊息，並同意或取消報名。
+                        </p>
+                        <h4 class="fw-bold ">訂單管理頁面</h4>
+                        <p class="mb-4 fw-medium text-secondary">透過訂單管理頁面，讓房東可以確認會員報名訊息，並同意或取消報名。
+                        </p>
+                        <h4 class="fw-bold ">評價回覆頁面</h4>
+                        <p class="mb-4 fw-medium text-secondary">可一頁式確認房客評價，並給予回覆。
+                        </p>
+                        <h4 class="fw-bold ">數據分析頁面</h4>
+                        <p class="mb-4 fw-medium text-secondary">讓房東隨時掌握打工項目投放狀況，並有機會獲得超讚房東徽章。
+                        </p>
                     </div>
                     <div class="col-lg-6"><img class="img-fluid" src="@images/about/marketer/marketer.png" alt="" /></div>
                 </div>
@@ -171,7 +163,7 @@
 
         <!-- ============================================-->
         <!-- <section> begin ============================-->
-        <section class="py-md-11 py-8" id="superhero">
+        <section class="py-5" id="superhero">
 
             <div class="bg-holder z-index--1 bottom-0 d-none d-lg-block background-position-top"
                 style="background-image:url(@images/about/superhero/oval.png);opacity:.5; background-position: top !important ;">
@@ -181,10 +173,9 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-6 text-center">
-                        <h1 class="fw-bold mb-4 ">Need a super hero?</h1>
-                        <p class="mb-5 text-info fw-medium">Do you require some help for your project: Conception
-                            workshop,<br />prototyping, marketing strategy, landing page, Ux/UI?</p>
-                        <button class="btn btn-warning btn-md">Contact our expert</button>
+                        <h1 class="fw-bold mb-4 ">心動了嗎?</h1>
+                        <p class="mb-5 text-info fw-medium">現在就去尋找適合你的打工換宿機會！</p>
+                        <RouterLink class="btn btn-secondary py-2 px-4" to="/work-search">前往瀏覽打工項目</RouterLink>
                     </div>
                 </div>
             </div><!-- end of .container-->
@@ -196,7 +187,7 @@
 
         <!-- ============================================-->
         <!-- <section> begin ============================-->
-        <section class="pt-5" id="marketing">
+        <!-- <section class="pt-5" id="marketing">
 
             <div class="container">
                 <h1 class="fw-bold  mb-3">Marketing Strategies</h1>
@@ -230,9 +221,9 @@
                         </div>
                     </div>
                 </div>
-            </div><!-- end of .container-->
+            </div>
 
-        </section>
+        </section> -->
         <!-- <section> close ============================-->
         <!-- ============================================-->
     </div>
@@ -242,4 +233,13 @@
 
 </script>
     
-<style scoped></style>
+<style scoped>
+.col-lg-6 {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    padding: 50px;
+    line-height: 25px;
+}
+</style>

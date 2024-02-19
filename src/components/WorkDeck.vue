@@ -38,6 +38,40 @@
             </router-link>
         </swiper-slide>
     </swiper>
+    <!--Spinner Start-->
+    <div v-if="isLoading" id="spinner">
+        <div class="list-item">
+            <div class="position-relative overflow-hidden">
+                <img class="img-fluid" src="@images/grey.jpg">
+                <div class="bg-info rounded text-info position-absolute start-0 top-0 m-4 py-1 px-3">
+                    讀取</div>
+                <div class="bg-success rounded-top text-success position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
+                    讀取</div>
+                <!-- 收藏按鈕 -->
+                <button v-if="isLoggedIn" type="button"
+                    class="btn rounded-circle keep-btn position-absolute end-0 top-0 m-3"><i
+                        class="fa-solid fa-heart"></i></button>
+            </div>
+            <div class="p-4 pt-3 pb-1">
+                <p class="placeholder col-10 placeholder-lg"></p>
+                <p class="placeholder col-12"></p>
+            </div>
+            <div class="d-flex border-top ">
+                <small class="flex-fill text-center py-2">
+                    <p class="card-text"><span class="placeholder col-4"></span> <span class="placeholder col-4"></span></p>
+                </small>
+            </div>
+            <div class="d-flex border-top">
+                <small class="flex-fill text-center py-2 border-end">
+                    <p class="card-text placeholder col-9"></p>
+                </small>
+                <small class="flex-fill text-center py-2">
+                    <p class="card-text placeholder col-9"></p>
+                </small>
+            </div>
+        </div>
+    </div>
+    <!--Spinner End-->
 </template>
 
 <script setup>
@@ -200,6 +234,7 @@ const toggleKeepWork = (workId, kept) => {
 </script>
 
 <style scoped>
+
 .list-item {
     border: 2px solid var(--black) !important;
     background-color: var(--white);
