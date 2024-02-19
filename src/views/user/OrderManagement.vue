@@ -83,36 +83,7 @@ onMounted(() => {
     initAssign();
 });
 
-const open = (orderId, needs) => {
-    ElMessageBox.prompt('可以不輸入值表示沒有特殊需求', '請輸入新的特殊需求讓房東知道', {
-        confirmButtonText: '送出',
-        cancelButtonText: '取消',
-        inputPlaceholder: needs,
-        inputType: 'textarea',
-        inputValue: needs,
-        draggable: true,
-    })
-        .then(({ value }) => {
-            if (value !== "" && value.length > 250) {
-                ElMessageBox.alert('需求太多啦，請簡短敘述', '請輸入250字以內', {
-                    confirmButtonText: 'OK',
-                    type: 'error',
-                })
-                return
-            }
-            updateNeeds(orderId, value)
-            ElMessageBox.alert('修改成功', {
-                confirmButtonText: 'OK',
-                type: 'success',
-            })
-        })
-        .catch(() => {
-            ElMessageBox.alert('操作取消，沒有修改', {
-                confirmButtonText: 'OK',
-                type: 'error',
-            })
-        })
-}
+
 const getuserid = () => {
     return { "userID": localStorage.getItem("userID") };
 };
@@ -159,25 +130,63 @@ const updateNeeds = async (orderId, value) => {
         const re = await response.json();
         console.log(re)
         if (re.success) {
-            initAssign();
-        } else {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "請重新輸入您的需求",
-                confirmButtonText: "好的",
-            })
+            const index = details.value.findIndex(singleOrder => singleOrder.order.orderid === orderid);
+            console.log(orderid)
+            console.log(index)
+            if (index !== -1) {
+                order.value[index].order.needs = value;
+                console.log(order)
+            }
         }
-
-        // const updatedOrderWithDetails = await response.json();
-        // updateOrderInArray(updatedOrderWithDetails);
-        // console.log(updatedOrderWithDetails)
-
-
-    } catch (error) {
-        console.error('Error accepting order:', error);
+    } else {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "請重新輸入您的需求",
+            confirmButtonText: "好的",
+        })
     }
+
+    // const updatedOrderWithDetails = await response.json();
+    // updateOrderInArray(updatedOrderWithDetails);
+    // console.log(updatedOrderWithDetails)
+
+
+} catch (error) {
+    console.error('Error accepting order:', error);
+}
 };
+
+const open = (orderId, needs) => {
+    ElMessageBox.prompt('可以不輸入值表示沒有特殊需求', '請輸入新的特殊需求讓房東知道', {
+        confirmButtonText: '送出',
+        cancelButtonText: '取消',
+        inputPlaceholder: needs,
+        inputType: 'textarea',
+        inputValue: needs,
+        draggable: true,
+    })
+        .then(({ value }) => {
+            if (value !== "" && value.length > 250) {
+                ElMessageBox.alert('需求太多啦，請簡短敘述', '請輸入250字以內', {
+                    confirmButtonText: 'OK',
+                    type: 'error',
+                })
+                return
+            }
+            updateNeeds(orderId, value)
+            ElMessageBox.alert('修改成功', {
+                confirmButtonText: 'OK',
+                type: 'success',
+            })
+        })
+        .catch(() => {
+            ElMessageBox.alert('操作取消，沒有修改', {
+                confirmButtonText: 'OK',
+                type: 'error',
+            })
+        })
+}
 
 
 const toReviewOrder = async (orderId) => {
