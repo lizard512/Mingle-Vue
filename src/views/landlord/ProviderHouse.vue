@@ -307,7 +307,7 @@ const handleExceed = () => {
 }
 
 const handleChange: UploadProps['onChange'] = (file, fl) => {
-  console.log(fl)
+  // console.log(fl)
   const size = file.size < 50 * 1024 * 1024;
   // console.log(size)
   if (!size) {
@@ -328,7 +328,7 @@ const handleChange: UploadProps['onChange'] = (file, fl) => {
       icon: "error",
       title: "檔案大小不能超過50MB!"
     })
-    console.log(size)
+    // console.log(size)
     fl.splice(-1, 1);
   }
   return size
@@ -351,7 +351,7 @@ const dialogImager = ref('')
 const dialogVisible = ref(false)
 
 const handleRemove: UploadProps['onRemove'] = (uploadFile, fl) => {
-  console.log(uploadFile)
+  // console.log(uploadFile)
   fetch(`${import.meta.env.VITE_APP_API_URL}/api/upload/photoDeleteController`, {
     method: "POST",
     body: uploadFile.response,
@@ -396,7 +396,7 @@ const submit = () => {
 }
 
 async function goData() {
-  console.log(Data.value)
+  // console.log(Data.value)
   Swal.fire({
     title: '請稍候...',
     allowEscapeKey: false,
@@ -455,8 +455,8 @@ function fullData() {
   getRandomWorkType();
   Data.value.lordid = localStorage.getItem('lordID');
   Data.value.houseType = getSelectedRadioLabel('fkHouseType');
-  Data.value.address = '臺北市大安區復興南路一段';
-  raw.value.address = '臺北市大安區復興南路一段';
+  Data.value.address = '復興南路一段';
+  raw.value.address = '復興南路一段';
   Data.value.name = '超讚套房';
   addressValue.value = ['臺北市', ['大安區', '106']];
   Data.value.city = addressValue.value[0];

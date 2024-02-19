@@ -331,7 +331,7 @@ function initAssign() {
 }
 
 const handleChange: UploadProps['onChange'] = (file, fl) => {
-  console.log(fl)
+  // console.log(fl)
   const size = file.size < 50 * 1024 * 1024;
   // console.log(size)
   if (!size) {
@@ -352,7 +352,7 @@ const handleChange: UploadProps['onChange'] = (file, fl) => {
       icon: "error",
       title: "檔案大小不能超過50MB!"
     })
-    console.log(size)
+    // console.log(size)
     fl.splice(-1, 1);
   }
   return size
@@ -360,7 +360,7 @@ const handleChange: UploadProps['onChange'] = (file, fl) => {
 
 
 const handleRemove: UploadProps['onRemove'] = (uploadFile, fl) => {
-  console.log(uploadFile)
+  // console.log(uploadFile)
   fetch(`${import.meta.env.VITE_APP_API_URL}/api/upload/photoDeleteController`, {
     method: "POST",
     body: uploadFile.response,
@@ -378,7 +378,7 @@ function next() {
   if (currentPage.value <= 4) {
     currentPage.value++;
     barValue += maxValue;
-    console.log(dateValue1)
+    // console.log(dateValue1)
   }
 }
 
@@ -468,7 +468,7 @@ const submit = async () => {
   Data.value.fkLandlordID = localStorage.getItem('lordID');
   Data.value.sessionToken = getToken().sessionToken;
   Data.value.images = fl.value.map((file) => file.url);
-
+  Data.value.address = addressValue.value[0] + addressValue.value[1] + Data.value.address;
   // console.log(Data.value);
 
   if (!Data.value.worktype ||
@@ -500,7 +500,7 @@ const submit = async () => {
 }
 
 async function submitData() {
-  console.log(JSON.stringify(Data.value))
+  // console.log(JSON.stringify(Data.value))
   Swal.fire({
     title: '請稍候...',
     allowEscapeKey: false,
