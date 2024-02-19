@@ -51,8 +51,8 @@
                             <p class="mb-2"><strong>打工福利：</strong>{{ work.benefits }}</p>
                             <p class="mb-2"><strong>建立時間：</strong>{{ work.createdAt }}</p>
                             <p class="mb-2"><strong>更新時間：</strong>{{ work.updatedAt }}</p>
-                            <p class="mb-2"><strong>是否刪除：</strong>{{ work.isDeleted ? '是' : '否' }}</p>
-                            <p class="mb-2"><strong>是否上架：</strong>{{ work.isOnShelf ? '是' : '否' }}</p>
+                            <!-- <p class="mb-2"><strong>是否刪除：</strong>{{ work.isDeleted ? '是' : '否' }}</p>
+                            <p class="mb-2"><strong>是否上架：</strong>{{ work.isOnShelf ? '是' : '否' }}</p> -->
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                     <h5>檢舉ID：{{ report.reportID }}</h5>
                     <p>違規類型：{{ report.type }}</p>
                     <p>詳細原因：{{ report.reason }}</p>
-                    <p>檢舉時間：{{ report.createdAt.toString().substring(0, 10) }}</p>
+                    <p>檢舉時間：{{ report.createdAt}}</p> <!-- .toString().substring(0, 10)  -->
                 </div>
             </div>
         </div>
