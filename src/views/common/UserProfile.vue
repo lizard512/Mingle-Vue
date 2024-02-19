@@ -17,7 +17,7 @@
                         <div class="row mb-3 mt-3">
                             <div class="col">
                                 <h6 class="text-muted">最後上線時間</h6>
-                                <div class="text-black text-decoration-underline">{{ userDetail.lastLogin }} 小時前</div>
+                                <div class="text-black text-decoration-underline">{{ userDetail.lastLogin }} 0 小時前</div>
                             </div>
                             <div class="col mx-auto">
                                 <div class="d-flex justify-content-between">
@@ -33,19 +33,19 @@
                         </div>
                         <hr>
                         <div class="my-2">
-                            <span class="text-muted me-3 fa fa-star" v-if="true">打工換宿達人</span>
+                            <span class="text-muted me-3 fa fa-star" v-if="false">打工換宿達人</span>
                             <span class="text-muted me-3 fa fa-solid fa-address-card" v-if="userDetail.email">身分已驗證</span>
                             <span class="text-muted me-3 fa fa-solid fa-medal" v-if="routeLordID"> 超讚房東</span>
                         </div>
-                        <div class="d-flex justify-content-between text-center py-1">
+                        <div class="d-flex justify-content-center text-center py-1">
                             <div class="px-3">
                                 <p class="mb-1 h5">{{ totals }} 件</p>
                                 <p class="small text-muted mb-0">上架中的工作</p>
                             </div>
-                            <div>
+                            <!-- <div>
                                 <p class="mb-1 h5">位</p>
                                 <p class="small text-muted mb-0">每年接洽的幫助者</p>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
