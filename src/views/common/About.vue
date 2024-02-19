@@ -1,5 +1,5 @@
 <template>
-    <div class="container bg-white animate__animated animate__fadeIn">
+    <div class="container animate__animated animate__fadeIn">
         <!-- <section class="pt-7">
             <div class="container bg-white">
                 <div class="row align-items-center">
@@ -234,6 +234,10 @@
 </script>
     
 <style scoped>
+.container {
+    background-color: var(--white-50);
+}
+
 .col-lg-6 {
     display: flex;
     justify-content: center;

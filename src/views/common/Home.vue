@@ -16,7 +16,7 @@
 
     <div class="container p-0">
       <!-- Header Start -->
-      <div class="row g-0 align-items-center header">
+      <div id="header" class="row g-0 align-items-center">
         <div class="col-xl-6 p-5 text-center animate__animated animate__fadeIn">
           <h1 class="display-5 mb-4 title-text">一點 <span class="text-info">幫助</span>
             ，一晚<span class="text-info"> 住宿。</span>
@@ -163,7 +163,7 @@ const getReview = async () => {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
 }
 
-.header {
+#header {
   background-color: var(--light);
 }
 
