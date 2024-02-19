@@ -3,20 +3,13 @@
         <!-- index Start -->
 
         <!-- left Start -->
-        <div class="col-2  bg-primary justify-content-center">
-            <div class="dropdown rounded-circle text-center">
-                <img v-if="userdetails.photoBase64" :src=userdetails.photoBase64 style="width: 50px"
-                    class="rounded-circle">{{ userdetails.name }}
-            </div>
-        </div>
-        <div class="col-10"></div>
-        <ANavbar @xyzClick="clickHandler"></ANavbar>
+        <ANavbar @xyzClick="clickHandler" :name="userdetails.name" :photoBase64="userdetails.photoBase64"></ANavbar>
 
         <!-- right Start -->
         <div class="col-9">
             <Account1 v-show="isShowAccount" :userdetails="userdetails" @resetdetails="loaduserDetail"></Account1>
             <introduction v-show="isShowIntroduction" :userdetails="userdetails"></introduction>
-            <LikeWork v-show="isShowLikeWork"></LikeWork>
+            <!-- <LikeWork v-show="isShowLikeWork"></LikeWork> -->
             <!-- <FinshWork v-show="isShowFinshWork"></FinshWork> -->
         </div>
         <!-- index End -->

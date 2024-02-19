@@ -47,18 +47,16 @@
                                         type="warning">已評價</el-text>
                                 </td>
                                 <td>
-                                    <!-- <button v-if="singleOrder.order.status === '待房東確認'" type="button"
-                                        style="margin-right: 1rem " class="btn btn-success w-100"
-                                        @click="updateNeeds(singleOrder.order.orderid, singleOrder.order.needs)">修改要求
-                                    </button> -->
+                                    <el-button v-if="singleOrder.order.status === '待房東確認'" style="margin-right: 1rem "
+                                        class="btn btn-success w-100"
+                                        @click="open(singleOrder.order.orderid, singleOrder.order.needs)">修改需求</el-button>
                                     <Payment v-if="singleOrder.order.status === '房東已接受'" :people="singleOrder.order.numbers"
                                         :orderid="singleOrder.order.orderid">
                                     </Payment>
                                     <button v-if="singleOrder.order.status === '已完成訂單'" style="margin-right: 1rem"
                                         class="btn btn-success" @click="toReviewOrder(singleOrder.order.orderid)">評價
                                     </button>
-                                    <!-- <button v-if="singleOrder.order.status === '待房東確認'" type="button" class="btn btn-danger"
-                                        @click="rejectOrder(singleOrder.order.orderid)">拒絕</button> -->
+
                                 </td>
                             </tr>
                         </tbody>
@@ -77,10 +75,44 @@ import Swal from 'sweetalert2';
 const details = ref({})
 const router = useRouter();
 
+const dialogVisible = ref(false);
+const formLabelWidth = '140px'
+
+
 onMounted(() => {
     initAssign();
 });
 
+const open = (orderId, needs) => {
+    ElMessageBox.prompt('可以不輸入值表示沒有特殊需求', '請輸入新的特殊需求讓房東知道', {
+        confirmButtonText: '送出',
+        cancelButtonText: '取消',
+        inputPlaceholder: needs,
+        inputType: 'textarea',
+        inputValue: needs,
+        draggable: true,
+    })
+        .then(({ value }) => {
+            if (value !== "" && value.length > 250) {
+                ElMessageBox.alert('需求太多啦，請簡短敘述', '請輸入250字以內', {
+                    confirmButtonText: 'OK',
+                    type: 'error',
+                })
+                return
+            }
+            updateNeeds(orderId, value)
+            ElMessageBox.alert('修改成功', {
+                confirmButtonText: 'OK',
+                type: 'success',
+            })
+        })
+        .catch(() => {
+            ElMessageBox.alert('操作取消，沒有修改', {
+                confirmButtonText: 'OK',
+                type: 'error',
+            })
+        })
+}
 const getuserid = () => {
     return { "userID": localStorage.getItem("userID") };
 };
@@ -111,21 +143,34 @@ const initAssign = async () => {
 };
 
 
-const acceptOrder = async (orderId) => {
+const updateNeeds = async (orderId, value) => {
     try {
-        const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/order/acceptOrder/${orderId}`, {
-            method: 'POST',
+        const updateData = {
+            orderId: orderId,
+            needs: value,
+        };
+        const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/order/update/needs`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify(updateData),
         });
-        // window.location.reload();
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+        const re = await response.json();
+        console.log(re)
+        if (re.success) {
+            initAssign();
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "請重新輸入您的需求",
+                confirmButtonText: "好的",
+            })
         }
 
-        const updatedOrderWithDetails = await response.json();
-        updateOrderInArray(updatedOrderWithDetails);
+        // const updatedOrderWithDetails = await response.json();
+        // updateOrderInArray(updatedOrderWithDetails);
         // console.log(updatedOrderWithDetails)
 
 
@@ -133,37 +178,6 @@ const acceptOrder = async (orderId) => {
         console.error('Error accepting order:', error);
     }
 };
-
-const rejectOrder = async (orderId) => {
-    try {
-
-        // 發送 fetch 請求以更新訂單狀態
-        const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/order/rejectOrder/${orderId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const updatedOrderWithDetails = await response.json();
-        updateOrderInArray(updatedOrderWithDetails);
-        // console.log(updatedOrderWithDetails)
-
-    } catch (error) {
-        console.error('Error rejecting order:', error);
-    }
-};
-
-function updateOrderInArray(updatedOrder) {
-    const index = details.value.findIndex(singleOrder => singleOrder.order.orderid === updatedOrder.order.orderid);
-    if (index !== -1) {
-        details.value[index] = updatedOrder;
-    }
-}
 
 
 const toReviewOrder = async (orderId) => {

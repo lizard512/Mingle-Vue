@@ -1,5 +1,10 @@
 <template>
     <div class="col-2 md-left bg-primary justify-content-center">
+        <div class="rounded-circle text-center">
+            <br>
+            <img v-if="props.photoBase64" :src=props.photoBase64 style="width: 50px" class="rounded-circle">{{
+                props.name }}
+        </div>
 
         <h4 class="text-center my-5">我的帳號</h4>
         <div class="row my-5" @click="clickHandler(isShow = 1)"><a href="#" class="styleColor ">
@@ -19,7 +24,10 @@
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { useRouter } from 'vue-router'
-
+const props = defineProps({
+    name: String,
+    photoBase64: String
+})
 
 const router = useRouter();
 
@@ -104,11 +112,11 @@ const ChangesPassword = () => {
                             }
                             else if (document.getElementById("swal-input1").value !==
                                 document.getElementById("swal-input2").value) {
-                                return Swal.showValidationMessage(`請確認密碼一致`);
+                                return Swal.showValidationMessage(`輸入的密碼不一致，請確認後再重新輸入`);
                             } else if (document.getElementById("swal-input1").value ===
                                 document.getElementById("swal-input2").value) {
                                 if (changePassword === document.getElementById("swal-input1").value) {
-                                    return Swal.showValidationMessage(`請勿與舊密碼一致`);
+                                    return Swal.showValidationMessage(`請勿與舊密碼相同，若無需修改，請點選`);
                                 }
                                 const data = {
                                     id: getuserid(),

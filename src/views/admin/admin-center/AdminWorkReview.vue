@@ -39,6 +39,7 @@
                     <div class="col-xl-8 col-12">
                         <div class="p-4">
                             <h5 class="mb-3">工作詳情</h5>
+                            <hr>
                             <p class="mb-2"><strong>工作描述：</strong>{{ work.description }}</p>
                             <p class="mb-2"><strong>工作時段：</strong>{{ work.workTime }}</p>
                             <p class="mb-2"><strong>休假制度：</strong>{{ work.vacation }}</p>
@@ -51,8 +52,8 @@
                             <p class="mb-2"><strong>打工福利：</strong>{{ work.benefits }}</p>
                             <p class="mb-2"><strong>建立時間：</strong>{{ work.createdAt }}</p>
                             <p class="mb-2"><strong>更新時間：</strong>{{ work.updatedAt }}</p>
-                            <p class="mb-2"><strong>是否刪除：</strong>{{ work.isDeleted ? '是' : '否' }}</p>
-                            <p class="mb-2"><strong>是否上架：</strong>{{ work.isOnShelf ? '是' : '否' }}</p>
+                            <!-- <p class="mb-2"><strong>是否刪除：</strong>{{ work.isDeleted ? '是' : '否' }}</p>
+                            <p class="mb-2"><strong>是否上架：</strong>{{ work.isOnShelf ? '是' : '否' }}</p> -->
                         </div>
                     </div>
                 </div>
@@ -67,9 +68,10 @@
                 <div v-for="report in reports.filter(r => r.workID === work.workid)" :key="report.reportID"
                     class="list-item m-3 p-3">
                     <h5>檢舉ID：{{ report.reportID }}</h5>
+                    <hr>
                     <p>違規類型：{{ report.type }}</p>
                     <p>詳細原因：{{ report.reason }}</p>
-                    <p>檢舉時間：{{ report.createdAt.toString().substring(0, 10) }}</p>
+                    <p>檢舉時間：{{ report.createdAt}}</p> <!-- .toString().substring(0, 10)  -->
                 </div>
             </div>
         </div>
