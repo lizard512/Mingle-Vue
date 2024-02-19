@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <!-- 房東工作 -->
-                <div class="card mb-4" v-if="routeLordID">
+                <div class="card mb-4" v-if="routeLordID && totals != 0">
                     <div class="card-title">
                         <h5 class="text-center pt-4">查看這位房東的所有工作</h5>
                     </div>

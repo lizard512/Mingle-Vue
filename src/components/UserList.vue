@@ -32,7 +32,7 @@
                     </div>
                 </td>
             </tr>
-            <tr v-else v-for="index in 15" :key="index" class="placeholder-glow">
+            <tr v-else v-for="index in 10" :key="index" class="placeholder-glow">
                 <td><span class="placeholder col-3"></span></td>
                 <td><span class="placeholder col-5"></span></td>
                 <td><span class="placeholder col-2"></span></td>
@@ -80,7 +80,7 @@ const users = ref([]);
 const userID = localStorage.getItem('userID');
 
 const page = ref(0); // 當前頁數
-const pageSize = ref(15); // 每次載入的數量
+const pageSize = ref(10); // 每次載入的數量
 const keyword = ref(''); // 使用者名稱搜尋關鍵字
 const sortOrder = ref('asc'); // 排序順序
 const sortField = ref('userid'); // 排序欄位

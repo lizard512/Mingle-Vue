@@ -21,7 +21,7 @@
           <h1 class="display-5 mb-4 title-text">一點 <span class="text-info">幫助</span>
             ，一晚<span class="text-info"> 住宿。</span>
           </h1>
-          <p class="display-6 mb-4 pb-2 text-dark-var">全台 26 縣市提供打工換宿</p>
+          <h4 class="mb-4 pb-2 text-dark-var">全台 26 縣市提供打工換宿</h4>
           <RouterLink class="btn btn-secondary py-2 px-4" to="/about">了解詳情</RouterLink>
         </div>
         <div class="col-xl-6">
