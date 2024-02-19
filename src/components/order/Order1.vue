@@ -262,7 +262,7 @@
                                         <td class="align-middle col-md-3">
                                             <h6>房號：{{ house_type.houseid }}</h6>
                                             <h6>{{ house_type.houseType }}-{{ house_type.name }}</h6>
-                                            <div>地址:{{ house_type.postCode }}{{ house_type.city }}-{{ house_type.address }}
+                                            <div>地址:{{ house_type.postCode }}{{ house_type.address }}
                                             </div>
                                             <div>
                                                 <div>

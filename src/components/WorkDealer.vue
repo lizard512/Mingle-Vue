@@ -25,7 +25,7 @@
                                 <!-- 檢舉按鈕 -->
                                 <button type="button"
                                     class="btn rounded-circle report-btn position-absolute end-0 bottom-0 m-3"
-                                    @click.stop.prevent="reportedWorkName = work.name; reportBean.workID = work.workid;"
+                                    @click.stop.prevent="clearReportBean(); reportedWorkName = work.name; reportBean.workID = work.workid;"
                                     data-bs-toggle="modal" data-bs-target="#reportModal">
                                     <i class="fa-solid fa-flag"></i>
                                 </button>
@@ -158,7 +158,6 @@ const reportBean = ref({
     workID: '',
     type: '',
     reason: '',
-
 });
 
 //// 監聽變數
@@ -246,6 +245,14 @@ const toggleKeepWork = (workId, kept) => {
     if (work) {
         work.kept = !kept;
     }
+}
+
+const clearReportBean = () => {
+    reportBean.value = {
+        workID: '',
+        type: '',
+        reason: '',
+    };
 }
 
 

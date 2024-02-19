@@ -3,7 +3,7 @@
         <h2 class="mb-2">審核工作檢舉</h2>
         <div class="row" v-for="(work, index) in works" :key="work.workid" v-show="index === currentWork">
             <div class="col-xxl-8 col-12 p-3">
-                <h6 class="text-center">工作審核進度：{{ currentWork }} / {{ totalWorks }}</h6>
+                <h5 class="text-center">工作審核進度：{{ currentWork }} / {{ totalWorks }}</h5>
                 <div class="row">
                     <router-link class="router-link col-xl-4 col-12" :to="`/work-detail/${work.workid}`">
                         <div class="list-item overflow-hidden">
@@ -57,24 +57,28 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center mt-2">
-                    <button class="btn btn-success me-2" type="button" @click="showNext">通過</button>
-                    <button class="btn btn-danger" type="button" @click="showNext">封禁</button>
+                    <button class="btn btn-success me-2" type="button" @click="() => showNext('pass')">未發現問題，不需處理</button>
+                    <button class="btn btn-primary" type="button" @click="() => showNext('ban')">檢舉內容屬實，封禁此工作</button>
+                    <button class="btn btn-danger ms-2" type="button" @click="() => showNext('delete')">嚴重違規，直接刪除工作</button>
                 </div>
             </div>
             <div class="col-xxl-4 col-12 p-3">
-                <h6 class="text-center">檢舉檢視進度：{{ currentReport }} / {{ totalReports }}</h6>
+                <h5 class="text-center">檢舉檢視進度：{{ currentReport }} / {{ totalReports }}</h5>
                 <div v-for="report in reports.filter(r => r.workID === work.workid)" :key="report.reportID"
                     class="list-item m-3 p-3">
                     <h5>檢舉ID：{{ report.reportID }}</h5>
                     <p>違規類型：{{ report.type }}</p>
                     <p>詳細原因：{{ report.reason }}</p>
-                    <p>檢舉狀態：{{ report.status }}</p>
-                    <p>創建時間：{{ report.createdAt.toString().substring(0, 10) }}</p>
+                    <p>檢舉時間：{{ report.createdAt.toString().substring(0, 10) }}</p>
                 </div>
             </div>
         </div>
-        <div v-if="reportEnds">
-            <p>審核已完成！做的好</p>
+        <div class="hint" v-if="works.length==0">
+            <p>目前沒有待審核的工作</p>
+        </div>
+        <div class="hint" v-if="reportEnds">
+            <p>審核已完成！做的好！</p>
+            <ConfettiExplosion />
         </div>
     </div>
 </template>
@@ -83,6 +87,7 @@
 //// 引用套件
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import ConfettiExplosion from "vue-confetti-explosion";
 
 //// 生命週期
 onMounted(async () => {
@@ -126,9 +131,49 @@ const loadWork = async () => {
     }
 };
 
-const showNext = () => {
+
+const updateReportStatus = async (reportID, newStatus) => {
+    try {
+        await axios.put(`${import.meta.env.VITE_APP_API_URL}/api/report/updateReportStatus`, null, {
+            params: {
+                reportID: reportID,
+                status: newStatus
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const updateWorkStatus = async (workID, newStatus, isDeleted) => {
+    try {
+        await axios.put(`${import.meta.env.VITE_APP_API_URL}/api/work/updateWorkStatus/${workID}`, null, {
+            params: {
+                status: newStatus,
+                isDeleted: isDeleted
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const showNext = (action) => {
+    const currentWorkReports = reports.value.filter(r => r.workID === works.value[currentWork.value].workid);
+    currentWorkReports.forEach(report => {
+        console.log(report.reportID);
+        updateReportStatus(report.reportID, 1);
+    });
+
+    if (action === 'ban') {
+        updateWorkStatus(works.value[currentWork.value].workid, "已封禁", 0);
+    } else if (action === 'delete') {
+        updateWorkStatus(works.value[currentWork.value].workid, "已刪除", 1);
+    }
+
     if (currentWork.value < works.value.length) {
         currentWork.value++;
+        currentReport.value+=currentWorkReports.length;
     }
     if (currentWork.value == works.value.length) {
         reportEnds.value = true;
@@ -138,9 +183,15 @@ const showNext = () => {
 </script>
     
 <style scoped>
+
+.hint {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 20px;
+}
 .list-item {
-    color: rgba(0, 0, 0, 0.5);
-    background-color: rgba(255, 255, 255, 0.5);
+    color: var(--black);
+    background-color: var(--white-50);
 }
 
 .list-item img {

@@ -17,7 +17,7 @@
                         <div class="row mb-3 mt-3">
                             <div class="col">
                                 <h6 class="text-muted">最後上線時間</h6>
-                                <div class="text-black text-decoration-underline">{{ userDetail.lastLogin }} 小時前</div>
+                                <div class="text-black text-decoration-underline">{{ userDetail.lastLogin }} 0 小時前</div>
                             </div>
                             <div class="col mx-auto">
                                 <div class="d-flex justify-content-between">
@@ -33,26 +33,26 @@
                         </div>
                         <hr>
                         <div class="my-2">
-                            <span class="text-muted me-3 fa fa-star" v-if="true">打工換宿達人</span>
+                            <span class="text-muted me-3 fa fa-star" v-if="false">打工換宿達人</span>
                             <span class="text-muted me-3 fa fa-solid fa-address-card" v-if="userDetail.email">身分已驗證</span>
                             <span class="text-muted me-3 fa fa-solid fa-medal" v-if="routeLordID"> 超讚房東</span>
                         </div>
-                        <div class="d-flex justify-content-between text-center py-1">
+                        <div class="d-flex justify-content-center text-center py-1">
                             <div class="px-3">
-                                <p class="mb-1 h5">5 件</p>
+                                <p class="mb-1 h5">{{ totals }} 件</p>
                                 <p class="small text-muted mb-0">上架中的工作</p>
                             </div>
-                            <div>
-                                <p class="mb-1 h5">10 位</p>
+                            <!-- <div>
+                                <p class="mb-1 h5">位</p>
                                 <p class="small text-muted mb-0">每年接洽的幫助者</p>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
                 <!-- 房東資料 -->
-                <div class="card mb-4" v-if="routeLordID">
+                <div class="card mb-4" v-if="routeLordID && landlordBean">
                     <div class="card-title">
-                        <h4 class="text-center pt-4">房東個人資料</h4>
+                        <h5 class="text-center pt-4">房東個人資料</h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -95,20 +95,20 @@
                 <!-- 房東工作 -->
                 <div class="card mb-4" v-if="routeLordID">
                     <div class="card-title">
-                        <h4 class="text-center pt-4">房東的熱門工作</h4>
+                        <h5 class="text-center pt-4">查看這位房東的所有工作</h5>
                     </div>
                     <div class="card-body work-deck">
-                        <WorkDeck :autoplayDelay="4600" />
+                        <WorkDeck :autoplayDelay="4600" :landlordid="routeLordID"  @update-totals="handleUpdateTotals"/>
                     </div>
                     <button class="btn btn-primary" type="button" @click="popUpAllWork">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>查看這位房東的所有工作</button>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>前往瀏覽更多工作</button>
                 </div>
             </div>
             <div class="col-lg-8">
                 <div class="card mb-4">
                     <!-- 會員資料 -->
                     <div class="card-title">
-                        <h4 class="text-center pt-4">會員個人資料</h4>
+                        <h5 class="text-center pt-4">會員個人資料</h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -169,7 +169,7 @@
                 <!-- 房東評價一覽 -->
                 <div class="card mb-4" v-if="routeLordID">
                     <div class="card-title">
-                        <h4 class="text-center pt-4">房東評價一覽</h4>
+                        <h5 class="text-center pt-4">房東評價一覽</h5>
                     </div>
                     <div class="card-body">
                         <ReviewCustom :lordID="routeLordID"></ReviewCustom>
@@ -196,7 +196,7 @@
 
 <script setup>
 //// 引用套件
-import { ref, onMounted } from 'vue';
+import { ref, onMounted} from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
@@ -214,7 +214,6 @@ import WorkDeck from '@components/WorkDeck.vue';
 onMounted(async () => {
     await loadUserData();
     await getLordID();
-    console.log(routeLordID.value);
     if (routeLordID.value) {
         await loadLandlordData();
     }
@@ -229,6 +228,7 @@ const routeUserID = route.params.id
 const routeLordID = ref(null);
 const userDetail = ref(null);
 const landlordBean = ref(null);
+let totals = ref(0);
 // const chatStore = useStore()
 
 
@@ -344,6 +344,10 @@ const reportLandlord = () => {
 const popUpAllWork = () => {
     router.push(`/work-search`);
 }
+
+const handleUpdateTotals = (newTotal) => {
+    totals.value = newTotal;
+};
 
 const showAlert = () => {
     alert('我就爛👍');
