@@ -9,7 +9,7 @@
         <div class="col-9">
             <Account1 v-show="isShowAccount" :userdetails="userdetails" @resetdetails="loaduserDetail"></Account1>
             <introduction v-show="isShowIntroduction" :userdetails="userdetails"></introduction>
-            <LikeWork v-show="isShowLikeWork"></LikeWork>
+            <!-- <LikeWork v-show="isShowLikeWork"></LikeWork> -->
             <!-- <FinshWork v-show="isShowFinshWork"></FinshWork> -->
         </div>
         <!-- index End -->
