@@ -376,15 +376,15 @@ const checkSticky = () => {
 
 #scrollText {
     position: fixed;
-    top: 50%;
+    top: 36%;
     left: 0;
     color: var(--black-50);
     background-color: var(--white-50);
     padding: 10px;
-    font-size: 20px;
+    font-size: 16px;
     writing-mode: vertical-lr;
     text-orientation: upright;
-    letter-spacing: 10px; 
+    letter-spacing: 5px; 
 }
 
 #spinner {
