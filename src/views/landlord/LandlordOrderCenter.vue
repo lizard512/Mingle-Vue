@@ -1,107 +1,109 @@
 <template>
-
   <body class="bg-body-tertiary py-3">
 
-  <div class="container-fluid">
-    <div class="card border-0 shadow-sm">
-      <div class="card-header bg-body py-3">
-        <form class="row row-cols-sm-auto g-3 align-items-center">
-          <div class="col-12">
-            <div class="row">
-              <label for="username" class="col-sm-auto col-form-label">工作名稱</label>
-              <div class="col">
-                <input type="text" class="form-control" id="username" name="username" v-model="workNameSearchQuery">
+    <div class="container-fluid">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-body py-3">
+          <form class="row row-cols-sm-auto g-3 align-items-center">
+            <div class="col-12">
+              <div class="row">
+                <label for="username" class="col-sm-auto col-form-label">工作名稱</label>
+                <div class="col">
+                  <input type="text" class="form-control" id="username" name="username" v-model="workNameSearchQuery">
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-12">
-            <div class="row">
-              <label for="phone" class="col-sm-auto col-form-label">房源名稱</label>
-              <div class="col">
-                <input type="text" class="form-control" id="phone" name="phone" v-model="houseNameSearchQuery">
+            <div class="col-12">
+              <div class="row">
+                <label for="phone" class="col-sm-auto col-form-label">房源名稱</label>
+                <div class="col">
+                  <input type="text" class="form-control" id="phone" name="phone" v-model="houseNameSearchQuery">
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-12">
-            <div class="row">
-              <label for="status" class="col-sm-auto col-form-label ">訂單狀態</label>
-              <div class="col">
-                <select class="selectpicker form-select" v-model="selectedStatus">
-                  <option value="0">所有</option>
-                  <option value="1">未確認</option>
-                  <option value="2">已確認</option>
-                  <option value="3">已拒絕</option>
-                  <option value="4">已退款</option>
-                </select>
+            <div class="col-12">
+              <div class="row">
+                <label for="status" class="col-sm-auto col-form-label ">訂單狀態</label>
+                <div class="col">
+                  <select class="selectpicker form-select" v-model="selectedStatus">
+                    <option value="0">所有</option>
+                    <option value="1">未確認</option>
+                    <option value="2">已確認</option>
+                    <option value="3">已拒絕</option>
+                    <option value="4">已退款</option>
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
 
 
-          <div class="col-12 gap-2">
+            <div class="col-12 gap-2">
 
-            <button type="button" class="btn btn-light bsa-querySearch-btn" @click="search">
-              <i class="bi bi-search"></i>查詢
-            </button>
-            <button type="button" class="btn btn-light bsa-reset-btn" @click="reset">
-              <i class="bi bi-arrow-clockwise"></i>重置
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="card-body animate__animated animate__fadeInUp">
-        <!--  訂單資料表格    -->
-        <table id="table" class="table table-bordered table-hover">
-          <thead>
-          <tr>
-            <th style="width: 8rem">訂單編號</th>
-            <th>房客ID</th>
-            <th>工作名稱</th>
-            <th>房源名稱</th>
-            <th>備註</th>
-            <th>特殊需求</th>
-            <th>開始時間</th>
-            <th>結束時間</th>
-            <th>下單時間</th>
-            <th>狀態</th>
-            <th>操作</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="singleOrder in order" :key="singleOrder.order.orderid">
-            <td>{{ singleOrder.order.orderid }}</td>
-            <td>{{ singleOrder.order.userid }}</td>
-            <td>{{ singleOrder.workName }}</td>
-            <td>{{ singleOrder.houseName }}</td>
-            <td>{{ singleOrder.order.notes }}</td>
-            <td>{{ singleOrder.order.needs }}</td>
-            <td>{{ singleOrder.formatStartDate }}</td>
-            <td>{{ singleOrder.formatEndDate }}</td>
-            <td>{{ singleOrder.formatCreateDate }}</td>
-            <td v-html="format(singleOrder.order.isCancelled, singleOrder.order.isRefunded, singleOrder.order.status)"></td>
-            <td>
-              <button v-if="singleOrder.order.status === '待房東確認' && acceptButtonVisible && singleOrder.order.isCancelled !== true" type="button" style="margin-right: 1rem"
-                      class="btn btn-success"
-                      @click="acceptOrder(singleOrder.order.orderid)">接受
+              <button type="button" class="btn btn-light bsa-querySearch-btn" @click="search">
+                <i class="bi bi-search"></i>查詢
               </button>
-              <button v-if="singleOrder.order.status === '待房東確認' && rejectButtonVisible && singleOrder.order.isCancelled !== true" type="button" class="btn btn-danger"
-                      @click="rejectOrder(singleOrder.order.orderid)">拒絕
+              <button type="button" class="btn btn-light bsa-reset-btn" @click="reset">
+                <i class="bi bi-arrow-clockwise"></i>重置
               </button>
+            </div>
+          </form>
+        </div>
+        <div class="card-body animate__animated animate__fadeInUp">
+          <!--  訂單資料表格    -->
+          <table id="table" class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th style="width: 8rem">訂單編號</th>
+                <th>房客名稱</th>
+                <th>工作名稱</th>
+                <th>房源名稱</th>
+                <th>備註</th>
+                <th>特殊需求</th>
+                <th>開始時間</th>
+                <th>結束時間</th>
+                <th>下單時間</th>
+                <th>狀態</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="singleOrder in order" :key="singleOrder.order.orderid">
+                <td>{{ singleOrder.order.orderid }}</td>
+                <td>{{ singleOrder.userName }}</td>
+                <td>{{ singleOrder.workName }}</td>
+                <td>{{ singleOrder.houseName }}</td>
+                <td>{{ singleOrder.order.notes }}</td>
+                <td>{{ singleOrder.order.needs }}</td>
+                <td>{{ singleOrder.formatStartDate }}</td>
+                <td>{{ singleOrder.formatEndDate }}</td>
+                <td>{{ singleOrder.formatCreateDate }}</td>
+                <td
+                  v-html="format(singleOrder.order.isCancelled, singleOrder.order.isRefunded, singleOrder.order.status)">
+                </td>
+                <td>
+                  <button
+                    v-if="singleOrder.order.status === '待房東確認' && acceptButtonVisible && singleOrder.order.isCancelled !== true"
+                    type="button" style="margin-right: 1rem" class="btn btn-success"
+                    @click="acceptOrder(singleOrder.order.orderid)">接受
+                  </button>
+                  <button
+                    v-if="singleOrder.order.status === '待房東確認' && rejectButtonVisible && singleOrder.order.isCancelled !== true"
+                    type="button" class="btn btn-danger" @click="rejectOrder(singleOrder.order.orderid)">拒絕
+                  </button>
 
-            </td>
-            <!-- Add more cells based on your data structure -->
-          </tr>
-          </tbody>
-        </table>
+                </td>
+                <!-- Add more cells based on your data structure -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
   </body>
-
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
 const order = ref({})
 
