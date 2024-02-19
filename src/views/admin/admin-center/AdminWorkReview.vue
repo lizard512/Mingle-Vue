@@ -73,8 +73,11 @@
                 </div>
             </div>
         </div>
-        <div v-if="reportEnds">
-            <p>審核已完成！做的好</p>
+        <div class="hint" v-if="works.length==0">
+            <p>目前沒有待審核的工作</p>
+        </div>
+        <div class="hint" v-if="reportEnds">
+            <p>審核已完成！做的好！</p>
         </div>
     </div>
 </template>
@@ -168,6 +171,7 @@ const showNext = (action) => {
 
     if (currentWork.value < works.value.length) {
         currentWork.value++;
+        currentReport.value+=currentWorkReports.length;
     }
     if (currentWork.value == works.value.length) {
         reportEnds.value = true;
@@ -177,6 +181,12 @@ const showNext = (action) => {
 </script>
     
 <style scoped>
+
+.hint {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 20px;
+}
 .list-item {
     color: var(--black);
     background-color: var(--white-50);
