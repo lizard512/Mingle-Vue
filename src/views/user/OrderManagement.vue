@@ -131,30 +131,21 @@ const updateNeeds = async (orderId, value) => {
         console.log(re)
         if (re.success) {
             const index = details.value.findIndex(singleOrder => singleOrder.order.orderid === orderid);
-            console.log(orderid)
-            console.log(index)
             if (index !== -1) {
                 order.value[index].order.needs = value;
-                console.log(order)
             }
         }
-    } else {
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "請重新輸入您的需求",
-            confirmButtonText: "好的",
-        })
+        else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "請重新輸入您的需求",
+                confirmButtonText: "好的",
+            })
+        }
+    } catch (error) {
+        console.error('Error accepting order:', error);
     }
-
-    // const updatedOrderWithDetails = await response.json();
-    // updateOrderInArray(updatedOrderWithDetails);
-    // console.log(updatedOrderWithDetails)
-
-
-} catch (error) {
-    console.error('Error accepting order:', error);
-}
 };
 
 const open = (orderId, needs) => {
@@ -218,4 +209,3 @@ td>.btn {
 
 }
 </style>
-  
