@@ -122,6 +122,7 @@ const initAssign = async () => {
 
 const updateNeeds = async (orderId, value) => {
     try {
+        console.log(orderId, value)
         const updateData = {
             orderId: orderId,
             needs: value,
@@ -136,9 +137,9 @@ const updateNeeds = async (orderId, value) => {
         const re = await response.json();
         console.log(re)
         if (re.success) {
-            const index = details.value.findIndex(singleOrder => singleOrder.order.orderid === orderid);
+            const index = details.value.findIndex(singleOrder => singleOrder.order.orderid === orderId);
             if (index !== -1) {
-                order.value[index].order.needs = value;
+                details.value[index].order.needs = value;
             }
         }
         else {
@@ -171,6 +172,7 @@ const open = (orderId, needs) => {
                 })
                 return
             }
+
             updateNeeds(orderId, value)
             ElMessageBox.alert('修改成功', {
                 confirmButtonText: 'OK',
